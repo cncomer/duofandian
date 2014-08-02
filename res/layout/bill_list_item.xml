@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/alfo"
+    android:orientation="vertical"
+     >
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:orientation="vertical"
+    android:paddingBottom="10dip"
+    android:paddingLeft="20dip"
+    android:paddingRight="20dip"
+    android:paddingTop="10dip"
+    android:layout_marginBottom="20dip"
+     >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+         >
+
+        <TextView
+            android:id="@+id/textView_title_billnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_billnumber"
+            android:textColor="@color/gray"
+            android:textSize="15dip" />
+
+        <TextView
+            android:id="@+id/textView_billnumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dip"
+            android:text="@string/no_data"
+            android:textColor="@color/gray"
+            android:textSize="15dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dip"
+        android:background="@drawable/boder_bottom_xuxian_gray"
+        android:paddingBottom="10dip" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView_shopName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_data"
+                android:textColor="@color/textColor"
+                android:textSize="20dip" />
+
+            
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip" >
+                <TextView
+                android:id="@+id/textView_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                
+                android:text="@string/no_data"
+                android:textColor="@color/textColor_gray"
+                android:textSize="20dip" />
+
+                
+
+                <TextView
+                android:id="@+id/textView_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:text="@string/no_data"
+                android:textColor="@color/textColor_gray"
+                android:textSize="20dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip" >
+
+                <TextView
+                    android:id="@+id/textView_tableName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_data"
+                    android:textColor="@color/textColor_gray"
+                    android:textSize="20dip" />
+
+                <TextView
+                    android:id="@+id/textView_tableStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:text="@string/no_data"
+                    android:textColor="@color/textColor_gray"
+                    android:textSize="20dip" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="50dip"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageButton
+                android:id="@+id/imageButton_survey"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
+                android:background="@drawable/btn_normal"
+                android:focusable="false" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:text="评分"
+                android:textColor="@color/textColor"
+                android:textSize="18dip" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dip" >
+
+                <TextView
+                    android:id="@+id/textView_title_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_billstate"
+                    android:textColor="@color/textColor"
+                    android:textSize="20dip" />
+
+                <TextView
+                    android:id="@+id/textView_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dip"
+                    android:text="@string/title_billstate"
+                    android:textColor="#ff0000"
+                    android:textSize="20dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:layout_marginTop="10dip" >
+
+                <TextView
+                    android:id="@+id/textView_title_create"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/title_billtime"
+                    android:textColor="@color/gray"
+                    android:textSize="15dip" />
+
+                <TextView
+                    android:id="@+id/textView_createDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_data"
+                    android:textColor="@color/gray"
+                    android:textSize="15dip"
+                    android:layout_marginLeft="5dip" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/imageButton_delete"
+            android:layout_width="25dip"
+            android:layout_height="25dip"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/btn_delete" />
+    </LinearLayout>
+ </LinearLayout>
+</LinearLayout>

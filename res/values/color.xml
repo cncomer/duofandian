@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="ListBack">#94000000</color>
+    <color name="WhiteText">#ffffffff</color>
+    <color name="foodName">#ff8f181b</color>
+    <color name="foodPrice">#ff6A3906</color>
+    <color name="AlfWhite">#a0ffffff</color>
+    <color name="alfo">#00ffffff</color>
+    <color name="goldLine">#a0946134</color>
+    <color name="lanButBac">#a01e1e1e</color>
+    <color name="AlfaClear">#00000000</color>
+    <color name="White">#ffffffff</color>
+    <color name="Black">#ff000000</color>
+    <color name="slggzfcolor">#ff7e7e7e</color>
+    <color name="smalllistchilddetail">#ff59595B</color>
+    <color name="main_color">#00B7EE</color>
+    <color name="top_bottom">#ECECEC</color>
+    <color name="boder">#E3E3E3</color>
+    <color name="divider">#C4EFFB</color>
+    <color name="textColor2">#A7A09D</color>
+    <color name="textColor">#535353</color>
+    <color name="small_textColor">#969696</color>
+    <color name="textColor_gray">#979797</color>
+    <color name="editetext_color">#E5E5E5</color>
+    <color name="number_color">#facd89</color>
+    <color name="gray">#BEBEBE</color>
+</resources>

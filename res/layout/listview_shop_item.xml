@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    android:orientation="horizontal"
+    android:paddingBottom="20dip"
+    android:paddingTop="20dip" >
+
+    <ImageView
+        android:id="@+id/imageView_shopimage"
+        android:layout_width="50dip"
+        android:layout_height="50dip"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" >
+
+                <TextView
+                    android:id="@+id/textView_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日仅剩"
+                    android:textColor="@color/textColor"
+                    android:textSize="14dip" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:id="@+id/textView_tablenumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="#ff0000"
+                        android:textSize="14dip"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/textView_tryother"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(试试别的日期)"
+                        android:textColor="@color/textColor_gray"
+                        android:textSize="14dip" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="桌"
+                    android:textColor="@color/textColor"
+                    android:textSize="14dip" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView_storename"
+                android:layout_width="200dip"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:text="@string/listview_item_storename"
+                android:textColor="@color/textColor"
+                android:textSize="20dip"
+                android:singleLine="true" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip" >
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="12dip"
+                android:layout_height="9dip"
+                android:layout_marginLeft="5dip"
+                android:background="@drawable/img_heart"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:text="1012"
+                android:textColor="@color/small_textColor" />
+
+            <TextView
+                android:id="@+id/textView_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dip"
+                android:text="@string/listview_item_price"
+                android:textColor="@color/small_textColor" />
+
+            <ImageView
+                android:id="@+id/imageView_hui"
+                android:layout_width="18dip"
+                android:layout_height="18dip"
+                android:layout_marginLeft="5dip"
+                 />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dip" >
+
+            <TextView
+                android:id="@+id/textView_position"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dip"
+                android:layout_marginRight="20dip"
+                android:textColor="@color/small_textColor"
+                android:singleLine="true" />
+
+            <RelativeLayout
+                android:id="@+id/layout_distance"
+                android:layout_width="100dip"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dip"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/textView_distance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="5dip"
+                    android:text="距离:"
+                    android:textColor="@color/small_textColor" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

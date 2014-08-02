@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:background="@color/White" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_weight="1"
+        android:gravity="center_vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip" >
+
+            <TextView
+                android:id="@+id/textView_storename"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/listview_item_storename"
+                android:textSize="20dip"
+                android:layout_marginLeft="5dip" />
+
+            <ImageView
+                android:id="@+id/imageView_storestate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ico_lin"
+                android:visibility="gone"
+                android:layout_marginLeft="5dip" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip" >
+
+            <TextView
+                android:id="@+id/textView_pricelevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/listview_item_pricelevel"
+                android:textSize="15dip"
+                android:layout_marginLeft="5dip" />
+
+            <ImageView
+                android:id="@+id/imageView_pricelevel"
+                android:layout_width="55dip"
+                android:layout_height="11dip"
+                android:background="@drawable/stars_four"
+                android:layout_marginLeft="5dip" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip" >
+
+            <TextView
+                android:id="@+id/textView_flavorlevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/listview_item_flavorlevel"
+                android:textSize="15dip"
+                android:layout_marginLeft="5dip" />
+
+            <ImageView
+                android:id="@+id/imageView_flavorlevel"
+                android:layout_width="55dip"
+                android:layout_height="11dip"
+                android:background="@drawable/stars_five"
+                android:layout_marginLeft="5dip" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dip" >
+
+            <TextView
+                android:id="@+id/textView_environmentlevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/listview_item_environmentlevel"
+                android:textSize="15dip"
+                android:layout_marginLeft="5dip" />
+
+            <ImageView
+                android:id="@+id/imageView_environmentlevel"
+                android:layout_width="55dip"
+                android:layout_height="11dip"
+                android:background="@drawable/stars_three"
+                android:layout_marginLeft="5dip" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="100dip"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+         >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
+
+            <TextView
+                android:id="@+id/textView_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/listview_item_price" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="20dip" >
+
+            <TextView
+                android:id="@+id/textView_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/listview_item_distance" />
+
+            <!-- <ImageButton
+                android:id="@+id/imageButton_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/distance"
+                android:focusable="false" /> -->
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

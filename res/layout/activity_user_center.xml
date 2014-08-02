@@ -1,0 +1,523 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/top_bottom"
+    android:focusable="true"
+    android:focusableInTouchMode="true" >
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="@color/top_bottom" >
+
+        <Button
+            android:id="@+id/button_back"
+            android:layout_width="30dip"
+            android:layout_height="30dip"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/button_back" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/title_user"
+            android:textColor="@color/main_color"
+            android:textSize="20dip" />
+
+        <TextView
+            android:id="@+id/textView_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:text="退出"
+            android:textColor="@color/main_color"
+            android:textSize="20dip"
+            android:layout_marginRight="20dip" />
+
+    </RelativeLayout>
+
+    <!-- <LinearLayout
+        android:id="@+id/bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="5dip"
+        android:background="@color/top_bottom"
+        android:gravity="center" >
+
+
+
+        <Button
+            android:id="@+id/button_commit"
+            android:layout_width="fill_parent"
+            android:layout_height="40dip"
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            android:background="@drawable/button_commit"
+            android:text="@string/btn_confirm"
+            android:textColor="@color/text_btn_commit_selector"
+            android:textSize="15dip" />
+    </LinearLayout> -->
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        
+        android:layout_below="@+id/top" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@color/top_bottom"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="150dip"
+              
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:background="@drawable/img_user_center_bg" 
+                >
+
+                <ImageView
+                    android:id="@+id/imageView_photo"
+                    android:layout_width="80dip"
+                    android:layout_height="80dip"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    
+                    android:background="@drawable/img_photo" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dip"
+                    
+                    android:layout_toRightOf="@+id/imageView_photo"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical" 
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        >
+
+                        <TextView
+                            android:id="@+id/textView_username"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/no_data"
+                            android:textColor="@color/WhiteText"
+                            android:textSize="20dip" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" 
+                            android:layout_marginTop="3dip">
+
+                            <TextView
+                                android:id="@+id/textView_phonenumber"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                
+                                android:text="手机号:"
+                                android:textColor="@color/WhiteText"
+                                android:textSize="16dip" />
+
+                            <TextView
+                                android:id="@+id/textView_phone_data"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no_data"
+                                
+                                android:textColor="@color/WhiteText"
+                                android:textSize="16dip"
+                                android:layout_marginLeft="5dip" />
+
+                        </LinearLayout>
+
+                    </LinearLayout> 
+					<ImageView
+                    android:id="@+id/imageView_boder"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    
+                    android:background="@color/boder" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="horizontal" 
+                        android:layout_weight="1">
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                             >
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no_data"
+                                android:layout_marginTop="3dip"
+                                android:textColor="@color/number_color"
+                           		android:textSize="16dip" />
+
+                            <TextView
+                                android:id="@+id/textView5"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="我常去的餐厅"
+                                android:layout_marginTop="3dip"
+                                android:textColor="@color/WhiteText"
+                           		android:textSize="14dip" />
+
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imageView_boder2"
+                            android:layout_width="1px"
+                            android:layout_height="fill_parent"
+                            android:background="@color/boder"
+                            android:layout_marginBottom="20dip" />
+
+                        <LinearLayout
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal" >
+
+                            <TextView
+                                android:id="@+id/textView6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/no_data"
+                                android:layout_marginTop="3dip" 
+                                android:textColor="@color/number_color"
+                           		android:textSize="16dip"/>
+
+                            <TextView
+                                android:id="@+id/textView7"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="我喜欢的菜"
+                                android:layout_marginTop="3dip"
+                                android:textColor="@color/WhiteText"
+                           		android:textSize="14dip" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/r1"
+                android:layout_width="fill_parent"
+                android:layout_height="60dip"
+                android:background="@drawable/boder_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" >
+
+                <ImageView
+                    android:id="@+id/imageView_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/img_account" />
+
+                <TextView
+                    android:id="@+id/textView_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toRightOf="@+id/imageView_account"
+                    android:text="@string/account_mngmt"
+                    android:textColor="@color/textColor_gray"
+                    android:textSize="18dip" />
+
+                <ImageButton
+                    android:id="@+id/imageButton_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    
+                    android:background="@drawable/btn_right_gray" />
+
+            </RelativeLayout>
+            
+            <RelativeLayout
+                android:id="@+id/r2"
+                android:layout_width="fill_parent"
+                android:layout_height="60dip"
+                android:background="@drawable/boder_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" >
+
+                <ImageView
+                    android:id="@+id/imageView_ourfriend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/img_ourfriend" />
+
+                <TextView
+                    android:id="@+id/textView_ourfriend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toRightOf="@+id/imageView_ourfriend"
+                    android:text="@string/ourfriend"
+                    android:textColor="@color/textColor_gray"
+                    android:textSize="18dip" />
+
+                <ImageButton
+                    android:id="@+id/imageButton_ourfriend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    
+                    android:background="@drawable/btn_right_gray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/r3"
+                android:layout_width="fill_parent"
+                android:layout_height="60dip"
+                android:background="@drawable/boder_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:layout_marginTop="10dip" >
+
+                <ImageView
+                    android:id="@+id/imageView_mybill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/img_mybill" />
+
+                <TextView
+                    android:id="@+id/textView_mybill"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toRightOf="@+id/imageView_mybill"
+                    android:text="@string/mybill"
+                    android:textColor="@color/textColor_gray"
+                    android:textSize="18dip" />
+
+                <ImageButton
+                    android:id="@+id/imageButton_ourfriend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    
+                    android:background="@drawable/btn_right_gray" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/r4"
+                android:layout_width="fill_parent"
+                android:layout_height="60dip"
+                android:background="@drawable/boder_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" >
+
+                <ImageView
+                    android:id="@+id/imageView_mychoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/img_mychoice" />
+
+                <TextView
+                    android:id="@+id/textView_mychoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toRightOf="@+id/imageView_mychoice"
+                    android:text="@string/mychoice"
+                    android:textColor="@color/textColor_gray"
+                    android:textSize="18dip" />
+
+                <ImageButton
+                    android:id="@+id/imageButton_mychoice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    
+                    android:background="@drawable/btn_right_gray" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/r5"
+                android:layout_width="fill_parent"
+                android:layout_height="60dip"
+                android:background="@drawable/boder_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" >
+
+                <ImageView
+                    android:id="@+id/imageView_qrcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/img_qrcode" />
+
+                <TextView
+                    android:id="@+id/textView_qrcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toRightOf="@+id/imageView_qrcode"
+                    android:text="@string/qrcode"
+                    android:textColor="@color/textColor_gray"
+                    android:textSize="18dip" />
+
+                <ImageButton
+                    android:id="@+id/imageButton_qrcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    
+                    android:background="@drawable/btn_right_gray" />
+
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/r6"
+                android:layout_width="fill_parent"
+                android:layout_height="60dip"
+                android:background="@drawable/boder_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:layout_marginTop="10dip" >
+
+                <ImageView
+                    android:id="@+id/imageView_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/img_share" />
+
+                <TextView
+                    android:id="@+id/textView_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="14dp"
+                    android:layout_toRightOf="@+id/imageView_share"
+                    android:text="@string/share"
+                    android:textColor="@color/textColor_gray"
+                    android:textSize="18dip" />
+
+                <ImageButton
+                    android:id="@+id/imageButton_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    
+                    android:background="@drawable/btn_right_gray" />
+
+            </RelativeLayout>
+
+            <!-- <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" 
+                android:layout_marginTop="10dip"
+                android:paddingTop="10dip"
+                android:paddingBottom="10dip"
+                android:background="@color/White"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip"
+                android:gravity="center_vertical">
+
+                <RadioButton
+                    android:id="@+id/radioButton1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    
+                    android:layout_alignParentRight="true" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="支付方式:"
+                    android:textColor="@color/textColor"
+                    android:textSize="18dip" />
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/textView2"
+                    android:src="@drawable/ump_icon"
+                    android:layout_marginLeft="20dip" />
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imageView1"
+                    android:layout_toLeftOf="@+id/radioButton1"
+                    android:text="U支付-无线收银台"
+                    android:textColor="@color/textColor"
+                    android:textSize="15dip"
+                    android:layout_marginLeft="20dip" />
+
+            </RelativeLayout> -->
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

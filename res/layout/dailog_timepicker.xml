@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialog_layout_timer"
+    android:layout_width="250dip"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:orientation="vertical" >
+
+    <!--
+         <TimePicker
+        android:id="@+id/timePicker1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+         />  -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="@drawable/boder_bottom_maincolor"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textView_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="请选择预定时间"
+            android:textColor="@color/textColor"
+            android:textSize="18dip" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="20dip"
+        android:layout_marginTop="20dip"
+        android:background="@color/White"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <!--
+        <com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView
+            android:id="@+id/hour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView>
+
+        <TextView
+            android:id="@+id/textView_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:layout_marginLeft="30dip"
+            android:textSize="40dip"
+            android:textColor="@color/main_color"/>
+        -->
+
+        <com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView
+            android:id="@+id/minute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+        </com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center" >
+
+        <Button
+            android:id="@+id/button_ok"
+            android:layout_width="150dip"
+            android:layout_height="40dip"
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/button_commit"
+            android:text="确定"
+            android:textColor="@color/text_btn_commit_selector"
+            android:textSize="15dip" />
+    </LinearLayout>
+
+</LinearLayout>

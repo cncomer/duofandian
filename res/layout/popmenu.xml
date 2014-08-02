@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@color/top_bottom">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:id="@+id/exit_login" 
+        android:background="@drawable/popmenu_item">
+
+        <ImageView
+            android:id="@+id/imageView_exit_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/img_more_person" />
+
+        <TextView
+            android:id="@+id/textView_exit_login"
+            android:layout_width="80dip"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imageView_exit_login"
+            android:layout_centerVertical="true"
+            android:text="@string/exit_login"
+            android:textColor="@color/main_color"
+            android:textSize="15dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:id="@+id/mybill"
+        android:background="@drawable/popmenu_item" >
+
+        <ImageView
+            android:id="@+id/imageView_mybill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/img_more_paper" />
+
+        <TextView
+            android:id="@+id/textView_mybill"
+            android:layout_width="80dip"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imageView_mybill"
+            android:layout_centerVertical="true"
+            android:text="@string/mybill"
+            android:textColor="@color/main_color"
+            android:textSize="15dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:id="@+id/settings" 
+        android:background="@drawable/popmenu_item">
+
+        <ImageView
+            android:id="@+id/imageView_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/img_more_setting" />
+
+        <TextView
+            android:id="@+id/textView_settings"
+            android:layout_width="80dip"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imageView_settings"
+            android:layout_centerVertical="true"
+            android:text="@string/settings"
+            android:textColor="@color/main_color"
+            android:textSize="15dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:id="@+id/yijianfankui" 
+        android:background="@drawable/popmenu_item">
+
+        <ImageView
+            android:id="@+id/imageView_yijianfankui"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/img_more_message" />
+
+        <TextView
+            android:id="@+id/textView_yijianfankui"
+            android:layout_width="80dip"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imageView_yijianfankui"
+            android:layout_centerVertical="true"
+            android:text="@string/yijian"
+            android:textColor="@color/main_color"
+            android:textSize="15dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:id="@+id/scan" 
+        android:background="@drawable/popmenu_item">
+
+        <ImageView
+            android:id="@+id/imageView_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/img_more_scan" />
+
+        <TextView
+            android:id="@+id/textView_scan"
+            android:layout_width="80dip"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imageView_scan"
+            android:layout_centerVertical="true"
+            android:text="@string/scan"
+            android:textColor="@color/main_color"
+            android:textSize="15dip"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>
