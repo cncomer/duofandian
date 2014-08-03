@@ -1,10 +1,10 @@
-package com.lnwoowken.lnwoowkenbook.model;
+ï»¿package com.lnwoowken.lnwoowkenbook.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ¾²Ì¬³£Á¿
+ * é™æ€å¸¸é‡
  * @author sean
  *
  */
@@ -15,15 +15,15 @@ public class Contant {
 	public static float SCALE_WIDTH;
 	public static int SCREEN_WIDTH_480 = 480;
 	public static int MARGIN_LEFTRIGHT_480 = 34;
-	//public static String SERVER_IP = "121.199.46.106";//--·şÎñÆ÷µØÖ·
-	//public static String SERVER_IP = "192.168.18.129";//--·şÎñÆ÷µØÖ·
+	//public static String SERVER_IP = "121.199.46.106";//--æœåŠ¡å™¨åœ°å€
+	//public static String SERVER_IP = "192.168.18.129";//--æœåŠ¡å™¨åœ°å€
 	public static String UPMPPAY = "Upmppay";
 	public static String VERSION = "sversion";
 	public static String VERSION_CODE = "1.3";
 	public static String LISTBILL = "Rl2";
-	public static String SERVER_IP = "manage.lnwoowken.com";//--·şÎñÆ÷µØÖ·
-	public static int SERVER_PORT =  80;//--·şÎñÆ÷¶Ë¿Ú
-	public static String JSON_STR;//--json×Ö·û´®
+	public static String SERVER_IP = "manage.lnwoowken.com";//--æœåŠ¡å™¨åœ°å€
+	public static int SERVER_PORT =  80;//--æœåŠ¡å™¨ç«¯å£
+	public static String JSON_STR;//--jsonå­—ç¬¦ä¸²
 	public static List<StoreInfo> SHOP_LIST = new ArrayList<StoreInfo>();//
 	public static List<StoreInfo> SHOPID_LIST;//
 	public static int ANIMITION_START_RESTUARANTLISTACITVITY = 1;
@@ -41,10 +41,10 @@ public class Contant {
 	public static int FLAG_LOGIN = 5;
 	public static boolean ISLOGIN = false;
 	public static UserInfo USER = null;
-	public static String DEFAULTSORT = "Ä¬ÈÏÅÅĞò";
-	public static String KOUWEI = "È«²¿²ËÏµ";
-	public static String ALL = "È«²¿·ÖÀà";
-	public static String AREA = "È«²¿ÉÌÈ¦";
+	public static String DEFAULTSORT = "é»˜è®¤æ’åº";
+	public static String KOUWEI = "å…¨éƒ¨èœç³»";
+	public static String ALL = "å…¨éƒ¨åˆ†ç±»";
+	public static String AREA = "å…¨éƒ¨å•†åœˆ";
 	public static List<ShopTree> SHOPTREE_LIST;
 	
 }

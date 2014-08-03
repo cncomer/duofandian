@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.adapter;
+ï»¿package com.lnwoowken.lnwoowkenbook.adapter;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ public class ShopAdapter extends BaseAdapter {
 	private List<StoreInfo> list;
 	private int selectedPosition = -1;
 	//private String[][] arr;
-//	private Typeface typeface12=null;//Î¢ÈíÑÅºÚ
+//	private Typeface typeface12=null;//å¾®è½¯é›…é»‘
 //	private Typeface typeface3=null;//times
 	public ShopAdapter(Context context,List<StoreInfo> list) {
 		this.context = context;

@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.network;
+ï»¿package com.lnwoowken.lnwoowkenbook.network;
 
 import java.io.BufferedReader;
 import java.io.FilterInputStream;
@@ -51,10 +51,10 @@ public class Client {
 	
 
 	/**
-	 * ÏÂÔØÍ¼Æ¬
+	 * ä¸‹è½½å›¾ç‰‡
 	 * sean
-	 * @param url ÏÂÔØÍ¼Æ¬µÄURL
-	 * @return ÏÂÔØµ½µÄÍ¼Æ¬ÒÔBitmapĞÎÊ½·µ»Ø
+	 * @param url ä¸‹è½½å›¾ç‰‡çš„URL
+	 * @return ä¸‹è½½åˆ°çš„å›¾ç‰‡ä»¥Bitmapå½¢å¼è¿”å›
 	 */
 	public static Bitmap downloadBitmap(String url) {
 		final AndroidHttpClient client = AndroidHttpClient
@@ -127,30 +127,30 @@ public class Client {
 	
 	public static String doPost(List<NameValuePair> params,String url) throws Exception{
 		  String result = null;
-		  String TIME_OUT = "²Ù×÷³¬Ê±";
-		      // ĞÂ½¨HttpPost¶ÔÏó
+		  String TIME_OUT = "æ“ä½œè¶…æ—¶";
+		      // æ–°å»ºHttpPostå¯¹è±¡
 		      HttpPost httpPost = new HttpPost(url);
-		      // ÉèÖÃ×Ö·û¼¯
+		      // è®¾ç½®å­—ç¬¦é›†
 		      HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);
-		      // ÉèÖÃ²ÎÊıÊµÌå
+		      // è®¾ç½®å‚æ•°å®ä½“
 		      httpPost.setEntity(entity);
-		      // »ñÈ¡HttpClient¶ÔÏó
+		      // è·å–HttpClientå¯¹è±¡
 		      HttpClient httpClient = new DefaultHttpClient();
-		      //Á¬½Ó³¬Ê±
+		      //è¿æ¥è¶…æ—¶
 		      httpClient.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 30000);
-		      //ÇëÇó³¬Ê±
+		      //è¯·æ±‚è¶…æ—¶
 		      httpClient.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 30000);
 		      try {
-		       // »ñÈ¡HttpResponseÊµÀı
+		       // è·å–HttpResponseå®ä¾‹
 		          HttpResponse httpResp = httpClient.execute(httpPost);
-		          // ÅĞ¶ÏÊÇ¹»ÇëÇó³É¹¦
+		          // åˆ¤æ–­æ˜¯å¤Ÿè¯·æ±‚æˆåŠŸ
 		          if (httpResp.getStatusLine().getStatusCode() == 200) {
-		           // »ñÈ¡·µ»ØµÄÊı¾İ
+		           // è·å–è¿”å›çš„æ•°æ®
 		           result = EntityUtils.toString(httpResp.getEntity(), "UTF-8");
-		           Log.i("HttpPost", "HttpPost·½Ê½ÇëÇó³É¹¦£¬·µ»ØÊı¾İÈçÏÂ£º");
+		           Log.i("HttpPost", "HttpPostæ–¹å¼è¯·æ±‚æˆåŠŸï¼Œè¿”å›æ•°æ®å¦‚ä¸‹ï¼š");
 		           Log.i("result", result);
 		          } else {
-		           Log.i("HttpPost", "HttpPost·½Ê½ÇëÇóÊ§°Ü");
+		           Log.i("HttpPost", "HttpPostæ–¹å¼è¯·æ±‚å¤±è´¥");
 		          }
 		      } catch (ConnectTimeoutException e){
 		       result = TIME_OUT;
@@ -162,8 +162,8 @@ public class Client {
 
 	/**
 	 * sean
-	 * @param urlStr ·şÎñÆ÷µÄURL×Ö·û´®
-	 * @return ·şÎñÆ÷·µ»ØµÄÊı¾İ
+	 * @param urlStr æœåŠ¡å™¨çš„URLå­—ç¬¦ä¸²
+	 * @return æœåŠ¡å™¨è¿”å›çš„æ•°æ®
 	 */
 	public static String executeHttpGetAndCheckNet(String urlStr, Context context) {
 		Log.d("executeHttpGetAndCheckNet===============", "I'm in(execute):\n" + urlStr);
@@ -221,8 +221,8 @@ public class Client {
 
 	/**
 	 * sean
-	 * @param res ĞèÒª±àÂëµÄÄ¿±ê×Ö·û´®
-	 * @return base65±àÂëºóµÄ×Ö·û´®
+	 * @param res éœ€è¦ç¼–ç çš„ç›®æ ‡å­—ç¬¦ä¸²
+	 * @return base65ç¼–ç åçš„å­—ç¬¦ä¸²
 	 */
 	public static String encodeBase64(String res) {
 		String temp = "";
@@ -232,8 +232,8 @@ public class Client {
 
 	/**
 	 * sean
-	 * @param res ĞèÒª½âÂëµÄÄ¿±ê×Ö·û´®
-	 * @return base64 ½âÂëºóµÄ×Ö·û´®
+	 * @param res éœ€è¦è§£ç çš„ç›®æ ‡å­—ç¬¦ä¸²
+	 * @return base64 è§£ç åçš„å­—ç¬¦ä¸²
 	 */
 	public static String decodeBase64(String res) {
 		String temp = "";

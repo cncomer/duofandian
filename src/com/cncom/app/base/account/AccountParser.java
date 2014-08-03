@@ -1,4 +1,4 @@
-package com.cncom.app.base.account;
+ï»¿package com.cncom.app.base.account;
 
 
 import java.io.InputStream;
@@ -13,29 +13,29 @@ import com.shwy.bestjoy.utils.DebugUtils;
 import com.shwy.bestjoy.utils.InfoInterfaceImpl;
 import com.shwy.bestjoy.utils.NetworkUtils;
 /**
- * Õâ¸öÀàÓÃÀ´½âÎöµÇÂ½·µ»ØµÄjsonÊı¾İ£¬Éú³ÉAccountObjectÕË»§¶ÔÏó¡£<br/>
- * µÇÂ½²âÊÔÊı¾İÈçÏÂ£º<br/>
+ * è¿™ä¸ªç±»ç”¨æ¥è§£æç™»é™†è¿”å›çš„jsonæ•°æ®ï¼Œç”ŸæˆAccountObjectè´¦æˆ·å¯¹è±¡ã€‚<br/>
+ * ç™»é™†æµ‹è¯•æ•°æ®å¦‚ä¸‹ï¼š<br/>
  * http://115.29.231.29/Haier/login.ashx?cell=18621951097&pwd=wangkun
  * <br/>
  * <br/>
- * ·µ»ØÊı¾İÈçÏÂ<br/>
- * {"usersdata":{"StatusCode":"1","StatusMessage":"·µ»ØÓÃ»§Êı¾İ","Data":{"cell":"18621951097","pwd":"wangkun","yanma":null,"userName":"ÍõÀ¤","UID":1}},"address":[{"ShenFen":"½­ËÕ±¦Ó¦±¦Ó¦´óµÀ","City":"ÑïÖİ","QuXian":"½­ËÕ±¦Ó¦±¦Ó¦´óµÀ","DetailAddr":"½­ËÕ±¦Ó¦±¦Ó¦´óµÀ","UID":1,"AID":1}]}
+ * è¿”å›æ•°æ®å¦‚ä¸‹<br/>
+ * {"usersdata":{"StatusCode":"1","StatusMessage":"è¿”å›ç”¨æˆ·æ•°æ®","Data":{"cell":"18621951097","pwd":"wangkun","yanma":null,"userName":"ç‹å¤","UID":1}},"address":[{"ShenFen":"æ±Ÿè‹å®åº”å®åº”å¤§é“","City":"æ‰¬å·","QuXian":"æ±Ÿè‹å®åº”å®åº”å¤§é“","DetailAddr":"æ±Ÿè‹å®åº”å®åº”å¤§é“","UID":1,"AID":1}]}
  * <br/>
- * Êı¾İËµÃ÷ÈçÏÂ<br/>
- * ÆäÖĞ£º"usersdata" ÀïÊÇÉÏ´ÎµÄÊı¾İ<br/>
- * cell:ÊÖ»ú<br/>
- * pwd:ÃÜÂë<br/>
- * yama:ÑéÖ¤Âë<br/>
- * username:Ãû×Ö<br/>
- * uid:Î¨Ò»iD<br/>
+ * æ•°æ®è¯´æ˜å¦‚ä¸‹<br/>
+ * å…¶ä¸­ï¼š"usersdata" é‡Œæ˜¯ä¸Šæ¬¡çš„æ•°æ®<br/>
+ * cell:æ‰‹æœº<br/>
+ * pwd:å¯†ç <br/>
+ * yama:éªŒè¯ç <br/>
+ * username:åå­—<br/>
+ * uid:å”¯ä¸€iD<br/>
  * <p/>
- * "address"£ºµØÖ·ÁĞ±í<br/>
- * ShenFen£ºÊ¡<br/>
- * City:ÊĞ<br/>
- * QuXian:ÇøÏØ<br/>
- * DetailAddr£º¾ßÌåµØÖ·<br/>
- * UID:ÓÃ»§id <br/>
- * AID:µØÖ·id<br/>
+ * "address"ï¼šåœ°å€åˆ—è¡¨<br/>
+ * ShenFenï¼šçœ<br/>
+ * City:å¸‚<br/>
+ * QuXian:åŒºå¿<br/>
+ * DetailAddrï¼šå…·ä½“åœ°å€<br/>
+ * UID:ç”¨æˆ·id <br/>
+ * AID:åœ°å€id<br/>
  * 
  * @author chenkai
  *
@@ -44,7 +44,7 @@ public class AccountParser extends InfoInterfaceImpl{
 	private static final String TAG = "AccountParser";
 
 	/**
-	 * ½âÎöJSON¸ñÊ½µÄAccountÊı¾İ£¬Èç¹û·µ»Ønull£¬±íÊ¾½âÎöÊ§°Ü£¬Èç¹û·µ»ØaccountObject.mStatusCode == 0£¬±íÊ¾µÇÂ¼Ê§°Ü
+	 * è§£æJSONæ ¼å¼çš„Accountæ•°æ®ï¼Œå¦‚æœè¿”å›nullï¼Œè¡¨ç¤ºè§£æå¤±è´¥ï¼Œå¦‚æœè¿”å›accountObject.mStatusCode == 0ï¼Œè¡¨ç¤ºç™»å½•å¤±è´¥
 	 * @param is
 	 * @param goodsObject
 	 * @return
@@ -61,30 +61,30 @@ public class AccountParser extends InfoInterfaceImpl{
 
 				@Override
 				public void run() {
-//					view.setText(R.string.msg_login_download_accountinfo_wait);//ÌáÊ¾ÕıÔÚÏÂÔØÊ²Ã´ÑùµÄÊı¾İ
+//					view.setText(R.string.msg_login_download_accountinfo_wait);//æç¤ºæ­£åœ¨ä¸‹è½½ä»€ä¹ˆæ ·çš„æ•°æ®
 				}
 			});
 		}
 		AccountObject accountObject = new AccountObject();
-		//TODO ½âÎöAccountÊı¾İ
+		//TODO è§£æAccountæ•°æ®
 		parseUserData(jsonObject, accountObject);
 		return accountObject;
 	}
 	
 	/***
-	 * "usersdata": {"cell":"18621951097","pwd":"wangkun","yanma":null,"userName":"ÍõÀ¤","UID":1}
+	 * "usersdata": {"cell":"18621951097","pwd":"wangkun","yanma":null,"userName":"ç‹å¤","UID":1}
 	 * @param jsonObject
 	 * @param accountObject
 	 * @throws JSONException
 	 */
 	public static void parseUserData(JSONObject jsonObject, AccountObject accountObject) throws JSONException {
-//		//½âÎöuserdata
+//		//è§£æuserdata
 //		JSONObject userData = jsonObject.getJSONObject("usersdata");
 //		
 //		accountObject.mStatusCode = Integer.valueOf(userData.getString("StatusCode"));
 //		accountObject.mStatusMessage = userData.getString("StatusMessage");
 //		if (accountObject.mStatusCode == 0) {
-//			//Èç¹ûÊÇÊ§°ÜµÄ£¬ÎÒÃÇÌáÇ°·µ»Ø£¬²»ÓÃ½âÎöÆäËûÊı¾İÁË
+//			//å¦‚æœæ˜¯å¤±è´¥çš„ï¼Œæˆ‘ä»¬æå‰è¿”å›ï¼Œä¸ç”¨è§£æå…¶ä»–æ•°æ®äº†
 //			return;
 //		}
 //		

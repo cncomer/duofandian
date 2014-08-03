@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.adapter;
+ï»¿package com.lnwoowken.lnwoowkenbook.adapter;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 /**
- * ²ÍÌüĞÅÏ¢listviewµÄÊÊÅäÆ÷
+ * é¤å…ä¿¡æ¯listviewçš„é€‚é…å™¨
  * @author sean
  *
  */
@@ -24,7 +24,7 @@ public class AllStoreListAdapter extends BaseAdapter {
 	
 	private List<StoreInfo> store;
 	
-//	private Typeface typeface12=null;//Î¢ÈíÑÅºÚ
+//	private Typeface typeface12=null;//å¾®è½¯é›…é»‘
 //	private Typeface typeface3=null;//times
 	public AllStoreListAdapter(Context context,List<StoreInfo> store) {
 		this.context = context;
@@ -91,19 +91,19 @@ public class AllStoreListAdapter extends BaseAdapter {
 		String average = store.get(position).getAveragePrice();
 		//Log.d("--------------", store.get(position).getAveragePrice());
 		if (average.equals(null)||average.equals("")) {
-			groupHolder.price.setText(context.getString(R.string.listview_item_price)+"ÔİÎŞÊı¾İ");
+			groupHolder.price.setText(context.getString(R.string.listview_item_price)+"æš‚æ— æ•°æ®");
 			
 		}
 		else {
 			groupHolder.price.setText(context.getString(R.string.listview_item_price)+store.get(position).getAveragePrice());
 		}
-		groupHolder.distance.setText("¾àÀë:"+context.getString(R.string.no_data));
+		groupHolder.distance.setText("è·ç¦»:"+context.getString(R.string.no_data));
 		int num = store.get(position).getTableNum();
 		if (num==0) {
 			groupHolder.tv_1.setVisibility(View.GONE);
 			groupHolder.tv_3.setVisibility(View.GONE);
 			groupHolder.try_other.setVisibility(View.VISIBLE);
-			groupHolder.tablenumber.setText("½ñÈÕ¶áÍêÀ²");
+			groupHolder.tablenumber.setText("ä»Šæ—¥å¤ºå®Œå•¦");
 			groupHolder.tablenumber.setTextColor(R.color.textColor_gray);
 		}
 		else {

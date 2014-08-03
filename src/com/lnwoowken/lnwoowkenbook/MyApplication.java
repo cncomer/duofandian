@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 import java.io.File;
 
@@ -34,13 +34,13 @@ import com.umeng.analytics.MobclickAgent;
 public class MyApplication extends Application{
 	
 	private static final String TAG ="BJfileApp";
-	/**¶ÔÓÚ²»Í¬µÄ±£ĞŞ¿¨£¬ÎÒÃÇÖ»ÒªÈ·±£¸Ã±äÁ¿ÎªÕıÈ·µÄÓ¦ÓÃ°üÃû¼´¿É*/
+	/**å¯¹äºä¸åŒçš„ä¿ä¿®å¡ï¼Œæˆ‘ä»¬åªè¦ç¡®ä¿è¯¥å˜é‡ä¸ºæ­£ç¡®çš„åº”ç”¨åŒ…åå³å¯*/
 	public static final String PKG_NAME = "com.bestjoy.app.bjwarrantycard";
 	private Handler mHandler;
 	private static MyApplication mInstance;
 	public SharedPreferences mPreferManager;
 	
-	/**³É¹¦É¾³ı×Ö·û´®*/
+	/**æˆåŠŸåˆ é™¤å­—ç¬¦ä¸²*/
 	public static final String mDeleteOk="ok";
 	
 	private InputMethodManager mImMgr;
@@ -56,7 +56,7 @@ public class MyApplication extends Application{
 		DeviceStorageUtils.getInstance().setContext(this);
 		
 		DateUtils.getInstance().setContext(this);
-		//add by chenkai, 20131201, ÍøÂç¼àÌı
+		//add by chenkai, 20131201, ç½‘ç»œç›‘å¬
 		ComConnectivityManager.getInstance().setContext(this);
 		BeepAndVibrate.getInstance().setContext(this);
 		
@@ -69,7 +69,7 @@ public class MyApplication extends Application{
 		mImMgr = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
 		
 		PhotoManagerUtilsV2.getInstance().setContext(this);
-		//ÓÃÓÚÆÁÄ»ÊÊÅä
+		//ç”¨äºå±å¹•é€‚é…
 		DisplayMetrics display = this.getResources().getDisplayMetrics();
 		Log.d(TAG, display.toString());
 		Log.d(TAG, getDeviceInfo(this));
@@ -84,18 +84,18 @@ public class MyApplication extends Application{
 		return new File(getFilesDir(), name+ ".vcf");
 	}
 	
-	/**µÃµ½ÕË»§ÃûÆ¬µÄÍ·ÏñÍ¼Æ¬ÎÄ¼ş*/
+	/**å¾—åˆ°è´¦æˆ·åç‰‡çš„å¤´åƒå›¾ç‰‡æ–‡ä»¶*/
 	public File getAccountCardAvatorFile(String name) {
 		return new File(getAccountDir(MyAccountManager.getInstance().getCurrentAccountMd()), name+ ".p");
 	}
 	public File getAccountCardAvatorFile(String accountUid, String name) {
 		return new File(getAccountDir(accountUid), name+ ".p");
 	}
-	/**·µ»Ø»º´æÄ¿Â¼caches/ÏÂÃæµÄÁÙÊ±Í·ÏñÎÄ¼ş*/
+	/**è¿”å›ç¼“å­˜ç›®å½•caches/ä¸‹é¢çš„ä¸´æ—¶å¤´åƒæ–‡ä»¶*/
 	public File getCachedPreviewAvatorFile(String name) {
 		return new File(getCacheDir(), name+ ".p");
 	}
-	/**·µ»Ø»º´æÄ¿Â¼caches/ÏÂÃæµÄÁÙÊ±vcfÎÄ¼ş*/
+	/**è¿”å›ç¼“å­˜ç›®å½•caches/ä¸‹é¢çš„ä¸´æ—¶vcfæ–‡ä»¶*/
 	public File getCachedPreviewContactFile(String name) {
 		return new File(getCacheDir(), name+ ".vcf");
 	}
@@ -239,7 +239,7 @@ public class MyApplication extends Application{
 	public void showUnsupportMessage() {
     	showMessage(R.string.msg_unsupport_operation);
     }
-	/**ÏÔÊ¾ĞèÒªÏÈµÇÂ¼ÌáÊ¾ĞÅÏ¢*/
+	/**æ˜¾ç¤ºéœ€è¦å…ˆç™»å½•æç¤ºä¿¡æ¯*/
 	public void showNeedLoginMessage() {
     	showMessage(R.string.msg_need_login_operation);
     }
@@ -266,7 +266,7 @@ public class MyApplication extends Application{
     }
     
     /**
-     * ·µ»ØSD¿¨µÄÓ¦ÓÃ¸ùÄ¿Â¼£¬typeÎª×ÓÄ¿Â¼Ãû×Ö£¬ Èçdownload¡¢.download
+     * è¿”å›SDå¡çš„åº”ç”¨æ ¹ç›®å½•ï¼Œtypeä¸ºå­ç›®å½•åå­—ï¼Œ å¦‚downloadã€.download
      * @param type
      * @return
      */
@@ -287,7 +287,7 @@ public class MyApplication extends Application{
     //add by chenkai, 20131208, updating check end
     
     /***
-     * ÏÔÊ¾Í¨³£µÄÍøÂçÁ¬½Ó´íÎó
+     * æ˜¾ç¤ºé€šå¸¸çš„ç½‘ç»œè¿æ¥é”™è¯¯
      * @return
      */
     public String getGernalNetworkError() {
@@ -295,7 +295,7 @@ public class MyApplication extends Application{
     }
     
   //add by chenkai, for Usage, 2013-06-05 begin
-    /**return mnt/sdcard/xxx/accountmdÄ¿Â¼*/
+    /**return mnt/sdcard/xxx/accountmdç›®å½•*/
     public File getExternalStorageAccountRoot(String accountMd) {
     	if (!hasExternalStorage()) {
     		return null;
@@ -306,7 +306,7 @@ public class MyApplication extends Application{
     	}
     	return root;
     }
-    /**µÃµ½SD¿¨ÕËºÅ¶ÔÓ¦×é¼şµÄÄ¿Â¼*/
+    /**å¾—åˆ°SDå¡è´¦å·å¯¹åº”ç»„ä»¶çš„ç›®å½•*/
     public File getExternalStorageModuleRootForAccount(String accountMd, String moduleName) {
     	if (!hasExternalStorage()) {
     		return null;
@@ -317,13 +317,13 @@ public class MyApplication extends Application{
     	}
     	return root;
     }
-    /**·µ»Ø²úÆ·Ê¹ÓÃËµÃ÷Êé*/
+    /**è¿”å›äº§å“ä½¿ç”¨è¯´æ˜ä¹¦*/
     public File getProductUsagePdf(String ky) {
     	String accountUid = String.valueOf(MyAccountManager.getInstance().getAccountObject().mAccountUid);
 		File goodsUsagePdfFile =  new File(getExternalStorageModuleRootForAccount(accountUid, "product") , ky + ".pdf");
 		return goodsUsagePdfFile;
 	}
-    /**ÌáÊ¾Ã»ÓĞSD¿¨¿ÉÓÃ*/
+    /**æç¤ºæ²¡æœ‰SDå¡å¯ç”¨*/
     public void showNoSDCardMountedMessage() {
     	showMessage(R.string.msg_sd_unavailable);
     }
@@ -336,7 +336,7 @@ public class MyApplication extends Application{
     }
     
     /**
-     * ·µ»Ø»º´æµÄÆ·ÅÆĞÍºÅÎÄ¼ş£¬Èç¹ûÓĞÍâÖÃSD¿¨£¬¸ÃÎÄ¼ş»á´æÔÚÍâÖÃ´æ´¢¿¨xxx/account/xxxx/xinghaoÄ¿Â¼ÏÂ£¬·ñÔòÔÚÊÖ»úÄÚ²¿´æ´¢ÖĞxxx/files/
+     * è¿”å›ç¼“å­˜çš„å“ç‰Œå‹å·æ–‡ä»¶ï¼Œå¦‚æœæœ‰å¤–ç½®SDå¡ï¼Œè¯¥æ–‡ä»¶ä¼šå­˜åœ¨å¤–ç½®å­˜å‚¨å¡xxx/account/xxxx/xinghaoç›®å½•ä¸‹ï¼Œå¦åˆ™åœ¨æ‰‹æœºå†…éƒ¨å­˜å‚¨ä¸­xxx/files/
      * @param pingpaiCode
      * @return
      */
@@ -351,14 +351,14 @@ public class MyApplication extends Application{
     }
     
     /**
-     * µÃµ½sdcardÉÏµÄĞÍºÅÄ¿Â¼/mnt/sdcard/xxxx/xinghao
+     * å¾—åˆ°sdcardä¸Šçš„å‹å·ç›®å½•/mnt/sdcard/xxxx/xinghao
      * @return
      */
     public File getCachedXinghaoExternalRoot() {
     	return getExternalStorageRoot("xinghao");
     }
     /**
-     * µÃµ½sdcardÉÏµÄĞÍºÅÄ¿Â¼/xxx/files/xinghao
+     * å¾—åˆ°sdcardä¸Šçš„å‹å·ç›®å½•/xxx/files/xinghao
      * @return
      */
     public File getCachedXinghaoInternalRoot() {

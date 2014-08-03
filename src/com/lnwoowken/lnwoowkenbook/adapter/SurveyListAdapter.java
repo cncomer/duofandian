@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.adapter;
+ï»¿package com.lnwoowken.lnwoowkenbook.adapter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +34,7 @@ public class SurveyListAdapter extends BaseAdapter {
 	HashMap<Integer, View> lmap = new HashMap<Integer, View>();
 
 	// private String[][] arr;
-	// private Typeface typeface12=null;//Î¢ÈíÑÅºÚ
+	// private Typeface typeface12=null;//å¾®è½¯é›…é»‘
 	// private Typeface typeface3=null;//times
 	public SurveyListAdapter(Context context, Survey survey) {
 		this.context = context;

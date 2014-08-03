@@ -1,4 +1,4 @@
-/*
+﻿/*
  *  Android Wheel Control.
  *  https://code.google.com/p/android-wheel/
  *  

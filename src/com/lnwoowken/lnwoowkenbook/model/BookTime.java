@@ -1,17 +1,17 @@
-package com.lnwoowken.lnwoowkenbook.model;
+ï»¿package com.lnwoowken.lnwoowkenbook.model;
 
 public class BookTime {
 
 	
-	private int id;//--Ê±¶ÎID
-	private int sid;//--ÉÌÆÌID
-	private String period;//--¹ıÆÚÊ±¼ä
-	private String timeName;//--Ê±¶ÎÃû
-	private String rstart;//--Ê±¶ÎÓĞĞ§¿ªÊ¼Ê±¼ä
-	private String rend;//--Ê±¶ÎÓĞĞ§½áÊøÊ±¼ä
-	private String rsTime;//--ÆğÊ¼Ê±¼ä
-	private String rdTime;//--½áÊøÊ±¼ä
-	private String price;//--¼Û¸ñ
+	private int id;//--æ—¶æ®µID
+	private int sid;//--å•†é“ºID
+	private String period;//--è¿‡æœŸæ—¶é—´
+	private String timeName;//--æ—¶æ®µå
+	private String rstart;//--æ—¶æ®µæœ‰æ•ˆå¼€å§‹æ—¶é—´
+	private String rend;//--æ—¶æ®µæœ‰æ•ˆç»“æŸæ—¶é—´
+	private String rsTime;//--èµ·å§‹æ—¶é—´
+	private String rdTime;//--ç»“æŸæ—¶é—´
+	private String price;//--ä»·æ ¼
 	public int getId() {
 		return id;
 	}

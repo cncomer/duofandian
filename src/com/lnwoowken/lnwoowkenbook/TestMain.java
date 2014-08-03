@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 import java.io.File;
 import java.util.Timer;
@@ -60,7 +60,7 @@ import android.widget.Toast;
 @SuppressWarnings("deprecation")
 
 /**
- * Ö÷½çÃæ
+ * ä¸»ç•Œé¢
  * @author sean
  *
  */
@@ -70,7 +70,7 @@ public class TestMain extends Activity implements OnClickListener {
 	private LinearLayout mainLayout;
 	private LinearLayout item_camera;
 	 /** 
-     * ²à»¬²¼¾Ö¶ÔÏó£¬ÓÃÓÚÍ¨¹ıÊÖÖ¸»¬¶¯½«×ó²àµÄ²Ëµ¥²¼¾Ö½øĞĞÏÔÊ¾»òÒş²Ø¡£ 
+     * ä¾§æ»‘å¸ƒå±€å¯¹è±¡ï¼Œç”¨äºé€šè¿‡æ‰‹æŒ‡æ»‘åŠ¨å°†å·¦ä¾§çš„èœå•å¸ƒå±€è¿›è¡Œæ˜¾ç¤ºæˆ–éšè—ã€‚ 
      */  
     private SlidingLayout slidingLayout;  
 	private int screenWidth;// = getWindowManager().getDefaultDisplay().getWidth();
@@ -94,9 +94,9 @@ public class TestMain extends Activity implements OnClickListener {
 	private Button btn_login;
 	private UpdateManager mUpdateManager;
 	private TextView textGallery;
-	private String[] strArr = new String[] { "±êÌâ1", "±êÌâ2", "±êÌâ3", "±êÌâ4", "±êÌâ5" };
+	private String[] strArr = new String[] { "æ ‡é¢˜1", "æ ‡é¢˜2", "æ ‡é¢˜3", "æ ‡é¢˜4", "æ ‡é¢˜5" };
 
-	// ÆÁÄ»1080
+	// å±å¹•1080
 	@SuppressWarnings("unused")
 	private int[] picture = { R.drawable.pic_1, R.drawable.pic_2,
 			R.drawable.pic_3, R.drawable.pic_4, R.drawable.pic_5 };
@@ -107,7 +107,7 @@ public class TestMain extends Activity implements OnClickListener {
 	private ImageAdapter adapter;
 
 	/**
-	 * Æô¶¯Ïß³Ì
+	 * å¯åŠ¨çº¿ç¨‹
 	 */
 	private Handler checkVersionHandler = new Handler() {
 
@@ -158,7 +158,7 @@ public class TestMain extends Activity implements OnClickListener {
 						}
 					} else {
 						Toast.makeText(context,
-								"°æ±¾½âÎö´íÎó£¬Äúµ±Ç°°æ±¾¿ÉÄÜ´æÔÚÎÊÌâ£¬ÇëÖØĞÂÏÂÔØ²¢°²×°¿Í»§¶Ë",
+								"ç‰ˆæœ¬è§£æé”™è¯¯ï¼Œæ‚¨å½“å‰ç‰ˆæœ¬å¯èƒ½å­˜åœ¨é—®é¢˜ï¼Œè¯·é‡æ–°ä¸‹è½½å¹¶å®‰è£…å®¢æˆ·ç«¯",
 								Toast.LENGTH_LONG).show();
 					}
 
@@ -170,7 +170,7 @@ public class TestMain extends Activity implements OnClickListener {
 	};
 
 	/**
-	 * ÅĞ¶ÏµÇÂ¼×´Ì¬,¸ü¸Ä½çÃæÉÏÎÄ×Ö
+	 * åˆ¤æ–­ç™»å½•çŠ¶æ€,æ›´æ”¹ç•Œé¢ä¸Šæ–‡å­—
 	 */
 	private BroadcastReceiver bcr = new BroadcastReceiver() {
 
@@ -194,7 +194,7 @@ public class TestMain extends Activity implements OnClickListener {
 	};
 
 	/**
-	 * Æô¶¯Ïß³Ì
+	 * å¯åŠ¨çº¿ç¨‹
 	 */
 	private Handler handler = new Handler() {
 
@@ -208,7 +208,7 @@ public class TestMain extends Activity implements OnClickListener {
 	};
 
 	/**
-	 * ½âÎöJSON
+	 * è§£æJSON
 	 */
 	private Handler parseJson_handler = new Handler() {
 
@@ -242,7 +242,7 @@ public class TestMain extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// »ñÈ¡ÆÁÄ»´óĞ¡
+		// è·å–å±å¹•å¤§å°
 //		Display mDisplay = getWindowManager().getDefaultDisplay();
 //		int width = mDisplay.getWidth();
 //		int height = mDisplay.getHeight();
@@ -464,22 +464,22 @@ public class TestMain extends Activity implements OnClickListener {
 			public void run() {
 				// TODO Auto-generated method stub
 				while (isalive) {
-					index = index % 5; // Í¼Æ¬Çø¼ä[0,count_drawable)
+					index = index % 5; // å›¾ç‰‡åŒºé—´[0,count_drawable)
 					// Log.i(TAG, "cur_index"+ cur_index +" count_drawble --"+
 					// count_drawble);
 					// msg.arg1 = cur_index
 					Message msg = new Message();
 					msg.arg1 = index;
 					mhandler.sendMessage(msg);
-					// ¸üĞÂÊ±¼ä¼ä¸ôÎª 2s
+					// æ›´æ–°æ—¶é—´é—´éš”ä¸º 2s
 					try {
 						Thread.sleep(4000);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					index++; // ·ÅÖÃÔÚThread.sleep(2000)
-								// £»·ÀÖ¹mhandler´¦ÀíÏûÏ¢µÄÍ¬²½ĞÔ£¬µ¼ÖÂcur_index>=count_drawble
+					index++; // æ”¾ç½®åœ¨Thread.sleep(2000)
+								// ï¼›é˜²æ­¢mhandlerå¤„ç†æ¶ˆæ¯çš„åŒæ­¥æ€§ï¼Œå¯¼è‡´cur_index>=count_drawble
 				}
 			}
 		}).start();
@@ -495,7 +495,7 @@ public class TestMain extends Activity implements OnClickListener {
 
 			gallery.setSelection(msg.arg1);
 			textGallery.setText(strArr[msg.arg1]);
-			// UI ThreadÖ±½Ó¸ü¸ÄÍ¼Æ¬ £¬²»ÀûÓÃGallery.OnItemSelectedListener¼àÌı¸ü¸Ä
+			// UI Threadç›´æ¥æ›´æ”¹å›¾ç‰‡ ï¼Œä¸åˆ©ç”¨Gallery.OnItemSelectedListenerç›‘å¬æ›´æ”¹
 
 		}
 	};
@@ -509,14 +509,14 @@ public class TestMain extends Activity implements OnClickListener {
 	@Override
 	protected void onStart() {
 		super.onStart();
-		// ×¢²á¹ã²¥½ÓÊÕÆ÷£¨¶¯Ì¬×¢²á£©
+		// æ³¨å†Œå¹¿æ’­æ¥æ”¶å™¨ï¼ˆåŠ¨æ€æ³¨å†Œï¼‰
 		registLoginReciever();
 	}
 
 	@Override
 	protected void onStop() {
 		super.onStop();
-		// È¡Ïû×¢²á¹ã²¥½ÓÊÕÆ÷
+		// å–æ¶ˆæ³¨å†Œå¹¿æ’­æ¥æ”¶å™¨
 
 	}
 
@@ -556,7 +556,7 @@ public class TestMain extends Activity implements OnClickListener {
 			v.startAnimation(animition);
 			// popupWindow.dismiss();
 			// popupWindow = null;
-			Toast.makeText(context, "¸Ã¹¦ÄÜÔİ²»¿ª·Å", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "è¯¥åŠŸèƒ½æš‚ä¸å¼€æ”¾", Toast.LENGTH_SHORT).show();
 		} else if (v.equals(btn_more)) {
 			if (popupWindow == null || !popupWindow.isShowing()) {
 				View view = LayoutInflater.from(context).inflate(
@@ -598,11 +598,11 @@ public class TestMain extends Activity implements OnClickListener {
 				popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
 						LayoutParams.WRAP_CONTENT);
 				popupWindow.showAsDropDown(v, 10, 10);
-				// Ê¹Æä¾Û¼¯
+				// ä½¿å…¶èšé›†
 				// popupWindow.setFocusable(true);
-				// ÉèÖÃÔÊĞíÔÚÍâµã»÷ÏûÊ§
+				// è®¾ç½®å…è®¸åœ¨å¤–ç‚¹å‡»æ¶ˆå¤±
 				// popupWindow.setOutsideTouchable(true);
-				// Ë¢ĞÂ×´Ì¬£¨±ØĞëË¢ĞÂ·ñÔòÎŞĞ§£©
+				// åˆ·æ–°çŠ¶æ€ï¼ˆå¿…é¡»åˆ·æ–°å¦åˆ™æ— æ•ˆï¼‰
 				popupWindow.update();
 			} else {
 				popupWindow.dismiss();
@@ -657,15 +657,15 @@ public class TestMain extends Activity implements OnClickListener {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// ÊÇ·ñ´¥·¢°´¼üÎªback¼ü
+		// æ˜¯å¦è§¦å‘æŒ‰é”®ä¸ºbacké”®
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			// µ¯³öÍË³öÈ·ÈÏ¿ò
+			// å¼¹å‡ºé€€å‡ºç¡®è®¤æ¡†
 			Dialog alertDialog = new AlertDialog.Builder(TestMain.this)
 					.setTitle(
-							"ÄúÈ·¶¨ÒªÍË³ö"
+							"æ‚¨ç¡®å®šè¦é€€å‡º"
 									+ context.getResources().getText(
-											R.string.app_name) + "Âğ")
-					.setPositiveButton("ÊÇ",
+											R.string.app_name) + "å—")
+					.setPositiveButton("æ˜¯",
 							new DialogInterface.OnClickListener() {
 
 								@Override
@@ -678,8 +678,8 @@ public class TestMain extends Activity implements OnClickListener {
 								}
 							})
 
-					// ·µ»Ø¸Ã³ÌĞòµÄActivity
-					.setNegativeButton("·ñ",
+					// è¿”å›è¯¥ç¨‹åºçš„Activity
+					.setNegativeButton("å¦",
 							new DialogInterface.OnClickListener() {
 
 								@Override
@@ -692,7 +692,7 @@ public class TestMain extends Activity implements OnClickListener {
 			alertDialog.show();
 
 			return true;
-		} else// Èç¹û²»ÊÇback¼üÕı³£ÏìÓ¦
+		} else// å¦‚æœä¸æ˜¯backé”®æ­£å¸¸å“åº”
 		{
 			return super.onKeyDown(keyCode, event);
 		}
@@ -701,11 +701,11 @@ public class TestMain extends Activity implements OnClickListener {
 
 	private void showExitLoginDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("ÌáÊ¾")
-				.setMessage("ÄúÒÑ¾­µÇÂ¼,ÊÇ·ñÒªÍË³öÖØĞÂµÇÂ¼?")
+				.setTitle("æç¤º")
+				.setMessage("æ‚¨å·²ç»ç™»å½•,æ˜¯å¦è¦é€€å‡ºé‡æ–°ç™»å½•?")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -715,11 +715,11 @@ public class TestMain extends Activity implements OnClickListener {
 						Intent intent1 = new Intent();
 						intent1.setAction("login");
 						sendBroadcast(intent1);
-						Toast.makeText(context, "³É¹¦ÍË³öµÇÂ¼", Toast.LENGTH_SHORT)
+						Toast.makeText(context, "æˆåŠŸé€€å‡ºç™»å½•", Toast.LENGTH_SHORT)
 								.show();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -732,11 +732,11 @@ public class TestMain extends Activity implements OnClickListener {
 	}
 
 	private void showUpdateDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this).setTitle("ÌáÊ¾")
-				.setMessage("Äúµ±Ç°°æ±¾¹ıµÍ,ĞèÒªÖØĞÂÏÂÔØ¿Í»§¶Ë")
+		Dialog alertDialog = new AlertDialog.Builder(this).setTitle("æç¤º")
+				.setMessage("æ‚¨å½“å‰ç‰ˆæœ¬è¿‡ä½,éœ€è¦é‡æ–°ä¸‹è½½å®¢æˆ·ç«¯")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -745,7 +745,7 @@ public class TestMain extends Activity implements OnClickListener {
 						mUpdateManager.checkUpdateInfo(0);
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

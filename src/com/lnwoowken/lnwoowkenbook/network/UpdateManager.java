@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.network;
+ï»¿package com.lnwoowken.lnwoowkenbook.network;
 
 
 import java.io.File;
@@ -32,22 +32,22 @@ public class UpdateManager {
 	
 	private Context mContext;
 	
-	//ÌáÊ¾Óï
-	private String updateMsg = "ÓĞ×îĞÂµÄÈí¼ş°üÅ¶£¬Ç×¿ìÏÂÔØ°É~";
+	//æç¤ºè¯­
+	private String updateMsg = "æœ‰æœ€æ–°çš„è½¯ä»¶åŒ…å“¦ï¼Œäº²å¿«ä¸‹è½½å§~";
 	
-	//·µ»ØµÄ°²×°°üurl
+	//è¿”å›çš„å®‰è£…åŒ…url
 	private String apkUrl = "http://Phone.lnwoowken.com/client.apk";//"http://Phone.lnwoowken.com/client.apk";
 	
 	
 	private Dialog noticeDialog;
 	
 	private Dialog downloadDialog;
-	 /* ÏÂÔØ°ü°²×°Â·¾¶ */
+	 /* ä¸‹è½½åŒ…å®‰è£…è·¯å¾„ */
     private static final String savePath = "/sdcard/lnwoowken/";
     
     private static final String saveFileName = savePath + "UpdateDemoRelease.apk";
 
-    /* ½ø¶ÈÌõÓëÍ¨ÖªuiË¢ĞÂµÄhandlerºÍmsg³£Á¿ */
+    /* è¿›åº¦æ¡ä¸é€šçŸ¥uiåˆ·æ–°çš„handlerå’Œmsgå¸¸é‡ */
     private ProgressBar mProgress;
 
     
@@ -86,7 +86,7 @@ public class UpdateManager {
 //		this.flag = flag;
 //	}
 	
-	//Íâ²¿½Ó¿ÚÈÃÖ÷Activityµ÷ÓÃ
+	//å¤–éƒ¨æ¥å£è®©ä¸»Activityè°ƒç”¨
 	public void checkUpdateInfo(int flag){
 		
 		if (flag==0) {
@@ -100,16 +100,16 @@ public class UpdateManager {
 	
 	private void showNoticeDialog(){
 		AlertDialog.Builder builder = new Builder(mContext);
-		builder.setTitle("Èí¼ş°æ±¾¸üĞÂ");
+		builder.setTitle("è½¯ä»¶ç‰ˆæœ¬æ›´æ–°");
 		builder.setMessage(updateMsg);
-		builder.setPositiveButton("ÏÂÔØ", new OnClickListener() {			
+		builder.setPositiveButton("ä¸‹è½½", new OnClickListener() {			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
 				showDownloadDialog();			
 			}
 		});
-		builder.setNegativeButton("ÒÔºóÔÙËµ", new OnClickListener() {			
+		builder.setNegativeButton("ä»¥åå†è¯´", new OnClickListener() {			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();				
@@ -121,14 +121,14 @@ public class UpdateManager {
 	
 	private void showDownloadDialog(){
 		AlertDialog.Builder builder = new Builder(mContext);
-		builder.setTitle("Èí¼ş°æ±¾¸üĞÂ");
+		builder.setTitle("è½¯ä»¶ç‰ˆæœ¬æ›´æ–°");
 		
 		final LayoutInflater inflater = LayoutInflater.from(mContext);
 		View v = inflater.inflate(R.layout.progress, null);
 		mProgress = (ProgressBar)v.findViewById(R.id.progress);
 		
 		builder.setView(v);
-		builder.setNegativeButton("È¡Ïû", new OnClickListener() {	
+		builder.setNegativeButton("å–æ¶ˆ", new OnClickListener() {	
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
@@ -167,15 +167,15 @@ public class UpdateManager {
 		    		int numread = is.read(buf);
 		    		count += numread;
 		    	    progress =(int)(((float)count / length) * 100);
-		    	    //¸üĞÂ½ø¶È
+		    	    //æ›´æ–°è¿›åº¦
 		    	    mHandler.sendEmptyMessage(DOWN_UPDATE);
 		    		if(numread <= 0){	
-		    			//ÏÂÔØÍê³ÉÍ¨Öª°²×°
+		    			//ä¸‹è½½å®Œæˆé€šçŸ¥å®‰è£…
 		    			mHandler.sendEmptyMessage(DOWN_OVER);
 		    			break;
 		    		}
 		    		fos.write(buf,0,numread);
-		    	}while(!interceptFlag);//µã»÷È¡Ïû¾ÍÍ£Ö¹ÏÂÔØ.
+		    	}while(!interceptFlag);//ç‚¹å‡»å–æ¶ˆå°±åœæ­¢ä¸‹è½½.
 				
 				fos.close();
 				is.close();
@@ -189,7 +189,7 @@ public class UpdateManager {
 	};
 	
 	 /**
-     * ÏÂÔØapk
+     * ä¸‹è½½apk
      * @param url
      */
 	
@@ -198,7 +198,7 @@ public class UpdateManager {
 		downLoadThread.start();
 	}
 	 /**
-     * °²×°apk
+     * å®‰è£…apk
      * @param url
      */
 	private void installApk(){

@@ -1,22 +1,22 @@
-package com.lnwoowken.lnwoowkenbook.model;
+ï»¿package com.lnwoowken.lnwoowkenbook.model;
 
 import java.util.List;
 
 public class StoreInfo {
-	private int tableNum;//--µ±Ç°Ê±¼äµãËùÊ£ÓàµÄ×ÀÊı
-	private int id;//--²ËÆ·ID
-	private String name;//--µêÃû
-	private String address;//--µØ
-	private String phoneNumber;//--ÁªÏµµç»°
-	private String priceLevel;//--¼Û¸ñÆÀ·Ö
-	private String environmentLevel;//--»·¾³ÆÀ·Ö
-	private String flavorLevel;//--Î¶µÀÆÀ·Ö
-	private String info;//--¼ò½é
-	private String averagePrice;//--ÈË¾ùÏû·Ñ
-	private String imagePath;//--Í¼Æ¬Â·¾¶
-	private String tableImagePath;//--×À±íÍ¼Æ¬Â·¾¶
+	private int tableNum;//--å½“å‰æ—¶é—´ç‚¹æ‰€å‰©ä½™çš„æ¡Œæ•°
+	private int id;//--èœå“ID
+	private String name;//--åº—å
+	private String address;//--åœ°
+	private String phoneNumber;//--è”ç³»ç”µè¯
+	private String priceLevel;//--ä»·æ ¼è¯„åˆ†
+	private String environmentLevel;//--ç¯å¢ƒè¯„åˆ†
+	private String flavorLevel;//--å‘³é“è¯„åˆ†
+	private String info;//--ç®€ä»‹
+	private String averagePrice;//--äººå‡æ¶ˆè´¹
+	private String imagePath;//--å›¾ç‰‡è·¯å¾„
+	private String tableImagePath;//--æ¡Œè¡¨å›¾ç‰‡è·¯å¾„
 	private List<BookTime> timeList;
-	private String servicePrice;//--·şÎñ·Ñ
+	private String servicePrice;//--æœåŠ¡è´¹
 	private String icon;
 	
 	public String getIcon() {

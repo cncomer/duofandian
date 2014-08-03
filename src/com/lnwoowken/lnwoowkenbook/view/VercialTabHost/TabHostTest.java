@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.view.VercialTabHost;
+锘縫ackage com.lnwoowken.lnwoowkenbook.view.VercialTabHost;
 
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class TabHostTest extends ActivityGroup implements
 	private Button btn_back;
 
 	/**
-	 * 更新UI
+	 * 鏇存柊UI
 	 */
 	private Handler refrash_handler = new Handler() {
 
@@ -74,7 +74,7 @@ public class TabHostTest extends ActivityGroup implements
 	};
 
 	/**
-	 * 启动线程
+	 * 鍚姩绾跨▼
 	 */
 	private Handler startThread_handler = new Handler() {
 

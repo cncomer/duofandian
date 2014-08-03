@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.model;
+﻿package com.lnwoowken.lnwoowkenbook.model;
 
 import java.util.List;
 

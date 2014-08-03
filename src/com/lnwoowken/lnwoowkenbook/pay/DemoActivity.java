@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.pay;
+ï»¿package com.lnwoowken.lnwoowkenbook.pay;
 
 import com.lnwoowken.lnwoowkenbook.R;
 import com.umpay.creditcard.android.UmpayActivity;
@@ -23,15 +23,15 @@ public class DemoActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.demo);
-        // TradeNoÊäÈë¿ò
+        // TradeNoè¾“å…¥æ¡†
         final EditText tradNoEt = (EditText)findViewById(R.id.tradeNo_edt);
-        // È·¶¨Ö§¸¶°´Å¥
+        // ç¡®å®šæ”¯ä»˜æŒ‰é’®
         Button pay = (Button)findViewById(R.id.pay_btn);
         pay.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                // µ÷ÓÃSDK½øĞĞÖ§¸¶
+                // è°ƒç”¨SDKè¿›è¡Œæ”¯ä»˜
                 startSdkToPay(tradNoEt.getText().toString(), 9);
 
             }
@@ -39,11 +39,11 @@ public class DemoActivity extends Activity {
     }
 
     /**
-     * ÔÚÕâÀï½ÓÊÕ²¢´¦ÀíÖ§¸¶½á¹û
+     * åœ¨è¿™é‡Œæ¥æ”¶å¹¶å¤„ç†æ”¯ä»˜ç»“æœ
      * 
-     * @param requestCode Ö§¸¶ÇëÇóÂë
-     * @param resultCode SDK¹Ì¶¨·µ»Ø88888
-     * @param data Ö§¸¶½á¹ûºÍ½á¹ûÃèÊöĞÅÏ¢
+     * @param requestCode æ”¯ä»˜è¯·æ±‚ç 
+     * @param resultCode SDKå›ºå®šè¿”å›88888
+     * @param data æ”¯ä»˜ç»“æœå’Œç»“æœæè¿°ä¿¡æ¯
      * @author niexuyang 2012-8-20
      */
     @SuppressWarnings("static-access")
@@ -57,20 +57,20 @@ public class DemoActivity extends Activity {
                     Toast.LENGTH_LONG).show();
             super.onActivityResult(requestCode, resultCode, data);
         } else {
-            Toast.makeText(this, "Ö§¸¶Ê§°Ü", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "æ”¯ä»˜å¤±è´¥", Toast.LENGTH_LONG).show();
         }
     }
 
     /**
-     * µ÷ÓÃSDK½øĞĞÖ§¸¶
+     * è°ƒç”¨SDKè¿›è¡Œæ”¯ä»˜
      * 
-     * @param tradNo ÏÂµ¥»ñµÃµÄ½»Ò×ºÅ
-     * @param payType µ±Ç°ĞèÒªµÄÖ§¸¶ÀàĞÍ
+     * @param tradNo ä¸‹å•è·å¾—çš„äº¤æ˜“å·
+     * @param payType å½“å‰éœ€è¦çš„æ”¯ä»˜ç±»å‹
      * @author niexuyang 2012-8-28
      */
     private void startSdkToPay(String tradNo, int payType) {
-        // Ìø×ªµ½SDKÒ³Ãæ
-        // ½«ÊäÈëµÄ²ÎÊı´«ÈëActivity
+        // è·³è½¬åˆ°SDKé¡µé¢
+        // å°†è¾“å…¥çš„å‚æ•°ä¼ å…¥Activity
         Intent intent = new Intent();
         intent.putExtra("tradeNo", tradNo);
         intent.putExtra("payType", payType);

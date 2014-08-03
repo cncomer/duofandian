@@ -1,27 +1,27 @@
-
+ï»¿
 
 package com.lnwoowken.lnwoowkenbook.model;
 /**
- * ×À×ÓĞÅÏ¢
+ * æ¡Œå­ä¿¡æ¯
  * @author sean
  *
  */
 public class TableInfo {
 
-	private String aid;//--Ê±¶Îid
-	private String aname;//--×ÀÃû
-	//private String tntid;//--×ÀĞÍid
-	private String rt;//--Ê±µã
-	private String dtypeid;//--×ÀĞÍid
+	private String aid;//--æ—¶æ®µid
+	private String aname;//--æ¡Œå
+	//private String tntid;//--æ¡Œå‹id
+	private String rt;//--æ—¶ç‚¹
+	private String dtypeid;//--æ¡Œå‹id
 	private String stid;
-	//private String total;//--µ±Ç°×À×Ó×´Ì¬
-	//private String price;//--¼Û¸ñ
-	private String staRes;//--×´Ì¬
-	//private String drid;//--Ê±¶Îid	
-	private String rCode;//--¶©µ¥ºÅ
-	private String phone;//--ÁªÏµ·½Ê½
-	private String peopleNum;//--ÈËÊı
-	private String tid;//--×À×Óid
+	//private String total;//--å½“å‰æ¡Œå­çŠ¶æ€
+	//private String price;//--ä»·æ ¼
+	private String staRes;//--çŠ¶æ€
+	//private String drid;//--æ—¶æ®µid	
+	private String rCode;//--è®¢å•å·
+	private String phone;//--è”ç³»æ–¹å¼
+	private String peopleNum;//--äººæ•°
+	private String tid;//--æ¡Œå­id
 	
 	public String getDtypeid() {
 		return dtypeid;

@@ -1,23 +1,23 @@
-package com.lnwoowken.lnwoowkenbook.model;
+ï»¿package com.lnwoowken.lnwoowkenbook.model;
 
 public class UserInfo {
 	private int id;
-	private String sid;//--ÎŞÓÃ
-	private String userName;//--ÓÃ»§Ãû
-	private String pwd;//--ÃÜÂë
-	private String name;//--êÇ³Æ
-	private String phoneNum;//--µç»°
+	private String sid;//--æ— ç”¨
+	private String userName;//--ç”¨æˆ·å
+	private String pwd;//--å¯†ç 
+	private String name;//--æ˜µç§°
+	private String phoneNum;//--ç”µè¯
 	private String eMail;//--E-Mail
-	private String login;//--µÇÂ¼×´Ì¬
+	private String login;//--ç™»å½•çŠ¶æ€
 	private String createDate;
-	private String state;//--µ±Ç°×´Ì¬
-	private String rights;//ÎŞÓÃ
-	private String version;//--°æ±¾ºÅ
+	private String state;//--å½“å‰çŠ¶æ€
+	private String rights;//æ— ç”¨
+	private String version;//--ç‰ˆæœ¬å·
 	private String cu;
-	private String errorconn;//--·Ç·¨´ÎÊı
-	private String errorlogin;//--µÇÂ¼´íÎóÊı
+	private String errorconn;//--éæ³•æ¬¡æ•°
+	private String errorlogin;//--ç™»å½•é”™è¯¯æ•°
 	private String lastlogin;
-	private String vcode;//--µÇÂ¼ÑéÖ¤ºÅ
+	private String vcode;//--ç™»å½•éªŒè¯å·
 	
 	
 	public int getId() {

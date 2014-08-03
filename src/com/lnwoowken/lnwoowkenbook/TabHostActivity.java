@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 
 
@@ -49,9 +49,9 @@ import android.widget.Toast;
 public class TabHostActivity extends Activity implements OnClickListener {
 	//private RequestShopListThread myThread;
 	private PopupWindow popupWindow;
-	private Button btn_more;//--¡°¸ü¶à¡±°´Å¥
-	private Button btn_home;//--·µ»ØÖ÷½çÃæ
-	private Button btn_back;//--·µ»ØÉÏÒ»Ò³
+	private Button btn_more;//--â€œæ›´å¤šâ€æŒ‰é’®
+	private Button btn_home;//--è¿”å›ä¸»ç•Œé¢
+	private Button btn_back;//--è¿”å›ä¸Šä¸€é¡µ
 	private TabAdapter tabAdapter = null;
 	private ShopAdapter shopAdapter;
 	private String resultTree;
@@ -64,7 +64,7 @@ public class TabHostActivity extends Activity implements OnClickListener {
 	private int treeId = 0;
 	private ListView listView_content;
 	private List<ShopTree> list_tabObj;
-	//private String[] tabText = new String[]{"È«²¿·ÖÀà","Ä¬ÈÏ","¿ÚÎ¶","ÈÈÃÅÉÌÈ¦"};
+	//private String[] tabText = new String[]{"å…¨éƒ¨åˆ†ç±»","é»˜è®¤","å£å‘³","çƒ­é—¨å•†åœˆ"};
 	private int[] iconId = new int[]{R.drawable.img_clock,R.drawable.img_clock,R.drawable.img_clock,R.drawable.img_clock};
 	
 	private Handler initila_handler = new Handler() {
@@ -73,7 +73,7 @@ public class TabHostActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 			// myThread.start();
 			
 
@@ -89,7 +89,7 @@ public class TabHostActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 			RequestShopListThread myThread = new RequestShopListThread();
 			myThread.start();
 		}
@@ -97,7 +97,7 @@ public class TabHostActivity extends Activity implements OnClickListener {
 	};
 	
 	/**
-	 * ¸üĞÂUI
+	 * æ›´æ–°UI
 	 */
 	private Handler refrash_handler = new Handler() {
 
@@ -116,7 +116,7 @@ public class TabHostActivity extends Activity implements OnClickListener {
 				
 			}
 			else {
-				Toast.makeText(context, "³õÊ¼»¯·ÖÒ³·ÖÀàÊ§°Ü", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "åˆå§‹åŒ–åˆ†é¡µåˆ†ç±»å¤±è´¥", Toast.LENGTH_SHORT).show();
 			}
 			listView_tab.setOnItemClickListener(new OnItemClickListener() {
 
@@ -143,7 +143,7 @@ public class TabHostActivity extends Activity implements OnClickListener {
 	
 	
 	/**
-	 * Æô¶¯Ïß³Ì
+	 * å¯åŠ¨çº¿ç¨‹
 	 */
 	private Handler startThread_handler = new Handler() {
 
@@ -252,11 +252,11 @@ public class TabHostActivity extends Activity implements OnClickListener {
 				popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
 						LayoutParams.WRAP_CONTENT);
 				popupWindow.showAsDropDown(v, 10, 10);
-				// Ê¹Æä¾Û¼¯
+				// ä½¿å…¶èšé›†
 				// popupWindow.setFocusable(true);
-				// ÉèÖÃÔÊĞíÔÚÍâµã»÷ÏûÊ§
+				// è®¾ç½®å…è®¸åœ¨å¤–ç‚¹å‡»æ¶ˆå¤±
 				// popupWindow.setOutsideTouchable(true);
-				// Ë¢ĞÂ×´Ì¬£¨±ØĞëË¢ĞÂ·ñÔòÎŞĞ§£©
+				// åˆ·æ–°çŠ¶æ€ï¼ˆå¿…é¡»åˆ·æ–°å¦åˆ™æ— æ•ˆï¼‰
 				popupWindow.update();
 			} else {
 				popupWindow.dismiss();
@@ -462,11 +462,11 @@ public class TabHostActivity extends Activity implements OnClickListener {
 	
 	private void showExitLoginDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("ÌáÊ¾")
-				.setMessage("ÄúÒÑ¾­µÇÂ¼,ÊÇ·ñÒªÍË³öÖØĞÂµÇÂ¼?")
+				.setTitle("æç¤º")
+				.setMessage("æ‚¨å·²ç»ç™»å½•,æ˜¯å¦è¦é€€å‡ºé‡æ–°ç™»å½•?")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -476,11 +476,11 @@ public class TabHostActivity extends Activity implements OnClickListener {
 						Intent intent1 = new Intent();
 						intent1.setAction("login");
 						sendBroadcast(intent1);
-						Toast.makeText(context, "³É¹¦ÍË³öµÇÂ¼", Toast.LENGTH_SHORT)
+						Toast.makeText(context, "æˆåŠŸé€€å‡ºç™»å½•", Toast.LENGTH_SHORT)
 								.show();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

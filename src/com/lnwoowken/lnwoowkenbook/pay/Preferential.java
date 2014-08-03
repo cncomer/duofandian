@@ -1,5 +1,5 @@
-/**
- * "се╩щпео╒"╣д╤тоС
+О╩©/**
+ * "Д╪≤Ф┐═Д©║Ф│╞"Г └Е╞╧Х╠║
  */
 
 package com.lnwoowken.lnwoowkenbook.pay;

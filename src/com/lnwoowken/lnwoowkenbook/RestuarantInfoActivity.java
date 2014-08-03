@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 
 import java.io.File;
@@ -64,7 +64,7 @@ import android.widget.LinearLayout.LayoutParams;
 
 
 /**
- * ²ÍÌüÏêÇé
+ * é¤å…è¯¦æƒ…
  * @author sean
  *
  */
@@ -72,7 +72,7 @@ public class RestuarantInfoActivity extends Activity {
 	private Button btn_chooseFood;
 	private List<StoreInfo> shopList;
 	private List<StoreInfo> shopid;
-	private String params = "http://pic.lnwoowken.com/ÍûÏæÔ°.png";
+	private String params = "http://pic.lnwoowken.com/æœ›æ¹˜å›­.png";
 	private Button btnFirst, btnSecond;
 	private ProgressBar progress;
 	private FrameLayout frameLayout;
@@ -81,18 +81,18 @@ public class RestuarantInfoActivity extends Activity {
 	private RequestOtherShopThread mThread;
 	private PopupWindow popupWindow;
 	private StoreInfo shop;
-	private Button btn_chooseTable;// --½øÈëÑ¡×À½çÃæµÄ°´Å¥
-	private Button btn_back;//--·µ»ØÉÏÒ»Ò³
+	private Button btn_chooseTable;// --è¿›å…¥é€‰æ¡Œç•Œé¢çš„æŒ‰é’®
+	private Button btn_back;//--è¿”å›ä¸Šä¸€é¡µ
 	private Intent intent;
 	private int shopId;
 	private ImageView shopImg;
-	private TextView textView_info;//--²ÍÌüÏêÇé½éÉÜ
-	private TextView textView_shopName;//--µêÃû
-	private TextView textView_price;//--ÈË¾ùÏû·Ñ
-	private TextView textView_address;//--²ÍÌüµØÖ·
-	private TextView textView_phone;//--ÁªÏµµç»°
-	private Button btn_home;//--·µ»ØÖ÷½çÃæ
-	private Button btn_more;//--¡°¸ü¶à¡±°´Å¥
+	private TextView textView_info;//--é¤å…è¯¦æƒ…ä»‹ç»
+	private TextView textView_shopName;//--åº—å
+	private TextView textView_price;//--äººå‡æ¶ˆè´¹
+	private TextView textView_address;//--é¤å…åœ°å€
+	private TextView textView_phone;//--è”ç³»ç”µè¯
+	private Button btn_home;//--è¿”å›ä¸»ç•Œé¢
+	private Button btn_more;//--â€œæ›´å¤šâ€æŒ‰é’®
 	private Button btnTittle;;
 	private Context context = RestuarantInfoActivity.this;
 
@@ -154,9 +154,9 @@ public class RestuarantInfoActivity extends Activity {
 
 		
 
-//		String[] mItems = new String[]{"ÆäËû·Öµê"};
+//		String[] mItems = new String[]{"å…¶ä»–åˆ†åº—"};
 //		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.simple_spinner_item);
-//		//String level[] = getResources().getStringArray(R.array.affair_level);//×ÊÔ´ÎÄ¼ş
+//		//String level[] = getResources().getStringArray(R.array.affair_level);//èµ„æºæ–‡ä»¶
 //		for (int i = 0; i < mItems.length; i++) {
 //		adapter.add(mItems[i]);
 //		}
@@ -165,7 +165,7 @@ public class RestuarantInfoActivity extends Activity {
 		
 //		spinnerShop = (Spinner) findViewById(R.id.textView1);
 //
-//		String[] mItems = new String[]{"ÆäËû·Öµê"};
+//		String[] mItems = new String[]{"å…¶ä»–åˆ†åº—"};
 //
 //		ArrayAdapter<String> _Adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mItems);
 //
@@ -200,7 +200,7 @@ public class RestuarantInfoActivity extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Toast.makeText(context, "¾´ÇëÆÚ´ı", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "æ•¬è¯·æœŸå¾…", Toast.LENGTH_SHORT).show();
 			}
 		});
 		btn_chooseTable = (Button) findViewById(R.id.button_choose_table);
@@ -278,11 +278,11 @@ public class RestuarantInfoActivity extends Activity {
 					popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT);
 					popupWindow.showAsDropDown(v, 10, 10);
-					// Ê¹Æä¾Û¼¯
+					// ä½¿å…¶èšé›†
 					// popupWindow.setFocusable(true);
-					// ÉèÖÃÔÊĞíÔÚÍâµã»÷ÏûÊ§
+					// è®¾ç½®å…è®¸åœ¨å¤–ç‚¹å‡»æ¶ˆå¤±
 					// popupWindow.setOutsideTouchable(true);
-					// Ë¢ĞÂ×´Ì¬£¨±ØĞëË¢ĞÂ·ñÔòÎŞĞ§£©
+					// åˆ·æ–°çŠ¶æ€ï¼ˆå¿…é¡»åˆ·æ–°å¦åˆ™æ— æ•ˆï¼‰
 					popupWindow.update();
 				} else {
 					popupWindow.dismiss();
@@ -319,11 +319,11 @@ public class RestuarantInfoActivity extends Activity {
 	@SuppressWarnings("unused")
 	private void showDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("ÌáÊ¾")
-				.setMessage("Äú»¹Ã»ÓĞµÇÂ¼,ÇëÏÈµÇÂ¼")
+				.setTitle("æç¤º")
+				.setMessage("æ‚¨è¿˜æ²¡æœ‰ç™»å½•,è¯·å…ˆç™»å½•")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -334,7 +334,7 @@ public class RestuarantInfoActivity extends Activity {
 						RestuarantInfoActivity.this.finish();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -366,11 +366,11 @@ public class RestuarantInfoActivity extends Activity {
 	
 	private void showExitLoginDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("ÌáÊ¾")
-				.setMessage("ÄúÒÑ¾­µÇÂ¼,ÊÇ·ñÒªÍË³öÖØĞÂµÇÂ¼?")
+				.setTitle("æç¤º")
+				.setMessage("æ‚¨å·²ç»ç™»å½•,æ˜¯å¦è¦é€€å‡ºé‡æ–°ç™»å½•?")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -380,11 +380,11 @@ public class RestuarantInfoActivity extends Activity {
 						Intent intent1 = new Intent();
 						intent1.setAction("login");
 						sendBroadcast(intent1);
-						Toast.makeText(context, "³É¹¦ÍË³öµÇÂ¼", Toast.LENGTH_SHORT)
+						Toast.makeText(context, "æˆåŠŸé€€å‡ºç™»å½•", Toast.LENGTH_SHORT)
 								.show();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -490,7 +490,7 @@ public class RestuarantInfoActivity extends Activity {
 		public void handleMessage(Message msg) {
 			if (shopid!=null) {
 			
-				//String[] mItems = new String[]{"ÆäËû·Öµê"};
+				//String[] mItems = new String[]{"å…¶ä»–åˆ†åº—"};
 				btnTittle = (Button) findViewById(R.id.textView1);
 				btnTittle.setOnClickListener(new OnClickListener() {
 					
@@ -501,7 +501,7 @@ public class RestuarantInfoActivity extends Activity {
 					}
 				});
 //				ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.simple_spinner_item);
-//				//String level[] = getResources().getStringArray(R.array.affair_level);//×ÊÔ´ÎÄ¼ş
+//				//String level[] = getResources().getStringArray(R.array.affair_level);//èµ„æºæ–‡ä»¶
 				shopList = new ArrayList<StoreInfo>();
 				for (int i = 0; i < shopid.size(); i++) {
 					
@@ -564,7 +564,7 @@ public class RestuarantInfoActivity extends Activity {
 			if (thread!=null) {
 				switch (msg.what) {
 				case 1:
-					// ¹Ø±Õ
+					// å…³é—­
 					
 					shopImg.setImageBitmap(bitmap);
 					//dialog.dismiss();

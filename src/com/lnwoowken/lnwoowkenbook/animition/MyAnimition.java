@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.animition;
+﻿package com.lnwoowken.lnwoowkenbook.animition;
 
 import com.lnwoowken.lnwoowkenbook.LoginActivity;
 import com.lnwoowken.lnwoowkenbook.RestaurantListActivity;

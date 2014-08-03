@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+锘縫ackage com.lnwoowken.lnwoowkenbook;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,7 +14,7 @@ public class ServiceObject {
 	private static final String TAG = "ServiceObject";
 	public static final String SERVICE_URL = "http://www.dzbxk.com/bestjoy/";
 	/**
-	 * 返回登陆调用URL
+	 * 杩斿洖鐧婚檰璋冪敤URL
 	 * @return
 	 */
 	public static String getLoginOrUpdateUrl(String para, String jsonString) {
@@ -24,11 +24,11 @@ public class ServiceObject {
 		return sb.toString();
 	}
 	
-	//add by chenkai, 20140726, 将发送短信抽离出来，以便修改 begin
+	//add by chenkai, 20140726, 灏嗗彂閫佺煭淇℃娊绂诲嚭鏉ワ紝浠ヤ究淇敼 begin
 	/**
-	 * 返回登陆调用URL
+	 * 杩斿洖鐧婚檰璋冪敤URL
 	 * @param para
-	 * @param desString DES加密后的字串
+	 * @param desString DES鍔犲瘑鍚庣殑瀛椾覆
 	 * @return
 	 */
 	public static String getFindPasswordUrl(String para, String DESString) {
@@ -37,7 +37,7 @@ public class ServiceObject {
 		.append(para).append("=").appendUrlEncodedString(DESString);
 		return sb.toString();
 	}
-	//add by chenkai, 20140726, 将发送短信抽离出来，以便修改 begin
+	//add by chenkai, 20140726, 灏嗗彂閫佺煭淇℃娊绂诲嚭鏉ワ紝浠ヤ究淇敼 begin
 	
 	public static class ServiceResultObject {
 		public int mStatusCode = 0;

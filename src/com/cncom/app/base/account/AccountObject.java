@@ -17,10 +17,10 @@ import com.lnwoowken.lnwoowkenbook.R;
 import com.shwy.bestjoy.utils.DebugUtils;
 import com.shwy.bestjoy.utils.InfoInterface;
 /**
- * ÕË»§¶ÔÏó£¬ÔÚ³ÌĞòÆô¶¯Ê±ºò»áÍ¨¹ı{@link MyAccountManager#setContext(Context context)}À´»ñµÃµ±Ç°Ä¬ÈÏÕË»§¡£
+ * è´¦æˆ·å¯¹è±¡ï¼Œåœ¨ç¨‹åºå¯åŠ¨æ—¶å€™ä¼šé€šè¿‡{@link MyAccountManager#setContext(Context context)}æ¥è·å¾—å½“å‰é»˜è®¤è´¦æˆ·ã€‚
  * 
- * ĞèÒª×¢ÒâµÄÊÇ£¬ÔÚÉè¼ÆÊı¾İ¿âµÄÊ±ºò£¬ÓĞ{@link HaierDBHelper#ACCOUNT_HOME_COUNT}×Ö¶Î£¬¸Ã×Ö¶Î»áËæ×ÅĞÂÔö»òÊÇÉ¾³ıÒ»¸öHomeObjectÊı¾İ
- * ×Ô¶¯Ôö¼ÓºÍ¼õÉÙ£¬ËùÒÔÎÒÃÇ±£´æµÄÊ±ºò²»ÒªÉèÖÃËû¡£³ÉÔ±mAccountHomes ÒÔ¼° mBaoxiuCardsÄ¬ÈÏ¶¼ÊÇ¿ÕµÄ£¬Èç¹ûĞèÒª£¬ĞèÒª¶îÍâµ÷ÓÃ·½·¨À´»ñµÃ£¬
+ * éœ€è¦æ³¨æ„çš„æ˜¯ï¼Œåœ¨è®¾è®¡æ•°æ®åº“çš„æ—¶å€™ï¼Œæœ‰{@link HaierDBHelper#ACCOUNT_HOME_COUNT}å­—æ®µï¼Œè¯¥å­—æ®µä¼šéšç€æ–°å¢æˆ–æ˜¯åˆ é™¤ä¸€ä¸ªHomeObjectæ•°æ®
+ * è‡ªåŠ¨å¢åŠ å’Œå‡å°‘ï¼Œæ‰€ä»¥æˆ‘ä»¬ä¿å­˜çš„æ—¶å€™ä¸è¦è®¾ç½®ä»–ã€‚æˆå‘˜mAccountHomes ä»¥åŠ mBaoxiuCardsé»˜è®¤éƒ½æ˜¯ç©ºçš„ï¼Œå¦‚æœéœ€è¦ï¼Œéœ€è¦é¢å¤–è°ƒç”¨æ–¹æ³•æ¥è·å¾—ï¼Œ
  * @author chenkai
  *
  */
@@ -80,10 +80,10 @@ public class AccountObject implements InfoInterface{
 		AccountObject haierAccount = null;
 		Cursor c = null;
 		if (uid == -1) {
-			//Ä¬ÈÏÕË»§
+			//é»˜è®¤è´¦æˆ·
 			c = context.getContentResolver().query(BjnoteContent.Accounts.CONTENT_URI, PROJECTION, WHERE_DEFAULT, null, null);
 		} else {
-			//¸ù¾İÖ¸¶¨µÄuid²éÑ¯ÕË»§
+			//æ ¹æ®æŒ‡å®šçš„uidæŸ¥è¯¢è´¦æˆ·
 			c = context.getContentResolver().query(BjnoteContent.Accounts.CONTENT_URI, PROJECTION, WHERE_UID, new String[]{String.valueOf(uid)}, null);
 		}
 		if (c != null) {
@@ -127,7 +127,7 @@ public class AccountObject implements InfoInterface{
 		values.put(HaierDBHelper.ACCOUNT_NAME, mAccountName);
 		values.put(HaierDBHelper.ACCOUNT_TEL, mAccountTel);
 		values.put(HaierDBHelper.ACCOUNT_PWD, mAccountPwd);
-		//ÓÉÓÚÎÒÃÇÔÚHOME±íÉÏ´´½¨ÁË´¥·¢Æ÷£¬Ò»µ©·¢ÉúÔöÉ¾»á´¥·¢¸üĞÂAccountµÄACCOUNT_HOME_COUNT×Ö¶Î£¬ËùÒÔ£¬ÕâÀï¾Í²»ÓÃ¸üĞÂ¸Ã×Ö¶ÎÁË
+		//ç”±äºæˆ‘ä»¬åœ¨HOMEè¡¨ä¸Šåˆ›å»ºäº†è§¦å‘å™¨ï¼Œä¸€æ—¦å‘ç”Ÿå¢åˆ ä¼šè§¦å‘æ›´æ–°Accountçš„ACCOUNT_HOME_COUNTå­—æ®µï¼Œæ‰€ä»¥ï¼Œè¿™é‡Œå°±ä¸ç”¨æ›´æ–°è¯¥å­—æ®µäº†
 //		values.put(HaierDBHelper.ACCOUNT_HOME_COUNT, mAccountHomes.size());
 		values.put(HaierDBHelper.DATE, new Date().getTime());
 		if (id > 0) {
@@ -141,7 +141,7 @@ public class AccountObject implements InfoInterface{
 				DebugUtils.logD(TAG, "saveInDatebase failly update exsited uid " + mAccountUid);
 			}
 		} else {
-			//Èç¹ûÃ»ÓĞ±¾µØÃ»ÓĞÕË»§£¬ÄÇÃ´ÎÒÃÇĞÂÔöµÄÊ±ºòÔö¼ÓACCOUNT_MD×Ö¶Î,²¢ÉèÖÃÎªµ±Ç°Ä¬ÈÏÕË»§
+			//å¦‚æœæ²¡æœ‰æœ¬åœ°æ²¡æœ‰è´¦æˆ·ï¼Œé‚£ä¹ˆæˆ‘ä»¬æ–°å¢çš„æ—¶å€™å¢åŠ ACCOUNT_MDå­—æ®µ,å¹¶è®¾ç½®ä¸ºå½“å‰é»˜è®¤è´¦æˆ·
 			values.put(HaierDBHelper.ACCOUNT_UID, mAccountUid);
 			values.put(HaierDBHelper.ACCOUNT_DEFAULT, 1);
 			Uri uri = cr.insert(BjnoteContent.Accounts.CONTENT_URI, values);

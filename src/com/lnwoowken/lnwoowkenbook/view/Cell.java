@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2011 Chris Gao <chris@exina.net>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

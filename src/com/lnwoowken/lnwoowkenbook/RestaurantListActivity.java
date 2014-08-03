@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
 /**
- * µê¼ÒĞÅÏ¢µÄ½çÃæ
+ * åº—å®¶ä¿¡æ¯çš„ç•Œé¢
  * 
  * @author sean
  * 
@@ -64,7 +64,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 	private List<StoreInfo> listStore;
 	private ImageButton btn_search;
 	private EditText search;
-	private Button btn_home;// --·µ»ØÖ÷½çÃæ
+	private Button btn_home;// --è¿”å›ä¸»ç•Œé¢
 	private PopupWindow popupWindow;
 	private Button btn_sort;
 	private ListView allStore_listView;
@@ -81,7 +81,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 			myThread.start();
 			showProgressDialog();
 			draw.start();
@@ -95,7 +95,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 			// tableNumThread.start();
 		}
 
@@ -107,7 +107,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 			// myThread.start();
 			if (msg.arg1 == 1 || myThread.getResult().equals(Contant.NO_NET)) {
 				Toast.makeText(context, R.string.no_net, Toast.LENGTH_LONG)
@@ -138,7 +138,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 			// myThread.start();
 			//allStore_listView.setAdapter(adapter);
 			adapter.notifyDataSetChanged();
@@ -380,11 +380,11 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 				popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
 						LayoutParams.WRAP_CONTENT);
 				popupWindow.showAsDropDown(v, 10, 10);
-				// Ê¹Æä¾Û¼¯
+				// ä½¿å…¶èšé›†
 				// popupWindow.setFocusable(true);
-				// ÉèÖÃÔÊĞíÔÚÍâµã»÷ÏûÊ§
+				// è®¾ç½®å…è®¸åœ¨å¤–ç‚¹å‡»æ¶ˆå¤±
 				// popupWindow.setOutsideTouchable(true);
-				// Ë¢ĞÂ×´Ì¬£¨±ØĞëË¢ĞÂ·ñÔòÎŞĞ§£©
+				// åˆ·æ–°çŠ¶æ€ï¼ˆå¿…é¡»åˆ·æ–°å¦åˆ™æ— æ•ˆï¼‰
 				popupWindow.update();
 			} else {
 				popupWindow.dismiss();
@@ -432,15 +432,15 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// ÊÇ·ñ´¥·¢°´¼üÎªback¼ü
+		// æ˜¯å¦è§¦å‘æŒ‰é”®ä¸ºbacké”®
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			// µ¯³öÍË³öÈ·ÈÏ¿ò
+			// å¼¹å‡ºé€€å‡ºç¡®è®¤æ¡†
 			Log.d("back==================", "");
 			RestaurantListActivity.this.finish();
 			// System.exit(0);
 
 			return true;
-		} else// Èç¹û²»ÊÇback¼üÕı³£ÏìÓ¦
+		} else// å¦‚æœä¸æ˜¯backé”®æ­£å¸¸å“åº”
 		{
 			return super.onKeyDown(keyCode, event);
 		}
@@ -450,7 +450,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 	@Override 
 	public void onBackPressed() { 
 	super.onBackPressed(); 
-		System.out.println("°´ÏÂÁËback¼ü onBackPressed()"); 
+		System.out.println("æŒ‰ä¸‹äº†backé”® onBackPressed()"); 
 		RestaurantListActivity.this.finish();
 	} 
 
@@ -475,11 +475,11 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 	
 	private void showExitLoginDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("ÌáÊ¾")
-				.setMessage("ÄúÒÑ¾­µÇÂ¼,ÊÇ·ñÒªÍË³öÖØĞÂµÇÂ¼?")
+				.setTitle("æç¤º")
+				.setMessage("æ‚¨å·²ç»ç™»å½•,æ˜¯å¦è¦é€€å‡ºé‡æ–°ç™»å½•?")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -489,11 +489,11 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 						Intent intent1 = new Intent();
 						intent1.setAction("login");
 						sendBroadcast(intent1);
-						Toast.makeText(context, "³É¹¦ÍË³öµÇÂ¼", Toast.LENGTH_SHORT)
+						Toast.makeText(context, "æˆåŠŸé€€å‡ºç™»å½•", Toast.LENGTH_SHORT)
 								.show();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

@@ -1,4 +1,4 @@
-/*
+ï»¿/*
  * Copyright 2007 ZXing authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
- * URLÀàĞÍ½á¹û£¬×Ô¶¨ÒåURLÊı¾İ´Ó¸ÃÀà×ÅÊÖ
+ * URLç±»å‹ç»“æœï¼Œè‡ªå®šä¹‰URLæ•°æ®ä»è¯¥ç±»ç€æ‰‹
  * @author chenkai
  */
 public final class URIParsedResult extends ParsedResult {

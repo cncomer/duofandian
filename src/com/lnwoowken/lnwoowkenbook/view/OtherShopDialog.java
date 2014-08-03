@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.view;
+﻿package com.lnwoowken.lnwoowkenbook.view;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -22,7 +22,7 @@ public class OtherShopDialog extends Dialog{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_otershop);
-		//getWindow().setFeatureInt(Window.FEATURE_NO_TITLE, R.layout.title);//自定义布�?���?
+		//getWindow().setFeatureInt(Window.FEATURE_NO_TITLE, R.layout.title);//镊畾涔夊竷锟?锟斤拷锟?
 		
 	}
 }

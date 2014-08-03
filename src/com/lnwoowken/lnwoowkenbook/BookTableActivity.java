@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 import java.lang.reflect.Field;
 
@@ -96,17 +96,17 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	private Matrix savedMatrix = new Matrix();
 	private DisplayMetrics dm;
 	private Bitmap bitmap;
-	/** ×îĞ¡Ëõ·Å±ÈÀı */
+	/** æœ€å°ç¼©æ”¾æ¯”ä¾‹ */
 	float minScaleR = 1.0f;
-	/** ×î´óËõ·Å±ÈÀı */
+	/** æœ€å¤§ç¼©æ”¾æ¯”ä¾‹ */
 	static final float MAX_SCALE = 10f;
-	/** ³õÊ¼×´Ì¬ */
+	/** åˆå§‹çŠ¶æ€ */
 	static final int NONE = 0;
-	/** ÍÏ¶¯ */
+	/** æ‹–åŠ¨ */
 	static final int DRAG = 1;
-	/** Ëõ·Å */
+	/** ç¼©æ”¾ */
 	static final int ZOOM = 2;
-	/** µ±Ç°Ä£Ê½ */
+	/** å½“å‰æ¨¡å¼ */
 	int mode = NONE;
 	private PointF prev = new PointF();
 	private PointF mid = new PointF();
@@ -178,7 +178,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			super.handleMessage(msg);
 			if (time_list != null) {
 
-				String str = "¿ÉÔ¤¶©µÄÊ±¼ä:\n\t";
+				String str = "å¯é¢„è®¢çš„æ—¶é—´:\n\t";
 				for (int i = 0; i < time_list.size(); i++) {
 					str += time_list.get(i).getRsTime().replace("/", "-") + "~"
 							+ time_list.get(i).getRdTime().replace("/", "-")
@@ -218,7 +218,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	};
 
 	/**
-	 * ´Ó·şÎñÆ÷»ñÈ¡¸ÃÉÌÆÌµÄ¿ÉÔ¤¶©Ê±¼ä
+	 * ä»æœåŠ¡å™¨è·å–è¯¥å•†é“ºçš„å¯é¢„è®¢æ—¶é—´
 	 * 
 	 * @author sean
 	 * 
@@ -284,7 +284,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * ´Ó·şÎñÆ÷»ñÈ¡ËùÑ¡Ê±¼äµÄ¸ÃÉÌÆÌµÄËùÓĞ¿ÉÔ¤¶©×À×ÓµÄĞÅÏ¢
+	 * ä»æœåŠ¡å™¨è·å–æ‰€é€‰æ—¶é—´çš„è¯¥å•†é“ºçš„æ‰€æœ‰å¯é¢„è®¢æ¡Œå­çš„ä¿¡æ¯
 	 * 
 	 * @author sean
 	 * 
@@ -301,16 +301,16 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			if (selectDate==null||selectDate.equals("")) {
 				selectDate = Tools.dateToString(calendar.getToday(), "MEDIUM");
 				date = Tools.dateToString(calendar.getToday(), "MEDIUM");
-				if (date.contains("Äê")) {
-					date = date.replace("Äê", "-");
+				if (date.contains("å¹´")) {
+					date = date.replace("å¹´", "-");
 					
 				}
-				if (date.contains("ÔÂ")) {
-					date = date.replace("ÔÂ", "-");
+				if (date.contains("æœˆ")) {
+					date = date.replace("æœˆ", "-");
 					
 				}
-				if (date.contains("ÈÕ")) {
-					date = date.replace("ÈÕ", "");
+				if (date.contains("æ—¥")) {
+					date = date.replace("æ—¥", "");
 					
 				}
 				Log.d("selected Date----today:====================", date);
@@ -318,16 +318,16 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			else {
 				
 				date = selectDate;
-				if (date.contains("Äê")) {
-					date = date.replace("Äê", "-");
+				if (date.contains("å¹´")) {
+					date = date.replace("å¹´", "-");
 					
 				}
-				if (date.contains("ÔÂ")) {
-					date = date.replace("ÔÂ", "-");
+				if (date.contains("æœˆ")) {
+					date = date.replace("æœˆ", "-");
 					
 				}
-				if (date.contains("ÈÕ")) {
-					date = date.replace("ÈÕ", "");
+				if (date.contains("æ—¥")) {
+					date = date.replace("æ—¥", "");
 					
 				}
 			}
@@ -367,7 +367,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * ´Ó·şÎñÆ÷»ñÈ¡ËùÑ¡Ê±¼äµÄ¸ÃÉÌÆÌµÄËùÓĞ¿ÉÔ¤¶©×À×ÓµÄĞÅÏ¢
+	 * ä»æœåŠ¡å™¨è·å–æ‰€é€‰æ—¶é—´çš„è¯¥å•†é“ºçš„æ‰€æœ‰å¯é¢„è®¢æ¡Œå­çš„ä¿¡æ¯
 	 * 
 	 * @author sean
 	 * 
@@ -399,17 +399,17 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 			// String jsonStr = "{\"id\":\"" + tableStyle +
 			// "\",\"se\":\""+se+"\",\"dt\":\"" + selectDate
-			if (selectDate.contains("Äê")) {
-				selectDate = selectDate.replace("Äê", "-");
+			if (selectDate.contains("å¹´")) {
+				selectDate = selectDate.replace("å¹´", "-");
 			}
-			if (selectDate.contains("ÔÂ")) {
-				selectDate = selectDate.replace("ÔÂ", "-");
+			if (selectDate.contains("æœˆ")) {
+				selectDate = selectDate.replace("æœˆ", "-");
 			}
-			if (selectDate.contains("ÈÕ")) {
-				selectDate = selectDate.replace("ÈÕ", "");
+			if (selectDate.contains("æ—¥")) {
+				selectDate = selectDate.replace("æ—¥", "");
 			}
 			
-			//selectDate = selectDate.replace("ÔÂ", "-");
+			//selectDate = selectDate.replace("æœˆ", "-");
 			String jsonStr = "{\"id\":\"" + tableStyle + "\",\"se\":\"" + se
 					+ "\",\"dt\":\"" + selectDate + "\"}";// "{\"Sid\":\""+shopId+"\",\"Tid\":\"1\",\"RSTime\":\""+time+"\"}";
 			jsonStr = Client.encodeBase64(jsonStr);
@@ -491,12 +491,12 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			super.handleMessage(msg);
 			if (msg.arg1 == 1) {
 				Toast.makeText(context,
-						"·ÃÎÊ·şÎñÆ÷´íÎó»ò" + context.getString(R.string.no_data),
+						"è®¿é—®æœåŠ¡å™¨é”™è¯¯æˆ–" + context.getString(R.string.no_data),
 						Toast.LENGTH_SHORT).show();
 			}
 			if (msg.arg1 == 2) {
 				Toast.makeText(BookTableActivity.this,
-						"¶Ô²»Æğ,ÄúËùÑ¡ÔñµÄÊ±¼äµ±Ç°Ã»ÓĞÈÎºÎ×À×Ó¿ÉÒÔÔ¤¶¨", Toast.LENGTH_LONG).show();
+						"å¯¹ä¸èµ·,æ‚¨æ‰€é€‰æ‹©çš„æ—¶é—´å½“å‰æ²¡æœ‰ä»»ä½•æ¡Œå­å¯ä»¥é¢„å®š", Toast.LENGTH_LONG).show();
 			}
 
 		}
@@ -580,7 +580,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 					tableInfo = null;
 					tableInfo = tableList.get(arg2);
 					if (tableInfo != null) {
-						textView_selectTable.setText("ÄúÑ¡ÔñµÄ×À×ÓÊÇ:"
+						textView_selectTable.setText("æ‚¨é€‰æ‹©çš„æ¡Œå­æ˜¯:"
 								+ tableInfo.getAname());
 					}
 
@@ -656,7 +656,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			public void onFocusChange(View v, boolean hasFocus) {
 				// TODO Auto-generated method stub
 				if (hasFocus) {
-					if (edite_content.getText().toString().contains("±¸×¢")) {
+					if (edite_content.getText().toString().contains("å¤‡æ³¨")) {
 						edite_content.setText("");
 					}
 				}else {
@@ -671,7 +671,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Toast.makeText(context, "¾´ÇëÆÚ´ı", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "æ•¬è¯·æœŸå¾…", Toast.LENGTH_SHORT).show();
 			}
 		});
 		// tableStyleThread = new RequestTableStyleThread();
@@ -683,7 +683,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * ³õÊ¼»¯Ò»Ğ©¿Ø¼ş
+	 * åˆå§‹åŒ–ä¸€äº›æ§ä»¶
 	 */
 	@SuppressWarnings("deprecation")
 	private void initialize() {
@@ -742,10 +742,10 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		
 		tableRelativeLayout.setLayoutParams(l1);
 		tableImage.setLayoutParams(l2);
-		tableImage.setImageBitmap(bitmap);// Ìî³ä¿Ø¼ş
-		tableImage.setOnTouchListener(this);// ÉèÖÃ´¥ÆÁ¼àÌı
+		tableImage.setImageBitmap(bitmap);// å¡«å……æ§ä»¶
+		tableImage.setOnTouchListener(this);// è®¾ç½®è§¦å±ç›‘å¬
 		dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);// »ñÈ¡·Ö±æÂÊ
+		getWindowManager().getDefaultDisplay().getMetrics(dm);// è·å–åˆ†è¾¨ç‡
 		// minZoom();
 		center();
 		tableImage.setImageMatrix(matrix);
@@ -757,7 +757,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	// /**
-	// * ÉèÖÃ´Ó·şÎñÆ÷ÄÃµ½µÄ¸ÃÉÌÆÌµÄ¿ÉÔ¤¶©Ê±¼äµ½TEXTVIEW
+	// * è®¾ç½®ä»æœåŠ¡å™¨æ‹¿åˆ°çš„è¯¥å•†é“ºçš„å¯é¢„è®¢æ—¶é—´åˆ°TEXTVIEW
 	// */
 	// private Handler setTimeHandler = new Handler() {
 	//
@@ -770,10 +770,10 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	// if (dialog_calendar != null) {
 	// time1 = getTimeString(calendar);
 	// // String timeStr = time1.replace("%20", " ");
-	// textView_selectTime.setText("ÄúÑ¡ÔñµÄÊ±¼äÊÇ:" + time1);
+	// textView_selectTime.setText("æ‚¨é€‰æ‹©çš„æ—¶é—´æ˜¯:" + time1);
 	// // boolean b = Tools.checkTime(find);
 	// // Log.d("checktime____________", b+"");
-	// Log.d("Ñ¡ÔñµÄÊ±¼ä", time1);
+	// Log.d("é€‰æ‹©çš„æ—¶é—´", time1);
 	// isTimeChosen = true;
 	// isTableChosen = false;
 	//
@@ -815,14 +815,14 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * ÔÚÕâÀï½ÓÊÕ²¢´¦ÀíÖ§¸¶½á¹û
+	 * åœ¨è¿™é‡Œæ¥æ”¶å¹¶å¤„ç†æ”¯ä»˜ç»“æœ
 	 * 
 	 * @param requestCode
-	 *            Ö§¸¶ÇëÇóÂë
+	 *            æ”¯ä»˜è¯·æ±‚ç 
 	 * @param resultCode
-	 *            SDK¹Ì¶¨·µ»Ø88888
+	 *            SDKå›ºå®šè¿”å›88888
 	 * @param data
-	 *            Ö§¸¶½á¹ûºÍ½á¹ûÃèÊöĞÅÏ¢
+	 *            æ”¯ä»˜ç»“æœå’Œç»“æœæè¿°ä¿¡æ¯
 	 * @author niexuyang 2012-8-20
 	 */
 	@Override
@@ -838,22 +838,22 @@ public class BookTableActivity extends Activity implements OnClickListener,
 					Toast.LENGTH_LONG).show();
 			super.onActivityResult(requestCode, resultCode, data);
 		} else {
-			Toast.makeText(this, "Ö§¸¶Ê§°Ü", Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "æ”¯ä»˜å¤±è´¥", Toast.LENGTH_LONG).show();
 		}
 	}
 
 	/**
-	 * µ÷ÓÃSDK½øĞĞÖ§¸¶
+	 * è°ƒç”¨SDKè¿›è¡Œæ”¯ä»˜
 	 * 
 	 * @param tradNo
-	 *            ÏÂµ¥»ñµÃµÄ½»Ò×ºÅ
+	 *            ä¸‹å•è·å¾—çš„äº¤æ˜“å·
 	 * @param payType
-	 *            µ±Ç°ĞèÒªµÄÖ§¸¶ÀàĞÍ
+	 *            å½“å‰éœ€è¦çš„æ”¯ä»˜ç±»å‹
 	 * @author niexuyang 2012-8-28
 	 */
 	private void startSdkToPay(String tradNo, int payType) {
-		// Ìø×ªµ½SDKÒ³Ãæ
-		// ½«ÊäÈëµÄ²ÎÊı´«ÈëActivity
+		// è·³è½¬åˆ°SDKé¡µé¢
+		// å°†è¾“å…¥çš„å‚æ•°ä¼ å…¥Activity
 		Intent intent = new Intent();
 		intent.putExtra("tradeNo", tradNo);
 		intent.putExtra("payType", payType);
@@ -861,7 +861,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		startActivityForResult(intent, requestCode);
 	}
 
-	/** * ¸ù¾İÊÖ»úµÄ·Ö±æÂÊ´Ópx(ÏñËØ) µÄµ¥Î» ×ª³ÉÎªdp */
+	/** * æ ¹æ®æ‰‹æœºçš„åˆ†è¾¨ç‡ä»px(åƒç´ ) çš„å•ä½ è½¬æˆä¸ºdp */
 	public static int pxToDip(Context context, float dpValue) {
 		final float scale = context.getResources().getDisplayMetrics().density;
 		return (int) (dpValue * scale + 0.5f);
@@ -922,13 +922,13 @@ public class BookTableActivity extends Activity implements OnClickListener,
 						// showTimeDialog();
 					}
 				});
-				// »ñÈ¡ÈÕÀú¿Ø¼ş¶ÔÏó
+				// è·å–æ—¥å†æ§ä»¶å¯¹è±¡
 				// calendar = (CalendarView)findViewById(R.id.calendar);
-				// »ñÈ¡ÈÕÀúÖĞÄêÔÂ ya[0]ÎªÄê£¬ya[1]ÎªÔÂ£¨¸ñÊ½´ó¼Ò¿ÉÒÔ×ÔĞĞÔÚÈÕÀú¿Ø¼şÖĞ¸Ä£©
+				// è·å–æ—¥å†ä¸­å¹´æœˆ ya[0]ä¸ºå¹´ï¼Œya[1]ä¸ºæœˆï¼ˆæ ¼å¼å¤§å®¶å¯ä»¥è‡ªè¡Œåœ¨æ—¥å†æ§ä»¶ä¸­æ”¹ï¼‰
 				String[] ya = calendar.getYearAndmonth().split("-");
-				title_date.setText(ya[0] + "Äê" + ya[1]);
+				title_date.setText(ya[0] + "å¹´" + ya[1]);
 
-				// ÉèÖÃ¿Ø¼ş¼àÌı£¬¿ÉÒÔ¼àÌıµ½µã»÷µÄÃ¿Ò»Ìì£¨´ó¼ÒÒ²¿ÉÒÔÔÚ¿Ø¼şÖĞ×ÔĞĞÉè¶¨£©
+				// è®¾ç½®æ§ä»¶ç›‘å¬ï¼Œå¯ä»¥ç›‘å¬åˆ°ç‚¹å‡»çš„æ¯ä¸€å¤©ï¼ˆå¤§å®¶ä¹Ÿå¯ä»¥åœ¨æ§ä»¶ä¸­è‡ªè¡Œè®¾å®šï¼‰
 				calendar.setOnItemClickListener(new calendarItemClickListener());
 
 				btn_left = (ImageButton) dialog_calendar
@@ -940,10 +940,10 @@ public class BookTableActivity extends Activity implements OnClickListener,
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						// µã»÷ÉÏÒ»ÔÂ Í¬Ñù·µ»ØÄêÔÂ
+						// ç‚¹å‡»ä¸Šä¸€æœˆ åŒæ ·è¿”å›å¹´æœˆ
 						String leftYearAndmonth = calendar.clickLeftMonth();
 						String[] lya = leftYearAndmonth.split("-");
-						title_date.setText(lya[0] + "Äê" + lya[1]);
+						title_date.setText(lya[0] + "å¹´" + lya[1]);
 					}
 				});
 				btn_Right.setOnClickListener(new OnClickListener() {
@@ -951,10 +951,10 @@ public class BookTableActivity extends Activity implements OnClickListener,
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						// µã»÷ÏÂÒ»ÔÂ
+						// ç‚¹å‡»ä¸‹ä¸€æœˆ
 						String rightYearAndmonth = calendar.clickRightMonth();
 						String[] rya = rightYearAndmonth.split("-");
-						title_date.setText(rya[0] + "Äê" + rya[1]);
+						title_date.setText(rya[0] + "å¹´" + rya[1]);
 					}
 				});
 
@@ -964,7 +964,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				Message msg1 = new Message();
 				setTable_handler.sendMessage(msg1);
 			} else {
-				Toast.makeText(BookTableActivity.this, "ÇëÏÈÑ¡ÔñÊ±¼ä",
+				Toast.makeText(BookTableActivity.this, "è¯·å…ˆé€‰æ‹©æ—¶é—´",
 						Toast.LENGTH_LONG).show();
 			}
 		} else if (v.equals(btn_more)) {
@@ -974,11 +974,11 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
 						LayoutParams.WRAP_CONTENT);
 				popupWindow.showAsDropDown(v, 10, 10);
-				// Ê¹Æä¾Û¼¯
+				// ä½¿å…¶èšé›†
 				// popupWindow.setFocusable(true);
-				// ÉèÖÃÔÊĞíÔÚÍâµã»÷ÏûÊ§
+				// è®¾ç½®å…è®¸åœ¨å¤–ç‚¹å‡»æ¶ˆå¤±
 				// popupWindow.setOutsideTouchable(true);
-				// Ë¢ĞÂ×´Ì¬£¨±ØĞëË¢ĞÂ·ñÔòÎŞĞ§£©
+				// åˆ·æ–°çŠ¶æ€ï¼ˆå¿…é¡»åˆ·æ–°å¦åˆ™æ— æ•ˆï¼‰
 				popupWindow.update();
 			} else {
 				popupWindow.dismiss();
@@ -1027,11 +1027,11 @@ public class BookTableActivity extends Activity implements OnClickListener,
 							startActivity(intent);
 							//BookTableActivity.this.finish();
 						} else {
-							Toast.makeText(context, "ÇëÑ¡Ôñ×À×Ó", Toast.LENGTH_SHORT)
+							Toast.makeText(context, "è¯·é€‰æ‹©æ¡Œå­", Toast.LENGTH_SHORT)
 									.show();
 						}
 					} else {
-						Toast.makeText(context, "ÄúÑ¡ÔñµÄÊ±¼ä²»ÔÚ¸ÃµêµÄ¿ÉÔ¤¶¨Ê±¼ä·¶Î§ÄÚ",
+						Toast.makeText(context, "æ‚¨é€‰æ‹©çš„æ—¶é—´ä¸åœ¨è¯¥åº—çš„å¯é¢„å®šæ—¶é—´èŒƒå›´å†…",
 								Toast.LENGTH_SHORT).show();
 					}
 				} else {
@@ -1039,7 +1039,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				}
 			}
 			else {
-				Toast.makeText(context, "Äú»¹Ã»ÓĞ½ÓÊÜĞ­Òé", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "æ‚¨è¿˜æ²¡æœ‰æ¥å—åè®®", Toast.LENGTH_SHORT).show();
 			}
 			
 			
@@ -1133,7 +1133,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				style.setVisibleItems(3);
 				TextView title = (TextView) tableStyle
 						.findViewById(R.id.textView_title);
-				title.setText("ÇëÑ¡Ôñ×ÀĞÍ");
+				title.setText("è¯·é€‰æ‹©æ¡Œå‹");
 				Button btnOk = (Button) tableStyle.findViewById(R.id.button_ok);
 				btnOk.setOnClickListener(new OnClickListener() {
 
@@ -1151,24 +1151,24 @@ public class BookTableActivity extends Activity implements OnClickListener,
 							String str = "";
 							String money = list_tableStyle.get(style.getCurrentItem()).getCount();
 //							for (int i = 0; i < list_tableStyle.size(); i++) {
-//								str += list_tableStyle.get(i).getStyleName()+"Ïû·ÑÂú"+list_tableStyle.get(i).getCount()+"Ôª,";
+//								str += list_tableStyle.get(i).getStyleName()+"æ¶ˆè´¹æ»¡"+list_tableStyle.get(i).getCount()+"å…ƒ,";
 //							}
-							str +="ÄúËùÔ¤¶¨µÄ"
-								+list_tableStyle.get(style.getCurrentItem()).getStyleName()+"ĞèÂú×ã"
-								+money+"Ôª.µ±ÄúµÄÏû·ÑÂú×ã"
-								+money+"Ôª,ÄúËùÖ§¸¶µÄ¶¨½ğ½«ÔÚ1-3¸ö¹¤×÷ÈÕÄÚÈ«¶î·µ»¹.\nµ±ÄúµÄÏû·ÑÎ´Âú×ã"
-								+money+"Ôª,ÄúËùÖ§¸¶µÄ¶¨½ğ½«²»Óè·µ»¹.\nĞ¡ÌáÊ¾:ÎªÈ·±£ÄúµÄÏû·Ñ½ğ¶îÕæÊµĞÔ,ÇëÄúÔÚ²ÍÌü½áÕËÊ±,¸æÖª²ÍÌü·şÎñÔ±ÄúÊÇ¶á·¹µã»áÔ±.\nÄúÊÇ·ñ½ÓÊÜ?";						
-//							str +=list_tableStyle.get(style.getCurrentItem()).getStyleName()+"Ïû·ÑÂú"+list_tableStyle.get(style.getCurrentItem()).getCount()
-//									+ "¼´¿ÉÏíÊÜÃâÅÅ¶ÓÓÅÏÈÈ¨.\nÄúÊÇ·ñ½ÓÊÜ?";
+							str +="æ‚¨æ‰€é¢„å®šçš„"
+								+list_tableStyle.get(style.getCurrentItem()).getStyleName()+"éœ€æ»¡è¶³"
+								+money+"å…ƒ.å½“æ‚¨çš„æ¶ˆè´¹æ»¡è¶³"
+								+money+"å…ƒ,æ‚¨æ‰€æ”¯ä»˜çš„å®šé‡‘å°†åœ¨1-3ä¸ªå·¥ä½œæ—¥å†…å…¨é¢è¿”è¿˜.\nå½“æ‚¨çš„æ¶ˆè´¹æœªæ»¡è¶³"
+								+money+"å…ƒ,æ‚¨æ‰€æ”¯ä»˜çš„å®šé‡‘å°†ä¸äºˆè¿”è¿˜.\nå°æç¤º:ä¸ºç¡®ä¿æ‚¨çš„æ¶ˆè´¹é‡‘é¢çœŸå®æ€§,è¯·æ‚¨åœ¨é¤å…ç»“è´¦æ—¶,å‘ŠçŸ¥é¤å…æœåŠ¡å‘˜æ‚¨æ˜¯å¤ºé¥­ç‚¹ä¼šå‘˜.\næ‚¨æ˜¯å¦æ¥å—?";						
+//							str +=list_tableStyle.get(style.getCurrentItem()).getStyleName()+"æ¶ˆè´¹æ»¡"+list_tableStyle.get(style.getCurrentItem()).getCount()
+//									+ "å³å¯äº«å—å…æ’é˜Ÿä¼˜å…ˆæƒ.\næ‚¨æ˜¯å¦æ¥å—?";
 							showCheckDialog(str);
 							//textView.setText(str);
-							textView_selectTime.setText("ÄúÑ¡ÔñµÄÊ±¼äÊÇ:" + selectDate
+							textView_selectTime.setText("æ‚¨é€‰æ‹©çš„æ—¶é—´æ˜¯:" + selectDate
 									+ " " + timeName);
 							isTimeChosen = true;
 							isTableChosen = false;
 						}
 						else {
-							Toast.makeText(context, "¸ÃµêÔİÎŞÈÎºÎ×ÀĞÍ¿É¹©Ñ¡Ôñ", Toast.LENGTH_SHORT).show();
+							Toast.makeText(context, "è¯¥åº—æš‚æ— ä»»ä½•æ¡Œå‹å¯ä¾›é€‰æ‹©", Toast.LENGTH_SHORT).show();
 							tableStyle.dismiss();
 						}
 						
@@ -1182,11 +1182,11 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	
 	private void showCheckDialog(String str) {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("ÌáÊ¾")
+				.setTitle("æç¤º")
 				.setMessage(str)
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("½ÓÊÜ", new DialogInterface.OnClickListener() {
+				setPositiveButton("æ¥å—", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -1198,7 +1198,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 //						//BookTableActivity.this.finish();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -1232,11 +1232,11 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 	private void showDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("ÌáÊ¾")
-				.setMessage("Äú»¹Ã»ÓĞµÇÂ¼,ÇëÏÈµÇÂ¼")
+				.setTitle("æç¤º")
+				.setMessage("æ‚¨è¿˜æ²¡æœ‰ç™»å½•,è¯·å…ˆç™»å½•")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -1247,7 +1247,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 						//BookTableActivity.this.finish();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -1264,22 +1264,22 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * ´¥ÆÁ¼àÌı
+	 * è§¦å±ç›‘å¬
 	 */
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 
 		switch (event.getAction() & MotionEvent.ACTION_MASK) {
-		// Ö÷µã°´ÏÂ
+		// ä¸»ç‚¹æŒ‰ä¸‹
 		case MotionEvent.ACTION_DOWN:
 			savedMatrix.set(matrix);
 			prev.set(event.getX(), event.getY());
 			mode = DRAG;
 			break;
-		// ¸±µã°´ÏÂ
+		// å‰¯ç‚¹æŒ‰ä¸‹
 		case MotionEvent.ACTION_POINTER_DOWN:
 			dist = spacing(event);
-			// Èç¹ûÁ¬ĞøÁ½µã¾àÀë´óÓÚ10£¬ÔòÅĞ¶¨Îª¶àµãÄ£Ê½
+			// å¦‚æœè¿ç»­ä¸¤ç‚¹è·ç¦»å¤§äº10ï¼Œåˆ™åˆ¤å®šä¸ºå¤šç‚¹æ¨¡å¼
 			if (spacing(event) > 10f) {
 				savedMatrix.set(matrix);
 				midPoint(mid, event);
@@ -1312,18 +1312,18 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * ÏŞÖÆ×î´ó×îĞ¡Ëõ·Å±ÈÀı£¬×Ô¶¯¾ÓÖĞ
+	 * é™åˆ¶æœ€å¤§æœ€å°ç¼©æ”¾æ¯”ä¾‹ï¼Œè‡ªåŠ¨å±…ä¸­
 	 */
 	private void CheckView() {
 		float p[] = new float[9];
 		matrix.getValues(p);
 		if (mode == ZOOM) {
 			if (p[0] < minScaleR) {
-				// Log.d("", "µ±Ç°Ëõ·Å¼¶±ğ:"+p[0]+",×îĞ¡Ëõ·Å¼¶±ğ:"+minScaleR);
+				// Log.d("", "å½“å‰ç¼©æ”¾çº§åˆ«:"+p[0]+",æœ€å°ç¼©æ”¾çº§åˆ«:"+minScaleR);
 				matrix.setScale(minScaleR, minScaleR);
 			}
 			if (p[0] > MAX_SCALE) {
-				// Log.d("", "µ±Ç°Ëõ·Å¼¶±ğ:"+p[0]+",×î´óËõ·Å¼¶±ğ:"+MAX_SCALE);
+				// Log.d("", "å½“å‰ç¼©æ”¾çº§åˆ«:"+p[0]+",æœ€å¤§ç¼©æ”¾çº§åˆ«:"+MAX_SCALE);
 				matrix.set(savedMatrix);
 			}
 		}
@@ -1331,7 +1331,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * ×îĞ¡Ëõ·Å±ÈÀı£¬×î´óÎª100%
+	 * æœ€å°ç¼©æ”¾æ¯”ä¾‹ï¼Œæœ€å¤§ä¸º100%
 	 */
 	private void minZoom() {
 		minScaleR = Math.min(
@@ -1347,7 +1347,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * ºáÏò¡¢×İÏò¾ÓÖĞ
+	 * æ¨ªå‘ã€çºµå‘å±…ä¸­
 	 */
 	protected void center(boolean horizontal, boolean vertical) {
 
@@ -1362,7 +1362,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		float deltaX = 0, deltaY = 0;
 
 		if (vertical) {
-			// Í¼Æ¬Ğ¡ÓÚÆÁÄ»´óĞ¡£¬Ôò¾ÓÖĞÏÔÊ¾¡£´óÓÚÆÁÄ»£¬ÉÏ·½Áô¿ÕÔòÍùÉÏÒÆ£¬ÏÂ·½Áô¿ÕÔòÍùÏÂÒÆ
+			// å›¾ç‰‡å°äºå±å¹•å¤§å°ï¼Œåˆ™å±…ä¸­æ˜¾ç¤ºã€‚å¤§äºå±å¹•ï¼Œä¸Šæ–¹ç•™ç©ºåˆ™å¾€ä¸Šç§»ï¼Œä¸‹æ–¹ç•™ç©ºåˆ™å¾€ä¸‹ç§»
 			// int screenHeight = dm.heightPixels;
 			int screenHeight = layout_shoptable.getHeight();
 			if (height < screenHeight) {
@@ -1390,7 +1390,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Á½µãµÄ¾àÀë
+	 * ä¸¤ç‚¹çš„è·ç¦»
 	 */
 	private float spacing(MotionEvent event) {
 		float x = event.getX(0) - event.getX(1);
@@ -1399,7 +1399,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	}
 
 	/**
-	 * Á½µãµÄÖĞµã
+	 * ä¸¤ç‚¹çš„ä¸­ç‚¹
 	 */
 	private void midPoint(PointF point, MotionEvent event) {
 		float x = event.getX(0) + event.getX(1);

@@ -36,7 +36,7 @@ import com.lnwoowken.lnwoowkenbook.R;
  * Handles address book entries.
  *
  * @author dswitkin@google.com (Daniel Switkin)
- * @author yeluosuifeng2005@gmail.com (³Â¿­)
+ * @author yeluosuifeng2005@gmail.com (é™ˆå‡¯)
  */
 public final class AddressBookResultHandler extends ResultHandler {
 
@@ -86,10 +86,10 @@ public final class AddressBookResultHandler extends ResultHandler {
     }
 
     fields = new boolean[MAX_BUTTON_COUNT];
-    fields[0] = true; // ·µ»ØÉ¨Ãè
+    fields[0] = true; // è¿”å›æ‰«æ
     //Add contact is always available
     fields[1] = true;
-    fields[2] = false;  //ÏÂÔØ²¢½»»»
+    fields[2] = false;  //ä¸‹è½½å¹¶äº¤æ¢
     fields[3] = hasBidMessage;
 
     buttonCount = 0;
@@ -114,7 +114,7 @@ public final class AddressBookResultHandler extends ResultHandler {
       case 1:
         return R.string.button_add_contact;
       case 2:
-        return R.string.button_dial;//²¦ºÅ
+        return R.string.button_dial;//æ‹¨å·
       case 3:
         return R.string.button_get_cloud_card;
       default:
@@ -140,10 +140,10 @@ public final class AddressBookResultHandler extends ResultHandler {
         break;
       case 2:
     	//if has more than one phone number, we call the first one.
-        dialPhone(addressResult.getPhoneNumbers()[0]);//²¦ºÅ
+        dialPhone(addressResult.getPhoneNumbers()[0]);//æ‹¨å·
         break;
       case 3:
-    	//ÏÂÔØÔÆÃûÆ¬²¢Ìí¼ÓÁªÏµÈË
+    	//ä¸‹è½½äº‘åç‰‡å¹¶æ·»åŠ è”ç³»äºº
     	AddrBookUtils.getInstance().downloadAndViewContactLock(addressResult.getBid(), true);
         //sendEmail(addressResult.getEmails()[0], null, null);
     	break;

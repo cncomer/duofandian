@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.adapter;
+﻿package com.lnwoowken.lnwoowkenbook.adapter;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ import com.lnwoowken.lnwoowkenbook.model.ShopTree;
 import com.lnwoowken.lnwoowkenbook.model.TabObj;
 
 /**
- * ѡ�
+ * 选项卡
  * @author sean
  *
  */
@@ -31,7 +31,7 @@ public class TabAdapter extends BaseAdapter {
 	private List<ShopTree> list;
 	private int selectedPosition = -1;
 	//private String[][] arr;
-//	private Typeface typeface12=null;//΢���ź�
+//	private Typeface typeface12=null;//微软雅黑
 //	private Typeface typeface3=null;//times
 	public TabAdapter(Context context,List<ShopTree> list) {
 		this.context = context;

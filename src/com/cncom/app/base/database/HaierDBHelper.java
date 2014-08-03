@@ -1,4 +1,4 @@
-package com.cncom.app.base.database;
+ï»¿package com.cncom.app.base.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -15,19 +15,19 @@ private static final String TAG = "HaierDBHelper";
   private static final int DB_VERSION = 5;
   private static final String DB_NAME = "cncom.db";
   public static final String ID = "_id";
-  /**0Îª¿É¼û£¬1ÎªÉ¾³ı£¬Í¨³£ÓÃÀ´±ê¼ÇÒ»ÌõÊı¾İÓ¦¸Ã±»É¾³ı£¬ÊÇ²»¿É¼ûµÄ£¬°üº¬¸Ã×Ö¶ÎµÄ±í²éÑ¯ĞèÒªÔö¼Ódeleted=0µÄÌõ¼ş*/
+  /**0ä¸ºå¯è§ï¼Œ1ä¸ºåˆ é™¤ï¼Œé€šå¸¸ç”¨æ¥æ ‡è®°ä¸€æ¡æ•°æ®åº”è¯¥è¢«åˆ é™¤ï¼Œæ˜¯ä¸å¯è§çš„ï¼ŒåŒ…å«è¯¥å­—æ®µçš„è¡¨æŸ¥è¯¢éœ€è¦å¢åŠ deleted=0çš„æ¡ä»¶*/
   public static final String FLAG_DELETED = "deleted";
   public static final String DATE = "date";
   //account table
   public static final String TABLE_NAME_ACCOUNTS = "accounts";
-  /**ÓÃ»§Î¨Ò»Ê¶±ğÂë*/
+  /**ç”¨æˆ·å”¯ä¸€è¯†åˆ«ç */
   public static final String ACCOUNT_UID = "uid";
   public static final String ACCOUNT_DEFAULT = "isDefault";
   public static final String ACCOUNT_TEL = "tel";
   public static final String ACCOUNT_NAME = "name";
   public static final String ACCOUNT_PWD = "password";
   public static final String ACCOUNT_HOME_COUNT = "home_count";
-  /**ÎÒµÄ¿¨Æ¬µÄ¸öÊı*/
+  /**æˆ‘çš„å¡ç‰‡çš„ä¸ªæ•°*/
   public static final String ACCOUNT_MYCARD_COUNT = "mycard_count";
   public static final String ACCOUNT_PHONES = "phones";
 

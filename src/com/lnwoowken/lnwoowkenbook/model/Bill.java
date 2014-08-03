@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.model;
+ï»¿package com.lnwoowken.lnwoowkenbook.model;
 
 public class Bill {
 	private String id;
@@ -11,9 +11,9 @@ public class Bill {
 	private String Ip;
 	private String phone;
 	private String version;
-	private String shopName;//--µêÃû
-	private String date;//--Ô¤¶¨ÈÕÆÚ
-	private int timeId;//--Ô¤¶¨Ê±¼äID
+	private String shopName;//--åº—å
+	private String date;//--é¢„å®šæ—¥æœŸ
+	private int timeId;//--é¢„å®šæ—¶é—´ID
 	public String getId() {
 		return id;
 	}
@@ -74,11 +74,11 @@ public class Bill {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	private int state;//--¶©µ¥×´Ì¬
-	private String tableName;//--×ÀÃû
-	private String tableStyle;//--×ÀĞÍ
-	private String createTime;//--¶©µ¥Éú³ÉÊ±¼ä
-	private String billNumber;//--¶©µ¥ºÅ
+	private int state;//--è®¢å•çŠ¶æ€
+	private String tableName;//--æ¡Œå
+	private String tableStyle;//--æ¡Œå‹
+	private String createTime;//--è®¢å•ç”Ÿæˆæ—¶é—´
+	private String billNumber;//--è®¢å•å·
 	public String getShopName() {
 		return shopName;
 	}

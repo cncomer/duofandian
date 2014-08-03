@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.adapter;
+ï»¿package com.lnwoowken.lnwoowkenbook.adapter;
 
 
 import java.util.List;
@@ -11,7 +11,7 @@ import android.widget.ImageView;
 public class MyViewPagerAdapter extends PagerAdapter {
 	private List<ImageView> mListViews;
 //	int     mGalleryItemBackground;  
-//    private Context mContext;         /* ImageAdapterµÄ½¨¹¹×Ó */  
+//    private Context mContext;         /* ImageAdapterçš„å»ºæ„å­ */  
 //    private int[] myImageIds = {R.drawable.photo1,   
 //                                    R.drawable.photo2,   
 //                                    R.drawable.photo3,   
@@ -33,11 +33,11 @@ public class MyViewPagerAdapter extends PagerAdapter {
 	public Object instantiateItem(ViewGroup container, int position) {			
 		// container.addView(mListViews.get(position), 0);
 //		 ImageView i = new ImageView(mContext);                  
-//	     // i.setImageResource(myImageIds[position%myImageIds.length]);              /* Éè¶¨Í¼Æ¬¸øimageView¶ÔÏó */  
-//	      i.setScaleType(ImageView.ScaleType.FIT_XY);            /* ÖØĞÂÉè¶¨Í¼Æ¬µÄ¿í¸ß */  
-//	      i.setLayoutParams(new LinearLayout.LayoutParams(Contant.GALLERY_WIDTH, Contant.GALLERY_HEIGHT));  /* ÖØĞÂÉè¶¨LayoutµÄ¿í¸ß */  
+//	     // i.setImageResource(myImageIds[position%myImageIds.length]);              /* è®¾å®šå›¾ç‰‡ç»™imageViewå¯¹è±¡ */  
+//	      i.setScaleType(ImageView.ScaleType.FIT_XY);            /* é‡æ–°è®¾å®šå›¾ç‰‡çš„å®½é«˜ */  
+//	      i.setLayoutParams(new LinearLayout.LayoutParams(Contant.GALLERY_WIDTH, Contant.GALLERY_HEIGHT));  /* é‡æ–°è®¾å®šLayoutçš„å®½é«˜ */  
 //	      i.setBackgroundResource(myImageIds[position%myImageIds.length]); 
-	      container.addView(mListViews.get(position));/* Éè¶¨Gallery±³¾°Í¼ */  
+	      container.addView(mListViews.get(position));/* è®¾å®šGalleryèƒŒæ™¯å›¾ */  
 	    //  return i;
 		 return mListViews.get(position);
 	}

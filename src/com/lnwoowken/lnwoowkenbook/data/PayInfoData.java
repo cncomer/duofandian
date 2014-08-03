@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.data;
+ï»¿package com.lnwoowken.lnwoowkenbook.data;
 
 import com.lnwoowken.lnwoowkenbook.model.PayInfo;
 
@@ -52,7 +52,7 @@ public class PayInfoData  implements Parcelable{
     }  
       
     public PayInfoData(Parcel in){  
-        //Ë³ĞòÒªºÍwriteToParcelĞ´µÄË³ĞòÒ»Ñù  
+        //é¡ºåºè¦å’ŒwriteToParcelå†™çš„é¡ºåºä¸€æ ·  
         shopId = in.readInt();  
         tableId = in.readString();  
         time = in.readString();

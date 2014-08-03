@@ -1,4 +1,4 @@
-package com.cncom.app.base.database;
+ï»¿package com.cncom.app.base.database;
 
 import android.content.ContentResolver;
 import android.net.Uri;
@@ -43,10 +43,10 @@ public class BjnoteContent {
     	public static final Uri CONTENT_URI = Uri.withAppendedPath(BjnoteContent.CONTENT_URI, "scan_history");
     }
     
-    /**µ÷ÓÃ¸ÃÀàµÄCONTENT_URIÀ´¹Ø±ÕÉè±¸Êı¾İ¿â*/
+    /**è°ƒç”¨è¯¥ç±»çš„CONTENT_URIæ¥å…³é—­è®¾å¤‡æ•°æ®åº“*/
     public static class CloseDeviceDatabase extends BjnoteContent{
     	private static final Uri CONTENT_URI = Uri.withAppendedPath(BjnoteContent.DEVICE_CONTENT_URI, "closedevice");
-    	/**µ÷ÓÃ¸Ã·½·¨À´¹Ø±ÕÉè±¸Êı¾İ¿â*/
+    	/**è°ƒç”¨è¯¥æ–¹æ³•æ¥å…³é—­è®¾å¤‡æ•°æ®åº“*/
     	public static void closeDeviceDatabase(ContentResolver cr) {
     		cr.query(CONTENT_URI, null, null, null, null);
     	}

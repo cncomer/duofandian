@@ -42,12 +42,12 @@ public class VcfAsyncDownloadUtils {
 	
 	/**
 	 * 
-	 * @param mm             ÒªÏÂÔØµÄÃûºÅ
-	 * @param notifyProgress ÊÇ·ñÍ¨Öª½ø¶È£¬Ä¿Ç°²»Ö§³Ö
+	 * @param mm             è¦ä¸‹è½½çš„åå·
+	 * @param notifyProgress æ˜¯å¦é€šçŸ¥è¿›åº¦ï¼Œç›®å‰ä¸æ”¯æŒ
 	 * @param handler
-	 * @param taskType       ÈÎÎñÀàĞÍ
-	 * @param forceDownload  ÊÇ·ñÇ¿ÖÆÏÂÔØ
-	 * @param recordDownload ÊÇ·ñ¼ÇÂ¼ÏÂÔØ
+	 * @param taskType       ä»»åŠ¡ç±»å‹
+	 * @param forceDownload  æ˜¯å¦å¼ºåˆ¶ä¸‹è½½
+	 * @param recordDownload æ˜¯å¦è®°å½•ä¸‹è½½
 	 * @return
 	 */
 	public VcfAsyncDownloadTask executeTask(String mm, boolean notifyProgress, Handler handler, TaskType taskType, boolean forceDownload, boolean recordDownload) {
@@ -56,7 +56,7 @@ public class VcfAsyncDownloadUtils {
 		task.execute();
 		return task;
 	}
-	/**Òì²½ÏÂÔØÃûÆ¬±ã½İ·½·¨£¬¸Ã·½·¨²»»áÇ¿ÆÈÏÂÔØºÍ±£´æÏÂÔØ¼ÇÂ¼£¬¶àÓÃÓÚÔ¤ÀÀÃûÆ¬Ê¹ÓÃ*/
+	/**å¼‚æ­¥ä¸‹è½½åç‰‡ä¾¿æ·æ–¹æ³•ï¼Œè¯¥æ–¹æ³•ä¸ä¼šå¼ºè¿«ä¸‹è½½å’Œä¿å­˜ä¸‹è½½è®°å½•ï¼Œå¤šç”¨äºé¢„è§ˆåç‰‡ä½¿ç”¨*/
 	public VcfAsyncDownloadTask executeTaskSimply(String mm, boolean notifyProgress, Handler handler, TaskType taskType) {
 		VcfAsyncDownloadTask task = new VcfAsyncDownloadTask(mm, notifyProgress, handler, taskType, false);
 		task.execute();
@@ -71,16 +71,16 @@ public class VcfAsyncDownloadUtils {
 	
 	public static abstract class VcfAsyncDownloadHandler extends Handler {
 		
-		/**ÏÂÔØÈÎÎñ¿ªÊ¼ÁË,Èç¹û×ÓÀàÃ»ÓĞ¸²¸ÇÕâ¸ö·½·¨£¬½«ÌáÊ¾ÏÂÔØÖĞ...*/
+		/**ä¸‹è½½ä»»åŠ¡å¼€å§‹äº†,å¦‚æœå­ç±»æ²¡æœ‰è¦†ç›–è¿™ä¸ªæ–¹æ³•ï¼Œå°†æç¤ºä¸‹è½½ä¸­...*/
 		public void onDownloadStart(){
 			notifyMessage(R.string.msg_downloading_text);
 		}
 		
 		public void downloadProgress(int currentSize, int totalSize){}
 		/**
-		 * Èç¹ûÏÂÔØ³ö´íÁË£¬addressBookParsedResultÎªnull, outMsgÎª´íÎóĞÅÏ¢£¬Èç¹û×ÓÀà²»¸²¸Ç¸Ã·½·¨£¬ÄÇÃ´»áÌáÊ¾ÏÂÔØĞÅÏ¢;
+		 * å¦‚æœä¸‹è½½å‡ºé”™äº†ï¼ŒaddressBookParsedResultä¸ºnull, outMsgä¸ºé”™è¯¯ä¿¡æ¯ï¼Œå¦‚æœå­ç±»ä¸è¦†ç›–è¯¥æ–¹æ³•ï¼Œé‚£ä¹ˆä¼šæç¤ºä¸‹è½½ä¿¡æ¯;
 		 * @param addressBookParsedResult
-		 * @param error µ±addressBookParsedResultÎªnullÊ±µÄ´íÎóĞÅÏ¢
+		 * @param error å½“addressBookParsedResultä¸ºnullæ—¶çš„é”™è¯¯ä¿¡æ¯
 		 */
 		public void onDownloadFinished(AddressBookParsedResult addressBookParsedResult, String outMsg) {
 			if (!TextUtils.isEmpty(outMsg)) {
@@ -88,14 +88,14 @@ public class VcfAsyncDownloadUtils {
 			}
 		}
 		/**
-		 * Èç¹û×ÓÀà·µ»Øtrue,Ôò±íÊ¾×ÓÀàÏûºÄÁËÏÂÔØ½áÊøÊÂ¼ş£¬²»»á½øĞĞ±£´æ¶¯×÷£¬Ä¬ÈÏÒª±£´æ
+		 * å¦‚æœå­ç±»è¿”å›true,åˆ™è¡¨ç¤ºå­ç±»æ¶ˆè€—äº†ä¸‹è½½ç»“æŸäº‹ä»¶ï¼Œä¸ä¼šè¿›è¡Œä¿å­˜åŠ¨ä½œï¼Œé»˜è®¤è¦ä¿å­˜
 		 * @return false
 		 */
 		public boolean onDownloadFinishedInterrupted() {
 			return false;
 		}
 		/**
-		 * Èç¹û×ÓÀà·µ»Øtrue,±íÊ¾²»ÔÙ×öÌø×ªµ½ÒÑ±£´æµÄÃûÆ¬½çÃæµÄ¶¯×÷,Ä¬ÈÏ²»Ìø×ª
+		 * å¦‚æœå­ç±»è¿”å›true,è¡¨ç¤ºä¸å†åšè·³è½¬åˆ°å·²ä¿å­˜çš„åç‰‡ç•Œé¢çš„åŠ¨ä½œ,é»˜è®¤ä¸è·³è½¬
 		 * @param contactUri
 		 * @return
 		 */
@@ -103,9 +103,9 @@ public class VcfAsyncDownloadUtils {
 			return true;
 		}
 		/***
-		 * ±£´æÁªÏµÈË
+		 * ä¿å­˜è”ç³»äºº
 		 * @param addressBookParsedResult
-		 * @return ÁªÏµÈËuri
+		 * @return è”ç³»äººuri
 		 */
 		public static Uri saveContactOrView(AddressBookParsedResult addressBookParsedResult) {
 			if (DebugUtils.DEBUG_DOWNLAOD_THREAD) Log.v(TAG, "begin createContactEntry ");
@@ -159,7 +159,7 @@ public class VcfAsyncDownloadUtils {
 								}
 								
 							} else {
-								//Ã»ÓĞ³É¹¦µÄ½âÎö³ÉAddressBookParsedResult¶ÔÏó
+								//æ²¡æœ‰æˆåŠŸçš„è§£ææˆAddressBookParsedResultå¯¹è±¡
 								DebugUtils.logContactAsyncDownload(TAG, "VCardResultParser.parseResult() failed " + savedPath);
 								VcfAsyncDownloadTask.deleteDownloadedFile(savedPath);
 								VcfAsyncDownloadHandler.this.post(new Runnable(){
@@ -214,7 +214,7 @@ public class VcfAsyncDownloadUtils {
 			MyApplication.getInstance().showMessage(resId, Toast.LENGTH_SHORT);
 		}
 		/**
-		 * ÏÂÔØºó±£´æÁªÏµÈËĞÅÏ¢
+		 * ä¸‹è½½åä¿å­˜è”ç³»äººä¿¡æ¯
 		 * @param mAddressBookParsedResult
 		 */
 		private void internalSaveContactAfterDownload(AddressBookParsedResult mAddressBookParsedResult) {

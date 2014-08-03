@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.tools;
+ï»¿package com.lnwoowken.lnwoowkenbook.tools;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -22,25 +22,25 @@ public class DataProcess {
 	public boolean saveObj(Context context,Object obj,String key) {  
 	    SharedPreferences preferences = context.getSharedPreferences("base64",  
 	            Activity.MODE_PRIVATE);  
-	    // ´´½¨×Ö½ÚÊä³öÁ÷  
+	    // åˆ›å»ºå­—èŠ‚è¾“å‡ºæµ  
 	    ByteArrayOutputStream baos = new ByteArrayOutputStream();  
 	    try {  
-	        // ´´½¨¶ÔÏóÊä³öÁ÷£¬²¢·â×°×Ö½ÚÁ÷  
+	        // åˆ›å»ºå¯¹è±¡è¾“å‡ºæµï¼Œå¹¶å°è£…å­—èŠ‚æµ  
 	        ObjectOutputStream oos = new ObjectOutputStream(baos);  
-	        // ½«¶ÔÏóĞ´Èë×Ö½ÚÁ÷  
+	        // å°†å¯¹è±¡å†™å…¥å­—èŠ‚æµ  
 	        oos.writeObject(obj);  
-	        // ½«×Ö½ÚÁ÷±àÂë³Ébase64µÄ×Ö·û´Ü  
+	        // å°†å­—èŠ‚æµç¼–ç æˆbase64çš„å­—ç¬¦çªœ  
 	        String oAuth_Base64 = new String(Base64.encodeBase64(baos  
 	                .toByteArray()));  
 	        Editor editor = preferences.edit();  
 	        editor.putString(key, oAuth_Base64);  
 	  
 	        editor.commit();  
-	        Log.i("ok", "´æ´¢³É¹¦"); 
+	        Log.i("ok", "å­˜å‚¨æˆåŠŸ"); 
 	        return true;
 	    } catch (IOException e) {  
 	        // TODO Auto-generated  
-	    	Log.i("failed", "´æ´¢Ê§°Ü"); 
+	    	Log.i("failed", "å­˜å‚¨å¤±è´¥"); 
 	    	return false;
 	    }  
 	     
@@ -53,16 +53,16 @@ public class DataProcess {
 	            Activity.MODE_PRIVATE);  
 	    String productBase64 = preferences.getString(key, "");  
 	              
-	    //¶ÁÈ¡×Ö½Ú  
+	    //è¯»å–å­—èŠ‚  
 	    byte[] base64 = Base64.decodeBase64(productBase64.getBytes());  
 	      
-	    //·â×°µ½×Ö½ÚÁ÷  
+	    //å°è£…åˆ°å­—èŠ‚æµ  
 	    ByteArrayInputStream bais = new ByteArrayInputStream(base64);  
 	    try {  
-	        //ÔÙ´Î·â×°  
+	        //å†æ¬¡å°è£…  
 	        ObjectInputStream bis = new ObjectInputStream(bais);  
 	        try {  
-	            //¶ÁÈ¡¶ÔÏó  
+	            //è¯»å–å¯¹è±¡  
 	            oAuth_1 = (Object) bis.readObject();  
 	        } catch (ClassNotFoundException e) {  
 	            // TODO Auto-generated catch block  

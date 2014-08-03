@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.adapter;
+ï»¿package com.lnwoowken.lnwoowkenbook.adapter;
 
 import com.lnwoowken.lnwoowkenbook.R;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
@@ -13,46 +13,46 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 public class MyGalleryAdapter extends BaseAdapter /*
-												 * ¸ÄĞ´BaseAdapter×Ô¶¨ÒåÒ»ImageAdapter
+												 * æ”¹å†™BaseAdapterè‡ªå®šä¹‰ä¸€ImageAdapter
 												 * class
 												 */
 {
 	int mGalleryItemBackground;
-	private Context mContext; /* ImageAdapterµÄ½¨¹¹×Ó */
+	private Context mContext; /* ImageAdapterçš„å»ºæ„å­ */
 	private int[] myImageIds = { R.drawable.pic_1, R.drawable.pic_2,
 			R.drawable.pic_3, R.drawable.pic_4, R.drawable.pic_5, };
 
 	public MyGalleryAdapter(Context c) {
 		// mContext = c;
 		// TypedArray a = obtainStyledAttributes(R.styleable.Gallery); /*
-		// Ê¹ÓÃÔÚres/values/attrs.xmlÖĞµÄ¶¨Òå µÄGalleryÊôĞÔ. */
+		// ä½¿ç”¨åœ¨res/values/attrs.xmlä¸­çš„å®šä¹‰ çš„Galleryå±æ€§. */
 		// mGalleryItemBackground =
 		// a.getResourceId(R.styleable.Gallery_android_galleryItemBackground,
-		// 0); ///*È¡µÃGalleryÊôĞÔµÄIndex
-		// a.recycle();/* ÈÃ¶ÔÏóµÄstyleableÊôĞÔÄÜ¹»·´¸´Ê¹ÓÃ */
+		// 0); ///*å–å¾—Galleryå±æ€§çš„Index
+		// a.recycle();/* è®©å¯¹è±¡çš„styleableå±æ€§èƒ½å¤Ÿåå¤ä½¿ç”¨ */
 		this.mContext = c;
 	}
 
-	public int getCount() /* Ò»¶¨ÒªÖØĞ´µÄ·½·¨getCount,´«»ØÍ¼Æ¬ÊıÄ¿×ÜÊı */
+	public int getCount() /* ä¸€å®šè¦é‡å†™çš„æ–¹æ³•getCount,ä¼ å›å›¾ç‰‡æ•°ç›®æ€»æ•° */
 	{
 		// return myImageIds.length;
 		return Integer.MAX_VALUE;
 	}
 
-	public Object getItem(int position) /* Ò»¶¨ÒªÖØĞ´µÄ·½·¨getItem,´«»Øposition */
+	public Object getItem(int position) /* ä¸€å®šè¦é‡å†™çš„æ–¹æ³•getItem,ä¼ å›position */
 	{
 		return position;
 	}
 
-	public long getItemId(int position) /* Ò»¶¨ÒªÖØĞ´µÄ·½·¨getItemId,´«»Øposition */
+	public long getItemId(int position) /* ä¸€å®šè¦é‡å†™çš„æ–¹æ³•getItemId,ä¼ å›position */
 	{
 		return position;
 	}
 	
 	/*
-	 * Ò»¶¨ÒªÖØĞ´µÄ·½·¨getView
+	 * ä¸€å®šè¦é‡å†™çš„æ–¹æ³•getView
 	 * 
-	 * ´«»ØÒ»View¶ÔÏó
+	 * ä¼ å›ä¸€Viewå¯¹è±¡
 	 */
 	public View getView(int position, View convertView, ViewGroup parent)
 	{

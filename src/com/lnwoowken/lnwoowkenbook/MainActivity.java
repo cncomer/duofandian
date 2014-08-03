@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +23,11 @@ import android.widget.LinearLayout;
 public class MainActivity extends Activity implements OnClickListener,
 OnPageChangeListener {
 	private  SharedPreferences preferences;
-	// Ò³¿¨ÄÚÈİ
+	// é¡µå¡å†…å®¹
 	private ViewPager viewPager;
 
 	private ViewPagerAdapter viewPagerAdapter;
-	// Ò³ÃæÁĞ±í
+	// é¡µé¢åˆ—è¡¨
 	private List<View> views;
 
 	private ImageView[] dots;
@@ -46,7 +46,7 @@ OnPageChangeListener {
 			viewPager = (ViewPager) findViewById(R.id.viewpager);
 			views = new ArrayList<View>();
 			
-	/*		// ³õÊ¼»¯Òıµ¼Í¼Æ¬ÁĞ±í
+	/*		// åˆå§‹åŒ–å¼•å¯¼å›¾ç‰‡åˆ—è¡¨
 			LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.WRAP_CONTENT,
 					LinearLayout.LayoutParams.FILL_PARENT);
@@ -58,7 +58,7 @@ OnPageChangeListener {
 				views.add(iv);
 			}*/
 			
-			// ³õÊ¼»¯Òıµ¼Í¼Æ¬ÁĞ±í
+			// åˆå§‹åŒ–å¼•å¯¼å›¾ç‰‡åˆ—è¡¨
 			LayoutInflater inflater = (LayoutInflater) this
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View view1 = inflater.inflate(R.layout.viewpager1, null);
@@ -66,11 +66,11 @@ OnPageChangeListener {
 			views.add(view1);
 			views.add(view2);
 			
-			// ³õÊ¼»¯Adapter
+			// åˆå§‹åŒ–Adapter
 			viewPagerAdapter = new ViewPagerAdapter(views);
 			//viewPager.setOnTouchListener(this);
 			viewPager.setAdapter(viewPagerAdapter);
-			// ÉèÖÃÒ»¸ö¼àÌıÆ÷£¬µ±ViewPagerÖĞµÄÒ³Ãæ¸Ä±äÊ±µ÷ÓÃ
+			// è®¾ç½®ä¸€ä¸ªç›‘å¬å™¨ï¼Œå½“ViewPagerä¸­çš„é¡µé¢æ”¹å˜æ—¶è°ƒç”¨
 			viewPager.setOnPageChangeListener(this);
 
 			initBottomDots();
@@ -109,7 +109,7 @@ OnPageChangeListener {
 
 
 //	/**
-//	 * ½øÈëÖ÷½çÃæ
+//	 * è¿›å…¥ä¸»ç•Œé¢
 //	 */
 //	public void GoToMainActivity() {
 //		Intent i = new Intent(MainActivity.this, FristActivity.class);
@@ -191,19 +191,19 @@ OnPageChangeListener {
 
 
 	private boolean checkFirst(){
-		//¶ÁÈ¡SharedPreferencesÖĞĞèÒªµÄÊı¾İ
+		//è¯»å–SharedPreferencesä¸­éœ€è¦çš„æ•°æ®
         preferences = getSharedPreferences("count",MODE_WORLD_READABLE);
         int count = preferences.getInt("count", 0);
         boolean b = false;
-        //ÅĞ¶Ï³ÌĞòÓëµÚ¼¸´ÎÔËĞĞ£¬Èç¹ûÊÇµÚÒ»´ÎÔËĞĞÔòÌø×ªµ½Òıµ¼Ò³Ãæ
+        //åˆ¤æ–­ç¨‹åºä¸ç¬¬å‡ æ¬¡è¿è¡Œï¼Œå¦‚æœæ˜¯ç¬¬ä¸€æ¬¡è¿è¡Œåˆ™è·³è½¬åˆ°å¼•å¯¼é¡µé¢
         if (count == 0) {
             b = true;
         }
         
         Editor editor = preferences.edit();
-        //´æÈëÊı¾İ
+        //å­˜å…¥æ•°æ®
         editor.putInt("count", ++count);
-        //Ìá½»ĞŞ¸Ä
+        //æäº¤ä¿®æ”¹
         editor.commit();
         return b;
 	}

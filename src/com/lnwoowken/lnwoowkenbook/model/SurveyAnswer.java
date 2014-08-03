@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.model;
+﻿package com.lnwoowken.lnwoowkenbook.model;
 
 public class SurveyAnswer {
 	public SurveyAnswer(int answerid,String text,int qid){

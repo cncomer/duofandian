@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,7 +32,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		// »ñÈ¡ÆÁÄ»´óĞ¡
+		// è·å–å±å¹•å¤§å°
 		Display mDisplay = getWindowManager().getDefaultDisplay();
 		int width = mDisplay.getWidth();
 		int height = mDisplay.getHeight();
@@ -49,7 +49,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		String text = "¾´ÇëÆÚ´ı£¡";
+		String text = "æ•¬è¯·æœŸå¾…ï¼";
 		if (v.equals(btn_back)) {
 			UserInfoActivity.this.finish();
 		}
@@ -115,11 +115,11 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	}
 
 	private void showExitLoginDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this).setTitle("ÌáÊ¾")
-				.setMessage("ÄúÈ·¶¨ÒªÍË³öµÇÂ¼Âğ?")
+		Dialog alertDialog = new AlertDialog.Builder(this).setTitle("æç¤º")
+				.setMessage("æ‚¨ç¡®å®šè¦é€€å‡ºç™»å½•å—?")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -130,7 +130,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 						UserInfoActivity.this.finish();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

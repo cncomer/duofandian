@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,19 +26,19 @@ public class FirstStartActivity extends Activity {
 	}
 	
 	private boolean checkFirst(){
-		//¶ÁÈ¡SharedPreferencesÖĞĞèÒªµÄÊı¾İ
+		//è¯»å–SharedPreferencesä¸­éœ€è¦çš„æ•°æ®
         preferences = getSharedPreferences("count",MODE_WORLD_READABLE);
         int count = preferences.getInt("count", 0);
         boolean b = false;
-        //ÅĞ¶Ï³ÌĞòÓëµÚ¼¸´ÎÔËĞĞ£¬Èç¹ûÊÇµÚÒ»´ÎÔËĞĞÔòÌø×ªµ½Òıµ¼Ò³Ãæ
+        //åˆ¤æ–­ç¨‹åºä¸ç¬¬å‡ æ¬¡è¿è¡Œï¼Œå¦‚æœæ˜¯ç¬¬ä¸€æ¬¡è¿è¡Œåˆ™è·³è½¬åˆ°å¼•å¯¼é¡µé¢
         if (count == 0) {
             b = true;
         }
         
         Editor editor = preferences.edit();
-        //´æÈëÊı¾İ
+        //å­˜å…¥æ•°æ®
         editor.putInt("count", ++count);
-        //Ìá½»ĞŞ¸Ä
+        //æäº¤ä¿®æ”¹
         editor.commit();
         return b;
 	}

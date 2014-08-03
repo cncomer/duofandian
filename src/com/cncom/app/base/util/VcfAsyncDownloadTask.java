@@ -28,47 +28,47 @@ import com.shwy.bestjoy.utils.NotifyRegistrant;
 
 public class VcfAsyncDownloadTask extends AsyncTask<Void, Void, Boolean>{
 	private static final String TAG = "VcfAsyncDownloadTask";
-	/**ÏÂÔØÊ§°Ü*/
+	/**ä¸‹è½½å¤±è´¥*/
 	public static final int EVENT_DOWNLOAD_FAILED =1000;
-	/**ÏÂÔØ³É¹¦*/
+	/**ä¸‹è½½æˆåŠŸ*/
 	public static final int EVENT_DOWNLOAD_SUCCESS =1001;
-	/**±£´æÊ§°Ü*/
+	/**ä¿å­˜å¤±è´¥*/
 	public static final int EVENT_SAVE_FAILED =1003;
-	/**¸ÃÃûºÅÃ»ÓĞ¶ÔÓ¦µÄÃûÆ¬*/
+	/**è¯¥åå·æ²¡æœ‰å¯¹åº”çš„åç‰‡*/
 	public static final int EVENT_NOBCID =1004;
-	/**ÏÂÔØ¿ªÊ¼, arg1±íÊ¾µ±Ç°ÒÑÏÂÔØµÄ×Ö½Ú£¬ arg2±íÊ¾ÏÂÔØÎÄ¼şµÄ×Ü×Ö½ÚÊı*/
+	/**ä¸‹è½½å¼€å§‹, arg1è¡¨ç¤ºå½“å‰å·²ä¸‹è½½çš„å­—èŠ‚ï¼Œ arg2è¡¨ç¤ºä¸‹è½½æ–‡ä»¶çš„æ€»å­—èŠ‚æ•°*/
 	public static final int EVENT_PROGRESS_START =1005;
 	
-	/**ÏÂÔØÈ¡Ïû*/
+	/**ä¸‹è½½å–æ¶ˆ*/
 	public static final int EVENT_DOWNLOAD_CANCELED =1006;
-	/**ÒªÏÂÔØµÄvcfÎÄ¼şÒÑ¾­´æÔÚÁË*/
+	/**è¦ä¸‹è½½çš„vcfæ–‡ä»¶å·²ç»å­˜åœ¨äº†*/
 	public static final int EVENT_EXIST_VCF = 1007;
-	/**½âÎövcfÊ§°ÜÊ§°Ü*/
+	/**è§£ævcfå¤±è´¥å¤±è´¥*/
 	public static final int EVENT_PARSE_ERROR =1008;
-	/**ÏÂÔØ¿ªÊ¼*/
+	/**ä¸‹è½½å¼€å§‹*/
 	public static final int EVENT_DOWNLOAD_START =1009;
-	/**±£´æ³É¹¦*/
+	/**ä¿å­˜æˆåŠŸ*/
 	public static final int EVENT_SAVE_CONTACT_FINISH =1010;
 	
 	private boolean mIsCanceled = false;
 	private boolean mIsNotifyProgress = false;
 	private File mSavedFile;
-	private static final int DOWNLOAD_CACHE_SIZE = 4096;// ÏÂÔØ»º´æ£¬´óĞ¡Îª1024B=1KB
+	private static final int DOWNLOAD_CACHE_SIZE = 4096;// ä¸‹è½½ç¼“å­˜ï¼Œå¤§å°ä¸º1024B=1KB
 	
 	private Handler mHandler;
 	private String mMM, mUrl;
-	/**µ±Õâ¸öÖµÎªtrueµÄÊ±ºò£¬¼´Ê¹±¾µØÒÑ¾­´æÔÚvcfÎÄ¼şÁË£¬ÈÔÈ»»á½øĞĞÏÂÔØ*/
+	/**å½“è¿™ä¸ªå€¼ä¸ºtrueçš„æ—¶å€™ï¼Œå³ä½¿æœ¬åœ°å·²ç»å­˜åœ¨vcfæ–‡ä»¶äº†ï¼Œä»ç„¶ä¼šè¿›è¡Œä¸‹è½½*/
 	private boolean mIsForceUpdate = false;
 	private boolean mIsNeedToSave = true;
 	
 	private TaskType mTaskType;
-	/**ÊÇ·ñ¼ÇÂ¼Ä³ÈËÏÂÔØÁËËûÈËÃûÆ¬£¬Ä¬ÈÏÊÇfalse*/
+	/**æ˜¯å¦è®°å½•æŸäººä¸‹è½½äº†ä»–äººåç‰‡ï¼Œé»˜è®¤æ˜¯false*/
 	private boolean mRecordDownload = false;
 	
-	public static final long OLD_FILE_TIMESTAMP = 1000 * 60 * 60 * 24 * 7; //10Ìì£¬³¬¹ı10ÌìÎÒÃÇÈÏÎªÊı¾İÊÇ¾ÉµÄ£¬ĞèÒª¸üĞÂÁË¡£
+	public static final long OLD_FILE_TIMESTAMP = 1000 * 60 * 60 * 24 * 7; //10å¤©ï¼Œè¶…è¿‡10å¤©æˆ‘ä»¬è®¤ä¸ºæ•°æ®æ˜¯æ—§çš„ï¼Œéœ€è¦æ›´æ–°äº†ã€‚
 	
 	/**
-	 * @deprecated 1.62°æ±¾ÇëÊ¹ÓÃ{@link #VcfAsyncDownloadTask(String, boolean, Handler, TaskType, boolean)}
+	 * @deprecated 1.62ç‰ˆæœ¬è¯·ä½¿ç”¨{@link #VcfAsyncDownloadTask(String, boolean, Handler, TaskType, boolean)}
 	 * @param mm
 	 * @param notifyProgress
 	 * @param handler
@@ -114,7 +114,7 @@ public class VcfAsyncDownloadTask extends AsyncTask<Void, Void, Boolean>{
 		}
 		return null;
 	}
-	/**ÊÇ·ñÊÇÔ¤ÀÀËûÈËÃûÆ¬*/
+	/**æ˜¯å¦æ˜¯é¢„è§ˆä»–äººåç‰‡*/
 	public static boolean isPreview(TaskType taskType) {
 		return taskType == TaskType.PREVIEW;
 	}
@@ -148,14 +148,14 @@ public class VcfAsyncDownloadTask extends AsyncTask<Void, Void, Boolean>{
 			DebugUtils.logE(TAG, "download canceled, you must apply a Handler by calling register(Handler handler)");
 			throw new RuntimeException("download canceled, you must apply a Handler by calling register(Handler handler)");
 		}
-		//Í¨ÖªÏÂÔØ¿ªÊ¼
+		//é€šçŸ¥ä¸‹è½½å¼€å§‹
 		notify(EVENT_DOWNLOAD_START,null);
-//		//add by chenki, 20131225, Ã»ÓĞµÇÂ¼£¬ÏÂÔØvcfÎÄ¼şbugĞŞ¸´ begin
+//		//add by chenki, 20131225, æ²¡æœ‰ç™»å½•ï¼Œä¸‹è½½vcfæ–‡ä»¶bugä¿®å¤ begin
 //		if (!BjnoteAccountsManager.getInstance().isHasAccount()) {
 //			notifyError(EVENT_DOWNLOAD_FAILED, BJfileApp.getInstance().getString(R.string.msg_has_no_account_when_download_vcf));
 //			return false;
 //		}
-//		//add by chenki, 20131225, Ã»ÓĞµÇÂ¼£¬ÏÂÔØvcfÎÄ¼şbugĞŞ¸´ end
+//		//add by chenki, 20131225, æ²¡æœ‰ç™»å½•ï¼Œä¸‹è½½vcfæ–‡ä»¶bugä¿®å¤ end
 		InputStream is = null;
 		OutputStream out = null;
 		try {
@@ -164,11 +164,11 @@ public class VcfAsyncDownloadTask extends AsyncTask<Void, Void, Boolean>{
 			if (mSavedFile.exists()) {
 				DebugUtils.logContactAsyncDownload(TAG, "VCF exsited " + mSavedFile.getAbsolutePath());
 				if (!mIsForceUpdate && !isPreview(mTaskType) || !mIsForceUpdate && !isOldFile(mSavedFile)) {
-					//add by chenkai 20130603, ±£´æÏÂÔØ¼ÇÂ¼ begin
+					//add by chenkai 20130603, ä¿å­˜ä¸‹è½½è®°å½• begin
 					if (mRecordDownload) {
 						//TODO
 					}
-					//Èç¹û²»ÊÇÔ¤ÀÀËûÈËÃûÆ¬£¬ÄÇÃ´ÎÒÃÇ×ÜÊÇÖ±½ÓÊ¹ÓÃ´æÔÚµÄÎÄ¼ş£»»òÕßÊÇÔ¤ÀÀËûÈËÃûÆ¬£¬ÎÒÃÇÅĞ¶ÏÊÇ²»ÊÇĞèÒª¸üĞÂ£¬Èç¹ûĞèÒª£¬ÄÇÃ´É¾³ı»º´æÖØĞÂÏÂÔØ
+					//å¦‚æœä¸æ˜¯é¢„è§ˆä»–äººåç‰‡ï¼Œé‚£ä¹ˆæˆ‘ä»¬æ€»æ˜¯ç›´æ¥ä½¿ç”¨å­˜åœ¨çš„æ–‡ä»¶ï¼›æˆ–è€…æ˜¯é¢„è§ˆä»–äººåç‰‡ï¼Œæˆ‘ä»¬åˆ¤æ–­æ˜¯ä¸æ˜¯éœ€è¦æ›´æ–°ï¼Œå¦‚æœéœ€è¦ï¼Œé‚£ä¹ˆåˆ é™¤ç¼“å­˜é‡æ–°ä¸‹è½½
 					notify(EVENT_EXIST_VCF, getDownloadedFile().getAbsolutePath());
 					return false;
 				} else {
@@ -176,7 +176,7 @@ public class VcfAsyncDownloadTask extends AsyncTask<Void, Void, Boolean>{
 					DebugUtils.logContactAsyncDownload(TAG, "force downloading, and delete exsied " + mSavedFile.getAbsolutePath());
 				}
 			}
-			//add by chenkai 20130603, ±£´æÏÂÔØ¼ÇÂ¼ end
+			//add by chenkai 20130603, ä¿å­˜ä¸‹è½½è®°å½• end
 //			DebugUtils.logD(TAG, "HttpGet uri=" + mUrl);
 //			HttpGet httpRequest = new HttpGet(mUrl);
 //			HttpClient httpClient = AndroidHttpClient.newInstance("android");
@@ -199,12 +199,12 @@ public class VcfAsyncDownloadTask extends AsyncTask<Void, Void, Boolean>{
 			int currentSize = size;
 			DebugUtils.logContactAsyncDownload(TAG, "need to download " + totalSize);
 			DebugUtils.logContactAsyncDownload(TAG, "downloaded size " + currentSize);
-			//add by chenki, 20131225, Ã»ÓĞµÇÂ¼£¬ÏÂÔØvcfÎÄ¼şbugĞŞ¸´ begin
+			//add by chenki, 20131225, æ²¡æœ‰ç™»å½•ï¼Œä¸‹è½½vcfæ–‡ä»¶bugä¿®å¤ begin
 			if (size == -1) {
 				notifyError(EVENT_DOWNLOAD_FAILED, MyApplication.getInstance().getString(R.string.msg_read_no_data_when_download_vcf));
 				return false;
 			}
-			//add by chenki, 20131225, Ã»ÓĞµÇÂ¼£¬ÏÂÔØvcfÎÄ¼şbugĞŞ¸´ end
+			//add by chenki, 20131225, æ²¡æœ‰ç™»å½•ï¼Œä¸‹è½½vcfæ–‡ä»¶bugä¿®å¤ end
 			out = new BufferedOutputStream(new FileOutputStream(getDownloadedFile()));
 			notifyProgress(currentSize, (int) totalSize);
 			while (size >= 0) {
@@ -221,7 +221,7 @@ public class VcfAsyncDownloadTask extends AsyncTask<Void, Void, Boolean>{
 				}
 			}
 			out.flush();
-			//add by chenkai 20130603, ±£´æÏÂÔØ¼ÇÂ¼ begin
+			//add by chenkai 20130603, ä¿å­˜ä¸‹è½½è®°å½• begin
 			if (mRecordDownload) {
 				//TODO
 			}

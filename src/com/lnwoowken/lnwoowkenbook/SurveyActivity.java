@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +57,7 @@ public class SurveyActivity extends Activity {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 
 			RequestSurveyThread mThread = new RequestSurveyThread();
 			mThread.start();
@@ -71,7 +71,7 @@ public class SurveyActivity extends Activity {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 
 			CommitSurveyThread mThread = new CommitSurveyThread();
 			mThread.start();
@@ -86,7 +86,7 @@ public class SurveyActivity extends Activity {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 
 			adapter = new SurveyListAdapter(context, survey);
 			listViewSurvey.setAdapter(adapter);
@@ -101,9 +101,9 @@ public class SurveyActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_survey);
-		// --ÆÁÄ»²ÎÊı
+		// --å±å¹•å‚æ•°
 		Screen screen = ViewSettor.getScreen(SurveyActivity.this);
-		// --Íâ±ß¾à
+		// --å¤–è¾¹è·
 		Margins margin = new Margins(Tools.dip2px(context, 10), Tools.dip2px(
 				context, 10), Tools.dip2px(context, 10), Tools.dip2px(context,
 				10));
@@ -112,25 +112,25 @@ public class SurveyActivity extends Activity {
 		bottom = (LinearLayout) findViewById(R.id.bottom);
 
 		ViewSettor settor = new ViewSettor();
-		// --ÄÚ±ß¾à
+		// --å†…è¾¹è·
 		Paddings bottom_padding = new Paddings(Tools.dip2px(context, 10),
 				Tools.dip2px(context, 10), Tools.dip2px(context, 10),
 				Tools.dip2px(context, 10));
 		Paddings noPadding = new Paddings(0, 0, 0, 0);
-		// --titleµÄÎÄ×ÖÄÚ±ß¾à
+		// --titleçš„æ–‡å­—å†…è¾¹è·
 		Paddings textPadding = new Paddings(Tools.dip2px(context, 10),
 
 		Tools.dip2px(context, 10), Tools.dip2px(context, 10), Tools.dip2px(
 				context, 10));
-		// --ÉèÖÃ¶¥²¿¹¤¾ß£¨µ¼º½£©À¸ Ò»°ãÎŞÌØÊâÇé¿ö¿ÉÖ±½Ó°´ÕÕÕâÀïµÄ·½·¨µ÷ÓÃ£¬²ÎÊıÓë´Ë´¦ÏàÍ¬¼´¿É
+		// --è®¾ç½®é¡¶éƒ¨å·¥å…·ï¼ˆå¯¼èˆªï¼‰æ  ä¸€èˆ¬æ— ç‰¹æ®Šæƒ…å†µå¯ç›´æ¥æŒ‰ç…§è¿™é‡Œçš„æ–¹æ³•è°ƒç”¨ï¼Œå‚æ•°ä¸æ­¤å¤„ç›¸åŒå³å¯
 		settor.setTop(top, noPadding, new Size(
 				ViewGroup.LayoutParams.MATCH_PARENT, Tools.dip2px(context, 60)));
-		// --ÉèÖÃµ×²¿¹¤¾ß£¨µ¼º½£©À¸ Ò»°ãÎŞÌØÊâÇé¿ö¿ÉÖ±½Ó°´ÕÕÕâÀïµÄ·½·¨µ÷ÓÃ£¬²ÎÊıÓë´Ë´¦ÏàÍ¬¼´¿É
+		// --è®¾ç½®åº•éƒ¨å·¥å…·ï¼ˆå¯¼èˆªï¼‰æ  ä¸€èˆ¬æ— ç‰¹æ®Šæƒ…å†µå¯ç›´æ¥æŒ‰ç…§è¿™é‡Œçš„æ–¹æ³•è°ƒç”¨ï¼Œå‚æ•°ä¸æ­¤å¤„ç›¸åŒå³å¯
 		ViewSettor.setBottom(bottom, bottom_padding, new Size(
 				ViewGroup.LayoutParams.MATCH_PARENT,
 				ViewGroup.LayoutParams.WRAP_CONTENT));
 
-		// --ÉèÖÃÔÚRelativeLayoutÖĞ¿Ø¼şµÄ²ÎÊı£¨ÔÚLinearLayoutÖĞµÄ¿Ø¼şÔòµ÷ÓÃsetViewInLinearLayout·½·¨£¬Ê¹ÓÃ·½·¨ÓësetViewInRelativeLayoutÀàËÆ£©
+		// --è®¾ç½®åœ¨RelativeLayoutä¸­æ§ä»¶çš„å‚æ•°ï¼ˆåœ¨LinearLayoutä¸­çš„æ§ä»¶åˆ™è°ƒç”¨setViewInLinearLayoutæ–¹æ³•ï¼Œä½¿ç”¨æ–¹æ³•ä¸setViewInRelativeLayoutç±»ä¼¼ï¼‰
 		ViewSettor.setViewInRelativeLayout(
 				textPadding,
 				new Size(screen.getWidth() - margin.getLeft()
@@ -157,7 +157,7 @@ public class SurveyActivity extends Activity {
 		handler.sendMessage(msg);
 
 		// for (int i = 0; i < 10; i++) {
-		// SurveyQuestion question = new SurveyQuestion(i+1, "ÎÊÌâ"+(i+1)+"µÄÎÄ×Ö",
+		// SurveyQuestion question = new SurveyQuestion(i+1, "é—®é¢˜"+(i+1)+"çš„æ–‡å­—",
 		// 1);
 		// questions.add(question);
 		// }
@@ -165,7 +165,7 @@ public class SurveyActivity extends Activity {
 		// for (int i = 0; i < questions.size(); i++) {
 		// List<SurveyAnswer> answers = new ArrayList<SurveyAnswer>();
 		// for (int j = 0; j < 3; j++) {
-		// SurveyAnswer answer = new SurveyAnswer(1, "ÎÊÌâ"+(i+1)+"µÄ´ğ°¸"+(j+1),
+		// SurveyAnswer answer = new SurveyAnswer(1, "é—®é¢˜"+(i+1)+"çš„ç­”æ¡ˆ"+(j+1),
 		// questions.get(i).getQid());
 		// answers.add(answer);
 		//
@@ -196,7 +196,7 @@ public class SurveyActivity extends Activity {
 			// String jsonStr = "{\"id\":\"" + tableStyle +
 			// "\",\"se\":\""+se+"\",\"dt\":\"" + selectDate
 
-			// selectDate = selectDate.replace("ÔÂ", "-");
+			// selectDate = selectDate.replace("æœˆ", "-");
 			if (questions != null && questions.size() > 0) {
 				for (int i = 0; i < questions.size(); i++) {
 					
@@ -249,7 +249,7 @@ public class SurveyActivity extends Activity {
 			// String jsonStr = "{\"id\":\"" + tableStyle +
 			// "\",\"se\":\""+se+"\",\"dt\":\"" + selectDate
 
-			// selectDate = selectDate.replace("ÔÂ", "-");
+			// selectDate = selectDate.replace("æœˆ", "-");
 			String jsonStr = "{\"sid\":\"" + 1 + "\"}";// "{\"Sid\":\""+shopId+"\",\"Tid\":\"1\",\"RSTime\":\""+time+"\"}";
 			jsonStr = Client.encodeBase64(jsonStr);
 			String str = Tools.getRequestStr(Contant.SERVER_IP,
@@ -311,9 +311,9 @@ public class SurveyActivity extends Activity {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 
-			Toast.makeText(context, "·şÎñÆ÷Êı¾İ´íÎó,Ìá½»Ê§°Ü", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "æœåŠ¡å™¨æ•°æ®é”™è¯¯,æäº¤å¤±è´¥", Toast.LENGTH_SHORT).show();
 
 		}
 
@@ -325,9 +325,9 @@ public class SurveyActivity extends Activity {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 
-			Toast.makeText(context, "Ìá½»³É¹¦!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "æäº¤æˆåŠŸ!", Toast.LENGTH_SHORT).show();
 			SurveyActivity.this.finish();
 
 		}

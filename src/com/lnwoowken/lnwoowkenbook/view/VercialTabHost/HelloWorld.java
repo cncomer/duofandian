@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.view.VercialTabHost;
+锘縫ackage com.lnwoowken.lnwoowkenbook.view.VercialTabHost;
 
 
 
@@ -56,7 +56,7 @@ public class HelloWorld extends Activity implements OnClickListener {
 	
 	
 	/**
-	 * 启动线程
+	 * 鍚姩绾跨▼
 	 */
 	private Handler startThread_handler = new Handler() {
 
@@ -71,7 +71,7 @@ public class HelloWorld extends Activity implements OnClickListener {
 	};
 	
 	/**
-	 * 更新UI
+	 * 鏇存柊UI
 	 */
 	private Handler refrash_handler = new Handler() {
 

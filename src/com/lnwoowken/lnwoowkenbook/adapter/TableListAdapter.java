@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.adapter;
+Ôªøpackage com.lnwoowken.lnwoowkenbook.adapter;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ private Context context;
 	
 	private List<TableInfo> tableList;
 	
-//	private Typeface typeface12=null;//Œ¢»Ì—≈∫⁄
+//	private Typeface typeface12=null;//ÂæÆËΩØÈõÖÈªë
 //	private Typeface typeface3=null;//times
 	public TableListAdapter(Context context,List<TableInfo> tableList) {
 		this.context = context;
@@ -89,7 +89,7 @@ private Context context;
 			if (table_state.equals("")||table_state == null) {
 				Log.d("table_state================", "");
 				groupHolder.total.setBackgroundResource(R.drawable.blue_gray);
-				groupHolder.total.setText("«¿Œª");
+				groupHolder.total.setText("Êä¢‰Ωç");
 				groupHolder.time.setTextColor(R.color.main_color);
 			}
 			else {
@@ -99,13 +99,13 @@ private Context context;
 				case 3:
 				case 4:
 					groupHolder.total.setBackgroundResource(R.drawable.blue_gray);
-					groupHolder.total.setText("«¿Œª");
+					groupHolder.total.setText("Êä¢‰Ωç");
 					groupHolder.time.setTextColor(R.color.main_color);
 					break;
 
 				default:
 					groupHolder.total.setBackgroundResource(R.drawable.gray);
-					groupHolder.total.setText("∂·ÕÍ¿≤");
+					groupHolder.total.setText("Â§∫ÂÆåÂï¶");
 					groupHolder.time.setTextColor(R.color.gray);
 					break;
 				}
@@ -124,13 +124,13 @@ private Context context;
 //				if (total_num==0) {
 //				//	Log.d("free______________", "");
 //					groupHolder.row.setBackgroundResource(R.drawable.boder_bottom);
-//					table_state = "ø’œ–";
+//					table_state = "Á©∫Èó≤";
 //					
 //				}
 //				if (total_num == 1) {
 //				//	Log.d("unfree______________", "");
 //					groupHolder.row.setBackgroundColor(R.color.textColor_gray);
-//					table_state = "∑±√¶";
+//					table_state = "ÁπÅÂøô";
 //				}
 //				
 //				

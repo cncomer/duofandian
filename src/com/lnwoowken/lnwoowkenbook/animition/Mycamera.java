@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.animition;
+ï»¿package com.lnwoowken.lnwoowkenbook.animition;
 
 
 import android.graphics.Camera;
@@ -36,9 +36,9 @@ public class Mycamera extends Animation {
 			direction = 1;
 		}
 		
-		camera.translate(0, 0, 0); //x,y,zÖáµÄÆ«ÒÆÁ¿
-		camera.rotateY(360 * interpolatedTime * direction); //ÖĞĞÄÊÇÈÆYÖáĞı×ª
-		camera.getMatrix(matrix);//°ÑÎÒÃÇµÄÉãÏñÍ·¼ÓÔÚ±ä»»¾ØÕóÉÏ
+		camera.translate(0, 0, 0); //x,y,zè½´çš„åç§»é‡
+		camera.rotateY(360 * interpolatedTime * direction); //ä¸­å¿ƒæ˜¯ç»•Yè½´æ—‹è½¬
+		camera.getMatrix(matrix);//æŠŠæˆ‘ä»¬çš„æ‘„åƒå¤´åŠ åœ¨å˜æ¢çŸ©é˜µä¸Š
 		matrix.preTranslate(-centerX, -centerY); 
 		matrix.postTranslate(centerX, centerY);
 		camera.restore(); 

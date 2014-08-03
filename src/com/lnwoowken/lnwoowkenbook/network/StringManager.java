@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.network;
+﻿package com.lnwoowken.lnwoowkenbook.network;
 
 public class StringManager {
 

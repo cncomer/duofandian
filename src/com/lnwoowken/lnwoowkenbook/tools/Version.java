@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.tools;
+﻿package com.lnwoowken.lnwoowkenbook.tools;
 
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;

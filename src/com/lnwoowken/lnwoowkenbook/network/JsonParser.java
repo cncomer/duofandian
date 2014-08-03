@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.network;
+ï»¿package com.lnwoowken.lnwoowkenbook.network;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,10 +25,10 @@ import com.lnwoowken.lnwoowkenbook.model.UserInfo;
 
 public class JsonParser {
 	/**
-	 * ½âÎö·şÎñÆ÷·¢À´µÄÎÊ¾íµ÷²éµÄ´ğ°¸jsonÊı¾İ
+	 * è§£ææœåŠ¡å™¨å‘æ¥çš„é—®å·è°ƒæŸ¥çš„ç­”æ¡ˆjsonæ•°æ®
 	 * 
 	 * @param jsonData
-	 *            json¸ñÊ½µÄ×Ö·û´®
+	 *            jsonæ ¼å¼çš„å­—ç¬¦ä¸²
 	 */
 	@SuppressLint("NewApi")
 	public static List<SurveyAnswer> parseSurveyAnswerJson(String jsonData) {
@@ -74,10 +74,10 @@ public class JsonParser {
 	}
 	
 	/**
-	 * ½âÎö·şÎñÆ÷·¢À´µÄÎÊ¾íµ÷²éµÄjsonÊı¾İ
+	 * è§£ææœåŠ¡å™¨å‘æ¥çš„é—®å·è°ƒæŸ¥çš„jsonæ•°æ®
 	 * 
 	 * @param jsonData
-	 *            json¸ñÊ½µÄ×Ö·û´®
+	 *            jsonæ ¼å¼çš„å­—ç¬¦ä¸²
 	 */
 	@SuppressLint("NewApi")
 	public static List<SurveyQuestion> parseSurveyQuestionJson(String jsonData) {
@@ -123,10 +123,10 @@ public class JsonParser {
 	}
 	
 	/**
-	 * ½âÎö·şÎñÆ÷·¢À´µÄ°æ±¾ºÅ
+	 * è§£ææœåŠ¡å™¨å‘æ¥çš„ç‰ˆæœ¬å·
 	 * 
 	 * @param jsonData
-	 *            json¸ñÊ½µÄ×Ö·û´®
+	 *            jsonæ ¼å¼çš„å­—ç¬¦ä¸²
 	 */
 	@SuppressLint("NewApi")
 	public static String parseVersionCodeJson(String jsonData) {
@@ -183,10 +183,10 @@ public class JsonParser {
 	
 	
 	/**
-	 * ½âÎö·şÎñÆ÷·¢À´µÄÖ§¸¶ºÅ
+	 * è§£ææœåŠ¡å™¨å‘æ¥çš„æ”¯ä»˜å·
 	 * 
 	 * @param jsonData
-	 *            json¸ñÊ½µÄ×Ö·û´®
+	 *            jsonæ ¼å¼çš„å­—ç¬¦ä¸²
 	 */
 	@SuppressLint("NewApi")
 	public static String parseTradeNumberJson(String jsonData) {
@@ -231,10 +231,10 @@ public class JsonParser {
 	
 	
 	/**
-	 * ½âÎö·şÎñÆ÷·¢À´µÄÖ§¸¶ºÅ
+	 * è§£ææœåŠ¡å™¨å‘æ¥çš„æ”¯ä»˜å·
 	 * 
 	 * @param jsonData
-	 *            json¸ñÊ½µÄ×Ö·û´®
+	 *            jsonæ ¼å¼çš„å­—ç¬¦ä¸²
 	 */
 	@SuppressLint("NewApi")
 	public static String parseTreeShopJson(String jsonData) {
@@ -280,10 +280,10 @@ public class JsonParser {
 	
 	
 	/**
-	 * ½âÎö·şÎñÆ÷·¢À´µÄÖ§¸¶ĞÅÏ¢
+	 * è§£ææœåŠ¡å™¨å‘æ¥çš„æ”¯ä»˜ä¿¡æ¯
 	 * 
 	 * @param jsonData
-	 *            json¸ñÊ½µÄ×Ö·û´®
+	 *            jsonæ ¼å¼çš„å­—ç¬¦ä¸²
 	 */
 	@SuppressLint("NewApi")
 	public static String parsePayNumberJson(String jsonData) {
@@ -328,10 +328,10 @@ public class JsonParser {
 	
 	
 	/**
-	 * ½âÎö·şÎñÆ÷·¢À´µÄÓÃ»§ĞÅÏ¢µÄjsonÊı¾İ
+	 * è§£ææœåŠ¡å™¨å‘æ¥çš„ç”¨æˆ·ä¿¡æ¯çš„jsonæ•°æ®
 	 * 
 	 * @param jsonData
-	 *            json¸ñÊ½µÄ×Ö·û´®
+	 *            jsonæ ¼å¼çš„å­—ç¬¦ä¸²
 	 */
 	@SuppressLint("NewApi")
 	public static UserInfo parseUserInfoJson(String jsonData) {
@@ -410,10 +410,10 @@ public class JsonParser {
 	
 	
 	/**
-	 * ½âÎö·şÎñÆ÷·¢À´µÄ·ÖÀàÁĞ±íµÄjsonÊı¾İ
+	 * è§£ææœåŠ¡å™¨å‘æ¥çš„åˆ†ç±»åˆ—è¡¨çš„jsonæ•°æ®
 	 * 
 	 * @param jsonData
-	 *            json¸ñÊ½µÄ×Ö·û´®
+	 *            jsonæ ¼å¼çš„å­—ç¬¦ä¸²
 	 */
 	@SuppressLint("NewApi")
 	public static List<ShopTree> parseShopTreeJson(String jsonData) {
@@ -473,10 +473,10 @@ public class JsonParser {
 	
 
 	/**
-	 * ½âÎö·şÎñÆ÷·¢À´µÄËùÓĞÉÌÆÌIDµÄjsonÊı¾İ
+	 * è§£ææœåŠ¡å™¨å‘æ¥çš„æ‰€æœ‰å•†é“ºIDçš„jsonæ•°æ®
 	 * 
 	 * @param jsonData
-	 *            json¸ñÊ½µÄ×Ö·û´®
+	 *            jsonæ ¼å¼çš„å­—ç¬¦ä¸²
 	 */
 	@SuppressLint("NewApi")
 	public static List<StoreInfo> parseShopIdJson(String jsonData) {
@@ -573,10 +573,10 @@ public class JsonParser {
 	}
 	
 	/**
-	 * ½âÎö·şÎñÆ÷·¢À´µÄ¶©µ¥ÁĞ±íµÄjsonÊı¾İ
+	 * è§£ææœåŠ¡å™¨å‘æ¥çš„è®¢å•åˆ—è¡¨çš„jsonæ•°æ®
 	 * 
 	 * @param jsonData
-	 *            json¸ñÊ½µÄ×Ö·û´®
+	 *            jsonæ ¼å¼çš„å­—ç¬¦ä¸²
 	 */
 	@SuppressLint("NewApi")
 	public static List<Bill> parseBillListJson(String jsonData) {

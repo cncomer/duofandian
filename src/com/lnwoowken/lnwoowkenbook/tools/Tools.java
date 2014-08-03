@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook.tools;
+ï»¿package com.lnwoowken.lnwoowkenbook.tools;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -37,11 +37,11 @@ public class Tools {
 	
 	
 	/** 
-     * ½«pxÖµ×ª»»ÎªspÖµ£¬±£Ö¤ÎÄ×Ö´óĞ¡²»±ä 
+     * å°†pxå€¼è½¬æ¢ä¸ºspå€¼ï¼Œä¿è¯æ–‡å­—å¤§å°ä¸å˜ 
      *  
      * @param pxValue 
      * @param fontScale 
-     *            £¨DisplayMetricsÀàÖĞÊôĞÔscaledDensity£© 
+     *            ï¼ˆDisplayMetricsç±»ä¸­å±æ€§scaledDensityï¼‰ 
      * @return 
      */  
     public static int px2sp(Context context, float pxValue) {  
@@ -50,11 +50,11 @@ public class Tools {
     }  
   
     /** 
-     * ½«spÖµ×ª»»ÎªpxÖµ£¬±£Ö¤ÎÄ×Ö´óĞ¡²»±ä 
+     * å°†spå€¼è½¬æ¢ä¸ºpxå€¼ï¼Œä¿è¯æ–‡å­—å¤§å°ä¸å˜ 
      *  
      * @param spValue 
      * @param fontScale 
-     *            £¨DisplayMetricsÀàÖĞÊôĞÔscaledDensity£© 
+     *            ï¼ˆDisplayMetricsç±»ä¸­å±æ€§scaledDensityï¼‰ 
      * @return 
      */  
     public static int sp2px(Context context, float spValue) {  
@@ -73,7 +73,7 @@ public class Tools {
 	
 	
 	 /** 
-     * ¸ù¾İÊÖ»úµÄ·Ö±æÂÊ´Ó dp µÄµ¥Î» ×ª³ÉÎª px(ÏñËØ) 
+     * æ ¹æ®æ‰‹æœºçš„åˆ†è¾¨ç‡ä» dp çš„å•ä½ è½¬æˆä¸º px(åƒç´ ) 
      */  
     public static int dip2px(Context context, float dpValue) {  
         final float scale = context.getResources().getDisplayMetrics().density;  
@@ -81,7 +81,7 @@ public class Tools {
     }  
   
     /** 
-     * ¸ù¾İÊÖ»úµÄ·Ö±æÂÊ´Ó px(ÏñËØ) µÄµ¥Î» ×ª³ÉÎª dp 
+     * æ ¹æ®æ‰‹æœºçš„åˆ†è¾¨ç‡ä» px(åƒç´ ) çš„å•ä½ è½¬æˆä¸º dp 
      */  
     public static int px2dip(Context context, float pxValue) {  
         final float scale = context.getResources().getDisplayMetrics().density;  
@@ -89,7 +89,7 @@ public class Tools {
     }  
     
     /**
-     * »ñÈ¡id²Ù×÷µÄJSON×Ö·û´®
+     * è·å–idæ“ä½œçš„JSONå­—ç¬¦ä¸²
      */
     public static String getParamValueStr(String paramValue){
     	String op = "{\"id\":\""+paramValue+"\",\"vd\":\"0\",\"vc\":\"0\"}";
@@ -97,7 +97,7 @@ public class Tools {
     }
     
     /**
-     * »ñÈ¡ÇëÇó·şÎñÆ÷µÄURL×Ö·û´®
+     * è·å–è¯·æ±‚æœåŠ¡å™¨çš„URLå­—ç¬¦ä¸²
      */
     public static String getRequestStr(String serverIp,String serverPort,String param,String paramValue,String operation){
     	String serverAddress = "http://" + serverIp + ":"+ serverPort + "/javadill/";
@@ -130,14 +130,14 @@ public class Tools {
 		}
     	  
     	  if(cal2.before(cal1)&& cal3.after(cal1)){
-    	    //ÔÚÊ±¼ä¶ÎÄÚ¡¡
+    	    //åœ¨æ—¶é—´æ®µå†…ã€€
     		  return true;
     	}
     	  return false;
     }
     
     public static Date stringToDate1(String time){
-    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//Ğ¡Ğ´µÄmm±íÊ¾µÄÊÇ·ÖÖÓ  
+    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//å°å†™çš„mmè¡¨ç¤ºçš„æ˜¯åˆ†é’Ÿ  
     	
     	java.util.Date date = null;
 		try {
@@ -161,7 +161,7 @@ public class Tools {
             format = DateFormat.getDateInstance(DateFormat.MEDIUM);  
             str = format.format(date);  
         } else if (type.equals("FULL")) {  
-            // 2007Äê1ÔÂ18ÈÕ ĞÇÆÚËÄ  
+            // 2007å¹´1æœˆ18æ—¥ æ˜ŸæœŸå››  
             format = DateFormat.getDateInstance(DateFormat.FULL);  
             str = format.format(date);  
         }  
@@ -199,14 +199,14 @@ public class Tools {
 		@SuppressWarnings("static-access")
 		SharedPreferences preferences =context.getSharedPreferences("base64",
 				context.MODE_PRIVATE);
-		// ´´½¨×Ö½ÚÊä³öÁ÷
+		// åˆ›å»ºå­—èŠ‚è¾“å‡ºæµ
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
-			// ´´½¨¶ÔÏóÊä³öÁ÷£¬²¢·â×°×Ö½ÚÁ÷
+			// åˆ›å»ºå¯¹è±¡è¾“å‡ºæµï¼Œå¹¶å°è£…å­—èŠ‚æµ
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			// ½«¶ÔÏóĞ´Èë×Ö½ÚÁ÷
+			// å°†å¯¹è±¡å†™å…¥å­—èŠ‚æµ
 			oos.writeObject(user);
-			// ½«×Ö½ÚÁ÷±àÂë³Ébase64µÄ×Ö·û´Ü
+			// å°†å­—èŠ‚æµç¼–ç æˆbase64çš„å­—ç¬¦çªœ
 			String oAuth_Base64 = new String(Base64.encodeBase64(baos
 					.toByteArray()));
 			Editor editor = preferences.edit();
@@ -216,7 +216,7 @@ public class Tools {
 		} catch (IOException e) {
 			// TODO Auto-generated
 		}
-		Log.i("ok", "´æ´¢³É¹¦");
+		Log.i("ok", "å­˜å‚¨æˆåŠŸ");
 	}
 	
 	
@@ -227,16 +227,16 @@ public class Tools {
 				context.MODE_PRIVATE);
 		String productBase64 = preferences.getString("oAuth_1", "");
 				
-		//¶ÁÈ¡×Ö½Ú
+		//è¯»å–å­—èŠ‚
 		byte[] base64 = Base64.decodeBase64(productBase64.getBytes());
 		
-		//·â×°µ½×Ö½ÚÁ÷
+		//å°è£…åˆ°å­—èŠ‚æµ
 		ByteArrayInputStream bais = new ByteArrayInputStream(base64);
 		try {
-			//ÔÙ´Î·â×°
+			//å†æ¬¡å°è£…
 			ObjectInputStream bis = new ObjectInputStream(bais);
 			try {
-				//¶ÁÈ¡¶ÔÏó
+				//è¯»å–å¯¹è±¡
 				user = (UserInfo) bis.readObject();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -254,7 +254,7 @@ public class Tools {
 	
 	
 	/**
-     * Save Bitmap to a file.±£´æÍ¼Æ¬µ½SD¿¨¡£
+     * Save Bitmap to a file.ä¿å­˜å›¾ç‰‡åˆ°SDå¡ã€‚
      * 
      * @param bitmap
      * @param file
@@ -293,10 +293,10 @@ public class Tools {
     public static String getSDPath(){ 
         File sdDir = null; 
         boolean sdCardExist = Environment.getExternalStorageState()   
-                            .equals(Environment.MEDIA_MOUNTED);   //ÅĞ¶Ïsd¿¨ÊÇ·ñ´æÔÚ 
+                            .equals(Environment.MEDIA_MOUNTED);   //åˆ¤æ–­sdå¡æ˜¯å¦å­˜åœ¨ 
         if   (sdCardExist)   
         {                               
-          sdDir = Environment.getExternalStorageDirectory();//»ñÈ¡¸úÄ¿Â¼ 
+          sdDir = Environment.getExternalStorageDirectory();//è·å–è·Ÿç›®å½• 
        }
         
         return sdDir.toString(); 

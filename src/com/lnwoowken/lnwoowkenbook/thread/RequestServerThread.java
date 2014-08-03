@@ -1,5 +1,5 @@
-/**
- * ÇëÇó·şÎñÆ÷µÄÏß³Ì
+ï»¿/**
+ * è¯·æ±‚æœåŠ¡å™¨çš„çº¿ç¨‹
  * 
  */
 package com.lnwoowken.lnwoowkenbook.thread;
@@ -69,7 +69,7 @@ public class RequestServerThread extends Thread implements
 	}
 
 	/**
-	 * »ñÈ¡ËùÓĞ²ÍÌüĞÅÏ¢ÁĞ±í
+	 * è·å–æ‰€æœ‰é¤å…ä¿¡æ¯åˆ—è¡¨
 	 * 
 	 * @author sean
 	 */
@@ -85,7 +85,7 @@ public class RequestServerThread extends Thread implements
 	}
 
 	/**
-	 * Í¨¹ıid»ñÈ¡Ö¸¶¨²ÍÌüĞÅÏ¢
+	 * é€šè¿‡idè·å–æŒ‡å®šé¤å…ä¿¡æ¯
 	 * 
 	 * @author sean
 	 */
@@ -136,7 +136,7 @@ public class RequestServerThread extends Thread implements
 					}
 					
 					/**
-					 * »ñÈ¡½ñÈÕ»¹Ê£¶àÉÙ×À
+					 * è·å–ä»Šæ—¥è¿˜å‰©å¤šå°‘æ¡Œ
 					 */
 					/*Contant.SHOP_LIST.add(tempShop);
 					String resultJson_tableNum;
@@ -184,7 +184,7 @@ public class RequestServerThread extends Thread implements
 	}
 
 	/**
-	 * ×¢²áÓÃ»§
+	 * æ³¨å†Œç”¨æˆ·
 	 * 
 	 * @author sean
 	 */
@@ -204,7 +204,7 @@ public class RequestServerThread extends Thread implements
 	}
 
 	/**
-	 * »ñÈ¡ÑéÖ¤¶ÌĞÅ
+	 * è·å–éªŒè¯çŸ­ä¿¡
 	 * 
 	 * @author sean
 	 */
@@ -225,7 +225,7 @@ public class RequestServerThread extends Thread implements
 	}
 
 	/**
-	 * ÓÃ»§µÇÂ¼
+	 * ç”¨æˆ·ç™»å½•
 	 * 
 	 * @author sean
 	 */
@@ -240,7 +240,7 @@ public class RequestServerThread extends Thread implements
 	}
 
 	/**
-	 * Í¨¹ı±êÊ¶µ÷ÓÃÏàÓ¦µÄ·½·¨
+	 * é€šè¿‡æ ‡è¯†è°ƒç”¨ç›¸åº”çš„æ–¹æ³•
 	 * 
 	 * @author sean
 	 */

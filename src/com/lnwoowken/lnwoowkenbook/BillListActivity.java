@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ public class BillListActivity extends Activity {
 	private List<Bill> list;
 	private Button btn_back;
 	private Button btn_home;
-	private Button btn_more;//--¡°¸ü¶à¡±°´Å¥
+	private Button btn_more;//--â€œæ›´å¤šâ€æŒ‰é’®
 	
 	
 	private Handler toastHandler = new Handler() {
@@ -52,7 +52,7 @@ public class BillListActivity extends Activity {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			Toast.makeText(context, "Äú»¹Ã»ÓĞµÇÂ¼,ÇëÏÈµÇÂ¼", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "æ‚¨è¿˜æ²¡æœ‰ç™»å½•,è¯·å…ˆç™»å½•", Toast.LENGTH_SHORT).show();
 		}
 
 	};
@@ -141,7 +141,7 @@ public class BillListActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		//»ñÈ¡ÆÁÄ»´óĞ¡
+		//è·å–å±å¹•å¤§å°
 		Display mDisplay = getWindowManager().getDefaultDisplay(); 
 		 int width = mDisplay.getWidth();
 		 int height = mDisplay.getHeight();
@@ -222,11 +222,11 @@ public class BillListActivity extends Activity {
 					popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
 							LayoutParams.WRAP_CONTENT);
 					popupWindow.showAsDropDown(v, 10, 10);
-					// Ê¹Æä¾Û¼¯
+					// ä½¿å…¶èšé›†
 					// popupWindow.setFocusable(true);
-					// ÉèÖÃÔÊĞíÔÚÍâµã»÷ÏûÊ§
+					// è®¾ç½®å…è®¸åœ¨å¤–ç‚¹å‡»æ¶ˆå¤±
 					// popupWindow.setOutsideTouchable(true);
-					// Ë¢ĞÂ×´Ì¬£¨±ØĞëË¢ĞÂ·ñÔòÎŞĞ§£©
+					// åˆ·æ–°çŠ¶æ€ï¼ˆå¿…é¡»åˆ·æ–°å¦åˆ™æ— æ•ˆï¼‰
 					popupWindow.update();
 				} else {
 					popupWindow.dismiss();
@@ -257,11 +257,11 @@ public class BillListActivity extends Activity {
 	
 	private void showExitLoginDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("ÌáÊ¾")
-				.setMessage("ÄúÒÑ¾­µÇÂ¼,ÊÇ·ñÒªÍË³öÖØĞÂµÇÂ¼?")
+				.setTitle("æç¤º")
+				.setMessage("æ‚¨å·²ç»ç™»å½•,æ˜¯å¦è¦é€€å‡ºé‡æ–°ç™»å½•?")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -271,11 +271,11 @@ public class BillListActivity extends Activity {
 						Intent intent1 = new Intent();
 						intent1.setAction("login");
 						sendBroadcast(intent1);
-						Toast.makeText(context, "³É¹¦ÍË³öµÇÂ¼", Toast.LENGTH_SHORT)
+						Toast.makeText(context, "æˆåŠŸé€€å‡ºç™»å½•", Toast.LENGTH_SHORT)
 								.show();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {

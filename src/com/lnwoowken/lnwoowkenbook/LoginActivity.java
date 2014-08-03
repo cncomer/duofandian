@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 import com.lnwoowken.lnwoowkenbook.model.Contant;
 import com.lnwoowken.lnwoowkenbook.network.Client;
@@ -45,7 +45,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 			myThread.start();
 			//Toast.makeText(context, myThread.getResult(), Toast.LENGTH_SHORT).show();
 		}
@@ -57,12 +57,12 @@ public class LoginActivity extends Activity implements OnClickListener {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			// textView.setText("server¶Ë·µ»ØµÄÊı¾İÊÇ£º\n" + s);
+			// textView.setText("serverç«¯è¿”å›çš„æ•°æ®æ˜¯ï¼š\n" + s);
 		//	myThread.start();
 			String result = myThread.getResult();
 			if (JsonParser.checkError(result)) {
 				//Toast.makeText(context, context.getResources().getString(R.string.login_error)+result, Toast.LENGTH_SHORT).show();
-				Toast.makeText(context, context.getResources().getString(R.string.login_error)+",Çë¼ì²éÓÃ»§ÃûÃÜÂëÊÇ·ñÕıÈ·", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, context.getResources().getString(R.string.login_error)+",è¯·æ£€æŸ¥ç”¨æˆ·åå¯†ç æ˜¯å¦æ­£ç¡®", Toast.LENGTH_SHORT).show();
 			}
 			else {
 				Toast.makeText(context,context.getResources().getString(R.string.login_success) , Toast.LENGTH_SHORT).show();
@@ -72,7 +72,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 				if (result != null && !result.equals("")) {
 					Contant.USER  = JsonParser.parseUserInfoJson(result);
 					if (Contant.USER!=null) {
-						Log.d("login===================", "userinfo½âÎö³É¹¦");
+						Log.d("login===================", "userinfoè§£ææˆåŠŸ");
 						Contant.ISLOGIN = true;
 						//Intent intent = new Intent(LoginActivity.this, UserInfoActivity.class);
 						Intent intent1 = new Intent();
@@ -105,7 +105,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			public void onFocusChange(View v, boolean hasFocus) {
 				// TODO Auto-generated method stub
 				if (hasFocus) {
-					if (editText_uid.getText().toString().contains("ÓÃ»§Ãû")) {
+					if (editText_uid.getText().toString().contains("ç”¨æˆ·å")) {
 						editText_uid.setText("");
 					}
 				}else {
@@ -120,7 +120,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			public void onFocusChange(View v, boolean hasFocus) {
 				// TODO Auto-generated method stub
 				if (hasFocus) {
-					if (editText_pwd.getText().toString().contains("ÃÜÂë")) {
+					if (editText_pwd.getText().toString().contains("å¯†ç ")) {
 						editText_pwd.setText("");
 						editText_pwd.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 					}
@@ -150,7 +150,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 //				String pwd = "111111";//editText_pwd.getText().toString();
 				String user = editText_uid.getText().toString();
 				String pwd = editText_pwd.getText().toString();
-				if ((user!=null&&!user.equals(""))&&(pwd!=null&&!pwd.equals(""))&&(!user.contains("ÓÃ»§"))&&(!pwd.contains("ÃÜÂë"))) {
+				if ((user!=null&&!user.equals(""))&&(pwd!=null&&!pwd.equals(""))&&(!user.contains("ç”¨æˆ·"))&&(!pwd.contains("å¯†ç "))) {
 					String strOp = "{\"user\":\""+user+"\",\"pwd\":\""+pwd+"\"}";
 					strOp = Client.encodeBase64(strOp);
 					String str = Tools.getRequestStr(Contant.SERVER_IP, Contant.SERVER_PORT
@@ -162,7 +162,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 					handler.sendMessage(msg);
 				}
 				else {
-					Toast.makeText(context, "ÓÃ»§ÃûºÍÃÜÂë²»ÄÜÎª¿Õ", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, "ç”¨æˆ·åå’Œå¯†ç ä¸èƒ½ä¸ºç©º", Toast.LENGTH_SHORT).show();
 				}
 				
 			}
@@ -180,11 +180,11 @@ public class LoginActivity extends Activity implements OnClickListener {
 				popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
 						LayoutParams.WRAP_CONTENT);
 				popupWindow.showAsDropDown(v, 10, 10);
-				// Ê¹Æä¾Û¼¯
+				// ä½¿å…¶èšé›†
 				// popupWindow.setFocusable(true);
-				// ÉèÖÃÔÊĞíÔÚÍâµã»÷ÏûÊ§
+				// è®¾ç½®å…è®¸åœ¨å¤–ç‚¹å‡»æ¶ˆå¤±
 				// popupWindow.setOutsideTouchable(true);
-				// Ë¢ĞÂ×´Ì¬£¨±ØĞëË¢ĞÂ·ñÔòÎŞĞ§£©
+				// åˆ·æ–°çŠ¶æ€ï¼ˆå¿…é¡»åˆ·æ–°å¦åˆ™æ— æ•ˆï¼‰
 				popupWindow.update();
 			} else {
 				popupWindow.dismiss();

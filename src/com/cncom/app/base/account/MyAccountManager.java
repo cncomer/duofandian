@@ -1,4 +1,4 @@
-package com.cncom.app.base.account;
+ï»¿package com.cncom.app.base.account;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -35,7 +35,7 @@ public class MyAccountManager {
 	}
 	
 	public void initAccountObject() {
-		//Èç¹ûÃ»ÓĞÄ¬ÈÏÕË»§£¬ÎÒÃÇÊ¹ÓÃDemoÕË»§
+		//å¦‚æœæ²¡æœ‰é»˜è®¤è´¦æˆ·ï¼Œæˆ‘ä»¬ä½¿ç”¨Demoè´¦æˆ·
 		if (mHaierAccount == null) {
 			mHaierAccount = AccountObject.getHaierAccountFromDatabase(mContext);
 		}
@@ -57,7 +57,7 @@ public class MyAccountManager {
 		}
 	}
 	/**
-	 * åˆ é™¤æŒ‡å®šuidçš„è´¦æˆ?
+	 * é’çŠ»æ«é¸å›§ç•¾uidé•„å‹®å¤„é´?
 	 * @param uid
 	 */
 	public static void deleteAccountForUid(ContentResolver cr, long uid) {
@@ -81,13 +81,13 @@ public class MyAccountManager {
 	public String getCurrentAccountUid() {
 		return mHaierAccount != null ? String.valueOf(mHaierAccount.mAccountUid) : null; 
 	}
-	/**ÊÇ·ñÒÑ¾­µÇÂ¼*/
+	/**æ˜¯å¦å·²ç»ç™»å½•*/
 	public boolean hasLoginned() {
 		return mHaierAccount != null && mHaierAccount.mAccountId > 0;
 	}
 	
 	/**
-	 * µÃµ½×î½üµÇÂ¼Ê¹ÓÃµÄÓÃ»§Ãû
+	 * å¾—åˆ°æœ€è¿‘ç™»å½•ä½¿ç”¨çš„ç”¨æˆ·å
 	 * @return
 	 */
 	public String getLastUsrTel() {
@@ -111,7 +111,7 @@ public class MyAccountManager {
     	
     }
     /**
-     * ÖØĞÂ¸üĞÂÕË»§¶ÔÏó
+     * é‡æ–°æ›´æ–°è´¦æˆ·å¯¹è±¡
      */
     public void updateAccount() {
     	mHaierAccount = null;
@@ -119,7 +119,7 @@ public class MyAccountManager {
     }
     
     /**
-     * ³õÊ¼»¯ÑİÊ¾ÕË»§
+     * åˆå§‹åŒ–æ¼”ç¤ºè´¦æˆ·
      * @return
      */
     public static AccountObject initDemoAccountObject(Context context) {

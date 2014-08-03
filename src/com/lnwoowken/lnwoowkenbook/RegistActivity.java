@@ -1,6 +1,6 @@
-
+ï»¿
 /**
- * ×¢²áµÄACTIVITY
+ * æ³¨å†Œçš„ACTIVITY
  */
 package com.lnwoowken.lnwoowkenbook;
 
@@ -44,7 +44,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 	private long pwd;// = Tools.getRandomNum();
 	private Button btn_regist;
 	private Button btn_back;
-	private Button btn_home;//--·µ»ØÖ÷½çÃæ
+	private Button btn_home;//--è¿”å›ä¸»ç•Œé¢
 	private Context context = RegistActivity.this;
 	private RequestServerThread mThread;
 	private RequestServerThread threadSMS;
@@ -101,11 +101,11 @@ public class RegistActivity extends Activity implements OnClickListener {
 			else {
 				String result = Client.decodeBase64(mThread.getResult());
 				if (result.contains("id")) {
-					Toast.makeText(context, "×¢²á³É¹¦", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, "æ³¨å†ŒæˆåŠŸ", Toast.LENGTH_SHORT).show();
 					showDialog();
 				}
 				else {
-					Toast.makeText(context, "×¢²áÊ§°Ü,Ô­Òò:"+result, Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, "æ³¨å†Œå¤±è´¥,åŸå› :"+result, Toast.LENGTH_SHORT).show();
 					
 				}
 			}
@@ -132,7 +132,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			public void onFocusChange(View v, boolean hasFocus) {
 				// TODO Auto-generated method stub
 				if (hasFocus) {
-					if (name.getText().toString().contains("ÓÃ»§Ãû")) {
+					if (name.getText().toString().contains("ç”¨æˆ·å")) {
 						name.setText("");
 					}
 				}else {
@@ -146,7 +146,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			public void onFocusChange(View v, boolean hasFocus) {
 				// TODO Auto-generated method stub
 				if (hasFocus) {
-					if (editText_pwd_confirm.getText().toString().contains("ÃÜÂë")) {
+					if (editText_pwd_confirm.getText().toString().contains("å¯†ç ")) {
 						editText_pwd_confirm.setText("");
 						editText_pwd_confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 					}
@@ -161,7 +161,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			public void onFocusChange(View v, boolean hasFocus) {
 				// TODO Auto-generated method stub
 				if (hasFocus) {
-					if (password.getText().toString().contains("ÃÜÂë")) {
+					if (password.getText().toString().contains("å¯†ç ")) {
 						password.setText("");
 						password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 					}
@@ -195,7 +195,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 		if (result.contains("0")) {
 			isRecieved = true;
 			if (name.getText().toString()!=null&&!name.getText().toString().equals("")) {
-				Toast.makeText(context, "¶ÌĞÅÒÑ¾­·¢ËÍºÅÂëÎª"+name.getText().toString()+"µÄÊÖ»ú", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "çŸ­ä¿¡å·²ç»å‘é€å·ç ä¸º"+name.getText().toString()+"çš„æ‰‹æœº", Toast.LENGTH_SHORT).show();
 			}
 			
 		}
@@ -236,7 +236,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			b = true;
 		}
 		else {
-			//Toast.makeText(context, "ÃÜÂëÊäÈë²»Ò»ÖÂ", Toast.LENGTH_SHORT).show();
+			//Toast.makeText(context, "å¯†ç è¾“å…¥ä¸ä¸€è‡´", Toast.LENGTH_SHORT).show();
 			b = false;
 		}
 		return b;
@@ -255,7 +255,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 		}
 		else {
 			b = false;
-			Toast.makeText(context, "ÇëÈ·ÈÏÊÕµ½¶ÌĞÅºóÔÙÌá½»×¢²áĞÅÏ¢", Toast.LENGTH_SHORT).show();
+			Toast.makeText(context, "è¯·ç¡®è®¤æ”¶åˆ°çŸ­ä¿¡åå†æäº¤æ³¨å†Œä¿¡æ¯", Toast.LENGTH_SHORT).show();
 		}
 		return b;
 	}
@@ -279,14 +279,14 @@ public class RegistActivity extends Activity implements OnClickListener {
 					handler.sendMessage(msg);
 				}
 				else {
-					Toast.makeText(context, "ÑéÖ¤Âë²»ÕıÈ·", Toast.LENGTH_SHORT).show();
+					Toast.makeText(context, "éªŒè¯ç ä¸æ­£ç¡®", Toast.LENGTH_SHORT).show();
 				}
 				
 				
 				
 			}
 			else {
-				Toast.makeText(context, "ÃÜÂëÊäÈë²»Ò»ÖÂ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "å¯†ç è¾“å…¥ä¸ä¸€è‡´", Toast.LENGTH_SHORT).show();
 			}		
 		}
 		else if (v.equals(btn_getSMS)) {
@@ -297,7 +297,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 				getSMShandler.sendMessage(msg);
 			}
 			else {
-				Toast.makeText(context, "ÓÃ»§Ãû²»ÄÜÎª¿Õ", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "ç”¨æˆ·åä¸èƒ½ä¸ºç©º", Toast.LENGTH_SHORT).show();
 			}
 			
 		}
@@ -341,11 +341,11 @@ public class RegistActivity extends Activity implements OnClickListener {
 				popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
 						LayoutParams.WRAP_CONTENT);
 				popupWindow.showAsDropDown(v, 10, 10);
-				// Ê¹Æä¾Û¼¯
+				// ä½¿å…¶èšé›†
 				// popupWindow.setFocusable(true);
-				// ÉèÖÃÔÊĞíÔÚÍâµã»÷ÏûÊ§
+				// è®¾ç½®å…è®¸åœ¨å¤–ç‚¹å‡»æ¶ˆå¤±
 				// popupWindow.setOutsideTouchable(true);
-				// Ë¢ĞÂ×´Ì¬£¨±ØĞëË¢ĞÂ·ñÔòÎŞĞ§£©
+				// åˆ·æ–°çŠ¶æ€ï¼ˆå¿…é¡»åˆ·æ–°å¦åˆ™æ— æ•ˆï¼‰
 				popupWindow.update();
 			}
 		}
@@ -361,7 +361,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 	private void getSMS(String phone){
 		num = Tools.getRandomNum();
 		pwd = Tools.getRandomNum();
-		String strCN = "±àºÅÎª"+num+"µÄ×¢²áÑéÖ¤ÂëÎª"+pwd+"¸ĞĞ»ÄúÊ¹ÓÃ¶á·¹µã";
+		String strCN = "ç¼–å·ä¸º"+num+"çš„æ³¨å†ŒéªŒè¯ç ä¸º"+pwd+"æ„Ÿè°¢æ‚¨ä½¿ç”¨å¤ºé¥­ç‚¹";
 		try {
 			strCN = URLEncoder.encode(strCN,"utf-8");
 		} catch (UnsupportedEncodingException e1) {
@@ -378,11 +378,11 @@ public class RegistActivity extends Activity implements OnClickListener {
 	
 	private void showDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("ÌáÊ¾")
-				.setMessage("ÊÇ·ñÏÖÔÚµÇÂ¼?")
+				.setTitle("æç¤º")
+				.setMessage("æ˜¯å¦ç°åœ¨ç™»å½•?")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -393,7 +393,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 						//BookTableActivity.this.finish();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -408,11 +408,11 @@ public class RegistActivity extends Activity implements OnClickListener {
 	
 	private void showExitLoginDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("ÌáÊ¾")
-				.setMessage("ÄúÒÑ¾­µÇÂ¼,ÊÇ·ñÒªÍË³öÖØĞÂµÇÂ¼?")
+				.setTitle("æç¤º")
+				.setMessage("æ‚¨å·²ç»ç™»å½•,æ˜¯å¦è¦é€€å‡ºé‡æ–°ç™»å½•?")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+				setPositiveButton("ç¡®å®š", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -422,11 +422,11 @@ public class RegistActivity extends Activity implements OnClickListener {
 						Intent intent1 = new Intent();
 						intent1.setAction("login");
 						sendBroadcast(intent1);
-						Toast.makeText(context, "³É¹¦ÍË³öµÇÂ¼", Toast.LENGTH_SHORT)
+						Toast.makeText(context, "æˆåŠŸé€€å‡ºç™»å½•", Toast.LENGTH_SHORT)
 								.show();
 					}
 				})
-				.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+				.setNegativeButton("å–æ¶ˆ", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
