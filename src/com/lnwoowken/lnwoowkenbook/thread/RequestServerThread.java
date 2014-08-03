@@ -13,6 +13,7 @@ import org.apache.http.message.BasicNameValuePair;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.lnwoowken.lnwoowkenbook.adapter.AllStoreListAdapter;
@@ -233,6 +234,7 @@ public class RequestServerThread extends Thread implements
 	public String login() {
 		// TODO Auto-generated method stub
 		String temp = Client.executeHttpGetAndCheckNet(this.url, context);
+		if(TextUtils.isEmpty(temp)) return null;
 		this.result = Client.decodeBase64(temp);
 		Message msg = new Message();
 		this.handler.sendMessage(msg);
@@ -248,20 +250,19 @@ public class RequestServerThread extends Thread implements
 	public void doExecuteByFlag() {
 		// TODO Auto-generated method stub
 		switch (this.flag) {
-		case 1:
+		case Contant.FLAG_GETALLSHOPINFO:
 			getAllShopInfo();
 			break;
-		case 2:
+		case Contant.FLAG_GETSHOPBYID:
 			getShopInfoById();
 			break;
-		case 3:
+		case Contant.FLAG_REGIST:
 			registUserInfo();
 			break;
-		case 4:
+		case Contant.FLAG_GETSMS:
 			getSMS();
 			break;
-
-		case 5:
+		case Contant.FLAG_LOGIN:
 			login();
 			break;
 		case 6:

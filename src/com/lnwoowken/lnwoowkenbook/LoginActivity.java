@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -146,17 +147,12 @@ public class LoginActivity extends Activity implements OnClickListener {
 				
 			}
 			else {
-//				String user = "13800138123";//editText_uid.getText().toString();
-//				String pwd = "111111";//editText_pwd.getText().toString();
+				//test account user "15001881049" pwd "123456";
 				String user = editText_uid.getText().toString();
 				String pwd = editText_pwd.getText().toString();
-				if ((user!=null&&!user.equals(""))&&(pwd!=null&&!pwd.equals(""))&&(!user.contains("用户"))&&(!pwd.contains("密码"))) {
-					String strOp = "{\"user\":\""+user+"\",\"pwd\":\""+pwd+"\"}";
-					strOp = Client.encodeBase64(strOp);
-					String str = Tools.getRequestStr(Contant.SERVER_IP, Contant.SERVER_PORT
-							+ "", "user?id=", "l8", "&op="+strOp);
+				if (!TextUtils.isEmpty(user) && !TextUtils.isEmpty(pwd)) {
 
-					myThread = new RequestServerThread(str, login_result_handler,
+					myThread = new RequestServerThread(ServiceObject.getLoginOrUpdateUrl(user, pwd), login_result_handler,
 							LoginActivity.this, Contant.FLAG_LOGIN);
 					Message msg = new Message();
 					handler.sendMessage(msg);
@@ -164,7 +160,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 				else {
 					Toast.makeText(context, "用户名和密码不能为空", Toast.LENGTH_SHORT).show();
 				}
-				
 			}
 			
 		}

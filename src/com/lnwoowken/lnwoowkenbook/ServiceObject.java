@@ -12,15 +12,20 @@ import com.shwy.bestjoy.utils.UrlEncodeStringBuilder;
 
 public class ServiceObject {
 	private static final String TAG = "ServiceObject";
-	public static final String SERVICE_URL = "http://www.dzbxk.com/bestjoy/";
+	public static final String SERVICE_URL = "http://manage.lnwoowken.com/";
 	/**
 	 * 返回登陆调用URL
+	 * @param tel
+	 * @param pwd
 	 * @return
 	 */
-	public static String getLoginOrUpdateUrl(String para, String jsonString) {
+	public static String getLoginOrUpdateUrl(String tel, String pwd) {
 		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
-		sb.append("20140718/register.ashx?")
-		.append(para).append("=").appendUrlEncodedString(jsonString);
+		//sb.append("mobile/common/login.ashx?cell=").append(tel)
+		//.append("&pwd=").appendUrlEncodedString(pwd);
+		sb.append("mobile/common/login.ashx?para={\"cell\":\"").append(tel)
+		.append("\",\"pwd\":\"").appendUrlEncodedString(pwd)
+		.append("\"}");
 		return sb.toString();
 	}
 	

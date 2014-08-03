@@ -9,10 +9,9 @@ package com.lnwoowken.lnwoowkenbook;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
-import com.lnwoowken.lnwoowkenbook.network.Client;
-import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -32,10 +32,15 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-import android.widget.LinearLayout.LayoutParams;
+
+import com.lnwoowken.lnwoowkenbook.model.Contant;
+import com.lnwoowken.lnwoowkenbook.network.Client;
+import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
+import com.lnwoowken.lnwoowkenbook.tools.Tools;
 
 @SuppressLint("HandlerLeak")
 public class RegistActivity extends Activity implements OnClickListener {
@@ -109,9 +114,6 @@ public class RegistActivity extends Activity implements OnClickListener {
 					
 				}
 			}
-			
-			
-			
 		}
 		
 	};
@@ -127,7 +129,6 @@ public class RegistActivity extends Activity implements OnClickListener {
 		editText_pwd_confirm = (EditText) findViewById(R.id.editText_pwd_confirm);
 		editText_checkSMS = (EditText) findViewById(R.id.editText_checkSMS);
 		name.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
 				// TODO Auto-generated method stub
@@ -144,7 +145,6 @@ public class RegistActivity extends Activity implements OnClickListener {
 			
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				// TODO Auto-generated method stub
 				if (hasFocus) {
 					if (editText_pwd_confirm.getText().toString().contains("密码")) {
 						editText_pwd_confirm.setText("");
@@ -159,7 +159,6 @@ public class RegistActivity extends Activity implements OnClickListener {
 			
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				// TODO Auto-generated method stub
 				if (hasFocus) {
 					if (password.getText().toString().contains("密码")) {
 						password.setText("");
@@ -174,7 +173,6 @@ public class RegistActivity extends Activity implements OnClickListener {
 	
 	//@SuppressWarnings("unused")
 	private Handler smsResultHandler = new Handler(){
-
 		@Override
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
@@ -182,22 +180,24 @@ public class RegistActivity extends Activity implements OnClickListener {
 			String result = threadSMS.getResult();
 			Log.d("sms==============", result);
 			checkRecieved(result);
+			try {
+				JSONObject jsonObject = new JSONObject(result);
+				jsonObject.getString("Data");
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	};
 	
 	
 	private boolean checkRecieved(String result){
-//		if (result.contains("\"")) {
-//			result.replace("\"", "");
-//		}
 		Log.d("checkRecieved==============", result);
 		if (result.contains("0")) {
 			isRecieved = true;
-			if (name.getText().toString()!=null&&!name.getText().toString().equals("")) {
+			if (!TextUtils.isEmpty(name.getText().toString().trim())) {
 				Toast.makeText(context, "短信已经发送号码为"+name.getText().toString()+"的手机", Toast.LENGTH_SHORT).show();
 			}
-			
 		}
 		return isRecieved;
 	}
@@ -368,11 +368,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String idValue = "{\"id\":\"SendSMS\",\"vd\":\"0\",\"vc\":\"0\"}";
-		idValue = Client.encodeBase64(idValue);
-		String opStr = "{\"strmobileno\":\""+phone+"\",\"strmsg\":\""+strCN+"\"}";
-		//opStr = Client.encodeBase64(opStr);
-		String smsStr = "http://"+Contant.SERVER_IP+":"+Contant.SERVER_PORT+"/javadill/sms?id="+idValue+"&op="+opStr;
+		String smsStr = "http://" + Contant.SERVER_IP + "/Mobile/common/GetRandCode.ashx?para={\"cell\":\"" + phone + "\"}";
 		threadSMS = new RequestServerThread(smsStr, smsResultHandler, context, Contant.FLAG_GETSMS);
 	}
 	

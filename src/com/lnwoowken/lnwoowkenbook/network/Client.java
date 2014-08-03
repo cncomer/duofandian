@@ -167,7 +167,6 @@ public class Client {
 	 */
 	public static String executeHttpGetAndCheckNet(String urlStr, Context context) {
 		Log.d("executeHttpGetAndCheckNet===============", "I'm in(execute):\n" + urlStr);
-		//Log.d("test=============", "aaa\nbbb");
 		String result = null;
 		URL url = null;
 		HttpURLConnection connection = null;
@@ -189,7 +188,7 @@ public class Client {
 				result = Contant.NO_NET;
 				return result;
 				
-			}			
+			}
 			in = new InputStreamReader(connection.getInputStream());
 			BufferedReader bufferedReader = new BufferedReader(in);
 			StringBuffer strBuffer = new StringBuffer();

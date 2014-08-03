@@ -34,11 +34,11 @@ public class Contant {
 	public static int SCREEN_HEIGHT = 0;
 	public static int GALLERY_WIDTH = 0;
 	public static int GALLERY_HEIGHT = 0;	
-	public static int FLAG_GETALLSHOPINFO = 1;
-	public static int FLAG_GETSHOPBYID = 2;
-	public static int FLAG_REGIST = 3;
-	public static int FLAG_GETSMS = 4;
-	public static int FLAG_LOGIN = 5;
+	public static final int FLAG_GETALLSHOPINFO = 1;
+	public static final int FLAG_GETSHOPBYID = 2;
+	public static final int FLAG_REGIST = 3;
+	public static final int FLAG_GETSMS = 4;
+	public static final int FLAG_LOGIN = 5;
 	public static boolean ISLOGIN = false;
 	public static UserInfo USER = null;
 	public static String DEFAULTSORT = "默认排序";
