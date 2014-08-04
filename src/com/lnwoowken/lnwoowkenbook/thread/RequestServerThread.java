@@ -232,10 +232,9 @@ public class RequestServerThread extends Thread implements
 	 */
 	@Override
 	public String login() {
-		// TODO Auto-generated method stub
 		String temp = Client.executeHttpGetAndCheckNet(this.url, context);
 		if(TextUtils.isEmpty(temp)) return null;
-		this.result = Client.decodeBase64(temp);
+		this.result = temp;//Client.decodeBase64(temp);
 		Message msg = new Message();
 		this.handler.sendMessage(msg);
 		return this.result;
@@ -248,7 +247,6 @@ public class RequestServerThread extends Thread implements
 	 */
 	@Override
 	public void doExecuteByFlag() {
-		// TODO Auto-generated method stub
 		switch (this.flag) {
 		case Contant.FLAG_GETALLSHOPINFO:
 			getAllShopInfo();

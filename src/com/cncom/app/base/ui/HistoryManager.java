@@ -36,7 +36,7 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.cncom.app.base.database.BjnoteContent;
-import com.cncom.app.base.database.HaierDBHelper;
+import com.cncom.app.base.database.DBHelper;
 import com.cncom.app.base.database.HistoryItem;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -55,17 +55,17 @@ public final class HistoryManager {
   private static final int MAX_ITEMS = 500;
 
   private static final String[] COLUMNS = {
-	  HaierDBHelper.TEXT_COL,
-	  HaierDBHelper.DISPLAY_COL,
-	  HaierDBHelper.FORMAT_COL,
-	  HaierDBHelper.TIMESTAMP_COL,
-	  HaierDBHelper.DETAILS_COL,
+	  DBHelper.TEXT_COL,
+	  DBHelper.DISPLAY_COL,
+	  DBHelper.FORMAT_COL,
+	  DBHelper.TIMESTAMP_COL,
+	  DBHelper.DETAILS_COL,
   };
 
   private static final String[] COUNT_COLUMN = { "COUNT(1)" };
 
-  private static final String[] ID_COL_PROJECTION = { HaierDBHelper.ID_COL };
-  private static final String[] ID_DETAIL_COL_PROJECTION = { HaierDBHelper.ID_COL, HaierDBHelper.DETAILS_COL };
+  private static final String[] ID_COL_PROJECTION = { DBHelper.ID_COL };
+  private static final String[] ID_DETAIL_COL_PROJECTION = { DBHelper.ID_COL, DBHelper.DETAILS_COL };
   private static final DateFormat EXPORT_DATE_TIME_FORMAT = DateFormat.getDateTimeInstance();
 
   private final Activity activity;
@@ -86,7 +86,7 @@ public final class HistoryManager {
 
   public List<HistoryItem> buildHistoryItems() {
       List<HistoryItem> items = new ArrayList<HistoryItem>();
-      Cursor cursor = activity.getContentResolver().query(BjnoteContent.ScanHistory.CONTENT_URI, COLUMNS, null, null, HaierDBHelper.TIMESTAMP_COL + " DESC");
+      Cursor cursor = activity.getContentResolver().query(BjnoteContent.ScanHistory.CONTENT_URI, COLUMNS, null, null, DBHelper.TIMESTAMP_COL + " DESC");
       if (cursor != null) {
     	  while (cursor.moveToNext()) {
     	        String text = cursor.getString(0);
@@ -104,7 +104,7 @@ public final class HistoryManager {
   }
 
   public HistoryItem buildHistoryItem(int number) {
-	  Cursor cursor = activity.getContentResolver().query(BjnoteContent.ScanHistory.CONTENT_URI, COLUMNS, null, null, HaierDBHelper.TIMESTAMP_COL + " DESC");
+	  Cursor cursor = activity.getContentResolver().query(BjnoteContent.ScanHistory.CONTENT_URI, COLUMNS, null, null, DBHelper.TIMESTAMP_COL + " DESC");
       if (cursor != null) {
     	  cursor.move(number + 1);
           String text = cursor.getString(0);
@@ -120,9 +120,9 @@ public final class HistoryManager {
   }
   
   public void deleteHistoryItem(int number) {
-      Cursor c = activity.getContentResolver().query(BjnoteContent.ScanHistory.CONTENT_URI, ID_COL_PROJECTION, null, null, HaierDBHelper.TIMESTAMP_COL + " DESC");
+      Cursor c = activity.getContentResolver().query(BjnoteContent.ScanHistory.CONTENT_URI, ID_COL_PROJECTION, null, null, DBHelper.TIMESTAMP_COL + " DESC");
       c.move(number + 1);
-      activity.getContentResolver().delete(BjnoteContent.ScanHistory.CONTENT_URI, HaierDBHelper.ID_COL + '=' + c.getString(0), null);
+      activity.getContentResolver().delete(BjnoteContent.ScanHistory.CONTENT_URI, DBHelper.ID_COL + '=' + c.getString(0), null);
   }
 
   public void addHistoryItem(Result result, ResultHandler handler) {
@@ -135,10 +135,10 @@ public final class HistoryManager {
       deletePrevious(result.getText());
 
     ContentValues values = new ContentValues();
-    values.put(HaierDBHelper.TEXT_COL, result.getText());
-    values.put(HaierDBHelper.FORMAT_COL, result.getBarcodeFormat().toString());
-    values.put(HaierDBHelper.DISPLAY_COL, handler.getDisplayContents().toString());
-    values.put(HaierDBHelper.TIMESTAMP_COL, System.currentTimeMillis());
+    values.put(DBHelper.TEXT_COL, result.getText());
+    values.put(DBHelper.FORMAT_COL, result.getBarcodeFormat().toString());
+    values.put(DBHelper.DISPLAY_COL, handler.getDisplayContents().toString());
+    values.put(DBHelper.TIMESTAMP_COL, System.currentTimeMillis());
 
       // Insert the new entry into the DB.
     activity.getContentResolver().insert(BjnoteContent.ScanHistory.CONTENT_URI, values);
@@ -149,9 +149,9 @@ public final class HistoryManager {
     // about the preferences; if the item wasn't saved it won't be udpated
 	 Cursor cursor = activity.getContentResolver().query(BjnoteContent.ScanHistory.CONTENT_URI,
                     ID_DETAIL_COL_PROJECTION,
-                    HaierDBHelper.TEXT_COL + "=?",
+                    DBHelper.TEXT_COL + "=?",
                     new String[] { itemID },
-                    HaierDBHelper.TIMESTAMP_COL + " DESC");
+                    DBHelper.TIMESTAMP_COL + " DESC");
       String oldID = null;
       String oldDetails = null;
       if (cursor.moveToNext()) {
@@ -161,13 +161,13 @@ public final class HistoryManager {
 
       String newDetails = oldDetails == null ? itemDetails : oldDetails + " : " + itemDetails;
       ContentValues values = new ContentValues();
-      values.put(HaierDBHelper.DETAILS_COL, newDetails);
+      values.put(DBHelper.DETAILS_COL, newDetails);
 
-      activity.getContentResolver().update(BjnoteContent.ScanHistory.CONTENT_URI, values, HaierDBHelper.ID_COL + "=?", new String[] { oldID });
+      activity.getContentResolver().update(BjnoteContent.ScanHistory.CONTENT_URI, values, DBHelper.ID_COL + "=?", new String[] { oldID });
   }
 
   private void deletePrevious(String text) {
-      activity.getContentResolver().delete(BjnoteContent.ScanHistory.CONTENT_URI, HaierDBHelper.TEXT_COL + "=?", new String[] { text });
+      activity.getContentResolver().delete(BjnoteContent.ScanHistory.CONTENT_URI, DBHelper.TEXT_COL + "=?", new String[] { text });
   }
 
   public void trimHistory() {
@@ -175,12 +175,12 @@ public final class HistoryManager {
       Cursor cursor = cr.query(BjnoteContent.ScanHistory.CONTENT_URI,
                         ID_COL_PROJECTION,
                         null, null,
-                        HaierDBHelper.TIMESTAMP_COL + " DESC");
+                        DBHelper.TIMESTAMP_COL + " DESC");
       if (cursor != null) {
     	  if (cursor.getCount() > MAX_ITEMS) {
     		  cursor.move(MAX_ITEMS);
     		  while (cursor.moveToNext()) {
-      	        cr.delete(BjnoteContent.ScanHistory.CONTENT_URI, HaierDBHelper.ID_COL + '=' + cursor.getString(0), null);
+      	        cr.delete(BjnoteContent.ScanHistory.CONTENT_URI, DBHelper.ID_COL + '=' + cursor.getString(0), null);
       	   }
     	 }
     	  cursor.close();
@@ -210,7 +210,7 @@ public final class HistoryManager {
 	  Cursor cursor = cr.query(BjnoteContent.ScanHistory.CONTENT_URI,
                         COLUMNS,
                         null, null,
-                        HaierDBHelper.TIMESTAMP_COL + " DESC");
+                        DBHelper.TIMESTAMP_COL + " DESC");
 
       while (cursor.moveToNext()) {
         historyText.append('"').append(massageHistoryField(cursor.getString(0))).append("\",");

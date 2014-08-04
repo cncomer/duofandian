@@ -35,7 +35,7 @@ public class MyApplication extends Application{
 	
 	private static final String TAG ="BJfileApp";
 	/**对于不同的保修卡，我们只要确保该变量为正确的应用包名即可*/
-	public static final String PKG_NAME = "com.bestjoy.app.bjwarrantycard";
+	public static final String PKG_NAME = "com.lnwoowken.lnwoowkenbook";
 	private Handler mHandler;
 	private static MyApplication mInstance;
 	public SharedPreferences mPreferManager;

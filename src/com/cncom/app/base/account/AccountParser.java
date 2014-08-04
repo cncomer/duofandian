@@ -70,6 +70,23 @@ public class AccountParser extends InfoInterfaceImpl{
 		parseUserData(jsonObject, accountObject);
 		return accountObject;
 	}
+	/**
+	 *  解析JSON格式的Account数据，如果返回null，表示解析失败，如果返回accountObject.mStatusCode == 0，表示登录失败
+	 * @param result
+	 * @return
+	 * @throws JSONException
+	 */
+	public static AccountObject parseJson(String result) throws JSONException {
+		 DebugUtils.logD(TAG, "Start parse");
+		if (result == null ) {
+			return null;
+		}
+		JSONObject jsonObject = new JSONObject(result);
+		AccountObject accountObject = new AccountObject();
+		//TODO 解析Account数据
+		parseUserData(jsonObject, accountObject);
+		return accountObject;
+	}
 	
 	/***
 	 * "usersdata": {"cell":"18621951097","pwd":"wangkun","yanma":null,"userName":"王坤","UID":1}
@@ -78,21 +95,25 @@ public class AccountParser extends InfoInterfaceImpl{
 	 * @throws JSONException
 	 */
 	public static void parseUserData(JSONObject jsonObject, AccountObject accountObject) throws JSONException {
-//		//解析userdata
-//		JSONObject userData = jsonObject.getJSONObject("usersdata");
-//		
-//		accountObject.mStatusCode = Integer.valueOf(userData.getString("StatusCode"));
-//		accountObject.mStatusMessage = userData.getString("StatusMessage");
-//		if (accountObject.mStatusCode == 0) {
-//			//如果是失败的，我们提前返回，不用解析其他数据了
-//			return;
-//		}
-//		
-//		userData = userData.getJSONObject("Data");
-//		accountObject.mAccountTel = userData.getString("cell");
-//		accountObject.mAccountPwd = userData.getString("pwd");
-//		accountObject.mAccountName = userData.getString("userName");
-//		accountObject.mAccountUid = userData.getLong("UID");
+		accountObject.mStatusCode = Integer.valueOf(jsonObject.getString("StatusCode"));
+		accountObject.mStatusMessage = jsonObject.getString("StatusMessage");
+		if (accountObject.mStatusCode == 0) {
+			//如果是失败的，我们提前返回，不用解析其他数据了
+			return;
+		}
+		//解析userdata
+		JSONObject userData = jsonObject.getJSONObject("Data");
+		
+		accountObject.mAccountTel = userData.getString("user_cell");
+		accountObject.mAccountEmail = userData.getString("user_email");
+		accountObject.mAccountUser = userData.getString("user_account");
+		accountObject.mAccountJifen = userData.getString("user_jifen");
+		accountObject.mAccountName = userData.getString("username_name");
+		accountObject.mAccountTotal = userData.getString("user_total");
+		accountObject.mAccountYuqiTimes = userData.getString("user_yuqitimes");
+		accountObject.mAccountPinjia = userData.getString("user_pinjia");
+		accountObject.mAccountLevel = userData.getString("user_level");
+		accountObject.mAccountUid = userData.getLong("ID");
 	}
 	
 }

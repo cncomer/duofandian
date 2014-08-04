@@ -243,5 +243,6 @@
   <string name="msg_unsupport_operation">暂未开放</string>
   <string name="msg_need_login_operation">请先登录</string>
    <string name="demo_account">演示账户</string>
+  <string name="msg_login_save_success">账户初始化失败，请再次尝试...</string>
 
 </resources>

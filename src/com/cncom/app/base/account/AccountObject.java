@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.cncom.app.base.database.BjnoteContent;
-import com.cncom.app.base.database.HaierDBHelper;
+import com.cncom.app.base.database.DBHelper;
 import com.lnwoowken.lnwoowkenbook.MyApplication;
 import com.lnwoowken.lnwoowkenbook.R;
 import com.shwy.bestjoy.utils.DebugUtils;
@@ -19,7 +19,7 @@ import com.shwy.bestjoy.utils.InfoInterface;
 /**
  * 账户对象，在程序启动时候会通过{@link MyAccountManager#setContext(Context context)}来获得当前默认账户。
  * 
- * 需要注意的是，在设计数据库的时候，有{@link HaierDBHelper#ACCOUNT_HOME_COUNT}字段，该字段会随着新增或是删除一个HomeObject数据
+ * 需要注意的是，在设计数据库的时候，有{@link DBHelper#ACCOUNT_HOME_COUNT}字段，该字段会随着新增或是删除一个HomeObject数据
  * 自动增加和减少，所以我们保存的时候不要设置他。成员mAccountHomes 以及 mBaoxiuCards默认都是空的，如果需要，需要额外调用方法来获得，
  * @author chenkai
  *
@@ -28,16 +28,23 @@ public class AccountObject implements InfoInterface{
 	private static final String TAG = "HaierAccount";
 	
 	private static final String[] PROJECTION = new String[]{
-		HaierDBHelper.ID,
-		HaierDBHelper.ACCOUNT_UID,
-		HaierDBHelper.ACCOUNT_NAME,
-		HaierDBHelper.ACCOUNT_TEL,
-		HaierDBHelper.ACCOUNT_PWD,
+		DBHelper.ID,
+		DBHelper.ACCOUNT_UID,
+		DBHelper.ACCOUNT_NAME,
+		DBHelper.ACCOUNT_TEL,
+		DBHelper.ACCOUNT_PWD,
+		DBHelper.ACCOUNT_EMAIL,
+		DBHelper.ACCOUNT_USER,
+		DBHelper.ACCOUNT_JIFEN,
+		DBHelper.ACCOUNT_TOTAL,
+		DBHelper.ACCOUNT_YUQITIME,
+		DBHelper.ACCOUNT_PINJIA,
+		DBHelper.ACCOUNT_LEVEL,
 	};
-	
+
 	private static final String[] PROJECTION_UID = new String[]{
-		HaierDBHelper.ID,
-		HaierDBHelper.ACCOUNT_UID,
+		DBHelper.ID,
+		DBHelper.ACCOUNT_UID,
 	};
 	
 	
@@ -46,17 +53,39 @@ public class AccountObject implements InfoInterface{
 	private static final int KEY_NAME = 2;
 	private static final int KEY_TEL = 3;
 	private static final int KEY_PWD = 4;
+	private static final int KEY_EMAIL = 5;
+	private static final int KEY_USER = 6;
+	private static final int KEY_JIFEN = 7;
+	private static final int KEY_TOTAL = 8;
+	private static final int KEY_YUQITIME = 9;
+	private static final int KEY_PINJIA = 10;
+	private static final int KEY_LEVEL = 11;
 	
-	private static final String WHERE_DEFAULT = HaierDBHelper.ACCOUNT_DEFAULT + "=1";
-	private static final String WHERE_UID = HaierDBHelper.ACCOUNT_UID + "=?";
+	private static final String WHERE_DEFAULT = DBHelper.ACCOUNT_DEFAULT + "=1";
+	private static final String WHERE_UID = DBHelper.ACCOUNT_UID + "=?";
 	
 	public long mAccountId = -1;
 	public long mAccountUid = -1;
 	public String mAccountName;
 	public String mAccountTel;
 	public String mAccountPwd;
+	public String mAccountEmail;
+	public String mAccountJifen;
+	public String mAccountUser;
+	public String mAccountTotal;
+	public String mAccountYuqiTimes;
+	public String mAccountPinjia;
+	public String mAccountLevel;
 	
-	
+
+	/**登陆或注册的时候会用到，表示当前的状态，statuscode:状态 1:成功   0：失败*/
+	public int mStatusCode;
+	/**登陆时候服务器返回的数据*/
+	public String mStatusMessage;
+
+	public boolean isLogined() {
+		return mStatusCode != 0;
+	}
 	
 	public AccountObject clone() {
 		AccountObject newAccountObject = new AccountObject();
@@ -65,6 +94,13 @@ public class AccountObject implements InfoInterface{
 		newAccountObject.mAccountName = mAccountName;
 		newAccountObject.mAccountTel = mAccountTel;
 		newAccountObject.mAccountPwd = mAccountPwd;
+		newAccountObject.mAccountEmail = mAccountEmail;
+		newAccountObject.mAccountJifen = mAccountJifen;
+		newAccountObject.mAccountUser = mAccountUser;
+		newAccountObject.mAccountTotal = mAccountTotal;
+		newAccountObject.mAccountYuqiTimes = mAccountYuqiTimes;
+		newAccountObject.mAccountPinjia = mAccountPinjia;
+		newAccountObject.mAccountLevel = mAccountLevel;
 		return newAccountObject;
 	}
 	
@@ -72,12 +108,12 @@ public class AccountObject implements InfoInterface{
 		return cr.delete(BjnoteContent.Accounts.CONTENT_URI, WHERE_UID, new String[]{String.valueOf(uid)});
 	}
 	
-	public static AccountObject getHaierAccountFromDatabase(Context context) {
-		return getHaierAccountFromDatabase(context, -1);
+	public static AccountObject getAccountFromDatabase(Context context) {
+		return getAccountFromDatabase(context, -1);
 	}
 	
-	public static AccountObject getHaierAccountFromDatabase(Context context, long uid) {
-		AccountObject haierAccount = null;
+	public static AccountObject getAccountFromDatabase(Context context, long uid) {
+		AccountObject account = null;
 		Cursor c = null;
 		if (uid == -1) {
 			//默认账户
@@ -88,26 +124,33 @@ public class AccountObject implements InfoInterface{
 		}
 		if (c != null) {
 			if (c.moveToNext()) {
-				haierAccount = new AccountObject();
+				account = new AccountObject();
 				String idStr = c.getString(KEY_ID);
 				if (TextUtils.isEmpty(idStr)) {
 					DebugUtils.logD(TAG, "getHaierAccountFromDatabase accountId is " + idStr);
 					return null;
 				}
-				haierAccount.mAccountId = Long.parseLong(idStr);
-				if (haierAccount.mAccountId <= 0) {
-					DebugUtils.logD(TAG, "getHaierAccountFromDatabase accountId is " + haierAccount.mAccountId);
+				account.mAccountId = Long.parseLong(idStr);
+				if (account.mAccountId <= 0) {
+					DebugUtils.logD(TAG, "getHaierAccountFromDatabase accountId is " + account.mAccountId);
 					return null;
 				}
-				haierAccount.mAccountUid = c.getLong(KEY_MD);
-				haierAccount.mAccountName = c.getString(KEY_NAME);
-				haierAccount.mAccountTel = c.getString(KEY_TEL);
-				haierAccount.mAccountPwd = c.getString(KEY_PWD);
+				account.mAccountUid = c.getLong(KEY_MD);
+				account.mAccountName = c.getString(KEY_NAME);
+				account.mAccountTel = c.getString(KEY_TEL);
+				account.mAccountPwd = c.getString(KEY_PWD);
+				account.mAccountEmail = c.getString(KEY_EMAIL);
+				account.mAccountJifen = c.getString(KEY_USER);
+				account.mAccountUser = c.getString(KEY_JIFEN);
+				account.mAccountTotal = c.getString(KEY_TOTAL);
+				account.mAccountYuqiTimes = c.getString(KEY_YUQITIME);
+				account.mAccountPinjia = c.getString(KEY_PINJIA);
+				account.mAccountLevel = c.getString(KEY_LEVEL);
 			}
 		    c.close();
 		}
 		
-		return haierAccount;
+		return account;
 	}
 	
 	public boolean updateAccount(ContentResolver cr, ContentValues addtion) {
@@ -124,12 +167,17 @@ public class AccountObject implements InfoInterface{
 			values.putAll(addtion);
 		}
 		long id = isExsited(cr,mAccountUid);
-		values.put(HaierDBHelper.ACCOUNT_NAME, mAccountName);
-		values.put(HaierDBHelper.ACCOUNT_TEL, mAccountTel);
-		values.put(HaierDBHelper.ACCOUNT_PWD, mAccountPwd);
-		//由于我们在HOME表上创建了触发器，一旦发生增删会触发更新Account的ACCOUNT_HOME_COUNT字段，所以，这里就不用更新该字段了
-//		values.put(HaierDBHelper.ACCOUNT_HOME_COUNT, mAccountHomes.size());
-		values.put(HaierDBHelper.DATE, new Date().getTime());
+		values.put(DBHelper.ACCOUNT_NAME, mAccountName);
+		values.put(DBHelper.ACCOUNT_TEL, mAccountTel);
+		values.put(DBHelper.ACCOUNT_PWD, mAccountPwd);
+		values.put(DBHelper.ACCOUNT_EMAIL, mAccountEmail);
+		values.put(DBHelper.ACCOUNT_USER, mAccountUser);
+		values.put(DBHelper.ACCOUNT_JIFEN, mAccountJifen);
+		values.put(DBHelper.ACCOUNT_TOTAL, mAccountTotal);
+		values.put(DBHelper.ACCOUNT_YUQITIME, mAccountYuqiTimes);
+		values.put(DBHelper.ACCOUNT_PINJIA, mAccountPinjia);
+		values.put(DBHelper.ACCOUNT_LEVEL, mAccountLevel);
+		values.put(DBHelper.DATE, new Date().getTime());
 		if (id > 0) {
 			int update = cr.update(BjnoteContent.Accounts.CONTENT_URI, values, WHERE_UID, new String[]{String.valueOf(mAccountUid)});
 			if (update > 0) {
@@ -142,13 +190,12 @@ public class AccountObject implements InfoInterface{
 			}
 		} else {
 			//如果没有本地没有账户，那么我们新增的时候增加ACCOUNT_MD字段,并设置为当前默认账户
-			values.put(HaierDBHelper.ACCOUNT_UID, mAccountUid);
-			values.put(HaierDBHelper.ACCOUNT_DEFAULT, 1);
+			values.put(DBHelper.ACCOUNT_UID, mAccountUid);
+			values.put(DBHelper.ACCOUNT_DEFAULT, 1);
 			Uri uri = cr.insert(BjnoteContent.Accounts.CONTENT_URI, values);
 			if (uri != null) {
 				DebugUtils.logD(TAG, "saveInDatebase insert uid#" + mAccountUid);
 				mAccountId = ContentUris.parseId(uri);
-				//TODO
 				return true;
 			} else {
 				DebugUtils.logD(TAG, "saveInDatebase failly insert uid#" + mAccountUid);
@@ -175,12 +222,12 @@ public class AccountObject implements InfoInterface{
 	
 	public static ContentValues getDemoAccountObjectContentValues() {
 		ContentValues values = new ContentValues();
-		values.put(HaierDBHelper.ACCOUNT_UID, DEMO_ACCOUNT_UID);
-		values.put(HaierDBHelper.ACCOUNT_NAME, MyApplication.getInstance().getResources().getString(R.string.demo_account));
-		values.put(HaierDBHelper.ACCOUNT_TEL, "11111111111");
-		values.put(HaierDBHelper.ACCOUNT_PWD, "123456");
-		values.put(HaierDBHelper.ACCOUNT_DEFAULT, 0);
-		values.put(HaierDBHelper.DATE, new Date().getTime());
+		values.put(DBHelper.ACCOUNT_UID, DEMO_ACCOUNT_UID);
+		values.put(DBHelper.ACCOUNT_NAME, MyApplication.getInstance().getResources().getString(R.string.demo_account));
+		values.put(DBHelper.ACCOUNT_TEL, "11111111111");
+		values.put(DBHelper.ACCOUNT_PWD, "123456");
+		values.put(DBHelper.ACCOUNT_DEFAULT, 0);
+		values.put(DBHelper.DATE, new Date().getTime());
 		return values;
     }
 	@Override

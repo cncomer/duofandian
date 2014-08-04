@@ -10,9 +10,9 @@ import com.shwy.bestjoy.utils.DebugUtils;
  * @author Sean Owen
  * @author chenkai
  */
-public final class HaierDBHelper extends SQLiteOpenHelper {
-private static final String TAG = "HaierDBHelper";
-  private static final int DB_VERSION = 5;
+public final class DBHelper extends SQLiteOpenHelper {
+private static final String TAG = "DBHelper";
+  private static final int DB_VERSION = 1;
   private static final String DB_NAME = "cncom.db";
   public static final String ID = "_id";
   /**0为可见，1为删除，通常用来标记一条数据应该被删除，是不可见的，包含该字段的表查询需要增加deleted=0的条件*/
@@ -25,11 +25,14 @@ private static final String TAG = "HaierDBHelper";
   public static final String ACCOUNT_DEFAULT = "isDefault";
   public static final String ACCOUNT_TEL = "tel";
   public static final String ACCOUNT_NAME = "name";
+  public static final String ACCOUNT_EMAIL = "email";
   public static final String ACCOUNT_PWD = "password";
-  public static final String ACCOUNT_HOME_COUNT = "home_count";
-  /**我的卡片的个数*/
-  public static final String ACCOUNT_MYCARD_COUNT = "mycard_count";
-  public static final String ACCOUNT_PHONES = "phones";
+  public static final String ACCOUNT_USER = "user";
+  public static final String ACCOUNT_JIFEN = "jifen";
+  public static final String ACCOUNT_TOTAL = "total";
+  public static final String ACCOUNT_YUQITIME = "yuqitimes";
+  public static final String ACCOUNT_PINJIA = "pinjia";
+  public static final String ACCOUNT_LEVEL = "level";
 
   public static final String ACCOUNT_HAS_PHOTO = "hasPhoto";
   
@@ -44,7 +47,7 @@ private static final String TAG = "HaierDBHelper";
   // Qrcode scan part end
   
   
-  public HaierDBHelper(Context context) {
+  public DBHelper(Context context) {
     super(context, DB_NAME, null, DB_VERSION);
   }
   
@@ -91,7 +94,7 @@ private static final String TAG = "HaierDBHelper";
        // Create Account table
   	   createAccountTable(sqLiteDatabase);
   	   // Create scan history
- 		createScanHistory(sqLiteDatabase);
+ 		//createScanHistory(sqLiteDatabase);
   		
   }
   
@@ -103,11 +106,14 @@ private static final String TAG = "HaierDBHelper";
 	            ACCOUNT_TEL + " TEXT, " +
 	            ACCOUNT_PWD + " TEXT, " +
 	            ACCOUNT_DEFAULT + " INTEGER NOT NULL DEFAULT 1, " +
-	            ACCOUNT_HOME_COUNT + " INTEGER NOT NULL DEFAULT 0, " +
-	            ACCOUNT_MYCARD_COUNT + " INTEGER NOT NULL DEFAULT 0, " +
+	            ACCOUNT_EMAIL + " TEXT, " +
+	            ACCOUNT_USER + " TEXT, " +
 	            ACCOUNT_NAME + " TEXT, " +
-	            ACCOUNT_PHONES  + " TEXT, " +
-	            ACCOUNT_HAS_PHOTO + " INTEGER NOT NULL DEFAULT 0, " +
+	            ACCOUNT_JIFEN + " TEXT, " +
+	            ACCOUNT_TOTAL + " TEXT, " +
+	            ACCOUNT_YUQITIME + " TEXT, " +
+	            ACCOUNT_PINJIA + " TEXT, " +
+	            ACCOUNT_LEVEL + " TEXT, " +
 	            DATE + " TEXT" +
 	            ");");
   }

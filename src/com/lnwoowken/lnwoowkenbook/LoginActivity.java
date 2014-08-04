@@ -1,10 +1,6 @@
 ﻿package com.lnwoowken.lnwoowkenbook;
 
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.network.Client;
-import com.lnwoowken.lnwoowkenbook.network.JsonParser;
-import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
+import org.json.JSONException;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -24,9 +20,15 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.Toast;
-import android.widget.LinearLayout.LayoutParams;
+
+import com.cncom.app.base.account.AccountObject;
+import com.cncom.app.base.account.AccountParser;
+import com.cncom.app.base.account.MyAccountManager;
+import com.lnwoowken.lnwoowkenbook.model.Contant;
+import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
 
 @SuppressLint("HandlerLeak")
 public class LoginActivity extends Activity implements OnClickListener {
@@ -40,6 +42,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private EditText editText_pwd;
 	private RequestServerThread myThread;
 	private Button btn_regist;
+	private AccountObject mAccountObject;
 	private Handler handler = new Handler() {
 
 		@Override
@@ -53,7 +56,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 	};
 	private Handler login_result_handler = new Handler() {
-
+		private String _error;
 		@Override
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
@@ -61,7 +64,34 @@ public class LoginActivity extends Activity implements OnClickListener {
 			// textView.setText("server端返回的数据是：\n" + s);
 		//	myThread.start();
 			String result = myThread.getResult();
-			if (JsonParser.checkError(result)) {
+			Log.d("result==========================info", result);
+			
+			try {
+				mAccountObject = AccountParser.parseJson(result);
+				if (mAccountObject != null && mAccountObject.isLogined()) {
+					boolean saveAccountOk = MyAccountManager.getInstance().saveAccountObject(LoginActivity.this.getContentResolver(), mAccountObject);
+					if (!saveAccountOk) {
+						//登录成功了，但本地数据保存失败，通常不会走到这里
+						_error = LoginActivity.this.getString(R.string.msg_login_save_success);
+					} else {
+						Toast.makeText(context,context.getResources().getString(R.string.login_success) , Toast.LENGTH_SHORT).show();
+						Intent in = new Intent();
+						in.setAction("login");  
+			            sendBroadcast(in);  
+						LoginActivity.this.finish();
+					}
+				} else {
+					Toast.makeText(context, context.getResources().getString(R.string.login_error)+",请检查用户名密码是否正确", Toast.LENGTH_SHORT).show();
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+				_error = e.getMessage();
+			}
+			if (_error != null) {
+				Toast.makeText(context, _error, Toast.LENGTH_SHORT).show();
+			}
+			
+			/*if (JsonParser.checkError(result)) {
 				//Toast.makeText(context, context.getResources().getString(R.string.login_error)+result, Toast.LENGTH_SHORT).show();
 				Toast.makeText(context, context.getResources().getString(R.string.login_error)+",请检查用户名密码是否正确", Toast.LENGTH_SHORT).show();
 			}
@@ -84,7 +114,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 						
 					}
 				}
-			}
+			}*/
 			
 			
 		}

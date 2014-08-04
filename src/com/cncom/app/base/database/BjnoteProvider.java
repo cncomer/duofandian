@@ -21,8 +21,8 @@ public class BjnoteProvider extends ContentProvider{
 	private static final String TAG = "BjnoteProvider";
 	private SQLiteDatabase mContactDatabase;
 	private String[] mTables = new String[]{
-			HaierDBHelper.TABLE_NAME_ACCOUNTS,
-			HaierDBHelper.TABLE_SCAN_NAME,
+			DBHelper.TABLE_NAME_ACCOUNTS,
+			DBHelper.TABLE_SCAN_NAME,
 //			ContactsDBHelper.TABLE_NAME_MYLIFE_CONSUME,
 	};
 	private static final int BASE = 8;
@@ -54,7 +54,7 @@ public class BjnoteProvider extends ContentProvider{
         }
 
 
-        HaierDBHelper helper = new HaierDBHelper(context);
+        DBHelper helper = new DBHelper(context);
         mContactDatabase = helper.getWritableDatabase();
         mContactDatabase.setLockingEnabled(true);
         return mContactDatabase;
@@ -156,9 +156,9 @@ public class BjnoteProvider extends ContentProvider{
 //			 case ZHT_ID:
 //	     		break;
 //         }
-         //Insert 操作不允许设置_id字段，如果有的话，我们需要移�?
-         if (values.containsKey(HaierDBHelper.ID)) {
-      		values.remove(HaierDBHelper.ID);
+         //Insert 操作不允许设置_id字段，如果有的话，我们需要移�?
+         if (values.containsKey(DBHelper.ID)) {
+      		values.remove(DBHelper.ID);
       	 }
      	 long id = db.insert(table, null, values);
      	 if (id > 0) {
@@ -228,7 +228,7 @@ public class BjnoteProvider extends ContentProvider{
 		}
 		DebugUtils.logProvider(TAG, "find id from Uri#" + id);
 		StringBuilder sb = new StringBuilder();
-		sb.append(HaierDBHelper.ID);
+		sb.append(DBHelper.ID);
 		sb.append("=").append(id);
 		if (!TextUtils.isEmpty(selection)) {
 			sb.append(" and ");

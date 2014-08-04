@@ -6,12 +6,12 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 
 import com.cncom.app.base.database.BjnoteContent;
-import com.cncom.app.base.database.HaierDBHelper;
+import com.cncom.app.base.database.DBHelper;
 import com.shwy.bestjoy.utils.DebugUtils;
 
 public class MyAccountManager {
 	private static final String TAG = "HaierAccountManager";
-	private AccountObject mHaierAccount;
+	private AccountObject mAccountObject;
 	private Context mContext;
 	SharedPreferences mSharedPreferences;
 	private ContentResolver mContentResolver;
@@ -29,28 +29,28 @@ public class MyAccountManager {
 			throw new RuntimeException("MyAccountManager.setContext(null), you must apply a Context object.");
 		}
 		mContentResolver = mContext.getContentResolver();
-		mHaierAccount = null;
+		mAccountObject = null;
 		mSharedPreferences = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
 		initAccountObject();
 	}
 	
 	public void initAccountObject() {
 		//如果没有默认账户，我们使用Demo账户
-		if (mHaierAccount == null) {
-			mHaierAccount = AccountObject.getHaierAccountFromDatabase(mContext);
+		if (mAccountObject == null) {
+			mAccountObject = AccountObject.getAccountFromDatabase(mContext);
 		}
-		if (mHaierAccount == null) {
-			mHaierAccount = AccountObject.getHaierAccountFromDatabase(mContext, AccountObject.DEMO_ACCOUNT_UID);
+		if (mAccountObject == null) {
+			mAccountObject = AccountObject.getAccountFromDatabase(mContext, AccountObject.DEMO_ACCOUNT_UID);
 		}
 	}
 	
 	
 	public void deleteDefaultAccount() {
-		if (mHaierAccount != null) {
-			DebugUtils.logD(TAG, "start deleteDefaultAccount() for uid " + mHaierAccount.mAccountUid);
-			int deleted = AccountObject.deleteAccount(mContext.getContentResolver(), mHaierAccount.mAccountUid);
-			DebugUtils.logD(TAG, "deleted " + deleted + " Account =" + mHaierAccount.toString());
-			mHaierAccount = null;
+		if (mAccountObject != null) {
+			DebugUtils.logD(TAG, "start deleteDefaultAccount() for uid " + mAccountObject.mAccountUid);
+			int deleted = AccountObject.deleteAccount(mContext.getContentResolver(), mAccountObject.mAccountUid);
+			DebugUtils.logD(TAG, "deleted " + deleted + " Account =" + mAccountObject.toString());
+			mAccountObject = null;
 			DebugUtils.logD(TAG, "end deleteDefaultAccount()");
 		} else {
 			DebugUtils.logD(TAG, "deleteDefaultAccount() nothing to do");
@@ -67,11 +67,11 @@ public class MyAccountManager {
 	}
 	
 	public AccountObject getAccountObject() {
-		return mHaierAccount;
+		return mAccountObject;
 	}
 	
 	public String getDefaultPhoneNumber() {
-		return mHaierAccount != null ? mHaierAccount.mAccountTel : null;
+		return mAccountObject != null ? mAccountObject.mAccountTel : null;
 	}
 	
 	public String getCurrentAccountMd() {
@@ -79,11 +79,11 @@ public class MyAccountManager {
 	}
 	
 	public String getCurrentAccountUid() {
-		return mHaierAccount != null ? String.valueOf(mHaierAccount.mAccountUid) : null; 
+		return mAccountObject != null ? String.valueOf(mAccountObject.mAccountUid) : null; 
 	}
 	/**是否已经登录*/
 	public boolean hasLoginned() {
-		return mHaierAccount != null && mHaierAccount.mAccountId > 0;
+		return mAccountObject != null && mAccountObject.mAccountId > 0;
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class MyAccountManager {
     
     public boolean saveAccountObject(ContentResolver cr, AccountObject accountObject) {
     	
-    	if (mHaierAccount != accountObject) {
+    	if (mAccountObject != accountObject) {
     		boolean success = accountObject.saveInDatebase(cr, null);
     		if (success) {
     			updateAccount();
@@ -114,7 +114,7 @@ public class MyAccountManager {
      * 重新更新账户对象
      */
     public void updateAccount() {
-    	mHaierAccount = null;
+    	mAccountObject = null;
     	initAccountObject();
     }
     
@@ -123,7 +123,7 @@ public class MyAccountManager {
      * @return
      */
     public static AccountObject initDemoAccountObject(Context context) {
-    	return AccountObject.getHaierAccountFromDatabase(context, AccountObject.DEMO_ACCOUNT_UID);
+    	return AccountObject.getAccountFromDatabase(context, AccountObject.DEMO_ACCOUNT_UID);
     }
     
 }
