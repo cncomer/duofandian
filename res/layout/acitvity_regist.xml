@@ -120,7 +120,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:background="@color/White"
-                    android:text="用户名:请输入手机号"
+                    android:hint="用户名:请输入手机号"
                     android:textColor="@color/small_textColor"
                     android:singleLine="true"
                     android:textSize="15dip"
@@ -154,6 +154,7 @@
                     android:layout_height="30dip"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
+                    android:hint="请输入验证码"
                     android:background="@color/White"
                     android:singleLine="true"
                      />
@@ -236,7 +237,7 @@
                     android:background="@color/White"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="请输入密码"
+                    android:hint="请输入密码"
                     android:textColor="@color/textColor_gray"
                     android:singleLine="true"
                     android:textSize="15dip" />
@@ -278,7 +279,7 @@
                     android:background="@color/White"
                     android:ems="10"
                     android:inputType="text"
-                    android:text="请重复密码"
+                    android:hint="请重复密码"
                     android:textColor="@color/textColor_gray"
                     android:singleLine="true"
                     android:textSize="15dip" />

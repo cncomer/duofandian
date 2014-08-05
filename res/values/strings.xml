@@ -244,5 +244,8 @@
   <string name="msg_need_login_operation">请先登录</string>
    <string name="demo_account">演示账户</string>
   <string name="msg_login_save_success">账户初始化失败，请再次尝试...</string>
+  
+  <string name="get_yanzheng_code">获取验证码</string>
+  <string name="time_countdown">倒计时%s秒</string>
 
 </resources>

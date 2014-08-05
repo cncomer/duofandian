@@ -81,6 +81,9 @@ public class MyAccountManager {
 	public String getCurrentAccountUid() {
 		return mAccountObject != null ? String.valueOf(mAccountObject.mAccountUid) : null; 
 	}
+	public String getCurrentAccountName() {
+		return mAccountObject != null ? String.valueOf(mAccountObject.mAccountName) : null; 
+	}
 	/**是否已经登录*/
 	public boolean hasLoginned() {
 		return mAccountObject != null && mAccountObject.mAccountId > 0;

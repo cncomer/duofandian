@@ -6,6 +6,9 @@ import java.util.TimerTask;
 
 
 
+
+
+import com.cncom.app.base.account.MyAccountManager;
 import com.lnwoowken.lnwoowkenbook.adapter.ImageAdapter;
 import com.lnwoowken.lnwoowkenbook.adapter.MyGalleryAdapter;
 import com.lnwoowken.lnwoowkenbook.animition.MyAnimition;
@@ -19,6 +22,8 @@ import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
 import com.lnwoowken.lnwoowkenbook.view.SlidingLayout;
 import com.unionpay.UPPayAssistEx;
 import com.unionpay.uppay.PayActivity;
+
+
 
 
 import android.annotation.SuppressLint;
@@ -35,6 +40,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -94,7 +100,7 @@ public class TestMain extends Activity implements OnClickListener {
 	private Button btn_login;
 	private UpdateManager mUpdateManager;
 	private TextView textGallery;
-	private String[] strArr = new String[] { "标题1", "标题2", "标题3", "标题4", "标题5" };
+	private String[] strArr = new String[] { "page1", "page2", "page3", "page4", "page5" };
 
 	// 屏幕1080
 	@SuppressWarnings("unused")
@@ -118,7 +124,6 @@ public class TestMain extends Activity implements OnClickListener {
 			if (versionThread != null) {
 				versionThread.start();
 			}
-
 		}
 
 	};
@@ -176,21 +181,14 @@ public class TestMain extends Activity implements OnClickListener {
 
 		@Override
 		public void onReceive(Context arg0, Intent arg1) {
-			// TODO Auto-generated method stub
-
 			if (btn_login != null) {
-				if (Contant.ISLOGIN && Contant.USER != null) {
-					btn_login.setText(Contant.USER.getName());
+				if (MyAccountManager.getInstance().hasLoginned()) {
+					btn_login.setText(TextUtils.isEmpty(MyAccountManager.getInstance().getCurrentAccountName()) ? MyAccountManager.getInstance().getDefaultPhoneNumber() : MyAccountManager.getInstance().getCurrentAccountName());
 				} else {
-					btn_login.setText(context.getResources().getString(
-							R.string.login));
-
+					btn_login.setText(context.getResources().getString(R.string.login));
 				}
-			} else {
-
 			}
 		}
-
 	};
 
 	/**
@@ -444,17 +442,10 @@ public class TestMain extends Activity implements OnClickListener {
 		btn_login = (Button) findViewById(R.id.button_login);
 		btn_login.setOnClickListener(TestMain.this);
 
-		
 		judgeScreen();
-		
-		
-		
-		
-		
-		
 
-		if (Contant.ISLOGIN && Contant.USER != null) {
-			btn_login.setText(Contant.USER.getName());
+		if (MyAccountManager.getInstance().hasLoginned()) {
+			btn_login.setText(MyAccountManager.getInstance().getCurrentAccountName());
 		} else {
 			btn_login.setText(context.getResources().getString(R.string.login));
 		}
@@ -535,7 +526,7 @@ public class TestMain extends Activity implements OnClickListener {
 			}
 
 		} else if (v.equals(btn_login)) {
-			if (Contant.ISLOGIN) {
+			if (MyAccountManager.getInstance().hasLoginned()) {
 				showExitLoginDialog();
 			} else {
 				Intent intent = new Intent(context, LoginActivity.class);
@@ -565,12 +556,17 @@ public class TestMain extends Activity implements OnClickListener {
 						.findViewById(R.id.mybill);
 				RelativeLayout exitLogin = (RelativeLayout) view
 						.findViewById(R.id.exit_login);
+				TextView tv = (TextView) view.findViewById(R.id.textView_exit_login);
+				if(MyAccountManager.getInstance().hasLoginned()) {
+					tv.setText(context.getString(R.string.exit_login));
+				} else {
+					tv.setText(context.getString(R.string.login));
+				}
 				exitLogin.setOnClickListener(new OnClickListener() {
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						if (Contant.ISLOGIN) {
+						if (MyAccountManager.getInstance().hasLoginned()) {
 							showExitLoginDialog();
 						} else {
 							Intent intent = new Intent(context,
@@ -709,12 +705,10 @@ public class TestMain extends Activity implements OnClickListener {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						Contant.ISLOGIN = false;
-						Contant.USER = null;
-						Intent intent1 = new Intent();
-						intent1.setAction("login");
-						sendBroadcast(intent1);
+						MyAccountManager.getInstance().deleteDefaultAccount();
+						Intent in = new Intent();
+						in.setAction("login");
+						sendBroadcast(in);
 						Toast.makeText(context, "成功退出登录", Toast.LENGTH_SHORT)
 								.show();
 					}
@@ -723,7 +717,6 @@ public class TestMain extends Activity implements OnClickListener {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 					}
 				}).
 
@@ -749,7 +742,6 @@ public class TestMain extends Activity implements OnClickListener {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						System.exit(0);
 					}
 				}).

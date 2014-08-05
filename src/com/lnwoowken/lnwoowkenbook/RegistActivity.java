@@ -6,9 +6,6 @@ package com.lnwoowken.lnwoowkenbook;
 
 
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,7 +16,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.InputType;
@@ -37,10 +36,9 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.cncom.app.base.account.AccountObject;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.network.Client;
 import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
 
 @SuppressLint("HandlerLeak")
 public class RegistActivity extends Activity implements OnClickListener {
@@ -64,6 +62,8 @@ public class RegistActivity extends Activity implements OnClickListener {
 	private EditText password;
 	private EditText editText_pwd_confirm;
 	private Button btn_more;
+	private AccountObject mAccountObject;
+	private static final int TIME_COUNDOWN = 120000;
 	
 	private Handler getSMShandler = new Handler(){
 
@@ -104,14 +104,29 @@ public class RegistActivity extends Activity implements OnClickListener {
 				Toast.makeText(context,  R.string.no_net, Toast.LENGTH_SHORT).show();
 			}
 			else {
-				String result = Client.decodeBase64(mThread.getResult());
-				if (result.contains("id")) {
+				String result = mThread.getResult();//Client.decodeBase64(mThread.getResult());
+				/*if (result.contains("id")) {
 					Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
 					showDialog();
 				}
 				else {
 					Toast.makeText(context, "注册失败,原因:"+result, Toast.LENGTH_SHORT).show();
 					
+				}*/
+				try {
+					JSONObject jsonObject = new JSONObject(result);
+					mAccountObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
+					mAccountObject.mStatusMessage = jsonObject.getString("StatusMessage");
+					if(mAccountObject.mStatusCode == 1) {
+						Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
+						showDialog();
+					} else {
+						Toast.makeText(context, "注册失败,原因:" + mAccountObject.mStatusMessage, Toast.LENGTH_SHORT).show();
+					}
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				} catch (JSONException e) {
+					e.printStackTrace();
 				}
 			}
 		}
@@ -182,9 +197,12 @@ public class RegistActivity extends Activity implements OnClickListener {
 			checkRecieved(result);
 			try {
 				JSONObject jsonObject = new JSONObject(result);
-				jsonObject.getString("Data");
+				String data = jsonObject.getString("Data");
+				editText_checkSMS.setText(data.substring(0, 4));
 			} catch (JSONException e) {
 				e.printStackTrace();
+			} catch (Throwable ex) {
+				ex.printStackTrace();
 			}
 		}
 		
@@ -213,7 +231,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 		btn_regist = (Button) findViewById(R.id.button_regist);
 		btn_regist.setOnClickListener(RegistActivity.this);
 		initialize();
-		
+		mAccountObject = new AccountObject();
 	}
 
 	private String getOpJson(){
@@ -268,13 +286,14 @@ public class RegistActivity extends Activity implements OnClickListener {
 			if (checkConfirm()) {
 				if (checkSMSpwd()) {
 					//String tempStr = "http://"+Contant.SERVER_IP+":"+Contant.SERVER_PORT+"/javadill/user?id=l10&op=";
-					String jsonStr = getOpJson();
+					/*String jsonStr = getOpJson();
 					jsonStr = Client.encodeBase64(jsonStr);
 					String str = Tools.getRequestStr(Contant.SERVER_IP, Contant.SERVER_PORT
-							+ "", "user?id=", "l10", "&op="+jsonStr);		
+							+ "", "user?id=", "l10", "&op="+jsonStr);	*/
 				//	String url = tempStr+jsonStr;		
+					String str = "http://manage.lnwoowken.com/Mobile/common/register.ashx?para={\"cell\":\"" + name.getText().toString().trim() + "\",\"pwd\":\"" + password.getText().toString() + "\"}";
 					int flag = Contant.FLAG_REGIST;
-					mThread = new RequestServerThread(str, resultHandler, context, flag);			
+					mThread = new RequestServerThread(str, resultHandler, context, flag);
 					Message msg = new Message();
 					handler.sendMessage(msg);
 				}
@@ -290,13 +309,15 @@ public class RegistActivity extends Activity implements OnClickListener {
 			}		
 		}
 		else if (v.equals(btn_getSMS)) {
-			String phone = name.getText().toString();
-			if (phone!=null&&!phone.equals("")) {
+			String phone = name.getText().toString().trim();
+			if (!TextUtils.isEmpty(phone)) {
 				getSMS(phone);
 				Message msg = new Message();
 				getSMShandler.sendMessage(msg);
-			}
-			else {
+				btn_getSMS.setEnabled(false);
+				btn_getSMS.setTextColor(Color.GRAY);
+				doTimeCountDown();
+			} else {
 				Toast.makeText(context, "用户名不能为空", Toast.LENGTH_SHORT).show();
 			}
 			
@@ -356,10 +377,33 @@ public class RegistActivity extends Activity implements OnClickListener {
 		}
 	}
 	
-	
+	private void doTimeCountDown() {
+		new TimeCount(TIME_COUNDOWN, 1000).start();
+	}
+	class TimeCount extends CountDownTimer {
+
+		public TimeCount(long millisInFuture, long countDownInterval) {
+			super(millisInFuture, countDownInterval);
+			btn_getSMS.setEnabled(false);
+			btn_getSMS.setTextColor(Color.GRAY);
+		}
+
+		@Override
+		public void onFinish() {
+			btn_getSMS.setText(context.getResources().getString(R.string.get_yanzheng_code));
+			btn_getSMS.setEnabled(true);
+			btn_getSMS.setTextColor(context.getResources().getColor(R.color.text_selector));
+		}
+
+		@Override
+		public void onTick(long millisUntilFinished) {
+			btn_getSMS.setText(context.getResources()
+					.getString(R.string.time_countdown, millisUntilFinished / 1000));
+		}
+	}
 	
 	private void getSMS(String phone){
-		num = Tools.getRandomNum();
+		/*num = Tools.getRandomNum();
 		pwd = Tools.getRandomNum();
 		String strCN = "编号为"+num+"的注册验证码为"+pwd+"感谢您使用夺饭点";
 		try {
@@ -367,7 +411,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 		} catch (UnsupportedEncodingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 		String smsStr = "http://" + Contant.SERVER_IP + "/Mobile/common/GetRandCode.ashx?para={\"cell\":\"" + phone + "\"}";
 		threadSMS = new RequestServerThread(smsStr, smsResultHandler, context, Contant.FLAG_GETSMS);
 	}
@@ -379,7 +423,6 @@ public class RegistActivity extends Activity implements OnClickListener {
 				.
 				// setIcon(R.drawable.welcome_logo).
 				setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
@@ -390,10 +433,8 @@ public class RegistActivity extends Activity implements OnClickListener {
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						RegistActivity.this.finish();
 					}
 				}).
