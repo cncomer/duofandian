@@ -39,6 +39,7 @@ import android.widget.Toast;
 import com.cncom.app.base.account.AccountObject;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
 import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
+import com.shwy.bestjoy.utils.SecurityUtils;
 
 @SuppressLint("HandlerLeak")
 public class RegistActivity extends Activity implements OnClickListener {
@@ -57,13 +58,14 @@ public class RegistActivity extends Activity implements OnClickListener {
 	private EditText editText_checkSMS;
 	private EditText name;
 //	private EditText phone;
-//	private EditText email;
-//	private EditText niname;
+	private EditText email;
+	private EditText niname;
 	private EditText password;
 	private EditText editText_pwd_confirm;
 	private Button btn_more;
 	private AccountObject mAccountObject;
 	private static final int TIME_COUNDOWN = 120000;
+	private String mYanZhengCodeFromServer;
 	
 	private Handler getSMShandler = new Handler(){
 
@@ -140,6 +142,8 @@ public class RegistActivity extends Activity implements OnClickListener {
 		btn_home = (Button) findViewById(R.id.button_home);
 		btn_home.setOnClickListener(RegistActivity.this);
 		name = (EditText) findViewById(R.id.editText_name);
+		email = (EditText) findViewById(R.id.editText_email);
+		niname = (EditText) findViewById(R.id.editText_niname);
 		password = (EditText) findViewById(R.id.editText_pwd);
 		editText_pwd_confirm = (EditText) findViewById(R.id.editText_pwd_confirm);
 		editText_checkSMS = (EditText) findViewById(R.id.editText_checkSMS);
@@ -197,8 +201,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			checkRecieved(result);
 			try {
 				JSONObject jsonObject = new JSONObject(result);
-				String data = jsonObject.getString("Data");
-				editText_checkSMS.setText(data.substring(0, 4));
+				mYanZhengCodeFromServer = jsonObject.getString("Data");
 			} catch (JSONException e) {
 				e.printStackTrace();
 			} catch (Throwable ex) {
@@ -211,7 +214,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 	
 	private boolean checkRecieved(String result){
 		Log.d("checkRecieved==============", result);
-		if (result.contains("0")) {
+		if (result.contains("1")) {
 			isRecieved = true;
 			if (!TextUtils.isEmpty(name.getText().toString().trim())) {
 				Toast.makeText(context, "短信已经发送号码为"+name.getText().toString()+"的手机", Toast.LENGTH_SHORT).show();
@@ -249,64 +252,56 @@ public class RegistActivity extends Activity implements OnClickListener {
 	}
 	
 	private boolean checkConfirm(){
-		boolean b = false;
 		if (editText_pwd_confirm.getText().toString().equals(password.getText().toString())) {
-			b = true;
+			return true;
 		}
-		else {
-			//Toast.makeText(context, "密码输入不一致", Toast.LENGTH_SHORT).show();
-			b = false;
-		}
-		return b;
+		return false;
 	}
 	
-	private boolean checkSMSpwd(){
+	private boolean checkYanZhengCode(){
 		boolean b = false;
 		String str = editText_checkSMS.getText().toString();
-		if (isRecieved) {
-			if (str.equals(pwd+"")) {
-				b = true;
-			}
-			else {
-				b = false;
-			}
-		}
-		else {
+		String str1 = SecurityUtils.MD5.md5(mYanZhengCodeFromServer);
+		if (str.equals(SecurityUtils.MD5.md5(mYanZhengCodeFromServer))) {
+			b = true;
+		} else {
 			b = false;
-			Toast.makeText(context, "请确认收到短信后再提交注册信息", Toast.LENGTH_SHORT).show();
 		}
 		return b;
 	}
 	
+	private boolean checkInput() {
+		if(!checkConfirm()) {
+			Toast.makeText(context, "密码输入不一致", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if(!checkYanZhengCode()) {
+			Toast.makeText(context, "验证码不正确", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if(!TextUtils.isEmpty(email.getText().toString())) {
+			Toast.makeText(context, "请输入邮箱", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if(!TextUtils.isEmpty(niname.getText().toString())) {
+			Toast.makeText(context, "请输入昵称", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		return true;
+	}
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		if (v.equals(btn_regist)) {
 			Log.d("regist==============", "onclick");			
-			if (checkConfirm()) {
-				if (checkSMSpwd()) {
-					//String tempStr = "http://"+Contant.SERVER_IP+":"+Contant.SERVER_PORT+"/javadill/user?id=l10&op=";
-					/*String jsonStr = getOpJson();
-					jsonStr = Client.encodeBase64(jsonStr);
-					String str = Tools.getRequestStr(Contant.SERVER_IP, Contant.SERVER_PORT
-							+ "", "user?id=", "l10", "&op="+jsonStr);	*/
-				//	String url = tempStr+jsonStr;		
-					String str = "http://manage.lnwoowken.com/Mobile/common/register.ashx?para={\"cell\":\"" + name.getText().toString().trim() + "\",\"pwd\":\"" + password.getText().toString() + "\"}";
-					int flag = Contant.FLAG_REGIST;
-					mThread = new RequestServerThread(str, resultHandler, context, flag);
-					Message msg = new Message();
-					handler.sendMessage(msg);
-				}
-				else {
-					Toast.makeText(context, "验证码不正确", Toast.LENGTH_SHORT).show();
-				}
-				
-				
-				
-			}
-			else {
-				Toast.makeText(context, "密码输入不一致", Toast.LENGTH_SHORT).show();
-			}		
+			if(checkInput()) {
+				//para={"cell":"18621951097","pwd":"wangkun","nickname":"kun","email":"369319633@qq.com"}
+				String str = "http://manage.lnwoowken.com/Mobile/common/register.ashx?para={\"cell\":\"" + name.getText().toString().trim() + "\",\"pwd\":\"" + password.getText().toString() + "\",\"nickname\":\"" + niname.getText().toString().trim() + "\":\"email\":\"" + email.getText().toString().trim() +"\"}";
+				int flag = Contant.FLAG_REGIST;
+				mThread = new RequestServerThread(str, resultHandler, context, flag);
+				Message msg = new Message();
+				handler.sendMessage(msg);
+			}	
 		}
 		else if (v.equals(btn_getSMS)) {
 			String phone = name.getText().toString().trim();
@@ -376,7 +371,6 @@ public class RegistActivity extends Activity implements OnClickListener {
 			RegistActivity.this.finish();
 		}
 	}
-	
 	private void doTimeCountDown() {
 		new TimeCount(TIME_COUNDOWN, 1000).start();
 	}

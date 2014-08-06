@@ -318,91 +318,6 @@ public class TestMain extends Activity implements OnClickListener {
 		mGallery = new MyGalleryAdapter(context);
 		gallery.setAdapter(mGallery);
 		setSquareLayoutParam();
-		
-		
-		
-		
-		
-		
-		
-		
-//		if (Contant.SCREEN_FLAG == 1) {
-//			Log.d("Contant.GALLERY_WIDTH==========", Contant.GALLERY_WIDTH + "");
-//			Contant.SCREEN_WIDTH = screenWidth;
-//			Contant.SCREEN_HEIGHT = screenHeight;
-//			Contant.SCALE_WIDTH = 1;// Contant.SCREEN_WIDTH/Contant.SCREEN_WIDTH_480;
-//			Contant.GALLERY_WIDTH = (int) (screenWidth - Contant.MARGIN_LEFTRIGHT_480
-//					* Contant.SCALE_WIDTH * 2); // (screenWidth -
-//												// Tools.dip2px(context, 40));
-//			Log.d("SCREEN_WIDTH", Contant.SCREEN_WIDTH + "");
-//			Log.d("SCREEN_HEIGHT", Contant.SCREEN_HEIGHT + "");
-//			Contant.GALLERY_HEIGHT = Contant.GALLERY_WIDTH * 380 / 412;
-//			int margin_int = (int) (Contant.SCALE_WIDTH * Contant.MARGIN_LEFTRIGHT_480);// Tools.dip2px(context,
-//																						// 20);
-//			LinearLayout.LayoutParams l1 = new LinearLayout.LayoutParams(
-//					Contant.GALLERY_WIDTH, Contant.GALLERY_HEIGHT);
-//			l1.setMargins(margin_int, 0, margin_int, 0);
-//
-//			// RelativeLayout.LayoutParams l2 = new RelativeLayout.LayoutParams(
-//			// (screenWidth - Tools.dip2px(context, 40)),
-//			// (int) ((screenWidth - Tools.dip2px(context, 40)) / 3 + 0.5));
-//
-//			RelativeLayout.LayoutParams l2 = new RelativeLayout.LayoutParams(
-//					Contant.GALLERY_WIDTH, Contant.GALLERY_WIDTH * 126 / 412);
-//			RelativeLayout.LayoutParams l3 = new RelativeLayout.LayoutParams(
-//					Contant.GALLERY_WIDTH, Contant.GALLERY_HEIGHT);
-//			imageViewBottom.setLayoutParams(l2);
-//			relativeLayout.setLayoutParams(l1);
-//
-//			gallery.setLayoutParams(l3);
-//			mGallery = new MyGalleryAdapter(context);
-//			gallery.setAdapter(mGallery);
-//			setSquareLayoutParam();
-//		} else if (Contant.SCREEN_FLAG == 2) {
-//			pictureGallery = (Gallery) findViewById(R.id.gallery);
-//			adapter = new ImageAdapter(picture, this);
-//			pictureGallery.setAdapter(adapter);
-//
-//		}
-//		else {
-//			Log.d("Contant.GALLERY_WIDTH==========", Contant.GALLERY_WIDTH + "");
-//			Contant.SCREEN_WIDTH = screenWidth;
-//			Contant.SCREEN_HEIGHT = screenHeight;
-//			Contant.SCALE_WIDTH = 1;// Contant.SCREEN_WIDTH/Contant.SCREEN_WIDTH_480;
-//			Contant.GALLERY_WIDTH = (int) (screenWidth - Contant.MARGIN_LEFTRIGHT_480
-//					* Contant.SCALE_WIDTH * 2); // (screenWidth -
-//												// Tools.dip2px(context, 40));
-//			Log.d("Contant.SCALE_WIDTH", Contant.SCALE_WIDTH + "");
-//			Contant.GALLERY_HEIGHT = Contant.GALLERY_WIDTH * 380 / 412;// (int)
-//																		// (Contant.GALLERY_WIDTH
-//																		// /
-//																		// 1.03175
-//																		// +
-//																		// 0.5);
-//			// int margin_int = (int)(20/scale + 0.5f*(20>=0?1:-1));
-//
-//			int margin_int = (int) (Contant.SCALE_WIDTH * Contant.MARGIN_LEFTRIGHT_480);// Tools.dip2px(context,
-//																						// 20);
-//			LinearLayout.LayoutParams l1 = new LinearLayout.LayoutParams(
-//					Contant.GALLERY_WIDTH, Contant.GALLERY_HEIGHT);
-//			l1.setMargins(margin_int, 0, margin_int, 0);
-//
-//			// RelativeLayout.LayoutParams l2 = new RelativeLayout.LayoutParams(
-//			// (screenWidth - Tools.dip2px(context, 40)),
-//			// (int) ((screenWidth - Tools.dip2px(context, 40)) / 3 + 0.5));
-//
-//			RelativeLayout.LayoutParams l2 = new RelativeLayout.LayoutParams(
-//					Contant.GALLERY_WIDTH, Contant.GALLERY_WIDTH * 126 / 412);
-//			RelativeLayout.LayoutParams l3 = new RelativeLayout.LayoutParams(
-//					Contant.GALLERY_WIDTH, Contant.GALLERY_HEIGHT);
-//			imageViewBottom.setLayoutParams(l2);
-//			relativeLayout.setLayoutParams(l1);
-//
-//			gallery.setLayoutParams(l3);
-//			mGallery = new MyGalleryAdapter(context);
-//			gallery.setAdapter(mGallery);
-//			setSquareLayoutParam();
-//		}
 	}
 
 	@SuppressLint("SimpleDateFormat")
@@ -513,7 +428,6 @@ public class TestMain extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		int flag = 0;
 		if (v.equals(btn_vip)) {
 			Mycamera animition = new Mycamera(true);

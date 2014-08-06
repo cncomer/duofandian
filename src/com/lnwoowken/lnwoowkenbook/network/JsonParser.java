@@ -788,7 +788,7 @@ public class JsonParser {
 		}
 	}
 
-	public static void parseShopInfoJson(String jsonData, StoreInfo tempShop) {
+	public static StoreInfo parseShopInfoJson(String jsonData, StoreInfo tempShop) {
 		// StoreInfo tempShop = null;
 		Log.d("shoplist___________", jsonData);
 		if (jsonData.startsWith("\"") && jsonData.endsWith("\"")) {
@@ -818,16 +818,16 @@ public class JsonParser {
 //					tempShop.setEnvironmentLevel(temp
 //							.getString("environmentLevel"));
 //					tempShop.setFlavorLevel(temp.getString("flavorLevel"));
-					String address = temp.getString("address");
-					if (address.contains("\n")) {
-						address = address.replace("\n", "");
-					}
-					tempShop.setAddress(address);
-					tempShop.setPhoneNumber(temp.getString("contacts_phone"));
-					tempShop.setAveragePrice(temp.getString("averagePrice"));
-					tempShop.setServicePrice(temp.getString("Serverprice"));
+					//String address = temp.getString("address");
+					//if (address.contains("\n")) {
+						//address = address.replace("\n", "");
+					//}
+					//tempShop.setAddress(address);
+					//tempShop.setPhoneNumber(temp.getString("contacts_phone"));
+					//tempShop.setAveragePrice(temp.getString("averagePrice"));
+					//tempShop.setServicePrice(temp.getString("Serverprice"));
 			//		tempShop.setIcon(temp.getString("icon"));
-					tempShop.setImagePath(temp.getString("shop_img"));
+					//tempShop.setImagePath(temp.getString("shop_img"));
 					
 					//String s = temp.getString("Create");
 
@@ -855,12 +855,12 @@ public class JsonParser {
 				}
 				
 				tempShop.setInfo(temp.getString("shop_brief"));
-				tempShop.setTableImagePath(temp.getString("qiang_wei_img"));
+				//tempShop.setTableImagePath(temp.getString("qiang_wei_img"));
 				//tempShop.setPriceLevel(temp.getString("priceLevel"));
 //				tempShop.setEnvironmentLevel(temp
 //						.getString("environmentLevel"));
 //				tempShop.setFlavorLevel(temp.getString("flavorLevel"));
-				String address = temp.getString("address");
+				/*String address = temp.getString("address");
 				if (address.contains("\n")) {
 					address = address.replace("\n", "");
 				}
@@ -869,7 +869,7 @@ public class JsonParser {
 				tempShop.setAveragePrice(temp.getString("averagePrice"));
 				tempShop.setServicePrice(temp.getString("Serverprice"));
 		//		tempShop.setIcon(temp.getString("icon"));
-				tempShop.setImagePath(temp.getString("shop_img"));
+				tempShop.setImagePath(temp.getString("shop_img"));*/
 				// tempList.add(shop);
 				// Log.d("___________", tempList.get(0).getId()+"");
 			} catch (JSONException e) {
@@ -877,7 +877,7 @@ public class JsonParser {
 				e.printStackTrace();
 			}
 		}
-		// return tempShop;
+		 return tempShop;
 	}
 
 	public static List<TableInfo> parseTableInfoJson(String jsonData) {
