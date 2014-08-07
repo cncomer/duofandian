@@ -29,7 +29,7 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 	private MainActivityContentFragment mContent;
 	private PersonalInfoCenterFragment mMenu;
 	private Bundle mBundles;
-	/**琛ㄧず鏄惁鏄涓�杩涘叆*/
+	/**表示是否是第一次进入*/
 	private static final String  KEY_FIRST_SHOW = "MainActivity2.first";
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +38,7 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 		if (isFinishing()) {
 			return ;
 		}
+		
 		
 		if (savedInstanceState != null) {
 			mContent = (MainActivityContentFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
@@ -169,13 +170,13 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 
 	@Override
 	public void onOpened() {
-		//褰揝lidingMenu鎵撳紑鍚庯紝鎴戜滑闇�闅愯棌鎺夋墜鍔ㄦ墦寮�lidinMenu鎸夐挳
+		//当SlidingMenu打开后，我们需要隐藏掉手动打开SlidinMenu按钮
 	}
 
 
 	@Override
 	public void onClosed() {
-		//褰揝lidingMenu鍏抽棴鍚庯紝鎴戜滑闇�閲嶆柊鏄剧ず鎵嬪姩鎵撳紑SlidinMenu鎸夐挳
+		//当SlidingMenu关闭后，我们需要重新显示手动打开SlidinMenu按钮
 		
 	}
 	
@@ -200,11 +201,11 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 	
 	private void showExitLoginDialog() {
 	    new AlertDialog.Builder(this)
-			.setTitle("鎻愮ず")
-			.setMessage("鎮ㄥ凡缁忕櫥褰�鏄惁瑕侀�鍑洪噸鏂扮櫥褰�")
+			.setTitle("提示")
+			.setMessage("您已经登录,是否要退出重新登录?")
 			.
 			// setIcon(R.drawable.welcome_logo).
-			setPositiveButton("纭畾", new DialogInterface.OnClickListener() {
+			setPositiveButton("确定", new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -212,10 +213,10 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 					Intent in = new Intent();
 					in.setAction("login");
 					sendBroadcast(in);
-					Toast.makeText(mContext, "鎴愬姛閫�嚭鐧诲綍", Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, "成功退出登录", Toast.LENGTH_SHORT).show();
 				}
 			})
-			.setNegativeButton("鍙栨秷", new DialogInterface.OnClickListener() {
+			.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
