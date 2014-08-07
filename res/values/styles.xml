@@ -92,16 +92,9 @@
     <item name="android:paddingLeft">5dip</item>
     </style>
     
-     <style name="AppActionBarTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+     <style name="AppActionBarTheme" parent="Theme.Sherlock">
         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
         <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
-         <item name="textColorPrimary">@color/abs__primary_text_holo_dark</item>
-        <item name="textColorPrimaryDisableOnly">@color/abs__primary_text_disable_only_holo_dark</item>
-        <item name="textColorPrimaryInverse">@color/abs__primary_text_holo_light</item>
-        <item name="android:textColorPrimary">@color/abs__primary_text_holo_dark</item>
-        <item name="android:textColorPrimaryDisableOnly">@color/abs__primary_text_disable_only_holo_dark</item>
-        <item name="android:textColorPrimaryInverse">@color/abs__primary_text_holo_light</item>
-        <item name="android:textColorSecondary">@android:color/secondary_text_light</item>
         <!--  item name="android:windowFullscreen">true</item-->
     </style>
     <style name="AppActionBarTheme.MainActivityActionBar">
