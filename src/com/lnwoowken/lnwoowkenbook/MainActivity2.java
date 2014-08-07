@@ -136,6 +136,15 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
         case android.R.id.home:
+        	
+	        if (true) {
+	        	if (getSlidingMenu().isMenuShowing()) {
+					getSlidingMenu().showContent();
+				} else {
+					getSlidingMenu().showMenu();
+				}
+	        	return true;
+	        }
      	   Intent upIntent = NavUtils.getParentActivityIntent(this);
      	   if (upIntent == null) {
      		   // If we has configurated parent Activity in AndroidManifest.xml, we just finish current Activity.

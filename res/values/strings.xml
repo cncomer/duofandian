@@ -68,6 +68,7 @@
     <string name="title_bill_pay">定单支付</string>
     <string name="title_mybill">我的定单</string>
     <string name="title_user">会员中心</string>
+     <string name="title_login_to_get_services">点击登录获取更多特权</string>
     <string name="score1">口味 8.1</string>
     <string name="score2">环境 8.5</string>
     <string name="score3">服务 8.9</string>

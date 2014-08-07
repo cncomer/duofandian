@@ -331,4 +331,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 		return super.onTouchEvent(event);
 
 	}
+	
+	public static void startActivity(Context context) {
+		Intent intent = new Intent(context, LoginActivity.class);
+		context.startActivity(intent);
+	}
 }
