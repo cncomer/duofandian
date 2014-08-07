@@ -261,8 +261,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 	private boolean checkYanZhengCode(){
 		boolean b = false;
 		String str = editText_checkSMS.getText().toString();
-		String str1 = SecurityUtils.MD5.md5(mYanZhengCodeFromServer);
-		if (str.equals(SecurityUtils.MD5.md5(mYanZhengCodeFromServer))) {
+		if (mYanZhengCodeFromServer.equals(SecurityUtils.MD5.md5(str))) {
 			b = true;
 		} else {
 			b = false;
@@ -279,11 +278,11 @@ public class RegistActivity extends Activity implements OnClickListener {
 			Toast.makeText(context, "验证码不正确", Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		if(!TextUtils.isEmpty(email.getText().toString())) {
+		if(TextUtils.isEmpty(email.getText().toString())) {
 			Toast.makeText(context, "请输入邮箱", Toast.LENGTH_SHORT).show();
 			return false;
 		}
-		if(!TextUtils.isEmpty(niname.getText().toString())) {
+		if(TextUtils.isEmpty(niname.getText().toString())) {
 			Toast.makeText(context, "请输入昵称", Toast.LENGTH_SHORT).show();
 			return false;
 		}
@@ -296,7 +295,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			Log.d("regist==============", "onclick");			
 			if(checkInput()) {
 				//para={"cell":"18621951097","pwd":"wangkun","nickname":"kun","email":"369319633@qq.com"}
-				String str = "http://manage.lnwoowken.com/Mobile/common/register.ashx?para={\"cell\":\"" + name.getText().toString().trim() + "\",\"pwd\":\"" + password.getText().toString() + "\",\"nickname\":\"" + niname.getText().toString().trim() + "\":\"email\":\"" + email.getText().toString().trim() +"\"}";
+				String str = "http://manage.lnwoowken.com/Mobile/common/register.ashx?para={\"cell\":\"" + name.getText().toString().trim() + "\",\"pwd\":\"" + password.getText().toString() + "\",\"nickname\":\"" + niname.getText().toString().trim() + "\",\"email\":\"" + email.getText().toString().trim() +"\"}";
 				int flag = Contant.FLAG_REGIST;
 				mThread = new RequestServerThread(str, resultHandler, context, flag);
 				Message msg = new Message();

@@ -1,11 +1,17 @@
 ﻿package com.lnwoowken.lnwoowkenbook;
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,11 +33,19 @@ import android.widget.Toast;
 import com.cncom.app.base.account.AccountObject;
 import com.cncom.app.base.account.AccountParser;
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.util.DebugUtils;
+import com.cncom.app.base.util.DialogUtils;
+import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
 import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
+import com.shwy.bestjoy.utils.AsyncTaskUtils;
+import com.shwy.bestjoy.utils.ComConnectivityManager;
+import com.shwy.bestjoy.utils.NetworkUtils;
+import com.shwy.bestjoy.utils.SecurityUtils;
 
 @SuppressLint("HandlerLeak")
 public class LoginActivity extends Activity implements OnClickListener {
+	private static final String TAG = "LoginActivity";
 	private PopupWindow popupWindow;
 	private Button btn_back;
 	private Button btn_home;
@@ -42,6 +56,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private EditText editText_pwd;
 	private RequestServerThread myThread;
 	private Button btn_regist;
+	private Button btn_getPwd;
 	private AccountObject mAccountObject;
 	private Handler handler = new Handler() {
 
@@ -129,6 +144,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private void initialize(){
 		btn_login = (Button) findViewById(R.id.button_login);
 		btn_regist = (Button) findViewById(R.id.button_regist);
+		btn_getPwd = (Button) findViewById(R.id.button_getpwd);
 		editText_uid = (EditText) findViewById(R.id.EditText_uid);
 		editText_uid.setOnFocusChangeListener(new OnFocusChangeListener() {
 			
@@ -162,6 +178,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		});
 		btn_login.setOnClickListener(LoginActivity.this);
 		btn_regist.setOnClickListener(LoginActivity.this);
+		btn_getPwd.setOnClickListener(LoginActivity.this);
 		btn_home = (Button) findViewById(R.id.button_home);
 		btn_home.setOnClickListener(LoginActivity.this);
 		btn_more = (Button) findViewById(R.id.button_more);
@@ -198,6 +215,18 @@ public class LoginActivity extends Activity implements OnClickListener {
 			startActivity(intent);
 			
 		}
+		else if (v.equals(btn_getPwd)) {
+			//如果电话号码为空，提示用户先输入号码，在找回密码
+			if (TextUtils.isEmpty(editText_uid.getText().toString())) {
+				MyApplication.getInstance().showMessage(R.string.msg_input_tel_when_find_password);
+			} else {
+				if (!ComConnectivityManager.getInstance().isConnected()) {
+					ComConnectivityManager.getInstance().onCreateNoNetworkDialog(this).show();
+				} else {
+					findPasswordAsync();
+				}
+			}
+		}
 		else if (v.equals(btn_more)) {
 			if (popupWindow == null || !popupWindow.isShowing()) {
 				View view = LayoutInflater.from(context).inflate(
@@ -228,11 +257,61 @@ public class LoginActivity extends Activity implements OnClickListener {
 		}
 		
 	}
-	
+	private FidnPasswordTask mFidnPasswordTask;
+	private void findPasswordAsync() {
+		AsyncTaskUtils.cancelTask(mFidnPasswordTask);
+		mFidnPasswordTask = new FidnPasswordTask();
+		mFidnPasswordTask.execute();
+	}
+	private class FidnPasswordTask extends AsyncTask<Void, Void, ServiceResultObject> {
+
+		@Override
+		protected ServiceResultObject doInBackground(Void... params) {
+			ServiceResultObject result = new ServiceResultObject();
+			
+			InputStream is = null;
+			try {
+				JSONObject queryJsonObject = new JSONObject();
+				queryJsonObject.put("cell", editText_uid.getText().toString().trim());
+				
+				is = NetworkUtils.openContectionLocked(ServiceObject.getFindPasswordUrl("para", queryJsonObject.toString()), null);
+			    if (is != null) {
+			    	result = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
+			    }
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				result.mStatusMessage = e.getMessage();
+			} catch (IOException e) {
+				e.printStackTrace();
+				result.mStatusMessage = MyApplication.getInstance().getGernalNetworkError();
+			} catch (JSONException e) {
+				e.printStackTrace();
+				result.mStatusMessage = e.getMessage();
+			} finally {
+				NetworkUtils.closeInputStream(is);
+			}
+			return result;
+		}
+		@Override
+		protected void onPostExecute(ServiceResultObject result) {
+			super.onPostExecute(result);
+			if (result.isOpSuccessfully()) {
+				MyApplication.getInstance().showMessage(result.mStatusMessage);
+			} else {
+				DialogUtils.createSimpleConfirmAlertDialog(context, context.getString(R.string.tel_not_register), null);
+			}
+			
+		}
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+		
+		
+		
+	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		//
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			LoginActivity.this.finish();
 		}
@@ -241,9 +320,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-
-		// TODO Auto-generated method stub
-
 		if (popupWindow != null && popupWindow.isShowing()) {
 
 			popupWindow.dismiss();

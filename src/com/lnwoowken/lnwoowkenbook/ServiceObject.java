@@ -33,15 +33,16 @@ public class ServiceObject {
 	/**
 	 * 返回登陆调用URL
 	 * @param para
-	 * @param desString DES加密后的字串
+	 * @param jsonString
 	 * @return
 	 */
-	public static String getFindPasswordUrl(String para, String DESString) {
+	public static String getFindPasswordUrl(String para, String jsonString) {
 		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
-		sb.append("20140726/SendMessage.ashx?")
-		.append(para).append("=").appendUrlEncodedString(DESString);
+		sb.append("Mobile/common/getPwd.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
 		return sb.toString();
 	}
+	
 	//add by chenkai, 20140726, 将发送短信抽离出来，以便修改 begin
 	
 	public static class ServiceResultObject {
