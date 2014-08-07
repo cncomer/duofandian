@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    tools:context=".MainActivity" >
+
+    <!-- 使用自定义的侧滑布局，orientation必须为水平方向 -->
+
+    <com.lnwoowken.lnwoowkenbook.view.SlidingLayout
+        android:id="@+id/slidingLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal" >
+
+        <include layout="@layout/left_panel"/>
+		<include layout="@layout/right_panel"/>
+        
+    </com.lnwoowken.lnwoowkenbook.view.SlidingLayout>
+
+</LinearLayout>

@@ -297,9 +297,18 @@ public class Tools {
         if   (sdCardExist)   
         {                               
           sdDir = Environment.getExternalStorageDirectory();//获取跟目录 
-       }
+       } 
         
         return sdDir.toString(); 
         
  }
+    
+    public static String getApplicationRootPath(Context context) {
+    	boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    	if (sdCardExist) {
+    		return  context.getExternalFilesDir(null).getAbsolutePath();
+    	} else {
+    		return context.getFilesDir().getAbsolutePath();
+    	}
+    }
 }

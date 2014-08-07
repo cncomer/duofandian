@@ -35,7 +35,7 @@ public abstract class BaseSlidingFragmentActivity extends SlidingFragmentActivit
 	private static final int CurrentPictureGalleryRequest = 11000;
 	private static final int CurrentPictureCameraRequest = 11001;
 	private int mCurrentPictureRequest;
-	private Context mContext;
+	protected Context mContext;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

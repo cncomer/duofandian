@@ -91,4 +91,44 @@
     <item name="android:background">@drawable/spinner_selector</item>
     <item name="android:paddingLeft">5dip</item>
     </style>
+    
+     <style name="AppActionBarTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+        <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
+        <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
+         <item name="textColorPrimary">@color/abs__primary_text_holo_dark</item>
+        <item name="textColorPrimaryDisableOnly">@color/abs__primary_text_disable_only_holo_dark</item>
+        <item name="textColorPrimaryInverse">@color/abs__primary_text_holo_light</item>
+        <item name="android:textColorPrimary">@color/abs__primary_text_holo_dark</item>
+        <item name="android:textColorPrimaryDisableOnly">@color/abs__primary_text_disable_only_holo_dark</item>
+        <item name="android:textColorPrimaryInverse">@color/abs__primary_text_holo_light</item>
+        <item name="android:textColorSecondary">@android:color/secondary_text_light</item>
+        <!--  item name="android:windowFullscreen">true</item-->
+    </style>
+    <style name="AppActionBarTheme.MainActivityActionBar">
+        <item name="actionBarStyle">@style/Widget.Styled.ActionBar.MainActivity</item>
+        <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar.MainActivity</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="windowContentOverlay">@null</item>
+        <item name="windowActionModeOverlay">false</item>
+        <item name="android:windowActionModeOverlay">false</item>
+        <item name="android:actionMenuTextAppearance">@style/MainActivityTextAppearance</item>
+        <item name="actionMenuTextAppearance">@style/MainActivityTextAppearance</item>
+        <item name="android:actionMenuTextColor">@color/main_color</item>
+        <item name="actionMenuTextColor">@color/main_color</item>
+    </style>
+    <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+        <item name="actionButtonStyle">@style/Widget.Sherlock.ActionButton</item>
+        <item name="android:actionButtonStyle">@style/Widget.Sherlock.ActionButton</item>
+    </style>
+    <style name="Widget.Styled.ActionBar.MainActivity">
+        <item name="background">@color/wt</item>
+        <item name="android:background">@color/wt</item>
+         <item name="displayOptions">homeAsUp</item>
+         <item name="android:displayOptions">none</item>
+    </style>
+    
+    <style name="MainActivityTextAppearance">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

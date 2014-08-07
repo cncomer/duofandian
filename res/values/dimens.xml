@@ -9,5 +9,7 @@
       <dimen name="barcode_image_view_size">120dip</dimen>
     <dimen name="preview_image_view_size">60dip</dimen>
      <!-- qrcode scan end -->
+     
+     <dimen name="left_panel_item_layout_margin_top">10dp</dimen>
 
 </resources>

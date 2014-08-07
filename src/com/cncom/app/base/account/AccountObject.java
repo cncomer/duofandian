@@ -16,14 +16,7 @@ import com.lnwoowken.lnwoowkenbook.MyApplication;
 import com.lnwoowken.lnwoowkenbook.R;
 import com.shwy.bestjoy.utils.DebugUtils;
 import com.shwy.bestjoy.utils.InfoInterface;
-/**
- * 账户对象，在程序启动时候会通过{@link MyAccountManager#setContext(Context context)}来获得当前默认账户。
- * 
- * 需要注意的是，在设计数据库的时候，有{@link DBHelper#ACCOUNT_HOME_COUNT}字段，该字段会随着新增或是删除一个HomeObject数据
- * 自动增加和减少，所以我们保存的时候不要设置他。成员mAccountHomes 以及 mBaoxiuCards默认都是空的，如果需要，需要额外调用方法来获得，
- * @author chenkai
- *
- */
+
 public class AccountObject implements InfoInterface{
 	private static final String TAG = "HaierAccount";
 	
@@ -78,9 +71,7 @@ public class AccountObject implements InfoInterface{
 	public String mAccountLevel;
 	
 
-	/**登陆或注册的时候会用到，表示当前的状态，statuscode:状态 1:成功   0：失败*/
 	public int mStatusCode;
-	/**登陆时候服务器返回的数据*/
 	public String mStatusMessage;
 
 	public boolean isLogined() {
@@ -116,10 +107,10 @@ public class AccountObject implements InfoInterface{
 		AccountObject account = null;
 		Cursor c = null;
 		if (uid == -1) {
-			//默认账户
+			//��ȡĬ���˻�
 			c = context.getContentResolver().query(BjnoteContent.Accounts.CONTENT_URI, PROJECTION, WHERE_DEFAULT, null, null);
 		} else {
-			//根据指定的uid查询账户
+			//��ȡָ��uid���˻�
 			c = context.getContentResolver().query(BjnoteContent.Accounts.CONTENT_URI, PROJECTION, WHERE_UID, new String[]{String.valueOf(uid)}, null);
 		}
 		if (c != null) {
@@ -189,7 +180,6 @@ public class AccountObject implements InfoInterface{
 				DebugUtils.logD(TAG, "saveInDatebase failly update exsited uid " + mAccountUid);
 			}
 		} else {
-			//如果没有本地没有账户，那么我们新增的时候增加ACCOUNT_MD字段,并设置为当前默认账户
 			values.put(DBHelper.ACCOUNT_UID, mAccountUid);
 			values.put(DBHelper.ACCOUNT_DEFAULT, 1);
 			Uri uri = cr.insert(BjnoteContent.Accounts.CONTENT_URI, values);

@@ -21,6 +21,7 @@ public class MyGalleryAdapter extends BaseAdapter /*
 	private Context mContext; /* ImageAdapter的建构子 */
 	private int[] myImageIds = { R.drawable.pic_1, R.drawable.pic_2,
 			R.drawable.pic_3, R.drawable.pic_4, R.drawable.pic_5, };
+	private String[] mImageTitle = new String[] { "page1", "page2", "page3", "page4", "page5" };
 
 	public MyGalleryAdapter(Context c) {
 		// mContext = c;
@@ -47,6 +48,10 @@ public class MyGalleryAdapter extends BaseAdapter /*
 	public long getItemId(int position) /* 一定要重写的方法getItemId,传回position */
 	{
 		return position;
+	}
+	
+	public String getItemTitle(int position) {
+		return mImageTitle[position];
 	}
 	
 	/*

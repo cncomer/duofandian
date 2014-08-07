@@ -28,8 +28,9 @@ public class WelcomeActivity extends Activity {
 		public void handleMessage(Message msg) {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
-			Intent intent = new Intent(WelcomeActivity.this, TestMain.class);
-			startActivity(intent);
+//			Intent intent = new Intent(WelcomeActivity.this, TestMain.class);
+//			startActivity(intent);
+			MainActivity2.startIntent(WelcomeActivity.this, null);
 			WelcomeActivity.this.finish();
 			
 		}

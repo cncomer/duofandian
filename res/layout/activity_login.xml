@@ -90,7 +90,7 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="200dip"
+                android:layout_height="180dip"
                 android:background="@drawable/img_user_center_bg"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dip"
@@ -123,7 +123,7 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="60dip"
+                android:layout_height="50dip"
                 android:background="@color/White"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dip"
@@ -156,7 +156,7 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="60dip"
+                android:layout_height="50dip"
                 android:background="@color/White"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dip"

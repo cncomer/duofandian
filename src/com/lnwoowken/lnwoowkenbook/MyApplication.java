@@ -33,7 +33,7 @@ import com.umeng.analytics.MobclickAgent;
 
 public class MyApplication extends Application{
 	
-	private static final String TAG ="BJfileApp";
+	private static final String TAG ="MyApplication";
 	/**对于不同的保修卡，我们只要确保该变量为正确的应用包名即可*/
 	public static final String PKG_NAME = "com.lnwoowken.lnwoowkenbook";
 	private Handler mHandler;

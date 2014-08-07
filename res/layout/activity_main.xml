@@ -24,7 +24,7 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5.0dip"
-            android:src="@drawable/dot" />
+            android:src="@drawable/ads_dot" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -32,7 +32,7 @@
             android:layout_gravity="center_vertical"
             android:clickable="true"
             android:padding="5.0dip"
-            android:src="@drawable/dot" />
+            android:src="@drawable/ads_dot" />
 
     
     </LinearLayout>

@@ -7,4 +7,16 @@
 <dimen name="cell_margin_top">92px</dimen>
 <dimen name="cell_margin_left">39px</dimen>
 <dimen name="cell_text_size">26px</dimen>
+
+ <dimen name="shadow_width">5dp</dimen>
+ <dimen name="choose_device_slidingmenu_offset">25dip</dimen>
+ <dimen name="choose_device_choose_slidingmenu_offset">60dip</dimen>
+
+
+
+<!--dimen name="right_panel_image_icon">88dp</dimen>
+<dimen name="right_panel_layout_margin_left">23dp</dimen>
+<dimen name="right_panel_layout_margin_right">23dp</dimen>
+<dimen name="right_panel_layout_margin_top">10dp</dimen>
+<dimen name="right_panel_layout_margin_bottom">10dp</dimen-->
 </resources>

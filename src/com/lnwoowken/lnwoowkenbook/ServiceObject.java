@@ -44,6 +44,37 @@ public class ServiceObject {
 	}
 	
 	//add by chenkai, 20140726, 将发送短信抽离出来，以便修改 begin
+	/**
+	 * 获取所有店铺id, 如返回：[{"ID":"1"},{"ID":"2"},{"ID":"3"},{"ID":"4"},{"ID":"5"}]
+	 * @return
+	 */
+	public static String getAllShopIdsUrl() {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("mobile/GetShopID.ashx?");
+		return sb.toString();
+	}
+	
+	/**
+	 * 得到店铺的详细信息
+	 * @param id 指定的店铺ID
+	 * @return
+	 */
+	public static String getShopDetailsUrl(long id) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("mobile/GetShopDetailByID.ashx?shopid=").append(id);
+		return sb.toString();
+	}
+	
+	/**
+	 * 得到店铺当天可以预订的桌数, 如{"number":"0"}，（注：桌子的数据需要维护）
+	 * @param id 指定的店铺ID
+	 * @return
+	 */
+	public static String getShopOrderCounts(long id) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("mobile/GetAvailableDeskCount.ashx?shopid=").append(id);
+		return sb.toString();
+	}
 	
 	public static class ServiceResultObject {
 		public int mStatusCode = 0;

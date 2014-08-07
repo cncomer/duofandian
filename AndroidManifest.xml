@@ -255,6 +255,13 @@
         <provider android:name="com.cncom.app.base.database.BjnoteProvider"
             android:exported="true"
             android:authorities="com.lnwoowken.lnwoowkenbook.provider.BjnoteProvider"/>
+        
+        <activity
+            android:name="com.lnwoowken.lnwoowkenbook.MainActivity2"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

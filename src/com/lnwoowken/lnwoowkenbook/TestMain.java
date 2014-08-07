@@ -322,7 +322,7 @@ public class TestMain extends Activity implements OnClickListener {
 
 	@SuppressLint("SimpleDateFormat")
 	private void initialize() {
-		Contant.SDCARD = Tools.getSDPath();
+		Contant.SDCARD = Tools.getApplicationRootPath(this);
 		Contant.WOOWKEN_DIR = Contant.SDCARD+"/"+"woowken";
 		File f = new File(Contant.WOOWKEN_DIR);
 		if (!f.exists()) {
