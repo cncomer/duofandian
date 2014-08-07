@@ -1,4 +1,4 @@
-package com.lnwoowken.lnwoowkenbook;
+ï»¿package com.lnwoowken.lnwoowkenbook;
 
 
 import android.app.AlertDialog;
@@ -29,7 +29,7 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 	private MainActivityContentFragment mContent;
 	private PersonalInfoCenterFragment mMenu;
 	private Bundle mBundles;
-	/**±íÊ¾ÊÇ·ñÊÇµÚÒ»´Î½øÈë*/
+	/**ç›ã„§ãšé„îˆšæƒé„îˆœîƒ‡æ¶“ï¿½î‚¼æ©æ¶˜å†*/
 	private static final String  KEY_FIRST_SHOW = "MainActivity2.first";
 	
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,6 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 		if (isFinishing()) {
 			return ;
 		}
-		
 		
 		if (savedInstanceState != null) {
 			mContent = (MainActivityContentFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
@@ -170,13 +169,13 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 
 	@Override
 	public void onOpened() {
-		//µ±SlidingMenu´ò¿ªºó£¬ÎÒÃÇĞèÒªÒş²ØµôÊÖ¶¯´ò¿ªSlidinMenu°´Å¥
+		//è¤°ælidingMenuéµæ’³ç´‘éšåº¯ç´é´æˆœæ»‘é—‡ï¿½îœ…é—…æ„¯æ£Œéºå¤‹å¢œé”ã„¦å¢¦å¯®ï¿½lidinMenué¸å¤æŒ³
 	}
 
 
 	@Override
 	public void onClosed() {
-		//µ±SlidingMenu¹Ø±Õºó£¬ÎÒÃÇĞèÒªÖØĞÂÏÔÊ¾ÊÖ¶¯´ò¿ªSlidinMenu°´Å¥
+		//è¤°ælidingMenuéæŠ½æ£´éšåº¯ç´é´æˆœæ»‘é—‡ï¿½îœ…é–²å¶†æŸŠé„å‰§ãšéµå¬ªå§©éµæ’³ç´‘SlidinMenué¸å¤æŒ³
 		
 	}
 	
@@ -201,11 +200,11 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 	
 	private void showExitLoginDialog() {
 	    new AlertDialog.Builder(this)
-			.setTitle("ÌáÊ¾")
-			.setMessage("ÄúÒÑ¾­µÇÂ¼,ÊÇ·ñÒªÍË³öÖØĞÂµÇÂ¼?")
+			.setTitle("é»æ„®ãš")
+			.setMessage("é®ã„¥å‡¡ç¼å¿•æ«¥è¤°ï¿½é„îˆšæƒç‘•ä¾€ï¿½é‘æ´ªå™¸é‚æ‰®æ«¥è¤°ï¿½")
 			.
 			// setIcon(R.drawable.welcome_logo).
-			setPositiveButton("È·¶¨", new DialogInterface.OnClickListener() {
+			setPositiveButton("çº­î†¼ç•¾", new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -213,10 +212,10 @@ public class MainActivity2 extends BaseSlidingFragmentActivity implements
 					Intent in = new Intent();
 					in.setAction("login");
 					sendBroadcast(in);
-					Toast.makeText(mContext, "³É¹¦ÍË³öµÇÂ¼", Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, "é´æ„¬å§›é–«ï¿½åš­é§è¯²ç¶", Toast.LENGTH_SHORT).show();
 				}
 			})
-			.setNegativeButton("È¡Ïû", new DialogInterface.OnClickListener() {
+			.setNegativeButton("é™æ ¨ç§·", new DialogInterface.OnClickListener() {
 
 				@Override
 				public void onClick(DialogInterface dialog, int which) {

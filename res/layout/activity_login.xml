@@ -181,7 +181,6 @@
                     android:background="@drawable/boder_bottom_maincolor"
                     android:singleLine="true"
                     android:textColor="@color/textColor_gray"
-                    android:inputType="text"
                     android:textSize="14dip"
                     android:textColorHint="@color/textColor_gray"
                     android:inputType="textPassword"
