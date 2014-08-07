@@ -184,6 +184,7 @@
                     android:inputType="text"
                     android:textSize="14dip"
                     android:textColorHint="@color/textColor_gray"
+                    android:inputType="textPassword"
                     android:hint="密码:请输入密码" />
             </RelativeLayout>
 
