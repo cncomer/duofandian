@@ -47,6 +47,34 @@ private static final String TAG = "DBHelper";
   // Qrcode scan part end
   
   
+  //shop info table begin
+  public static final String TABLE_NAME_SHOPS = "shops";
+  
+  public static final String SHOP_ADDREES = "Address";
+  public static final String SHOP_SERVERPRICE = "Serverprice";
+  public static final String SHOP_HEAD_ID = "HeadID";
+  public static final String SHOP_ID = "ShopID";
+  public static final String SHOP_NAME = "ShopName";
+  public static final String SHOP_CAIXI = "CaiXi";
+  public static final String SHOP_SHUYUZHUZHI = "ShuYuZhuZhi";
+  public static final String SHOP_GUDINGPHONE = "GuDingPhone";
+  public static final String SHOP_CONTACTS = "Contacts";
+  public static final String SHOP_CONTACTS_PHONE = "contacts_phone";
+  public static final String SHOP_ADDR_ID = "ShopAddrID";
+  public static final String SHOP_BRIEF = "shop_brief";
+  public static final String SHOP_QIANG_WEI_IMG = "qiang_wei_img";
+  public static final String SHOP_IMG = "shop_img";
+  public static final String SHOP_RENJUN = "ren_jun";
+  public static final String SHOP_PINGFEN = "pingfen";
+  public static final String SHOP_YOUHUI = "youhui";
+  public static final String SHOP_TUANGOU = "tuangou";
+  public static final String SHOP_DIANCAN = "diancan";
+  public static final String SHOP_MAIDIAN = "maidan";
+  public static final String SHOP_SHOW_ID = "showid";
+  public static final String SHOP_DETAIL = "detail";
+  //shop info table end
+  
+  
   public DBHelper(Context context) {
     super(context, DB_NAME, null, DB_VERSION);
   }
@@ -93,6 +121,9 @@ private static final String TAG = "DBHelper";
    
        // Create Account table
   	   createAccountTable(sqLiteDatabase);
+  	   
+  	   //Create Shop Info table
+  	   createShopInfoTable(sqLiteDatabase);
   	   // Create scan history
  		//createScanHistory(sqLiteDatabase);
   		
@@ -115,6 +146,35 @@ private static final String TAG = "DBHelper";
 	            ACCOUNT_PINJIA + " TEXT, " +
 	            ACCOUNT_LEVEL + " TEXT, " +
 	            DATE + " TEXT" +
+	            ");");
+  }
+  
+  private void createShopInfoTable(SQLiteDatabase sqLiteDatabase) {
+	  sqLiteDatabase.execSQL(
+	            "CREATE TABLE " + TABLE_NAME_SHOPS + " (" +
+	            ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+	            SHOP_ADDREES + " TEXT, " +
+	            SHOP_SERVERPRICE + " TEXT, " +
+	            SHOP_HEAD_ID + " TEXT, " +
+	            SHOP_ID + " TEXT, " +
+	            SHOP_NAME + " TEXT, " +
+	            SHOP_CAIXI + " TEXT, " +
+	            SHOP_SHUYUZHUZHI + " TEXT, " +
+	            SHOP_GUDINGPHONE + " TEXT, " +
+	            SHOP_CONTACTS + " TEXT, " +
+	            SHOP_CONTACTS_PHONE + " TEXT, " +
+	            SHOP_ADDR_ID + " TEXT, " +
+	            SHOP_BRIEF + " TEXT, " +
+	            SHOP_QIANG_WEI_IMG + " TEXT, " +
+	            SHOP_IMG + " TEXT, " +
+	            SHOP_RENJUN + " TEXT, " +
+	            SHOP_PINGFEN + " TEXT, " +
+	            SHOP_YOUHUI + " TEXT, " +
+	            SHOP_TUANGOU + " TEXT, " +
+	            SHOP_DIANCAN + " TEXT, " +
+	            SHOP_MAIDIAN + " TEXT, " +
+	            SHOP_SHOW_ID + " TEXT, " +
+	            SHOP_DETAIL + " TEXT" +
 	            ");");
   }
   

@@ -39,6 +39,9 @@ public class BjnoteContent {
     public static class Accounts extends BjnoteContent{
     	public static final Uri CONTENT_URI = Uri.withAppendedPath(BjnoteContent.CONTENT_URI, "accounts");
     }
+    public static class Shops extends BjnoteContent{
+    	public static final Uri CONTENT_URI = Uri.withAppendedPath(BjnoteContent.CONTENT_URI, "shops");
+    }
     public static class ScanHistory extends BjnoteContent{
     	public static final Uri CONTENT_URI = Uri.withAppendedPath(BjnoteContent.CONTENT_URI, "scan_history");
     }

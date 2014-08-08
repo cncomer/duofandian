@@ -43,7 +43,14 @@ public class ServiceObject {
 		return sb.toString();
 	}
 	
-	//add by chenkai, 20140726, 将发送短信抽离出来，以便修改 begin
+	//add by chenkai, 20140726, 将发送短信抽离出来，以便修改 end
+	
+	public static String getAllShopInfoUrl(String para, String jsonString) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/getAllShopInfo.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
+		return sb.toString();
+	}
 	/**
 	 * 获取所有店铺id, 如返回：[{"ID":"1"},{"ID":"2"},{"ID":"3"},{"ID":"4"},{"ID":"5"}]
 	 * @return
@@ -81,7 +88,7 @@ public class ServiceObject {
 		public String mStatusMessage;
 		public JSONObject mJsonData;
 		public String mStrData;
-		public JSONArray mAddresses;
+		public JSONArray mShops;
 		
 		public static ServiceResultObject parse(String content) {
 			ServiceResultObject resultObject = new ServiceResultObject();
@@ -106,19 +113,21 @@ public class ServiceObject {
 			return resultObject;
 		}
 
-		public static ServiceResultObject parseAddress(String content) {
+		public static ServiceResultObject parseShops(String content) {
 			ServiceResultObject resultObject = new ServiceResultObject();
 			if (TextUtils.isEmpty(content)) {
 				return resultObject;
 			}
 			try {
 				JSONObject jsonObject = new JSONObject(content);
-				resultObject.mAddresses = jsonObject.getJSONArray("results");
-				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("status"));
-				resultObject.mStatusMessage = jsonObject.getString("message");
-				DebugUtils.logD("HaierResultObject", "mAddresses = " + resultObject.mAddresses);
-				DebugUtils.logD("HaierResultObject", "StatusCode = " + resultObject.mStatusCode);
-				DebugUtils.logD("HaierResultObject", "StatusMessage = " +resultObject.mStatusMessage);
+				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
+
+				JSONObject dataObject = jsonObject.getJSONObject("Data");
+				resultObject.mShops = dataObject.getJSONArray("data");
+				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
+				DebugUtils.logD("ServiceResultObject", "mAddresses = " + resultObject.mShops);
+				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
+				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
 				try {
 					resultObject.mJsonData = jsonObject.getJSONObject("results");
 				} catch (JSONException e) {

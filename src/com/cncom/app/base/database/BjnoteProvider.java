@@ -22,6 +22,7 @@ public class BjnoteProvider extends ContentProvider{
 	private SQLiteDatabase mContactDatabase;
 	private String[] mTables = new String[]{
 			DBHelper.TABLE_NAME_ACCOUNTS,
+			DBHelper.TABLE_NAME_SHOPS,
 			DBHelper.TABLE_SCAN_NAME,
 //			ContactsDBHelper.TABLE_NAME_MYLIFE_CONSUME,
 	};
@@ -30,8 +31,11 @@ public class BjnoteProvider extends ContentProvider{
 	private static final int ACCOUNT = 0x0000;
 	private static final int ACCOUNT_ID = 0x0001;
 	
-	private static final int SCAN_HISTORY = 0x0100;
-	private static final int SCAN_HISTORY_ID = 0x0101;
+	private static final int SHOP = 0x0100;
+	private static final int SHOP_ID = 0x0101;
+	
+	private static final int SCAN_HISTORY = 0x0200;
+	private static final int SCAN_HISTORY_ID = 0x0201;
 	
 	
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -40,6 +44,9 @@ public class BjnoteProvider extends ContentProvider{
 	        UriMatcher matcher = sURIMatcher;
 	        matcher.addURI(BjnoteContent.AUTHORITY, "accounts", ACCOUNT);
 	        matcher.addURI(BjnoteContent.AUTHORITY, "accounts/#", ACCOUNT_ID);
+
+	        matcher.addURI(BjnoteContent.AUTHORITY, "shops", SHOP);
+	        matcher.addURI(BjnoteContent.AUTHORITY, "shops/#", SHOP_ID);
 	        
 	        matcher.addURI(BjnoteContent.AUTHORITY, "scan_history", SCAN_HISTORY);
 	        matcher.addURI(BjnoteContent.AUTHORITY, "scan_history/#", SCAN_HISTORY_ID);
@@ -87,6 +94,10 @@ public class BjnoteProvider extends ContentProvider{
     	case ACCOUNT_ID:
     		notify = BjnoteContent.Accounts.CONTENT_URI;
     		break;
+    	case SHOP:
+    	case SHOP_ID:
+    		notify = BjnoteContent.Shops.CONTENT_URI;
+    		break;
 		case SCAN_HISTORY:
 		case SCAN_HISTORY_ID:
 			notify = BjnoteContent.ScanHistory.CONTENT_URI;
@@ -109,6 +120,8 @@ public class BjnoteProvider extends ContentProvider{
         switch(match) {
 	        case ACCOUNT:
 	    	case ACCOUNT_ID:
+	    	case SHOP:
+	    	case SHOP_ID:
 			case SCAN_HISTORY:
 			case SCAN_HISTORY_ID:
         	count = db.delete(table, buildSelection(match, uri, selection), selectionArgs);
@@ -182,6 +195,8 @@ public class BjnoteProvider extends ContentProvider{
          switch(match) {
 			case ACCOUNT:
 			case ACCOUNT_ID:
+	    	case SHOP:
+	    	case SHOP_ID:
 			case SCAN_HISTORY:
 			case SCAN_HISTORY_ID:
         	     result = db.query(table, projection, selection, selectionArgs, null, null, sortOrder);
@@ -202,6 +217,8 @@ public class BjnoteProvider extends ContentProvider{
         switch(match) {
 	        case ACCOUNT:
 	    	case ACCOUNT_ID:
+	    	case SHOP:
+	    	case SHOP_ID:
 			case SCAN_HISTORY:
 			case SCAN_HISTORY_ID:
         	    count = db.update(table, values, buildSelection(match, uri, selection), selectionArgs);
@@ -214,6 +231,7 @@ public class BjnoteProvider extends ContentProvider{
 		long id = -1;
 		switch(match) {
 	    	case ACCOUNT_ID:
+	    	case SHOP_ID:
 			case SCAN_HISTORY_ID:
 			try {
 				id = ContentUris.parseId(uri);
