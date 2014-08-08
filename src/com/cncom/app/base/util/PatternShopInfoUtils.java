@@ -107,4 +107,14 @@ public class PatternShopInfoUtils {
 		}
 		return id;
 	}
+	
+	public static int getDataCount(ContentResolver cr) {
+		int length = 0;
+		Cursor c = cr.query(BjnoteContent.Shops.CONTENT_URI, ShopInfoObject.SHOP_PROJECTION, null, null, null);
+		if (c != null) {
+			length = c.getCount();
+			c.close();
+		}
+		return length;
+	}
 }

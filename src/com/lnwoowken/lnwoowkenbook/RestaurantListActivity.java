@@ -584,17 +584,15 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 	
 	private LoadAllShopInfoAsyncTask mLoadAllShopInfoAsyncTask;
 	private void loadAllShopInfoAsyncTask(String... param) {
-		showProgressDialog();
-//		if(PatternShopInfoUtils.isExsited(getContentResolver(), String.valueOf(mBaoxiuCardObject.mAID), String.valueOf(mBaoxiuCardObject.mBID)) > 0){
-//			mShopsList = PatternMaintenanceUtils.getMaintenancePointLocal(getContentResolver(), mBaoxiuCardObject.mAID, mBaoxiuCardObject.mBID);
-//			mShopListAdapter.notifyDataSetChanged();
-//			mLoadPageIndex = mShopsList.size() / 10;
-//		} else {
+		int locatCount = PatternShopInfoUtils.getDataCount(getContentResolver());
+		if(locatCount > 0){//本地已有缓存
+			loadAllShopInfoLocalAsyncTask();
+		} else {
 			mLoadState = STATE_FREASHING;
 			AsyncTaskUtils.cancelTask(mLoadAllShopInfoAsyncTask);
 			mLoadAllShopInfoAsyncTask = new LoadAllShopInfoAsyncTask();
 			mLoadAllShopInfoAsyncTask.execute(param);
-//		}
+		}
 	}
 
 	private class LoadAllShopInfoAsyncTask extends AsyncTask<String, Void, ServiceResultObject> {
@@ -651,6 +649,43 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 			mLoadState = STATE_FREASH_CANCEL;
 			dismissProgressDialog();
 		}
+	}
+	
+
+	private LoadAllShopInfoLocalAsyncTask mLoadAllShopInfoLocalAsyncTask;
+	private void loadAllShopInfoLocalAsyncTask(String... param) {
+		showProgressDialog();
+		mLoadState = STATE_FREASHING;
+		AsyncTaskUtils.cancelTask(mLoadAllShopInfoLocalAsyncTask);
+		mLoadAllShopInfoLocalAsyncTask = new LoadAllShopInfoLocalAsyncTask();
+		mLoadAllShopInfoLocalAsyncTask.execute(param);
+	}
+
+	private class LoadAllShopInfoLocalAsyncTask extends AsyncTask<String, Void, Void> {
+		@Override
+		protected Void doInBackground(String... params) {
+
+			mShopsList = PatternShopInfoUtils.getShopInfoLocal(getContentResolver());
+			mShopListAdapter.notifyDataSetChanged();
+			mLoadPageIndex = mShopsList.size() / 10;
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			mShopListAdapter.notifyDataSetChanged();
+			mLoadState = STATE_FREASH_COMPLETE;
+			dismissProgressDialog();
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			mLoadState = STATE_FREASH_CANCEL;
+			dismissProgressDialog();
+		}
+
 	}
 	
 }
