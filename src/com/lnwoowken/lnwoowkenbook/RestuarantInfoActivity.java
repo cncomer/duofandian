@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -16,17 +15,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-
-
-import com.lnwoowken.lnwoowkenbook.adapter.OtherShopAdapter;
-import com.lnwoowken.lnwoowkenbook.adapter.TableListAdapter;
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
-import com.lnwoowken.lnwoowkenbook.network.Client;
-import com.lnwoowken.lnwoowkenbook.network.JsonParser;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
-import com.lnwoowken.lnwoowkenbook.view.MyDialog;
-import com.lnwoowken.lnwoowkenbook.view.OtherShopDialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -46,22 +34,24 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout.LayoutParams;
 
+import com.cncom.app.base.util.PatternShopInfoUtils;
+import com.cncom.app.base.util.ShopInfoObject;
+import com.lnwoowken.lnwoowkenbook.model.Contant;
+import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
+import com.lnwoowken.lnwoowkenbook.network.Client;
+import com.lnwoowken.lnwoowkenbook.network.JsonParser;
+import com.lnwoowken.lnwoowkenbook.tools.Tools;
 
 /**
  * 餐厅详情
@@ -70,7 +60,7 @@ import android.widget.LinearLayout.LayoutParams;
  */
 public class RestuarantInfoActivity extends Activity {
 	private Button btn_chooseFood;
-	private List<StoreInfo> shopList;
+	private List<ShopInfoObject> mShopList;
 	private List<StoreInfo> shopid;
 	private String params = "http://pic.lnwoowken.com/望湘园.png";
 	private Button btnFirst, btnSecond;
@@ -80,11 +70,11 @@ public class RestuarantInfoActivity extends Activity {
 	ProgressDialog dialog = null;
 	private RequestOtherShopThread mThread;
 	private PopupWindow popupWindow;
-	private StoreInfo shop;
+	ShopInfoObject mShopInfoObject;
 	private Button btn_chooseTable;// --进入选桌界面的按钮
 	private Button btn_back;//--返回上一页
 	private Intent intent;
-	private int shopId;
+	private String mShopId;
 	private ImageView shopImg;
 	private TextView textView_info;//--餐厅详情介绍
 	private TextView textView_shopName;//--店名
@@ -176,13 +166,12 @@ public class RestuarantInfoActivity extends Activity {
 		textView_info = (TextView) findViewById(R.id.textView_info);
 		textView_shopName = (TextView) findViewById(R.id.textView_storename);
 		intent = RestuarantInfoActivity.this.getIntent();
-		shopId = intent.getExtras().getInt("shopId");
-		shop = Tools.findShopById(shopId);
-		if (shop != null) {
-			textView_shopName.setText(shop.getName());
-			Log.d("shop.getName()-------------------", shop.getName() + "");
-			String price = textView_price.getText().toString()
-					+ shop.getAveragePrice();
+		mShopId = intent.getExtras().getString("shop_id");
+		mShopInfoObject = PatternShopInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
+		if (mShopInfoObject != null) {
+			textView_shopName.setText(mShopInfoObject.getShopName());
+			Log.d("mShopInfoObject.getShopName()-------------------", mShopInfoObject.getShopName() + "");
+			String price = textView_price.getText().toString() + mShopInfoObject.getShopServerprice();
 			textView_price.setText(price);
 		}
 		btn_back = (Button) findViewById(R.id.button_back);
@@ -212,7 +201,7 @@ public class RestuarantInfoActivity extends Activity {
 
 				Intent intent = new Intent(RestuarantInfoActivity.this,
 						BookTableActivity.class);
-				intent.putExtra("shopId", shop.getId());
+				intent.putExtra("shop_id", mShopInfoObject.getShopID());
 				startActivity(intent);
 				
 //				if (Contant.ISLOGIN) {
@@ -231,10 +220,10 @@ public class RestuarantInfoActivity extends Activity {
 		});
 		textView_address = (TextView) findViewById(R.id.textView_location);
 		textView_phone = (TextView) findViewById(R.id.textView_phone);
-		if (shop != null) {
-			textView_address.setText(shop.getAddress());
-			textView_phone.setText(shop.getPhoneNumber());
-			textView_info.setText(shop.getInfo());
+		if (mShopInfoObject != null) {
+			textView_address.setText(mShopInfoObject.getShopAddress());
+			textView_phone.setText(mShopInfoObject.getShopContactsPhone());
+			textView_info.setText(mShopInfoObject.getShopBrief());
 		}
 		btn_more = (Button) findViewById(R.id.button_more);
 		btn_more.setOnClickListener(new OnClickListener() {
@@ -301,9 +290,9 @@ public class RestuarantInfoActivity extends Activity {
 				RestuarantInfoActivity.this.finish();
 			}
 		});
-		mThread = new RequestOtherShopThread();
+		/*mThread = new RequestOtherShopThread();
 		Message msg = new Message();
-		handler.sendMessage(msg);
+		handler.sendMessage(msg);*/
 	}
 
 	@Override
@@ -409,9 +398,9 @@ public class RestuarantInfoActivity extends Activity {
 				mThread.start();
 				
 			}
-			File f = new File(Contant.WOOWKEN_DIR+"/"+shop.getImagePath());
+			File f = new File(Contant.WOOWKEN_DIR+"/"+mShopInfoObject.getShopImg());
 			if (f.exists()) {
-				bitmap = BitmapFactory.decodeFile(Contant.WOOWKEN_DIR+"/"+shop.getImagePath());
+				bitmap = BitmapFactory.decodeFile(Contant.WOOWKEN_DIR+"/"+mShopInfoObject.getShopImg());
 				if (bitmap!=null) {
 					shopImg.setImageBitmap(bitmap);
 				}
@@ -435,7 +424,7 @@ public class RestuarantInfoActivity extends Activity {
 			super.run();
 			
 
-			String op = "{\"Sid\":\"" + shopId + "\""
+			String op = "{\"Sid\":\"" + mShopId + "\""
 					+ ",\"Pid\":\"56\"}";
 			op = Client.encodeBase64(op);
 			String str = Tools.getRequestStr(Contant.SERVER_IP,
@@ -488,7 +477,7 @@ public class RestuarantInfoActivity extends Activity {
 	private Handler initialhandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			if (shopid!=null) {
+			/*if (shopid!=null) {
 			
 				//String[] mItems = new String[]{"其他分店"};
 				btnTittle = (Button) findViewById(R.id.textView1);
@@ -502,7 +491,7 @@ public class RestuarantInfoActivity extends Activity {
 				});
 //				ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.simple_spinner_item);
 //				//String level[] = getResources().getStringArray(R.array.affair_level);//资源文件
-				shopList = new ArrayList<StoreInfo>();
+				mShopList = new ArrayList<ShopInfoObject>();
 				for (int i = 0; i < shopid.size(); i++) {
 					
 					StoreInfo temp = Tools.findShopById(shopid.get(i).getId());
@@ -512,7 +501,7 @@ public class RestuarantInfoActivity extends Activity {
 				}
 				
 				
-			}
+			}*/
 			
 		}
 	};
@@ -524,7 +513,7 @@ public class RestuarantInfoActivity extends Activity {
 		public void run() {
 
 			
-			params = "http://pic.lnwoowken.com/"+shop.getImagePath();
+			params = "http://pic.lnwoowken.com/"+mShopInfoObject.getShopImg();
 			Log.d("download=======================", params);
 			HttpGet httpRequest = new HttpGet(params);
 			HttpClient httpclient = new DefaultHttpClient();
@@ -536,7 +525,7 @@ public class RestuarantInfoActivity extends Activity {
 				InputStream is = bufferedHttpEntity.getContent();
 				bitmap = BitmapFactory.decodeStream(is);
 				if (bitmap!=null) {
-					Tools.saveBitmapToFile(bitmap, Contant.WOOWKEN_DIR+"/"+shop.getImagePath());
+					Tools.saveBitmapToFile(bitmap, Contant.WOOWKEN_DIR+"/"+mShopInfoObject.getShopImg());
 					Message msg = new Message();
 					msg.what = 1;
 					imghandler.sendMessage(msg);
@@ -587,7 +576,7 @@ public class RestuarantInfoActivity extends Activity {
 	
 	
 	private void showShopDialog(){
-		final Dialog dialog = new OtherShopDialog(RestuarantInfoActivity.this,
+		/*final Dialog dialog = new OtherShopDialog(RestuarantInfoActivity.this,
 				R.style.MyDialog);
 
 		dialog.show();
@@ -604,7 +593,7 @@ public class RestuarantInfoActivity extends Activity {
 				// TODO Auto-generated method stub
 				// Toast.makeText(BookTableActivity.this,
 				// ""+arg2,Toast.LENGTH_LONG).show();
-				shop = shopList.get(arg2);
+				mShopInfoObject = shopList.get(arg2);
 				if (shop != null) {
 					Log.d("===============", shop.getAddress());
 					textView_address.setText(shop.getAddress());
@@ -630,9 +619,17 @@ public class RestuarantInfoActivity extends Activity {
 		
 		// TableListDialog dialog = new
 		// TableListDialog(BookTableActivity.this);
-		// dialog.show();
+		// dialog.show();*/
 	
 	}
 	
+	public static void startIntent(Context context, Bundle bundle) {
+		Intent intent = new Intent(context, RestuarantInfoActivity.class);
+		if (bundle == null) {
+			return;
+		}
+		intent.putExtras(bundle);
+		context.startActivity(intent);
+	}
 	
 }

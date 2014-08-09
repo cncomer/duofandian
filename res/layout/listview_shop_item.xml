@@ -118,7 +118,30 @@
                 android:layout_width="18dip"
                 android:layout_height="18dip"
                 android:layout_marginLeft="5dip"
-                 />
+                android:background="@drawable/icon_hui"
+                android:visibility="gone" />
+            <ImageView
+                android:id="@+id/imageView_tuan"
+                android:layout_width="18dip"
+                android:layout_height="18dip"
+                android:layout_marginLeft="5dip"
+                android:background="@drawable/icon_tuan"
+                android:visibility="gone" />
+                
+            <ImageView
+                android:id="@+id/imageView_dian"
+                android:layout_width="18dip"
+                android:layout_height="18dip"
+                android:layout_marginLeft="5dip"
+                android:background="@drawable/icon_dian"
+                android:visibility="gone" />
+            <ImageView
+                android:id="@+id/imageView_mai"
+                android:layout_width="18dip"
+                android:layout_height="18dip"
+                android:layout_marginLeft="5dip"
+                android:background="@drawable/icon_mai"
+                android:visibility="gone" />
         </LinearLayout>
 
         <RelativeLayout

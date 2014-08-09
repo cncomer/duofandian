@@ -161,7 +161,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			if (msg.arg1 == 1) {
 				myThread.start();
@@ -174,7 +173,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	private Handler initial_view_handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			if (time_list != null) {
 
@@ -184,7 +182,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 							+ time_list.get(i).getRdTime().replace("/", "-")
 							+ "\n\t";
 				}
-				Tools.findShopById(shopId).setTimeList(time_list);
+				// /Tools.findShopById(shopId).setTimeList(time_list);
 				Log.d("time_________", str);
 				readTimeOver = true;
 				Message msg1 = new Message();
@@ -197,7 +195,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	private Handler setTable_handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			RequestTableInfoThread tableThread = new RequestTableInfoThread();
 			tableThread.setSe(se);
@@ -210,7 +207,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 
 			showTimeDialog();
@@ -227,7 +223,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			super.run();
 			// String op = "{\"id\":\"" + shopId + "\"}";
 			// op = Client.encodeBase64(op);
@@ -251,7 +246,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			// }
 			// }
 
-			String op = "{\"Sid\":\"" + shopId + "\""
+			String op = "{\"Sid\":\"" + mShopId + "\""
 					+ ",\"vd\":\"0\",\"vc\":\"0\"" + "}";
 			op = Client.encodeBase64(op);
 			String str = Tools.getRequestStr(Contant.SERVER_IP,
@@ -293,46 +288,44 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			super.run();
 
 			String[] dateArr = calendar.getYearAndmonth().split("-");
 			String date;
-			if (selectDate==null||selectDate.equals("")) {
+			if (selectDate == null || selectDate.equals("")) {
 				selectDate = Tools.dateToString(calendar.getToday(), "MEDIUM");
 				date = Tools.dateToString(calendar.getToday(), "MEDIUM");
 				if (date.contains("年")) {
 					date = date.replace("年", "-");
-					
+
 				}
 				if (date.contains("月")) {
 					date = date.replace("月", "-");
-					
+
 				}
 				if (date.contains("日")) {
 					date = date.replace("日", "");
-					
+
 				}
 				Log.d("selected Date----today:====================", date);
-			}
-			else {
-				
+			} else {
+
 				date = selectDate;
 				if (date.contains("年")) {
 					date = date.replace("年", "-");
-					
+
 				}
 				if (date.contains("月")) {
 					date = date.replace("月", "-");
-					
+
 				}
 				if (date.contains("日")) {
 					date = date.replace("日", "");
-					
+
 				}
 			}
 			Log.d("selected Date:====================", date);
-			String jsonStr = "{\"Sid\":\"" + shopId + "\",\"rt\":\"" + date
+			String jsonStr = "{\"Sid\":\"" + mShopId + "\",\"rt\":\"" + date
 					+ "\"}";
 			jsonStr = Client.encodeBase64(jsonStr);
 			String str = Tools.getRequestStr(Contant.SERVER_IP,
@@ -362,7 +355,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 			}
 
-			
 		}
 	}
 
@@ -394,7 +386,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			super.run();
 
 			// String jsonStr = "{\"id\":\"" + tableStyle +
@@ -408,14 +399,14 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			if (selectDate.contains("日")) {
 				selectDate = selectDate.replace("日", "");
 			}
-			
-			//selectDate = selectDate.replace("月", "-");
+
+			// selectDate = selectDate.replace("月", "-");
 			String jsonStr = "{\"id\":\"" + tableStyle + "\",\"se\":\"" + se
 					+ "\",\"dt\":\"" + selectDate + "\"}";// "{\"Sid\":\""+shopId+"\",\"Tid\":\"1\",\"RSTime\":\""+time+"\"}";
 			jsonStr = Client.encodeBase64(jsonStr);
 			String str = Tools.getRequestStr(Contant.SERVER_IP,
 					Contant.SERVER_PORT + "", "shop?id=", "s10", "&op="
-							+ jsonStr); 
+							+ jsonStr);
 			String result = Client.executeHttpGetAndCheckNet(str,
 					BookTableActivity.this);
 			result = Client.decodeBase64(result);
@@ -424,13 +415,13 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			if (result != null) {
 				if (JsonParser.checkError(result)) {
 
-					
 					Message msg = new Message();
 					msg.arg1 = 1;
-					toastHandler.sendMessage(msg); 
+					toastHandler.sendMessage(msg);
 				} else {
 					tableList = JsonParser.parseTableInfoJson(result);
-					Log.d("RequestTableInfoThread=========", tableList.size()+"");
+					Log.d("RequestTableInfoThread=========", tableList.size()
+							+ "");
 					if (tableList.size() > 0) {
 						Message msg = new Message();
 						showTableListDialog.sendMessage(msg);
@@ -445,7 +436,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			}
 			//
 
-			Log.d("shopId===============" + shopId, "time===========" + time1);
+			Log.d("shopId===============" + mShopId, "time===========" + time1);
 			// String jsonStr = "{\"sid\":\"" + shopId + "\",\"rt\":\"" + time1
 			// + "\"}";//
 			// "{\"Sid\":\""+shopId+"\",\"Tid\":\"1\",\"RSTime\":\""+time+"\"}";
@@ -487,7 +478,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			if (msg.arg1 == 1) {
 				Toast.makeText(context,
@@ -507,17 +497,17 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			super.run();
 			// Log.d("___________====", "I'm in");
 			// Log.d("___________====", url);
 			String content = edite_content.getText().toString();
-			if (content==null||content.equals("")) {
+			if (content == null || content.equals("")) {
 				content = "";
 			}
-			String jsonStr = "{\"uid\":\"1\",\"sid\":\"" + shopId
+			String jsonStr = "{\"uid\":\"1\",\"sid\":\"" + mShopId
 					+ "\",\"tid\":\"" + tableId
-					+ "\",\"price\":\"0.01\",\"strdr\":\"" + time1 + "\",\"content\":\""+content+"\"}";
+					+ "\",\"price\":\"0.01\",\"strdr\":\"" + time1
+					+ "\",\"content\":\"" + content + "\"}";
 			// + time1 + "\"}";//
 			// "{\"Sid\":\""+shopId+"\",\"Tid\":\"1\",\"RSTime\":\""+time+"\"}";
 			jsonStr = Client.encodeBase64(jsonStr);
@@ -558,7 +548,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			final Dialog dialog = new MyDialog(BookTableActivity.this,
 					R.style.MyDialog);
@@ -574,7 +563,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1,
 						int arg2, long arg3) {
-					// TODO Auto-generated method stub
 					// Toast.makeText(BookTableActivity.this,
 					// ""+arg2,Toast.LENGTH_LONG).show();
 					tableInfo = null;
@@ -592,8 +580,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 				@Override
 				public void onClick(View arg0) {
-					// TODO Auto-generated method stub
-
 					dialog.dismiss();
 				}
 			});
@@ -609,7 +595,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			RequestPayInfoThread payThread = new RequestPayInfoThread();
 			payThread.run();
@@ -617,18 +602,16 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		}
 
 	};
-
 	private boolean isTableChosen = false;
 	private int tableId = -1;
 	private RequestTableStyleThread myThread;
 	private Intent intent;
-	private int shopId;
+	private String mShopId;
 	private Display display;
 
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		display = getWindowManager().getDefaultDisplay();
 		bitmap = BitmapFactory.decodeResource(getResources(),
@@ -638,39 +621,36 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				.permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		intent = BookTableActivity.this.getIntent();
-		shopId = intent.getExtras().getInt("shopId");
+		mShopId = intent.getExtras().getString("shop_id");
 		initialize();
-		Log.d("===============shopid", shopId + "");
+		Log.d("===============shopid", mShopId + "");
 		myThread = new RequestTableStyleThread();
 		// tableThread = new RequestTableInfoThread();
 		Message msg = new Message();
 		msg.arg1 = 1;
 		handler.sendMessage(msg);
 		textView = (TextView) findViewById(R.id.textView_attention);
-		
-		
+
 		edite_content = (EditText) findViewById(R.id.editText_content);
 		edite_content.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
+
 			@Override
 			public void onFocusChange(View v, boolean hasFocus) {
-				// TODO Auto-generated method stub
 				if (hasFocus) {
 					if (edite_content.getText().toString().contains("备注")) {
 						edite_content.setText("");
 					}
-				}else {
-					
+				} else {
+
 				}
 			}
 		});
-		
+
 		btn_chooseFood = (Button) findViewById(R.id.imageButton_pickfood);
 		btn_chooseFood.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -706,14 +686,11 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		layout_shoptable = (RelativeLayout) findViewById(R.id.layout_shoptable);
 		int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
 		int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
-		
-		
-	//	int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-		//	int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
-			
-		
-		
-		
+
+		// int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+		// int screenHeight =
+		// getWindowManager().getDefaultDisplay().getHeight();
+
 		// int margin_int = Tools.dip2px(context, 20);
 		// LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(
 		// screenWidth, (int) (screenWidth / 2.1518987 + 0.5));
@@ -728,18 +705,16 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		int margin_int = com.lnwoowken.lnwoowkenbook.tools.Tools.dip2px(
 				context, 20);
 		RelativeLayout.LayoutParams l2 = new RelativeLayout.LayoutParams(
-				screenWidth,
-				screenWidth*235/480);
-		
+				screenWidth, screenWidth * 235 / 480);
+
 		l2.setMargins(0, 0, 0, 0);
-		
+
 		RelativeLayout.LayoutParams l1 = new RelativeLayout.LayoutParams(
-				screenWidth,
-				screenWidth*235/480);
-		
+				screenWidth, screenWidth * 235 / 480);
+
 		l1.setMargins(0, Tools.dip2px(context, 50), 0, 0);
 		tableRelativeLayout = (RelativeLayout) findViewById(R.id.layout_shoptable);
-		
+
 		tableRelativeLayout.setLayoutParams(l1);
 		tableImage.setLayoutParams(l2);
 		tableImage.setImageBitmap(bitmap);// 填充控件
@@ -763,7 +738,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	//
 	// @Override
 	// public void handleMessage(Message msg) {
-	// // TODO Auto-generated method stub
 	// super.handleMessage(msg);
 	//
 	//
@@ -805,8 +779,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		//
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 
 			BookTableActivity.this.finish();
@@ -871,8 +843,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void OnItemClick(Date date) {
-			// TODO Auto-generated method stub
-
 			selectDate = Tools.dateToString(date, "MEDIUM");
 			Toast.makeText(getApplicationContext(), selectDate + "",
 					Toast.LENGTH_SHORT).show();
@@ -883,7 +853,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			timeThread.start();
 		}
@@ -892,12 +861,10 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
 		if (v.equals(btn_back)) {
 			BookTableActivity.this.finish();
 		} else if (v.equals(btn_select_time) || v.equals(choose_time)) {
 			if (readTimeOver) {
-
 				dialog_calendar = new CalendarDialog(BookTableActivity.this,
 						R.style.MyDialog);
 
@@ -909,11 +876,8 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				title_date = (TextView) dialog_calendar
 						.findViewById(R.id.textView_title_date);
 				btn.setOnClickListener(new OnClickListener() {
-
 					@Override
 					public void onClick(View arg0) {
-						// TODO Auto-generated method stub
-
 						dialog_calendar.dismiss();
 						timeThread = new RequestTimeThread();
 						Message msg = new Message();
@@ -939,7 +903,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						// 点击上一月 同样返回年月
 						String leftYearAndmonth = calendar.clickLeftMonth();
 						String[] lya = leftYearAndmonth.split("-");
@@ -950,7 +913,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						// 点击下一月
 						String rightYearAndmonth = calendar.clickRightMonth();
 						String[] rya = rightYearAndmonth.split("-");
@@ -995,37 +957,40 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				if (Contant.ISLOGIN && Contant.USER != null) {
 					StoreInfo shop;
 
-					shop = Tools.findShopById(shopId);
+					// /shop = Tools.findShopById(shopId);
 					boolean b = false;
 
-					if (tableStyleId!=null&&!tableStyleId.equals("")) {
+					if (tableStyleId != null && !tableStyleId.equals("")) {
 						int id = Integer.parseInt(tableStyleId);
-						TableStyle tempStyle = findTableStyleById(id, list_tableStyle);
-						if (tableInfo != null&&tempStyle!=null) {
+						TableStyle tempStyle = findTableStyleById(id,
+								list_tableStyle);
+						if (tableInfo != null && tempStyle != null) {
 							PayInfo pay = new PayInfo();
-							pay.setShopId(shopId);
+							// pay.setShopId(shopId);
 							pay.setTime(tableInfo.getRt());
-							Log.d("tableInfo.getRt()________________", tableInfo.getRt());
+							Log.d("tableInfo.getRt()________________",
+									tableInfo.getRt());
 							pay.setTableName(tableInfo.getAname());
 							pay.setTableId(tableInfo.getStid());
 							pay.setTablePrice(tempStyle.getPrice());
-							pay.setUid(Contant.USER.getId()+"");
+							pay.setUid(Contant.USER.getId() + "");
 							pay.setRprice(tempStyle.getPrice());
-							pay.setSprice(Float.parseFloat(Tools.findShopById(shopId).getServicePrice()));
+							// /pay.setSprice(Float.parseFloat(Tools.findShopById(shopId).getServicePrice()));
 							pay.setDtimeid(tableInfo.getAId());
-							pay.setSttid(tableStyleId+"");
+							pay.setSttid(tableStyleId + "");
 							pay.setSecid(se);
 							pay.setContent(edite_content.getText().toString());
 							Intent intent = new Intent();
 							intent.setClass(context, CommitActivity.class);
-							Bundle bundle = new Bundle();  
-							bundle.putString("MyString", "test bundle");  
-							bundle.putParcelable("PayInfo", new PayInfoData(pay));
-							
+							Bundle bundle = new Bundle();
+							bundle.putString("MyString", "test bundle");
+							bundle.putParcelable("PayInfo",
+									new PayInfoData(pay));
+
 							intent.putExtras(bundle);
 
 							startActivity(intent);
-							//BookTableActivity.this.finish();
+							// BookTableActivity.this.finish();
 						} else {
 							Toast.makeText(context, "请选择桌子", Toast.LENGTH_SHORT)
 									.show();
@@ -1037,12 +1002,9 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				} else {
 					showDialog();
 				}
-			}
-			else {
+			} else {
 				Toast.makeText(context, "您还没有接受协议", Toast.LENGTH_SHORT).show();
 			}
-			
-			
 
 		}
 
@@ -1051,21 +1013,19 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		}
 
 	}
-	
-	private TableStyle findTableStyleById(int id,List<TableStyle> list){
+
+	private TableStyle findTableStyleById(int id, List<TableStyle> list) {
 		List<TableStyle> styleList = list;
 		TableStyle tempStyle = null;
-		if (styleList!=null) {
+		if (styleList != null) {
 			for (int i = 0; i < styleList.size(); i++) {
-				if (styleList.get(i).getId()==id) {
+				if (styleList.get(i).getId() == id) {
 					tempStyle = styleList.get(i);
 				}
 			}
 		}
 		return tempStyle;
 	}
-
-	
 
 	private void showTimeDialog() {
 
@@ -1105,7 +1065,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				// mHour = hour.getCurrentItem();
 				// mMinute = Integer.parseInt(
 				// minutes[minute.getCurrentItem()]);
@@ -1116,7 +1075,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				final String timeName = time_list.get(minute.getCurrentItem())
 						.getTimeName();
 				dialog.dismiss();
-				
+
 				final Dialog tableStyle = new TimeDialog(
 						BookTableActivity.this, R.style.MyDialog);
 
@@ -1139,9 +1098,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						
-						if (list_tableStyle.size()>0) {
+						if (list_tableStyle.size() > 0) {
 							tableStyleId = list_tableStyle.get(
 									style.getCurrentItem()).getId()
 									+ "";
@@ -1149,40 +1106,48 @@ public class BookTableActivity extends Activity implements OnClickListener,
 									style.getCurrentItem()).getCount();
 							tableStyle.dismiss();
 							String str = "";
-							String money = list_tableStyle.get(style.getCurrentItem()).getCount();
-//							for (int i = 0; i < list_tableStyle.size(); i++) {
-//								str += list_tableStyle.get(i).getStyleName()+"消费满"+list_tableStyle.get(i).getCount()+"元,";
-//							}
-							str +="您所预定的"
-								+list_tableStyle.get(style.getCurrentItem()).getStyleName()+"需满足"
-								+money+"元.当您的消费满足"
-								+money+"元,您所支付的定金将在1-3个工作日内全额返还.\n当您的消费未满足"
-								+money+"元,您所支付的定金将不予返还.\n小提示:为确保您的消费金额真实性,请您在餐厅结账时,告知餐厅服务员您是夺饭点会员.\n您是否接受?";						
-//							str +=list_tableStyle.get(style.getCurrentItem()).getStyleName()+"消费满"+list_tableStyle.get(style.getCurrentItem()).getCount()
-//									+ "即可享受免排队优先权.\n您是否接受?";
+							String money = list_tableStyle.get(
+									style.getCurrentItem()).getCount();
+							// for (int i = 0; i < list_tableStyle.size(); i++)
+							// {
+							// str +=
+							// list_tableStyle.get(i).getStyleName()+"消费满"+list_tableStyle.get(i).getCount()+"元,";
+							// }
+							str += "您所预定的"
+									+ list_tableStyle.get(
+											style.getCurrentItem())
+											.getStyleName()
+									+ "需满足"
+									+ money
+									+ "元.当您的消费满足"
+									+ money
+									+ "元,您所支付的定金将在1-3个工作日内全额返还.\n当您的消费未满足"
+									+ money
+									+ "元,您所支付的定金将不予返还.\n小提示:为确保您的消费金额真实性,请您在餐厅结账时,告知餐厅服务员您是夺饭点会员.\n您是否接受?";
+							// str
+							// +=list_tableStyle.get(style.getCurrentItem()).getStyleName()+"消费满"+list_tableStyle.get(style.getCurrentItem()).getCount()
+							// + "即可享受免排队优先权.\n您是否接受?";
 							showCheckDialog(str);
-							//textView.setText(str);
+							// textView.setText(str);
 							textView_selectTime.setText("您选择的时间是:" + selectDate
 									+ " " + timeName);
 							isTimeChosen = true;
 							isTableChosen = false;
-						}
-						else {
-							Toast.makeText(context, "该店暂无任何桌型可供选择", Toast.LENGTH_SHORT).show();
+						} else {
+							Toast.makeText(context, "该店暂无任何桌型可供选择",
+									Toast.LENGTH_SHORT).show();
 							tableStyle.dismiss();
 						}
-						
+
 					}
 				});
 			}
 		});
 
 	}
-	
-	
+
 	private void showCheckDialog(String str) {
-		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("提示")
+		Dialog alertDialog = new AlertDialog.Builder(this).setTitle("提示")
 				.setMessage(str)
 				.
 				// setIcon(R.drawable.welcome_logo).
@@ -1191,18 +1156,17 @@ public class BookTableActivity extends Activity implements OnClickListener,
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						isAccept = true;
-						// TODO Auto-generated method stub
-//						Intent intent = new Intent(context, LoginActivity.class);
-//						startActivity(intent);
-//
-//						//BookTableActivity.this.finish();
+						// Intent intent = new Intent(context,
+						// LoginActivity.class);
+						// startActivity(intent);
+						//
+						// //BookTableActivity.this.finish();
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						isAccept = false;
 					}
 				}).
@@ -1211,12 +1175,10 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.show();
 	}
-	
 
 	// @Override
 	// public boolean onTouchEvent(MotionEvent event) {
 	//
-	// // TODO Auto-generated method stub
 	//
 	// if (popupWindow != null && popupWindow.isShowing()) {
 	//
@@ -1240,18 +1202,16 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						Intent intent = new Intent(context, LoginActivity.class);
 						startActivity(intent);
 
-						//BookTableActivity.this.finish();
+						// BookTableActivity.this.finish();
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 					}
 				}).
 
