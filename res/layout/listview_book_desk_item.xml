@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/White"
+    android:gravity="center"
+    android:paddingBottom="5dip"
+    android:paddingTop="5dip" >
+	<TextView
+	    android:id="@+id/textView_deskname"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginLeft="5dip"
+	    android:textColor="@color/main_color"
+	    android:textSize="16dip"
+        android:layout_centerVertical="true"
+	    android:singleLine="true" />
+    <TextView
+        android:id="@+id/textView_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/textView_deskname"
+        android:layout_marginLeft="5dip"
+        android:textColor="#FFCFB53B"
+        android:textSize="10dip"
+        android:layout_centerVertical="true"
+        android:singleLine="true" />
+
+	<Button
+	    android:id="@+id/button_qiang"
+	    android:layout_width="50dip"
+	    android:layout_height="25dip"
+        android:layout_marginRight="5dip"
+	    android:background="@drawable/button_commit"
+        android:layout_centerVertical="true"
+	    android:text="@string/title_book_table"
+	    android:textColor="@color/text_btn_commit_selector"
+	    android:layout_alignParentRight="true"
+	    android:textSize="15dip" />
+</RelativeLayout>

@@ -55,7 +55,6 @@ import com.lnwoowken.lnwoowkenbook.tools.Tools;
 
 /**
  * 餐厅详情
- * @author sean
  *
  */
 public class RestuarantInfoActivity extends Activity {
@@ -121,7 +120,6 @@ public class RestuarantInfoActivity extends Activity {
 			Log.d("16", buf.toString().substring(8, 24));
 
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return result;
@@ -179,7 +177,6 @@ public class RestuarantInfoActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				RestuarantInfoActivity.this.finish();
 			}
 		});
@@ -188,7 +185,6 @@ public class RestuarantInfoActivity extends Activity {
 			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
 			}
 		});
@@ -197,8 +193,6 @@ public class RestuarantInfoActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-
 				Intent intent = new Intent(RestuarantInfoActivity.this,
 						BookTableActivity.class);
 				intent.putExtra("shop_id", mShopInfoObject.getShopID());
@@ -230,7 +224,6 @@ public class RestuarantInfoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				if (popupWindow == null || !popupWindow.isShowing()) {
 					View view = LayoutInflater.from(context).inflate(
 							R.layout.popmenu, null);
@@ -240,7 +233,6 @@ public class RestuarantInfoActivity extends Activity {
 						
 						@Override
 						public void onClick(View v) {
-							// TODO Auto-generated method stub
 							if (Contant.ISLOGIN) {
 								showExitLoginDialog();
 							} else {
@@ -256,7 +248,6 @@ public class RestuarantInfoActivity extends Activity {
 						
 						@Override
 						public void onClick(View arg0) {
-							// TODO Auto-generated method stub
 							Log.d("popwindow=============", "in");
 							Intent intent = new Intent(context, BillListActivity.class);
 							startActivity(intent); 
@@ -284,7 +275,6 @@ public class RestuarantInfoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(RestuarantInfoActivity.this, TestMain.class);
 				startActivity(intent);
 				RestuarantInfoActivity.this.finish();
@@ -297,8 +287,6 @@ public class RestuarantInfoActivity extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		//
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			RestuarantInfoActivity.this.finish();
 		}
@@ -316,7 +304,6 @@ public class RestuarantInfoActivity extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						Intent intent = new Intent(context, LoginActivity.class);
 						startActivity(intent);
 
@@ -327,7 +314,6 @@ public class RestuarantInfoActivity extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 					}
 				}).
 
@@ -338,9 +324,6 @@ public class RestuarantInfoActivity extends Activity {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-
-		// TODO Auto-generated method stub
-
 		if (popupWindow != null && popupWindow.isShowing()) {
 
 			popupWindow.dismiss();
@@ -363,7 +346,6 @@ public class RestuarantInfoActivity extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						Contant.ISLOGIN = false;
 						Contant.USER = null;
 						Intent intent1 = new Intent();
@@ -377,7 +359,6 @@ public class RestuarantInfoActivity extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 					}
 				}).
 
@@ -392,7 +373,6 @@ public class RestuarantInfoActivity extends Activity {
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			if (mThread != null) {
 				mThread.start();
@@ -420,9 +400,7 @@ public class RestuarantInfoActivity extends Activity {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			super.run();
-			
 
 			String op = "{\"Sid\":\"" + mShopId + "\""
 					+ ",\"Pid\":\"56\"}";
@@ -485,7 +463,6 @@ public class RestuarantInfoActivity extends Activity {
 					
 					@Override
 					public void onClick(View arg0) {
-						// TODO Auto-generated method stub
 						showShopDialog();
 					}
 				});
@@ -536,10 +513,8 @@ public class RestuarantInfoActivity extends Activity {
 					//Toast.makeText(MainActivity.this, "null", Toast.LENGTH_SHORT).show();
 				}
 			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -554,7 +529,6 @@ public class RestuarantInfoActivity extends Activity {
 				switch (msg.what) {
 				case 1:
 					// 关闭
-					
 					shopImg.setImageBitmap(bitmap);
 					//dialog.dismiss();
 					break;
@@ -566,7 +540,6 @@ public class RestuarantInfoActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		if (bitmap!=null) {
 			bitmap.recycle();
@@ -590,7 +563,6 @@ public class RestuarantInfoActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-				// TODO Auto-generated method stub
 				// Toast.makeText(BookTableActivity.this,
 				// ""+arg2,Toast.LENGTH_LONG).show();
 				mShopInfoObject = shopList.get(arg2);

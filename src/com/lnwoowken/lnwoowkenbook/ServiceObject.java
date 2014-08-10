@@ -51,6 +51,13 @@ public class ServiceObject {
 		.append(para).append("=").appendUrlEncodedString(jsonString);
 		return sb.toString();
 	}
+	
+	public static String getAllAvailableTableUrl(String para, String jsonString) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/showdesk.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
+		return sb.toString();
+	}
 	/**
 	 * 获取所有店铺id, 如返回：[{"ID":"1"},{"ID":"2"},{"ID":"3"},{"ID":"4"},{"ID":"5"}]
 	 * @return
@@ -128,17 +135,34 @@ public class ServiceObject {
 				DebugUtils.logD("ServiceResultObject", "mAddresses = " + resultObject.mShops);
 				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
 				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
-				try {
-					resultObject.mJsonData = jsonObject.getJSONObject("results");
-				} catch (JSONException e) {
-					resultObject.mStrData = jsonObject.getString("results");
-				}
 			} catch (JSONException e) {
 				e.printStackTrace();
 				resultObject.mStatusMessage = e.getMessage();
 			}
 			return resultObject;
 		}
+
+		public static ServiceResultObject parseAvailableTables(String content) {
+			ServiceResultObject resultObject = new ServiceResultObject();
+			if (TextUtils.isEmpty(content)) {
+				return resultObject;
+			}
+			try {
+				JSONObject jsonObject = new JSONObject(content);
+				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
+
+				resultObject.mShops = jsonObject.getJSONArray("Data");
+				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
+				DebugUtils.logD("ServiceResultObject", "mShops = " + resultObject.mShops);
+				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
+				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
+			} catch (JSONException e) {
+				e.printStackTrace();
+				resultObject.mStatusMessage = e.getMessage();
+			}
+			return resultObject;
+		}
+		
 		public boolean isOpSuccessfully() {
 			return mStatusCode == 1;
 		}

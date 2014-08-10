@@ -415,7 +415,7 @@ public class CalendarView extends View implements View.OnTouchListener {
 //				}
 				selectedStartDate = selectedEndDate = downDate;
 				//响应监听事件
-				onItemClickListener.OnItemClick(selectedStartDate);
+				//onItemClickListener.OnItemClick(selectedStartDate);
 				// Log.d(TAG, "downdate:" + downDate.toLocaleString());
 				//Log.d(TAG, "start:" + selectedStartDate.toLocaleString());
 				//Log.d(TAG, "end:" + selectedEndDate.toLocaleString());

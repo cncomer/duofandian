@@ -254,4 +254,10 @@
   <string name="menu_login">登录</string>
   
   <string name="shop_info_query_fail">未查到相关数据</string>
+  <string name="select_book_time">请选择预定时间</string>
+  <string name="book_time">预定时间为 </string>
+  <string name="month">月</string>
+  <string name="day">日</string>
+  <string name="book_tips">一次操作只能抢一个位子哦</string>
+  <string name="select_desk_tips">请选择一个桌位</string>
 </resources>

@@ -1,32 +1,30 @@
 ﻿package com.lnwoowken.lnwoowkenbook.view.TimeView;
 
-import java.util.List;
-
-import com.lnwoowken.lnwoowkenbook.model.BookTime;
-
 import android.content.Context;
 
 public class ArrayListWheelAdapter extends AbstractWheelTextAdapter {
     
     // items
-    private List<BookTime> items;
+    public static final String[] SHIDUAN = new String[]{
+    	"午市",
+    	"晚市"
+    };
 
     /**
      * Constructor
      * @param context the current context
      * @param time_list the items
      */
-    public ArrayListWheelAdapter(Context context, List<BookTime> time_list) {
+    public ArrayListWheelAdapter(Context context) {
         super(context);
         
         //setEmptyItemResource(TEXT_VIEW_ITEM_RESOURCE);
-        this.items = time_list;
     }
     
     @Override
     public CharSequence getItemText(int index) {
-        if (index >= 0 && index < items.size()) {
-            String item = items.get(index).getTimeName();
+        if (index >= 0 && index < SHIDUAN.length) {
+            String item = SHIDUAN[index];
             if (item instanceof CharSequence) {
                 return (CharSequence) item;
             }
@@ -37,6 +35,6 @@ public class ArrayListWheelAdapter extends AbstractWheelTextAdapter {
 
     @Override
     public int getItemsCount() {
-        return items.size();
+        return SHIDUAN != null ? SHIDUAN.length : 0;
     }
 }

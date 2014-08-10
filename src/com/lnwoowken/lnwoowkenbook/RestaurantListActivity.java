@@ -292,7 +292,6 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						Contant.ISLOGIN = false;
 						Contant.USER = null;
 						Intent intent1 = new Intent();
@@ -303,10 +302,8 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 					}
 				}).
 
@@ -334,7 +331,6 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
         dialog.setOnDismissListener(new OnDismissListener() {
 			@Override
 			public void onDismiss(DialogInterface arg0) {
-				// TODO Auto-generated method stub
 				draw.stop();
 			}
 		});
@@ -629,5 +625,5 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 			mShopListAdapter.notifyDataSetChanged();
 			dismissProgressDialog();
 		}
-	}	
+	}
 }

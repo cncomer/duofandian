@@ -1,32 +1,31 @@
 ﻿package com.lnwoowken.lnwoowkenbook.view.TimeView;
 
-import java.util.List;
-
 import android.content.Context;
-
-import com.lnwoowken.lnwoowkenbook.model.BookTime;
-import com.lnwoowken.lnwoowkenbook.model.TableStyle;
 
 public class TableListWheelTextAdapter extends AbstractWheelTextAdapter {
 	// items
-    private List<TableStyle> items;
+    public static final String[] DESK_TYPE = new String[] {
+		"2人桌(1-2人)",
+		"4人桌(4-6人)",
+		"6人桌(8-10人)",
+		"包房",
+    };
 
     /**
      * Constructor
      * @param context the current context
      * @param time_list the items
      */
-    public TableListWheelTextAdapter(Context context, List<TableStyle> time_list) {
+    public TableListWheelTextAdapter(Context context) {
         super(context);
         
         //setEmptyItemResource(TEXT_VIEW_ITEM_RESOURCE);
-        this.items = time_list;
     }
     
     @Override
     public CharSequence getItemText(int index) {
-        if (index >= 0 && index < items.size()) {
-            String item = items.get(index).getStyleName();
+        if (index >= 0 && index < DESK_TYPE.length) {
+            String item = DESK_TYPE[index];
             if (item instanceof CharSequence) {
                 return (CharSequence) item;
             }
@@ -37,6 +36,6 @@ public class TableListWheelTextAdapter extends AbstractWheelTextAdapter {
 
     @Override
     public int getItemsCount() {
-        return items.size();
+        return DESK_TYPE != null ? DESK_TYPE.length : 0;
     }
 }

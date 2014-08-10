@@ -1,37 +1,14 @@
 ﻿package com.lnwoowken.lnwoowkenbook;
 
-import java.lang.reflect.Field;
-
-import java.util.Date;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Calendar;
 import java.util.List;
-import com.lnwoowken.lnwoowkenbook.adapter.TableListAdapter;
-import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
 
-import com.lnwoowken.lnwoowkenbook.model.BookTime;
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.model.PayInfo;
-import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
-import com.lnwoowken.lnwoowkenbook.model.TableInfo;
-import com.lnwoowken.lnwoowkenbook.model.TableStyle;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
-import com.lnwoowken.lnwoowkenbook.network.Client;
-import com.lnwoowken.lnwoowkenbook.network.JsonParser;
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import com.lnwoowken.lnwoowkenbook.view.CalendarDialog;
-import com.lnwoowken.lnwoowkenbook.view.CalendarView;
-import com.lnwoowken.lnwoowkenbook.view.TimeDialog;
-
-import com.lnwoowken.lnwoowkenbook.view.MyDialog;
-import com.lnwoowken.lnwoowkenbook.view.TimeView.ArrayListWheelAdapter;
-import com.lnwoowken.lnwoowkenbook.view.TimeView.ArrayWheelAdapter;
-import com.lnwoowken.lnwoowkenbook.view.TimeView.NumericWheelAdapter;
-import com.lnwoowken.lnwoowkenbook.view.TimeView.TableListWheelTextAdapter;
-import com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView;
-
-import com.umpay.creditcard.android.UmpayActivity;
-import com.umpay.creditcard.android.e;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -44,11 +21,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.os.StrictMode;
-
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
 import android.util.Log;
@@ -61,23 +38,43 @@ import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
-import android.widget.LinearLayout.LayoutParams;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-@SuppressLint({ "HandlerLeak", "FloatMath" })
-@SuppressWarnings("unused")
+import com.cncom.app.base.util.DebugUtils;
+import com.cncom.app.base.util.PatternShopInfoUtils;
+import com.cncom.app.base.util.ShopAvailableTableObject;
+import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
+import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
+import com.lnwoowken.lnwoowkenbook.model.Contant;
+import com.lnwoowken.lnwoowkenbook.model.PayInfo;
+import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
+import com.lnwoowken.lnwoowkenbook.model.TableInfo;
+import com.lnwoowken.lnwoowkenbook.model.TableStyle;
+import com.lnwoowken.lnwoowkenbook.tools.Tools;
+import com.lnwoowken.lnwoowkenbook.view.CalendarDialog;
+import com.lnwoowken.lnwoowkenbook.view.CalendarView;
+import com.lnwoowken.lnwoowkenbook.view.DeskListDialog;
+import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
+import com.lnwoowken.lnwoowkenbook.view.TimeDialog;
+import com.lnwoowken.lnwoowkenbook.view.TimeView.ArrayListWheelAdapter;
+import com.lnwoowken.lnwoowkenbook.view.TimeView.TableListWheelTextAdapter;
+import com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView;
+import com.shwy.bestjoy.utils.AsyncTaskUtils;
+import com.shwy.bestjoy.utils.DateUtils;
+import com.shwy.bestjoy.utils.NetworkUtils;
+import com.umpay.creditcard.android.UmpayActivity;
+
 public class BookTableActivity extends Activity implements OnClickListener,
 		OnTouchListener {
 	private boolean isAccept = false;
@@ -85,12 +82,11 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	// private RequestTableStyleThread tableStyleThread;
 	private EditText edite_content;
 	private TextView textView;
-	private String minPrice;
 	private RelativeLayout tableRelativeLayout;
 	private String se;
 	private String tableStyleId;
 	private List<TableStyle> list_tableStyle;
-	private static final String TAG = "PhotoViewer";
+	private static final String TAG = "BookTableActivity";
 	public static final int RESULT_CODE_NOFOUND = 200;
 	private Matrix matrix = new Matrix();
 	private Matrix savedMatrix = new Matrix();
@@ -111,506 +107,44 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	private PointF prev = new PointF();
 	private PointF mid = new PointF();
 	float dist = 1f;
-
-	private RequestTimeThread timeThread;
 	private PopupWindow popupWindow;
 	private Button btn_home;
 	private TextView title_date;
 	private ImageButton btn_left;
 	private ImageButton btn_Right;
-	private int mHour;
-	private int mMinute;
 	Dialog dialog_calendar;
-	private String selectDate;
-	// private String selectTime;
-	// private ImageButton btn_bottom_home;
-	// private ImageButton btn_bottom_eat;
-	// private ImageButton btn_bottom_my;
 	CalendarView calendar;
 	private Context context = BookTableActivity.this;
 	private RelativeLayout layout_shoptable;
 	private LinearLayout choose_time;
 	private LinearLayout choose_seat;
 	private final int requestCode = 888;
-	// private int tablePosition = -1;
-	private List<TableInfo> tableList;
 	private TableInfo tableInfo;
-	// private RequestTableInfoThread tableThread;
-	private String time1 = "";
 	private ImageButton btn_selectSeat;
 	private Button btn_back;
 	public static int hour;
 	public static int minute;
-	private boolean readTimeOver = false;
 	private ImageButton btn_select_time;
 
 	private TextView textView_bookTime;
 	private TextView textView_selectTime;
 	private TextView textView_selectTable;
-	private List<BookTime> time_list;
+	private List<ShopAvailableTableObject> mShopAvailableTableList;
 	private Button btn_commintButton;
-	// private DateWidget dialog;
-	// private Dialog calendarDialog;
 	private boolean isTimeChosen = false;
-	private String tableName;
-	// private String tablePrice;
 	private Button btn_more;
 	private ImageView tableImage;
-
-	private Handler handler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			if (msg.arg1 == 1) {
-				myThread.start();
-			}
-
-		}
-
-	};
-
-	private Handler initial_view_handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			if (time_list != null) {
-
-				String str = "可预订的时间:\n\t";
-				for (int i = 0; i < time_list.size(); i++) {
-					str += time_list.get(i).getRsTime().replace("/", "-") + "~"
-							+ time_list.get(i).getRdTime().replace("/", "-")
-							+ "\n\t";
-				}
-				// /Tools.findShopById(shopId).setTimeList(time_list);
-				Log.d("time_________", str);
-				readTimeOver = true;
-				Message msg1 = new Message();
-				handler_showTimeDialog.sendMessage(msg1);
-			}
-
-		}
-	};
-
-	private Handler setTable_handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			RequestTableInfoThread tableThread = new RequestTableInfoThread();
-			tableThread.setSe(se);
-			tableThread.setTableStyleId(tableStyleId);
-			tableThread.start();
-		}
-	};
-
-	private Handler handler_showTimeDialog = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-
-			showTimeDialog();
-		}
-	};
-
-	/**
-	 * 从服务器获取该商铺的可预订时间
-	 * 
-	 * @author sean
-	 * 
-	 */
-	public class RequestTableStyleThread extends Thread {
-
-		@Override
-		public void run() {
-			super.run();
-			// String op = "{\"id\":\"" + shopId + "\"}";
-			// op = Client.encodeBase64(op);
-			// String str = Tools.getRequestStr(Contant.SERVER_IP,
-			// Contant.SERVER_PORT + "", "shop?id=", "s6", "&op=" + op);
-			// String result = Client.executeHttpGetAndCheckNet(str,
-			// BookTableActivity.this);
-			// if (result.equals(Contant.NO_NET)) {
-			// Message msg = new Message();
-			// msg.arg1 = 1;
-			// initial_view_handler.sendMessage(msg);
-			// } else {
-			//
-			// result = Client.decodeBase64(result);
-			// if (result != null && !result.equals("")) {
-			// time_list = JsonParser.parseTimeInfo(result);
-			// if (time_list != null) {
-			// Message msg = new Message();
-			// initial_view_handler.sendMessage(msg);
-			// }
-			// }
-			// }
-
-			String op = "{\"Sid\":\"" + mShopId + "\""
-					+ ",\"vd\":\"0\",\"vc\":\"0\"" + "}";
-			op = Client.encodeBase64(op);
-			String str = Tools.getRequestStr(Contant.SERVER_IP,
-					Contant.SERVER_PORT + "", "shop?id=", "s9", "&op=" + op);
-			String result = Client.executeHttpGetAndCheckNet(str,
-					BookTableActivity.this);
-			result = Client.decodeBase64(result);
-			Log.d("s9============", "result:" + result);
-			if (result.equals(Contant.NO_NET)) {
-				Message msg = new Message();
-				msg.arg1 = 1;
-				initial_view_handler.sendMessage(msg);
-			} else {
-
-				// result = Client.decodeBase64(result);
-				if (result != null && !result.equals("")) {
-					list_tableStyle = JsonParser.parseTableStylefo(result);
-
-					if (list_tableStyle != null) {
-
-					}
-				}
-			}
-			readTimeOver = true;
-
-			// Log.d("timeinfo==============url", str);
-			// Log.d("timeinfo==============result", result);
-
-		}
-	}
-
-	/**
-	 * 从服务器获取所选时间的该商铺的所有可预订桌子的信息
-	 * 
-	 * @author sean
-	 * 
-	 */
-	public class RequestTimeThread extends Thread {
-
-		@Override
-		public void run() {
-			super.run();
-
-			String[] dateArr = calendar.getYearAndmonth().split("-");
-			String date;
-			if (selectDate == null || selectDate.equals("")) {
-				selectDate = Tools.dateToString(calendar.getToday(), "MEDIUM");
-				date = Tools.dateToString(calendar.getToday(), "MEDIUM");
-				if (date.contains("年")) {
-					date = date.replace("年", "-");
-
-				}
-				if (date.contains("月")) {
-					date = date.replace("月", "-");
-
-				}
-				if (date.contains("日")) {
-					date = date.replace("日", "");
-
-				}
-				Log.d("selected Date----today:====================", date);
-			} else {
-
-				date = selectDate;
-				if (date.contains("年")) {
-					date = date.replace("年", "-");
-
-				}
-				if (date.contains("月")) {
-					date = date.replace("月", "-");
-
-				}
-				if (date.contains("日")) {
-					date = date.replace("日", "");
-
-				}
-			}
-			Log.d("selected Date:====================", date);
-			String jsonStr = "{\"Sid\":\"" + mShopId + "\",\"rt\":\"" + date
-					+ "\"}";
-			jsonStr = Client.encodeBase64(jsonStr);
-			String str = Tools.getRequestStr(Contant.SERVER_IP,
-					Contant.SERVER_PORT + "", "shopTable?id=", "st7", "&op="
-							+ jsonStr);
-			String result = Client.executeHttpGetAndCheckNet(str,
-					BookTableActivity.this);
-			result = Client.decodeBase64(result);
-
-			Log.d("st7===============", result);
-			if (result != null) {
-				if (JsonParser.checkError(result)) {
-					Log.d("st7 error===============", result);
-					Message msg = new Message();
-					msg.arg1 = 1;
-					toastHandler.sendMessage(msg);
-				} else {
-					// result = Client.decodeBase64(result);
-					if (result != null && !result.equals("")) {
-						time_list = JsonParser.parseTimeInfo(result);
-						if (time_list != null) {
-							Message msg = new Message();
-							initial_view_handler.sendMessage(msg);
-						}
-					}
-				}
-
-			}
-
-		}
-	}
-
-	/**
-	 * 从服务器获取所选时间的该商铺的所有可预订桌子的信息
-	 * 
-	 * @author sean
-	 * 
-	 */
-	public class RequestTableInfoThread extends Thread {
-		private String se;
-		private String tableStyle;
-
-		public String getTableStyleId() {
-			return tableStyle;
-		}
-
-		public void setTableStyleId(String tableStyleId) {
-			this.tableStyle = tableStyleId;
-		}
-
-		public String getSe() {
-			return se;
-		}
-
-		public void setSe(String se) {
-			this.se = se;
-		}
-
-		@Override
-		public void run() {
-			super.run();
-
-			// String jsonStr = "{\"id\":\"" + tableStyle +
-			// "\",\"se\":\""+se+"\",\"dt\":\"" + selectDate
-			if (selectDate.contains("年")) {
-				selectDate = selectDate.replace("年", "-");
-			}
-			if (selectDate.contains("月")) {
-				selectDate = selectDate.replace("月", "-");
-			}
-			if (selectDate.contains("日")) {
-				selectDate = selectDate.replace("日", "");
-			}
-
-			// selectDate = selectDate.replace("月", "-");
-			String jsonStr = "{\"id\":\"" + tableStyle + "\",\"se\":\"" + se
-					+ "\",\"dt\":\"" + selectDate + "\"}";// "{\"Sid\":\""+shopId+"\",\"Tid\":\"1\",\"RSTime\":\""+time+"\"}";
-			jsonStr = Client.encodeBase64(jsonStr);
-			String str = Tools.getRequestStr(Contant.SERVER_IP,
-					Contant.SERVER_PORT + "", "shop?id=", "s10", "&op="
-							+ jsonStr);
-			String result = Client.executeHttpGetAndCheckNet(str,
-					BookTableActivity.this);
-			result = Client.decodeBase64(result);
-
-			Log.d("s10===============", result);
-			if (result != null) {
-				if (JsonParser.checkError(result)) {
-
-					Message msg = new Message();
-					msg.arg1 = 1;
-					toastHandler.sendMessage(msg);
-				} else {
-					tableList = JsonParser.parseTableInfoJson(result);
-					Log.d("RequestTableInfoThread=========", tableList.size()
-							+ "");
-					if (tableList.size() > 0) {
-						Message msg = new Message();
-						showTableListDialog.sendMessage(msg);
-					} else {
-
-						Message msg = new Message();
-						msg.arg1 = 2;
-						toastHandler.sendMessage(msg);
-					}
-				}
-
-			}
-			//
-
-			Log.d("shopId===============" + mShopId, "time===========" + time1);
-			// String jsonStr = "{\"sid\":\"" + shopId + "\",\"rt\":\"" + time1
-			// + "\"}";//
-			// "{\"Sid\":\""+shopId+"\",\"Tid\":\"1\",\"RSTime\":\""+time+"\"}";
-			// jsonStr = Client.encodeBase64(jsonStr);
-			// String str = Tools.getRequestStr(Contant.SERVER_IP,
-			// Contant.SERVER_PORT + "", "shopTable?id=", "st6", "&op="
-			// + jsonStr);
-			// String result = Client.executeHttpGetAndCheckNet(str,
-			// BookTableActivity.this);
-			// result = Client.decodeBase64(result);
-			//
-			// Log.d("st6===============", result);
-			// if (result != null) {
-			// if (JsonParser.checkError(result)) {
-			//
-			// Message msg = new Message();
-			// msg.arg1 = 1;
-			// toastHandler.sendMessage(msg);
-			// } else {
-			// // tableList = JsonParser.parseTableInfoJson(result);
-			// // if (tableList.size() > 0) {
-			// // Message msg = new Message();
-			// // showTableListDialog.sendMessage(msg);
-			// // } else {
-			// //
-			// // Message msg = new Message();
-			// // msg.arg1 = 2;
-			// // toastHandler.sendMessage(msg);
-			// // }
-			// }
-			//
-			// }
-			// //
-
-		}
-	}
-
-	private Handler toastHandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			if (msg.arg1 == 1) {
-				Toast.makeText(context,
-						"访问服务器错误或" + context.getString(R.string.no_data),
-						Toast.LENGTH_SHORT).show();
-			}
-			if (msg.arg1 == 2) {
-				Toast.makeText(BookTableActivity.this,
-						"对不起,您所选择的时间当前没有任何桌子可以预定", Toast.LENGTH_LONG).show();
-			}
-
-		}
-
-	};
-
-	public class RequestPayInfoThread extends Thread {
-
-		@Override
-		public void run() {
-			super.run();
-			// Log.d("___________====", "I'm in");
-			// Log.d("___________====", url);
-			String content = edite_content.getText().toString();
-			if (content == null || content.equals("")) {
-				content = "";
-			}
-			String jsonStr = "{\"uid\":\"1\",\"sid\":\"" + mShopId
-					+ "\",\"tid\":\"" + tableId
-					+ "\",\"price\":\"0.01\",\"strdr\":\"" + time1
-					+ "\",\"content\":\"" + content + "\"}";
-			// + time1 + "\"}";//
-			// "{\"Sid\":\""+shopId+"\",\"Tid\":\"1\",\"RSTime\":\""+time+"\"}";
-			jsonStr = Client.encodeBase64(jsonStr);
-			// String url = "http://" + Contant.SERVER_IP + ":"
-			// + Contant.SERVER_PORT + "/javadill//Reserve?id=Rl3&op="
-			// + jsonStr;
-
-			String str = Tools.getRequestStr(Contant.SERVER_IP,
-					Contant.SERVER_PORT + "", "Reserve?id=", "Rl3", "&op="
-							+ jsonStr);
-			// Log.d("url___________====", url);
-			String result = Client.executeHttpGetAndCheckNet(str,
-					BookTableActivity.this);
-
-			// Log.d("url___________====", result);
-			if (result != null) {
-				// Toast.makeText(BookTableActivity.this,
-				// result,Toast.LENGTH_LONG).show();
-			}
-
-			result = Client.decodeBase64(result);
-
-			if (result != null) {
-				Toast.makeText(BookTableActivity.this, result,
-						Toast.LENGTH_LONG).show();
-				Log.d("pay", str);
-				Log.d("pay", result);
-				List<PayInfo> payList = JsonParser.parsePayInfoJson(result);
-				PayInfo pay = payList.get(0);
-				startSdkToPay(pay.gettNumber(), 9);
-
-			}
-
-		}
-	}
-
-	private Handler showTableListDialog = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			final Dialog dialog = new MyDialog(BookTableActivity.this,
-					R.style.MyDialog);
-
-			dialog.show();
-			ListView list = (ListView) dialog
-					.findViewById(R.id.listView_table_list);
-			list.setAdapter(new TableListAdapter(BookTableActivity.this,
-					tableList));
-			list.setDivider(null);
-			list.setOnItemClickListener(new OnItemClickListener() {
-
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1,
-						int arg2, long arg3) {
-					// Toast.makeText(BookTableActivity.this,
-					// ""+arg2,Toast.LENGTH_LONG).show();
-					tableInfo = null;
-					tableInfo = tableList.get(arg2);
-					if (tableInfo != null) {
-						textView_selectTable.setText("您选择的桌子是:"
-								+ tableInfo.getAname());
-					}
-
-					dialog.dismiss();
-				}
-			});
-			Button btn = (Button) dialog.findViewById(R.id.button_table_commit);
-			btn.setOnClickListener(new OnClickListener() {
-
-				@Override
-				public void onClick(View arg0) {
-					dialog.dismiss();
-				}
-			});
-
-			// TableListDialog dialog = new
-			// TableListDialog(BookTableActivity.this);
-			// dialog.show();
-		}
-
-	};
-
-	private Handler payHandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			RequestPayInfoThread payThread = new RequestPayInfoThread();
-			payThread.run();
-
-		}
-
-	};
 	private boolean isTableChosen = false;
 	private int tableId = -1;
-	private RequestTableStyleThread myThread;
 	private Intent intent;
 	private String mShopId;
+	private String mDeskType;
+	private String mShiduanName;
 	private Display display;
+	private Dialog dialog;
+	private DeskListAdapter listAdapter;
+	private String mSelectedDeskID;
 
-	@SuppressLint("NewApi")
-	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		display = getWindowManager().getDefaultDisplay();
@@ -623,12 +157,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		intent = BookTableActivity.this.getIntent();
 		mShopId = intent.getExtras().getString("shop_id");
 		initialize();
-		Log.d("===============shopid", mShopId + "");
-		myThread = new RequestTableStyleThread();
-		// tableThread = new RequestTableInfoThread();
-		Message msg = new Message();
-		msg.arg1 = 1;
-		handler.sendMessage(msg);
 		textView = (TextView) findViewById(R.id.textView_attention);
 
 		edite_content = (EditText) findViewById(R.id.editText_content);
@@ -654,11 +182,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
 			}
 		});
-		// tableStyleThread = new RequestTableStyleThread();
-		// Message msg2 = new Message();
-		//
-		// msg2.arg1 = 2;
-		// handler.sendMessage(msg2);
 
 	}
 
@@ -687,15 +210,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
 		int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
 
-		// int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-		// int screenHeight =
-		// getWindowManager().getDefaultDisplay().getHeight();
-
-		// int margin_int = Tools.dip2px(context, 20);
-		// LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(
-		// screenWidth, (int) (screenWidth / 2.1518987 + 0.5));
-		// // l2.setMargins(margin_int, 0,margin_int, 0);
-		// layout_shoptable.setLayoutParams(l2);
 		btn_home = (Button) findViewById(R.id.button_home);
 		btn_home.setOnClickListener(BookTableActivity.this);
 		btn_more = (Button) findViewById(R.id.button_more);
@@ -729,52 +243,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 	public TableInfo getTableInfoById() {
 		return null;
-	}
-
-	// /**
-	// * 设置从服务器拿到的该商铺的可预订时间到TEXTVIEW
-	// */
-	// private Handler setTimeHandler = new Handler() {
-	//
-	// @Override
-	// public void handleMessage(Message msg) {
-	// super.handleMessage(msg);
-	//
-	//
-	// if (dialog_calendar != null) {
-	// time1 = getTimeString(calendar);
-	// // String timeStr = time1.replace("%20", " ");
-	// textView_selectTime.setText("您选择的时间是:" + time1);
-	// // boolean b = Tools.checkTime(find);
-	// // Log.d("checktime____________", b+"");
-	// Log.d("选择的时间", time1);
-	// isTimeChosen = true;
-	// isTableChosen = false;
-	//
-	// }
-	// }
-	//
-	// };
-
-	private String getTimeString(CalendarView dialog) {
-
-		String sHour = "00";
-		String sMinute = "00";
-		sHour = addZero(sHour, mHour);
-		sMinute = addZero(sMinute, mMinute);
-		return selectDate + " " + sHour + ":" + sMinute + ":" + "00";
-
-	}
-
-	private String addZero(String str, int res) {
-		String temp = str;
-		if (res >= 0 && res < 10) {
-			temp = "0" + res;
-		} else {
-			temp = "" + res;
-		}
-
-		return temp;
 	}
 
 	@Override
@@ -833,98 +301,64 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		startActivityForResult(intent, requestCode);
 	}
 
-	/** * 根据手机的分辨率从px(像素) 的单位 转成为dp */
-	public static int pxToDip(Context context, float dpValue) {
-		final float scale = context.getResources().getDisplayMetrics().density;
-		return (int) (dpValue * scale + 0.5f);
-	}
-
-	class calendarItemClickListener implements CalendarView.OnItemClickListener {
-
-		@Override
-		public void OnItemClick(Date date) {
-			selectDate = Tools.dateToString(date, "MEDIUM");
-			Toast.makeText(getApplicationContext(), selectDate + "",
-					Toast.LENGTH_SHORT).show();
-		}
-	}
-
-	private Handler timehandler = new Handler() {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			timeThread.start();
-		}
-
-	};
-
 	@Override
 	public void onClick(View v) {
 		if (v.equals(btn_back)) {
 			BookTableActivity.this.finish();
 		} else if (v.equals(btn_select_time) || v.equals(choose_time)) {
-			if (readTimeOver) {
-				dialog_calendar = new CalendarDialog(BookTableActivity.this,
-						R.style.MyDialog);
+			dialog_calendar = new CalendarDialog(BookTableActivity.this,
+					R.style.MyDialog);
 
-				dialog_calendar.show();
-				calendar = (CalendarView) dialog_calendar
-						.findViewById(R.id.calendar);
-				Button btn = (Button) dialog_calendar
-						.findViewById(R.id.button_next);
-				title_date = (TextView) dialog_calendar
-						.findViewById(R.id.textView_title_date);
-				btn.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View arg0) {
-						dialog_calendar.dismiss();
-						timeThread = new RequestTimeThread();
-						Message msg = new Message();
-						timehandler.sendMessage(msg);
+			dialog_calendar.show();
+			calendar = (CalendarView) dialog_calendar
+					.findViewById(R.id.calendar);
+			Button btn = (Button) dialog_calendar
+					.findViewById(R.id.button_next);
+			title_date = (TextView) dialog_calendar
+					.findViewById(R.id.textView_title_date);
+			btn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					dialog_calendar.dismiss();
+					Toast.makeText(BookTableActivity.this, DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()), Toast.LENGTH_SHORT).show();
+					//queryAvilableTableSynckTAsk(DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()));
 
-						// showTimeDialog();
-					}
-				});
-				// 获取日历控件对象
-				// calendar = (CalendarView)findViewById(R.id.calendar);
-				// 获取日历中年月 ya[0]为年，ya[1]为月（格式大家可以自行在日历控件中改）
-				String[] ya = calendar.getYearAndmonth().split("-");
-				title_date.setText(ya[0] + "年" + ya[1]);
+					showTimeDialog();
+				}
+			});
+			// 获取日历控件对象
+			// calendar = (CalendarView)findViewById(R.id.calendar);
+			// 获取日历中年月 ya[0]为年，ya[1]为月（格式大家可以自行在日历控件中改）
+			String[] ya = calendar.getYearAndmonth().split("-");
+			title_date.setText(ya[0] + "年" + ya[1]);
 
-				// 设置控件监听，可以监听到点击的每一天（大家也可以在控件中自行设定）
-				calendar.setOnItemClickListener(new calendarItemClickListener());
+			btn_left = (ImageButton) dialog_calendar
+					.findViewById(R.id.calendarLeft);
+			btn_Right = (ImageButton) dialog_calendar
+					.findViewById(R.id.calendarRight);
+			btn_left.setOnClickListener(new OnClickListener() {
 
-				btn_left = (ImageButton) dialog_calendar
-						.findViewById(R.id.calendarLeft);
-				btn_Right = (ImageButton) dialog_calendar
-						.findViewById(R.id.calendarRight);
-				btn_left.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					// 点击上一月 同样返回年月
+					String leftYearAndmonth = calendar.clickLeftMonth();
+					String[] lya = leftYearAndmonth.split("-");
+					title_date.setText(lya[0] + "年" + lya[1]);
+				}
+			});
+			btn_Right.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View v) {
-						// 点击上一月 同样返回年月
-						String leftYearAndmonth = calendar.clickLeftMonth();
-						String[] lya = leftYearAndmonth.split("-");
-						title_date.setText(lya[0] + "年" + lya[1]);
-					}
-				});
-				btn_Right.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						// 点击下一月
-						String rightYearAndmonth = calendar.clickRightMonth();
-						String[] rya = rightYearAndmonth.split("-");
-						title_date.setText(rya[0] + "年" + rya[1]);
-					}
-				});
-
-			}
+				@Override
+				public void onClick(View v) {
+					// 点击下一月
+					String rightYearAndmonth = calendar.clickRightMonth();
+					String[] rya = rightYearAndmonth.split("-");
+					title_date.setText(rya[0] + "年" + rya[1]);
+				}
+			});
 		} else if (v.equals(btn_selectSeat) || v.equals(choose_seat)) {
 			if (isTimeChosen) {
-				Message msg1 = new Message();
-				setTable_handler.sendMessage(msg1);
+				queryAvilableTableSynckTAsk();
 			} else {
 				Toast.makeText(BookTableActivity.this, "请先选择时间",
 						Toast.LENGTH_LONG).show();
@@ -1014,6 +448,95 @@ public class BookTableActivity extends Activity implements OnClickListener,
 
 	}
 
+	private QueryAvilableTableSynckTAsk mQueryAvilableTableSynckTAsk;
+	private void queryAvilableTableSynckTAsk(String... param) {
+		showProgressDialog();
+		AsyncTaskUtils.cancelTask(mQueryAvilableTableSynckTAsk);
+		mQueryAvilableTableSynckTAsk = new QueryAvilableTableSynckTAsk();
+		mQueryAvilableTableSynckTAsk.execute(param);
+	}
+
+	private class QueryAvilableTableSynckTAsk extends AsyncTask<String, Void, ServiceResultObject> {
+		@Override
+		protected ServiceResultObject doInBackground(String... params) {
+			//更新保修卡信息
+			ServiceResultObject serviceResultObject = new ServiceResultObject();
+			InputStream is = null;
+			try {
+				JSONObject queryJsonObject = new JSONObject();
+				queryJsonObject.put("shopid", 1);//mShopId
+				queryJsonObject.put("date",  DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()));
+				queryJsonObject.put("desktype", mDeskType);//2人桌(1-2人) 4人桌(4-6人) 6人桌(8-10人) 包房
+				queryJsonObject.put("shiduan_name", mDeskType);
+
+				is = NetworkUtils.openContectionLocked(ServiceObject.getAllAvailableTableUrl("para", queryJsonObject.toString()), null);
+				serviceResultObject = ServiceResultObject.parseAvailableTables(NetworkUtils.getContentFromInput(is));
+				mShopAvailableTableList = PatternShopInfoUtils.getShopAvailableTableList(serviceResultObject.mShops);
+				DebugUtils.logD(TAG, "mShopAvailableTableList = " + mShopAvailableTableList);
+				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
+				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
+			} catch (JSONException e) {
+				DebugUtils.logD(TAG, "JSONException = " + e);
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (IOException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			}finally {
+				NetworkUtils.closeInputStream(is);
+			}
+			return serviceResultObject;
+		}
+
+		@Override
+		protected void onPostExecute(ServiceResultObject result) {
+			super.onPostExecute(result);
+			if(result.mShops == null || result.mShops.length() == 0) {
+				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
+			} else {
+				showDeskList();
+			}
+			dismissProgressDialog();
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			dismissProgressDialog();
+		}
+	}
+
+	private void dismissProgressDialog(){
+		if(dialog != null && dialog.isShowing()) {
+			dialog.dismiss();
+			dialog = null;
+		}
+	}
+	
+	private void showProgressDialog(){
+		if(dialog != null && dialog.isShowing()) return; 
+		dialog = new ProgressDialog(BookTableActivity.this, R.style.ProgressDialog);
+		dialog.show();
+		LinearLayout progress = (LinearLayout) dialog.findViewById(R.id.imageView_progress);
+	
+		progress.setBackgroundResource(R.anim.animition_progress); 
+		final AnimationDrawable draw = (AnimationDrawable)progress.getBackground(); 
+        draw.start();
+        dialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				draw.stop();
+			}
+		});
+//		progress.setIndeterminate(true);
+		//setProgressBarIndeterminateVisibility(true); 
+		dialog.setCanceledOnTouchOutside(false);
+		// TableListDialog dialog = new
+		// TableListDialog(BookTableActivity.this);
+		// dialog.show();
+	}
 	private TableStyle findTableStyleById(int id, List<TableStyle> list) {
 		List<TableStyle> styleList = list;
 		TableStyle tempStyle = null;
@@ -1026,43 +549,139 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		}
 		return tempStyle;
 	}
+	
+	private void showDeskList() {
+
+		final Dialog dialog = new DeskListDialog(BookTableActivity.this, R.style.MyDialog);
+		dialog.show();
+		ListView deskList = (ListView) dialog.findViewById(R.id.desklist);
+		listAdapter = new DeskListAdapter(BookTableActivity.this);
+		deskList.setAdapter(listAdapter);
+		Button btnBack = (Button) dialog.findViewById(R.id.button_back);
+		btnBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		Button btnOk = (Button) dialog.findViewById(R.id.button_ok);
+		btnOk.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(mSelectedDeskID != null) {
+					dialog.dismiss();
+					MyApplication.getInstance().showMessage("你选择了:" + mSelectedDeskID);
+				} else {
+					MyApplication.getInstance().showMessage(R.string.select_desk_tips);
+				}
+			}
+		});
+	}
+	public class DeskListAdapter extends BaseAdapter{
+		private Context _context;
+		private int month, day;
+		private Calendar c = Calendar.getInstance();
+		private Drawable background;
+		private DeskListAdapter (Context context) {
+			_context = context;
+			c.setTime(calendar.getSelectedStartDate());
+			month = c.get(Calendar.MONTH) + 1;
+			day =  c.get(Calendar.DAY_OF_MONTH);
+		}
+		@Override
+		public int getCount() {
+			return mShopAvailableTableList != null ? mShopAvailableTableList.size() : 0;
+		}
+
+		@Override
+		public Object getItem(int position) {
+			return position;
+		}
+
+		@Override
+		public long getItemId(int position) {
+			return position;
+		}
+		
+		@Override
+		public View getView(final int position, View convertView, ViewGroup parent) {
+			ViewHolder holder = null;
+			if (convertView == null) {
+				convertView = LayoutInflater.from(_context).inflate(R.layout.listview_book_desk_item, parent, false);
+				holder = new ViewHolder();
+				holder._name = (TextView) convertView.findViewById(R.id.textView_deskname);
+				holder._result = (TextView) convertView.findViewById(R.id.textView_result);
+				holder._qiang = (Button) convertView.findViewById(R.id.button_qiang);
+				
+				convertView.setTag(holder);
+			} else {
+				holder = (ViewHolder) convertView.getTag();
+			}
+			final Button btn = holder._qiang;
+			holder._name.setText(mShopAvailableTableList.get(position).getDeskName());
+			holder._result.setText(_context.getResources().getString(R.string.book_time) + month + _context.getResources().getString(R.string.month) + day + _context.getResources().getString(R.string.day) + DateUtils.getInstance().getWeekDay(c) + mShopAvailableTableList.get(position).getmShiduanTime());
+			background = btn.getBackground();
+			if(mSelectedDeskID != null && mSelectedDeskID.equals(mShopAvailableTableList.get(position).getDeskId())) {
+				holder._qiang.setBackgroundResource(R.drawable.ump_forward_btn_forcus);
+			}
+			holder._qiang.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					if(mSelectedDeskID == null) {
+						btn.setBackgroundResource(R.drawable.ump_forward_btn_forcus);
+						mSelectedDeskID = mShopAvailableTableList.get(position).getDeskId();
+					} else if(mSelectedDeskID.equals(mShopAvailableTableList.get(position).getDeskId())) {
+						btn.setBackgroundDrawable(background);
+						mSelectedDeskID = null;
+					} else {
+						MyApplication.getInstance().showMessage(R.string.book_tips);
+					}
+				}
+			});
+			return convertView;
+		}
+
+		private class ViewHolder {
+			private TextView _name, _result;
+			private Button _qiang;
+			private boolean isChecked;
+		}
+	}
 
 	private void showTimeDialog() {
 
-		final Dialog dialog = new TimeDialog(BookTableActivity.this,
-				R.style.MyDialog);
-
+		final Dialog dialog = new TimeDialog(BookTableActivity.this, R.style.MyDialog);
 		dialog.show();
-		// // LayoutInflater inflater = getLayoutInflater();
-		// //
-		// // View layout = inflater.inflate(R.layout.dailog_timepicker,
-		//
-		// // (ViewGroup) findViewById(R.id.dialog_layout_timer));
-		// final WheelView hour = (WheelView)dialog. findViewById(R.id.hour);
-		// final String minutes[] = new String[] {"15", "30", "45","00"};
-		//
-		// // wv.setViewAdapter(new ArrayWheelAdapter<String>(MainActivity.this,
-		// countries));
-		// // wv.setCurrentItem(7);
-		//
-		//
-		//
-		// hour.setViewAdapter(new NumericWheelAdapter(BookTableActivity.this,
-		// 0, 23));
-		// hour.setCyclic(true);
-		// hour.setCurrentItem(20);
-		// hour.setVisibleItems(3);
+		LayoutInflater inflater = getLayoutInflater();
+		
+		View layout = inflater.inflate(R.layout.dailog_timepicker, (ViewGroup) findViewById(R.id.dialog_layout_timer));
+		//final WheelView hour = (WheelView)dialog.findViewById(R.id.hour);
+		//final String minutes[] = new String[] {"15", "30", "45","00"};
+		
+//		  wv.setViewAdapter(new ArrayWheelAdapter<String>(MainActivity.this, countries));
+//		  wv.setCurrentItem(7);
+		
+		/*hour.setViewAdapter(new NumericWheelAdapter(BookTableActivity.this, 0, 23));
+		hour.setCyclic(true);
+		hour.setCurrentItem(20);
+		hour.setVisibleItems(3);*/
 		final WheelView minute = (WheelView) dialog.findViewById(R.id.minute);
-		// minute.setViewAdapter(new
-		// ArrayWheelAdapter<String>(BookTableActivity.this, minutes));
-		minute.setViewAdapter(new ArrayListWheelAdapter(BookTableActivity.this,
-				time_list));
+//		minute.setViewAdapter(new ArrayWheelAdapter<String>(BookTableActivity.this, minutes));
+		minute.setViewAdapter(new ArrayListWheelAdapter(BookTableActivity.this));
+		//minute.setViewAdapter(new NumericWheelAdapter(BookTableActivity.this, 0, 59));
 		minute.setCyclic(true);
 		minute.setCurrentItem(1);
-		minute.setVisibleItems(3);
+		minute.setVisibleItems(2);
+		Button btnBack = (Button) dialog.findViewById(R.id.button_back);
+		btnBack.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+				BookTableActivity.this.onClick(btn_select_time);
+			}
+		});
 		Button btnOk = (Button) dialog.findViewById(R.id.button_ok);
 		btnOk.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				// mHour = hour.getCurrentItem();
@@ -1071,79 +690,80 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				// Message msg = new Message();
 				// setTimeHandler.sendMessage(msg);
 
-				se = time_list.get(minute.getCurrentItem()).getId() + "";
-				final String timeName = time_list.get(minute.getCurrentItem())
-						.getTimeName();
+				//se = time_list.get(minute.getCurrentItem()).getId() + "";
+				//final String timeName = time_list.get(minute.getCurrentItem()).getTimeName();
+				mShiduanName = ArrayListWheelAdapter.SHIDUAN[minute.getCurrentItem()];
 				dialog.dismiss();
 
 				final Dialog tableStyle = new TimeDialog(
 						BookTableActivity.this, R.style.MyDialog);
 
 				tableStyle.show();
-
+				
+				//WheelView hour = (WheelView) tableStyle.findViewById(R.id.hour);
 				final WheelView style = (WheelView) tableStyle
 						.findViewById(R.id.minute);
 				// minute.setViewAdapter(new
 				// ArrayWheelAdapter<String>(BookTableActivity.this, minutes));
-				style.setViewAdapter(new TableListWheelTextAdapter(
-						BookTableActivity.this, list_tableStyle));
+				style.setViewAdapter(new TableListWheelTextAdapter(BookTableActivity.this));
 				style.setCyclic(true);
 				style.setCurrentItem(1);
 				style.setVisibleItems(3);
-				TextView title = (TextView) tableStyle
-						.findViewById(R.id.textView_title);
+				TextView title = (TextView) tableStyle.findViewById(R.id.textView_title);
 				title.setText("请选择桌型");
-				Button btnOk = (Button) tableStyle.findViewById(R.id.button_ok);
-				btnOk.setOnClickListener(new OnClickListener() {
-
+				Button btnBack = (Button) tableStyle.findViewById(R.id.button_back);
+				btnBack.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						if (list_tableStyle.size() > 0) {
-							tableStyleId = list_tableStyle.get(
-									style.getCurrentItem()).getId()
-									+ "";
-							minPrice = list_tableStyle.get(
-									style.getCurrentItem()).getCount();
+						tableStyle.dismiss();
+						BookTableActivity.this.showTimeDialog();
+					}
+				});
+				Button btnOk = (Button) tableStyle.findViewById(R.id.button_ok);
+				btnOk.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						//if (mShopAvailableTableList != null && mShopAvailableTableList.size() > 0) {
+							//tableStyleId = mShopAvailableTableList.get(style.getCurrentItem()).getDeskId();
+							//minPrice = mShopAvailableTableList.get(style.getCurrentItem()).getShiduanName();
 							tableStyle.dismiss();
 							String str = "";
-							String money = list_tableStyle.get(
-									style.getCurrentItem()).getCount();
+							//String money = list_tableStyle.get(style.getCurrentItem()).getCount();
 							// for (int i = 0; i < list_tableStyle.size(); i++)
 							// {
 							// str +=
 							// list_tableStyle.get(i).getStyleName()+"消费满"+list_tableStyle.get(i).getCount()+"元,";
 							// }
-							str += "您所预定的"
-									+ list_tableStyle.get(
-											style.getCurrentItem())
-											.getStyleName()
-									+ "需满足"
-									+ money
-									+ "元.当您的消费满足"
-									+ money
-									+ "元,您所支付的定金将在1-3个工作日内全额返还.\n当您的消费未满足"
-									+ money
-									+ "元,您所支付的定金将不予返还.\n小提示:为确保您的消费金额真实性,请您在餐厅结账时,告知餐厅服务员您是夺饭点会员.\n您是否接受?";
+//							str += "您所预定的"
+//									+ list_tableStyle.get(
+//											style.getCurrentItem())
+//											.getStyleName()
+//									+ "需满足"
+//									+ money
+//									+ "元.当您的消费满足"
+//									+ money
+//									+ "元,您所支付的定金将在1-3个工作日内全额返还.\n当您的消费未满足"
+//									+ money
+//									+ "元,您所支付的定金将不予返还.\n小提示:为确保您的消费金额真实性,请您在餐厅结账时,告知餐厅服务员您是夺饭点会员.\n您是否接受?";
 							// str
 							// +=list_tableStyle.get(style.getCurrentItem()).getStyleName()+"消费满"+list_tableStyle.get(style.getCurrentItem()).getCount()
 							// + "即可享受免排队优先权.\n您是否接受?";
+							mDeskType = TableListWheelTextAdapter.DESK_TYPE[style.getCurrentItem()];
+							str="你选择的日期是:" + DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()) + "\n桌形为:" + mDeskType + "\n时段为:" + mShiduanName + "\n您是否继续?";
 							showCheckDialog(str);
-							// textView.setText(str);
-							textView_selectTime.setText("您选择的时间是:" + selectDate
-									+ " " + timeName);
+							//textView.setText(str);
+							//textView_selectTime.setText("您选择的时间是:" + "what time" + " " + timeName);
 							isTimeChosen = true;
 							isTableChosen = false;
-						} else {
-							Toast.makeText(context, "该店暂无任何桌型可供选择",
-									Toast.LENGTH_SHORT).show();
-							tableStyle.dismiss();
-						}
+						//} else {
+						//	Toast.makeText(context, "该店暂无任何桌型可供选择", Toast.LENGTH_SHORT).show();
+						//	tableStyle.dismiss();
+						//}
 
 					}
 				});
 			}
 		});
-
 	}
 
 	private void showCheckDialog(String str) {
@@ -1151,8 +771,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				.setMessage(str)
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("接受", new DialogInterface.OnClickListener() {
-
+				setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						isAccept = true;
@@ -1175,22 +794,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		alertDialog.setCanceledOnTouchOutside(false);
 		alertDialog.show();
 	}
-
-	// @Override
-	// public boolean onTouchEvent(MotionEvent event) {
-	//
-	//
-	// if (popupWindow != null && popupWindow.isShowing()) {
-	//
-	// popupWindow.dismiss();
-	//
-	// popupWindow = null;
-	//
-	// }
-	//
-	// return super.onTouchEvent(event);
-	//
-	// }
 
 	private void showDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
