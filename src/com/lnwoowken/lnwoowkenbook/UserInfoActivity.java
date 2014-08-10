@@ -3,15 +3,13 @@
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
-//import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-
-import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,16 +30,7 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		// 获取屏幕大小
-		Display mDisplay = getWindowManager().getDefaultDisplay();
-		int width = mDisplay.getWidth();
-		int height = mDisplay.getHeight();
 		setContentView(R.layout.activity_user_center);
-		// if(width==480 && height==800) {
-		// setContentView(R.layout.activity_user_center);
-		// }else if (width==1080 && height==1920){
-		// setContentView(R.layout.activity_user_center2);
-		// }
 		initialize();
 
 	}
@@ -140,5 +129,10 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 
 				create();
 		alertDialog.show();
+	}
+	
+	public static void startActivity(Context context) {
+		Intent intent = new Intent(context, UserInfoActivity.class);
+		context.startActivity(intent);
 	}
 }

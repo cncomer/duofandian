@@ -51,6 +51,7 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.left_panel, container, false);
+		view.findViewById(R.id.top_layout).setOnClickListener(this);
 		mMemberTopLayout = view.findViewById(R.id.member_top_layout);
 		mAvator = (ImageView) view.findViewById(R.id.avator);
 		mAvator.setOnClickListener(this);
@@ -60,7 +61,8 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 		mMemberTel = (TextView) view.findViewById(R.id.memberTel);
 		
 		mGuestTopLayout = view.findViewById(R.id.guest_top_layout);
-		mGuestTopLayout.setOnClickListener(this);
+		
+		
 		return view;
 	}
 	
@@ -81,8 +83,23 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
+		case R.id.top_layout:
+			if (MyAccountManager.getInstance().hasLoginned()) {
+				UserInfoActivity.startActivity(getActivity());
+			} else {
+				LoginActivity.startActivity(getActivity());
+			}
+			break;
+		case R.id.avator:
+			//登陆后，可以修改头像
+			if (MyAccountManager.getInstance().hasLoginned()) {
+				
+			}
+			break;
 		case R.id.guest_top_layout:
 			LoginActivity.startActivity(getActivity());
+			break;
+		case R.id.member_top_layout:
 			break;
 		}
 		
