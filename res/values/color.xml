@@ -25,6 +25,7 @@
     <color name="editetext_color">#E5E5E5</color>
     <color name="number_color">#facd89</color>
     <color name="gray">#BEBEBE</color>
+    <color name="light_gray">#FFF3F3F3</color>
     
     <color name="wt">#ffffffff</color>
   <color name="blk_translucent">#ff999999</color>

@@ -3,39 +3,32 @@ package com.lnwoowken.lnwoowkenbook;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
-import com.lnwoowken.lnwoowkenbook.model.UserInfo;
-import com.lnwoowken.lnwoowkenbook.network.Client;
-import com.lnwoowken.lnwoowkenbook.network.JsonParser;
-import com.lnwoowken.lnwoowkenbook.tools.MyCount;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
-import com.umpay.creditcard.android.UmpayActivity;
-import com.unionpay.UPPayAssistEx;
-import com.unionpay.uppay.PayActivity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import com.cncom.app.base.util.PatternShopInfoUtils;
+import com.cncom.app.base.util.ShopInfoObject;
+import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
+import com.lnwoowken.lnwoowkenbook.tools.MyCount;
+import com.umpay.creditcard.android.UmpayActivity;
+import com.unionpay.UPPayAssistEx;
+import com.unionpay.uppay.PayActivity;
 
 @SuppressLint("HandlerLeak")
 @SuppressWarnings("unused")
@@ -48,7 +41,7 @@ public class PayInfoActivity extends Activity {
 	private float price;
 	private TextView textView_price;
 	private TextView textView_needpay;
-	private int shopId;
+	private String mShopId;
 	private String time;
 	private String servicePrice;
 	private String tableId;
@@ -56,7 +49,7 @@ public class PayInfoActivity extends Activity {
 	private float tablePrice;
 	private PayInfoData parcelableData;
 	// private int tableId;
-	private StoreInfo shop;
+	private ShopInfoObject mShopInfoObject;
 	private static final int requestCode = 888;
 	private Button btn_commit;
 	private Button btn_back;
@@ -69,7 +62,6 @@ public class PayInfoActivity extends Activity {
 //
 //		@Override
 //		public void handleMessage(Message msg) {
-//			// TODO Auto-generated method stub
 //			super.handleMessage(msg);
 //			RequestPayInfoThread payThread = new RequestPayInfoThread();
 //			payThread.run();
@@ -86,17 +78,16 @@ public class PayInfoActivity extends Activity {
 	}
 
 	private void initialize() {
-
 		Bundle bundle = getIntent().getExtras();
 		parcelableData = bundle.getParcelable("PayData");
 		String testBundleString = bundle.getString("MyString");
-		shopId = parcelableData.getShopId();
+		mShopId = parcelableData.getShopId();
 		time = parcelableData.getTime();
-		shop = Tools.findShopById(shopId);
+		mShopInfoObject =  PatternShopInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
 		tableId = parcelableData.getTableId();
 		tableName = parcelableData.getTableName();
 		tablePrice = parcelableData.getTablePrice();
-		price = Float.parseFloat(shop.getServicePrice()) + tablePrice;
+		//price = Float.parseFloat(mShopInfoObject.getShopServerprice()) + tablePrice;
 		tNumber = getIntent().getExtras().getString("tNumber");
 		tv = (TextView) findViewById(R.id.textView_count);
 		if (tNumber!=null&&!tNumber.equals("")) {
@@ -119,11 +110,10 @@ public class PayInfoActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 //				Message msg = new Message();
 //				payHandler.sendMessage(msg);
 				if (isAgree) {
-					if (tNumber!=null&&!tNumber.equals("")) {
+					if (!TextUtils.isEmpty(tNumber)) {
 						pay(tNumber);
 					}
 					else {
@@ -142,7 +132,6 @@ public class PayInfoActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				PayInfoActivity.this.finish();
 				
 			}
@@ -152,7 +141,6 @@ public class PayInfoActivity extends Activity {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				// TODO Auto-generated method stub
 				isAgree = arg1;
 				if (arg1) {
 //					final Dialog dialog = new MyDialog(BookTableActivity.this,
@@ -169,8 +157,6 @@ public class PayInfoActivity extends Activity {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		//
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 
 			PayInfoActivity.this.finish();
@@ -205,7 +191,6 @@ public class PayInfoActivity extends Activity {
 					PackageManager.GET_UNINSTALLED_PACKAGES);
 			return true;
 		} catch (Exception e) {
-			// TODO: handle exception
 			return false;
 		}
 
@@ -213,7 +198,6 @@ public class PayInfoActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// TODO Auto-generated method stub
 		// super.onActivityResult(requestCode, resultCode, data);
 		if (data == null) {
 			return;

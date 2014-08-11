@@ -128,21 +128,21 @@ public class PatternShopInfoUtils {
 		return shopInfoObject;
 	}
 	
-	public static List<ShopAvailableTableObject> getShopAvailableTableList(JSONArray shops) throws JSONException  {
-		List<ShopAvailableTableObject> result = new ArrayList<ShopAvailableTableObject>();
+	public static List<TableInfoObject> getShopAvailableTableList(JSONArray shops) throws JSONException  {
+		List<TableInfoObject> result = new ArrayList<TableInfoObject>();
 		if(shops == null) return result;
 		//{"shiduan_id":"1","desk_type":"2人桌(1-2人)","desk_name":"A2","date":"2014/7/18 0:00:00","desk_status":"2","shiduan_time":"12:15","shiduan_name":"午市","DeskID":"1"}
 		for(int i = 0; i < shops.length(); i++) {
 			JSONObject obj = shops.getJSONObject(i);
-			ShopAvailableTableObject shopAvailableTableObject = new ShopAvailableTableObject();
-			shopAvailableTableObject.setShiduanId(obj.getString(ShopAvailableTableObject.SHIDUAN_ID));
-			shopAvailableTableObject.setDeskType(obj.getString(ShopAvailableTableObject.DESK_TYPE));
-			shopAvailableTableObject.setDeskName(obj.getString(ShopAvailableTableObject.DESK_NAME));
-			shopAvailableTableObject.setDate(obj.getString(ShopAvailableTableObject.DATE));
-			shopAvailableTableObject.setDeskStates(obj.getString(ShopAvailableTableObject.DATE_STATES));
-			shopAvailableTableObject.setShiduanTime(obj.getString(ShopAvailableTableObject.SHIDUAN_TIME));
-			shopAvailableTableObject.setShiduanName(obj.getString(ShopAvailableTableObject.SHIDUAN_TIME));
-			shopAvailableTableObject.setDeskId(obj.getString(ShopAvailableTableObject.DESK_ID));
+			TableInfoObject shopAvailableTableObject = new TableInfoObject();
+			shopAvailableTableObject.setShiduanId(obj.getString(TableInfoObject.SHIDUAN_ID));
+			shopAvailableTableObject.setDeskType(obj.getString(TableInfoObject.DESK_TYPE));
+			shopAvailableTableObject.setDeskName(obj.getString(TableInfoObject.DESK_NAME));
+			shopAvailableTableObject.setDate(obj.getString(TableInfoObject.DATE));
+			shopAvailableTableObject.setDeskStates(obj.getString(TableInfoObject.DATE_STATES));
+			shopAvailableTableObject.setShiduanTime(obj.getString(TableInfoObject.SHIDUAN_TIME));
+			shopAvailableTableObject.setShiduanName(obj.getString(TableInfoObject.SHIDUAN_TIME));
+			shopAvailableTableObject.setDeskId(obj.getString(TableInfoObject.DESK_ID));
 			
 			result.add(shopAvailableTableObject);
 		}

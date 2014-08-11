@@ -26,6 +26,7 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
 import android.util.Log;
@@ -51,9 +52,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternShopInfoUtils;
-import com.cncom.app.base.util.ShopAvailableTableObject;
+import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
@@ -75,8 +77,8 @@ import com.shwy.bestjoy.utils.DateUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
 import com.umpay.creditcard.android.UmpayActivity;
 
-public class BookTableActivity extends Activity implements OnClickListener,
-		OnTouchListener {
+public class BookTableActivity extends Activity implements OnClickListener, OnTouchListener {
+	private static final String TAG = "BookTableActivity";
 	private boolean isAccept = false;
 	private Button btn_chooseFood;
 	// private RequestTableStyleThread tableStyleThread;
@@ -85,8 +87,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	private RelativeLayout tableRelativeLayout;
 	private String se;
 	private String tableStyleId;
-	private List<TableStyle> list_tableStyle;
-	private static final String TAG = "BookTableActivity";
 	public static final int RESULT_CODE_NOFOUND = 200;
 	private Matrix matrix = new Matrix();
 	private Matrix savedMatrix = new Matrix();
@@ -129,7 +129,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	private TextView textView_bookTime;
 	private TextView textView_selectTime;
 	private TextView textView_selectTable;
-	private List<ShopAvailableTableObject> mShopAvailableTableList;
 	private Button btn_commintButton;
 	private boolean isTimeChosen = false;
 	private Button btn_more;
@@ -142,7 +141,8 @@ public class BookTableActivity extends Activity implements OnClickListener,
 	private String mShiduanName;
 	private Display display;
 	private Dialog dialog;
-	private DeskListAdapter listAdapter;
+	private List<TableInfoObject> mShopAvailableTableList;
+	private DeskListAdapter mDeskListAdapter;
 	private String mSelectedDeskID;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -320,7 +320,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 				@Override
 				public void onClick(View arg0) {
 					dialog_calendar.dismiss();
-					Toast.makeText(BookTableActivity.this, DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()), Toast.LENGTH_SHORT).show();
+					//Toast.makeText(BookTableActivity.this, DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()), Toast.LENGTH_SHORT).show();
 					//queryAvilableTableSynckTAsk(DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()));
 
 					showTimeDialog();
@@ -386,55 +386,44 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			startActivity(intent);
 			BookTableActivity.this.finish();
 		} else if (v.equals(btn_commintButton)) {
-
 			if (isAccept) {
-				if (Contant.ISLOGIN && Contant.USER != null) {
+				if (MyAccountManager.getInstance().hasLoginned()) {
 					StoreInfo shop;
-
-					// /shop = Tools.findShopById(shopId);
 					boolean b = false;
-
-					if (tableStyleId != null && !tableStyleId.equals("")) {
-						int id = Integer.parseInt(tableStyleId);
-						TableStyle tempStyle = findTableStyleById(id,
-								list_tableStyle);
-						if (tableInfo != null && tempStyle != null) {
-							PayInfo pay = new PayInfo();
-							// pay.setShopId(shopId);
-							pay.setTime(tableInfo.getRt());
-							Log.d("tableInfo.getRt()________________",
-									tableInfo.getRt());
-							pay.setTableName(tableInfo.getAname());
-							pay.setTableId(tableInfo.getStid());
-							pay.setTablePrice(tempStyle.getPrice());
-							pay.setUid(Contant.USER.getId() + "");
-							pay.setRprice(tempStyle.getPrice());
-							// /pay.setSprice(Float.parseFloat(Tools.findShopById(shopId).getServicePrice()));
-							pay.setDtimeid(tableInfo.getAId());
-							pay.setSttid(tableStyleId + "");
-							pay.setSecid(se);
-							pay.setContent(edite_content.getText().toString());
-							Intent intent = new Intent();
-							intent.setClass(context, CommitActivity.class);
-							Bundle bundle = new Bundle();
-							bundle.putString("MyString", "test bundle");
-							bundle.putParcelable("PayInfo",
-									new PayInfoData(pay));
-
-							intent.putExtras(bundle);
-
-							startActivity(intent);
-							// BookTableActivity.this.finish();
-						} else {
-							Toast.makeText(context, "请选择桌子", Toast.LENGTH_SHORT)
-									.show();
+					if (!TextUtils.isEmpty(mSelectedDeskID)) {
+						TableInfoObject shopAvailableTableObj = null;
+						for(TableInfoObject obj : mShopAvailableTableList) {
+							if(mSelectedDeskID.equals(obj.getDeskId())) {
+								shopAvailableTableObj = obj;
+							}
 						}
+						PayInfo pay = new PayInfo();
+						pay.setShopId(mShopId);
+						pay.setTime(shopAvailableTableObj.getmShiduanTime());
+						pay.setTableName(shopAvailableTableObj.getDeskName());
+						pay.setTableId(shopAvailableTableObj.getDeskId());
+						//pay.setTablePrice(shopAvailableTableObj);
+						pay.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
+						//pay.setRprice(tempStyle.getPrice());
+						// /pay.setSprice(Float.parseFloat(Tools.findShopById(shopId).getServicePrice()));
+						//pay.setDtimeid(tableInfo.getAId());
+						//pay.setSttid(tableStyleId + "");
+						//pay.setSecid(se);
+						pay.setContent(edite_content.getText().toString());
+						Intent intent = new Intent();
+						intent.setClass(context, CommitActivity.class);
+						Bundle bundle = new Bundle();
+						bundle.putString("MyString", "test bundle");
+						bundle.putParcelable("PayInfo", new PayInfoData(pay));
+						intent.putExtras(bundle);
+
+						startActivity(intent);
+						// BookTableActivity.this.finish();
 					} else {
-						Toast.makeText(context, "您选择的时间不在该店的可预定时间范围内",
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, "请选择桌子", Toast.LENGTH_SHORT).show();
 					}
 				} else {
-					showDialog();
+					showLoginDialog();
 				}
 			} else {
 				Toast.makeText(context, "您还没有接受协议", Toast.LENGTH_SHORT).show();
@@ -555,8 +544,8 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		final Dialog dialog = new DeskListDialog(BookTableActivity.this, R.style.MyDialog);
 		dialog.show();
 		ListView deskList = (ListView) dialog.findViewById(R.id.desklist);
-		listAdapter = new DeskListAdapter(BookTableActivity.this);
-		deskList.setAdapter(listAdapter);
+		mDeskListAdapter = new DeskListAdapter(BookTableActivity.this);
+		deskList.setAdapter(mDeskListAdapter);
 		Button btnBack = (Button) dialog.findViewById(R.id.button_back);
 		btnBack.setOnClickListener(new OnClickListener() {
 			@Override
@@ -581,7 +570,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		private Context _context;
 		private int month, day;
 		private Calendar c = Calendar.getInstance();
-		private Drawable background;
+		private int clickedPos = -1;
 		private DeskListAdapter (Context context) {
 			_context = context;
 			c.setTime(calendar.getSelectedStartDate());
@@ -620,22 +609,17 @@ public class BookTableActivity extends Activity implements OnClickListener,
 			final Button btn = holder._qiang;
 			holder._name.setText(mShopAvailableTableList.get(position).getDeskName());
 			holder._result.setText(_context.getResources().getString(R.string.book_time) + month + _context.getResources().getString(R.string.month) + day + _context.getResources().getString(R.string.day) + DateUtils.getInstance().getWeekDay(c) + mShopAvailableTableList.get(position).getmShiduanTime());
-			background = btn.getBackground();
-			if(mSelectedDeskID != null && mSelectedDeskID.equals(mShopAvailableTableList.get(position).getDeskId())) {
+			if(mShopAvailableTableList.get(position).getDeskId().equals(mSelectedDeskID)) {
 				holder._qiang.setBackgroundResource(R.drawable.ump_forward_btn_forcus);
+			} else {
+				holder._qiang.setBackgroundResource(R.drawable.button_commit);
 			}
 			holder._qiang.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					if(mSelectedDeskID == null) {
-						btn.setBackgroundResource(R.drawable.ump_forward_btn_forcus);
-						mSelectedDeskID = mShopAvailableTableList.get(position).getDeskId();
-					} else if(mSelectedDeskID.equals(mShopAvailableTableList.get(position).getDeskId())) {
-						btn.setBackgroundDrawable(background);
-						mSelectedDeskID = null;
-					} else {
-						MyApplication.getInstance().showMessage(R.string.book_tips);
-					}
+					clickedPos = position;
+					mDeskListAdapter.notifyDataSetChanged();
+					mSelectedDeskID = mShopAvailableTableList.get(position).getDeskId();
 				}
 			});
 			return convertView;
@@ -795,7 +779,7 @@ public class BookTableActivity extends Activity implements OnClickListener,
 		alertDialog.show();
 	}
 
-	private void showDialog() {
+	private void showLoginDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
 				.setTitle("提示")
 				.setMessage("您还没有登录,请先登录")
@@ -807,8 +791,6 @@ public class BookTableActivity extends Activity implements OnClickListener,
 					public void onClick(DialogInterface dialog, int which) {
 						Intent intent = new Intent(context, LoginActivity.class);
 						startActivity(intent);
-
-						// BookTableActivity.this.finish();
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {

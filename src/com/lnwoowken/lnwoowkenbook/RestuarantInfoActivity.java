@@ -174,7 +174,6 @@ public class RestuarantInfoActivity extends Activity {
 		}
 		btn_back = (Button) findViewById(R.id.button_back);
 		btn_back.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				RestuarantInfoActivity.this.finish();
@@ -182,7 +181,6 @@ public class RestuarantInfoActivity extends Activity {
 		});
 		btn_chooseFood = (Button) findViewById(R.id.imageButton_pickfood);
 		btn_chooseFood.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
 				Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
@@ -193,8 +191,7 @@ public class RestuarantInfoActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(RestuarantInfoActivity.this,
-						BookTableActivity.class);
+				Intent intent = new Intent(RestuarantInfoActivity.this, BookTableActivity.class);
 				intent.putExtra("shop_id", mShopInfoObject.getShopID());
 				startActivity(intent);
 				

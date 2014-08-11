@@ -12,7 +12,7 @@ public class PayInfo {
 	private String id;
 	private String order;
 	private String tNumber;
-	private int shopId;  
+	private String shopId;  
 	private String tableId;  
     private String time; 
     private String tableName;
@@ -64,10 +64,10 @@ public class PayInfo {
 	public void setSecid(String secid) {
 		this.secid = secid;
 	}
-    public int getShopId() {
+    public String getShopId() {
 		return shopId;
 	}
-	public void setShopId(int shopId) {
+	public void setShopId(String shopId) {
 		this.shopId = shopId;
 	}
 	public String getTableId() {

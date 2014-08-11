@@ -6,7 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class PayInfoData  implements Parcelable{  
-    private int shopId;  
+    private String shopId;  
     private String tableId;  
     private String time; 
     private String tableName;
@@ -53,7 +53,7 @@ public class PayInfoData  implements Parcelable{
       
     public PayInfoData(Parcel in){  
         //顺序要和writeToParcel写的顺序一样  
-        shopId = in.readInt();  
+        shopId = in.readString();  
         tableId = in.readString();  
         time = in.readString();
         tableName = in.readString();
@@ -71,14 +71,12 @@ public class PayInfoData  implements Parcelable{
   
     @Override  
     public int describeContents() {  
-        // TODO Auto-generated method stub  
         return 0;  
     }  
   
     @Override  
     public void writeToParcel(Parcel dest, int flags) {  
-        // TODO Auto-generated method stub  
-        dest.writeInt(shopId);  
+        dest.writeString(shopId);  
         dest.writeString(tableId);  
         dest.writeString(time);
         dest.writeString(tableName);
@@ -92,7 +90,7 @@ public class PayInfoData  implements Parcelable{
         dest.writeString(content);
     }  
       
-    public static final Parcelable.Creator<PayInfoData> CREATOR = new Parcelable.Creator<PayInfoData>() {  
+    public static final Parcelable.Creator<PayInfoData> CREATOR = new Parcelable.Creator<PayInfoData>() {
         public PayInfoData createFromParcel(Parcel in) {  
             return new PayInfoData(in);  
         }  
@@ -121,12 +119,12 @@ public class PayInfoData  implements Parcelable{
 	public void setTime(String time) {
 		this.time = time;
 	}
-    public int getShopId(){  
+    public String getShopId(){  
         return shopId;  
     }  
       
-    public void setShopId(int name){  
-        this.shopId = name;  
+    public void setShopId(String shopId){  
+        this.shopId = shopId;  
     }  
       
     public String getTableId(){  

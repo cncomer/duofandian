@@ -1,6 +1,6 @@
 package com.cncom.app.base.util;
 
-public class ShopAvailableTableObject {
+public class TableInfoObject {
 	//{"shiduan_id":"1","desk_type":"2人桌(1-2人)","desk_name":"A2","date":"2014/7/18 0:00:00","desk_status":"2","shiduan_time":"12:15","shiduan_name":"午市","DeskID":"1"}
 	private String mShiduanId;
 	private String mDeskType;

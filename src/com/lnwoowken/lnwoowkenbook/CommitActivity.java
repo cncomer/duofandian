@@ -4,19 +4,6 @@ package com.lnwoowken.lnwoowkenbook;
 
 import java.util.List;
 
-
-import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
-import com.lnwoowken.lnwoowkenbook.model.BookTime;
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
-import com.lnwoowken.lnwoowkenbook.model.UserInfo;
-import com.lnwoowken.lnwoowkenbook.network.Client;
-import com.lnwoowken.lnwoowkenbook.network.JsonParser;
-import com.lnwoowken.lnwoowkenbook.tools.MyCount;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
-import com.lnwoowken.lnwoowkenbook.view.MyDialog;
-import com.lnwoowken.lnwoowkenbook.view.UserDialog;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -34,14 +21,25 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-@SuppressWarnings("unused")
+import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.util.PatternShopInfoUtils;
+import com.cncom.app.base.util.ShopInfoObject;
+import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
+import com.lnwoowken.lnwoowkenbook.model.BookTime;
+import com.lnwoowken.lnwoowkenbook.model.Contant;
+import com.lnwoowken.lnwoowkenbook.network.Client;
+import com.lnwoowken.lnwoowkenbook.network.JsonParser;
+import com.lnwoowken.lnwoowkenbook.tools.Tools;
+import com.lnwoowken.lnwoowkenbook.view.UserDialog;
+
 public class CommitActivity extends Activity {
+	private static final String TAG = "CommitActivity";
 	private float price;
 	private String tNumber;
 	private String payId;
@@ -52,7 +50,7 @@ public class CommitActivity extends Activity {
 	private CheckBox checkBox_others;
 	private EditText editText_phoneNum;
 	private EditText editText_name;
-	private int shopId;
+	private String mShopId;
 	private String time;
 	private String servicePrice;
 	private TextView textView_money_describ;
@@ -60,12 +58,13 @@ public class CommitActivity extends Activity {
 	private String tableName;
 	private float tablePrice;
 	//private int tableId;
-	private StoreInfo shop;
+	private ShopInfoObject mShopInfoObject;
+	private TextView textView_shopId;
 	private TextView textView_shopName;
 	private TextView textView_timeinfo;
 	private TextView textView_seat;
 	private TextView textView_money;
-	private TextView textView_pay_inall;
+	private TextView textView_agree;
 	private List<BookTime> time_list;
 	private Button btn_commit;
 	private float price_service;
@@ -79,16 +78,12 @@ public class CommitActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bill);
 		initialize();
-		
-
 	}
 	
 	private void createBill() {
-		if (Contant.USER != null) {
-			UserInfo user = Contant.USER;
-
-			String jsonStr = "{\"uid\":\"" + user.getId() + "\",\"sid\":\""
-					+ shopId + "\",\"tid\":\"" + tableId + "\",\"rprice\":\""
+		if (MyAccountManager.getInstance().hasLoginned()) {
+			String jsonStr = "{\"uid\":\"" + MyAccountManager.getInstance().getCurrentAccountUid() + "\",\"sid\":\""
+					+ mShopId + "\",\"tid\":\"" + tableId + "\",\"rprice\":\""
 					+ parcelableData.getRprice() + "\",\"sprice\":\""
 					+ parcelableData.getSprice() + "\",\"dtimeid\":\""
 					+ parcelableData.getDtimeid() + "\",\"sttid\":\""
@@ -100,11 +95,11 @@ public class CommitActivity extends Activity {
 			String str = Tools.getRequestStr(Contant.SERVER_IP,
 					Contant.SERVER_PORT + "", "Reserve?id=", "Rl3", "&op="
 							+ jsonStr);
-			// Log.d("url___________====", url);
+			Log.d(TAG, " str = " + str);
 			String result = Client.executeHttpGetAndCheckNet(str,
 					CommitActivity.this);
 
-			// Log.d("url___________====", result);
+			Log.d(TAG, "result = " + result);
 			if (result != null) {
 				// Toast.makeText(BookTableActivity.this,
 				// result,Toast.LENGTH_LONG).show();
@@ -114,7 +109,7 @@ public class CommitActivity extends Activity {
 
 			if (result != null) {
 				// if (JsonParser.checkError(result)) {
-				// Toast.makeText(PayInfoActivity.this, "÷ß∏∂ ±”ˆµΩŒ Ã‚\n¥ÌŒÛ¥˙¬Î"+result,
+				// Toast.makeText(PayInfoActivity.this, "ÊîØ‰ªòÊó∂ÈÅáÂà∞ÈóÆÈ¢ò\nÈîôËØØ‰ª£Á†Å"+result,
 				// Toast.LENGTH_LONG).show();
 				// }
 				// else {
@@ -141,7 +136,7 @@ public class CommitActivity extends Activity {
 
 			}
 		} else {
-			showDialog();
+			showLoginDialog();
 		}
 
 	}
@@ -170,7 +165,6 @@ public class CommitActivity extends Activity {
 		// }
 		// //Log.d("version=============", resultJson);
 		// } catch (Exception e) {
-		// // TODO Auto-generated catch block
 		// e.printStackTrace();
 		// }
 
@@ -220,14 +214,11 @@ public class CommitActivity extends Activity {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			super.run();
-			// Log.d("___________====", "I'm in");
-			// Log.d("___________====", url);
-			if (Contant.ISLOGIN && Contant.USER != null) {
+			if (MyAccountManager.getInstance().hasLoginned()) {
 				createBill();
 			} else {
-				showDialog();
+				showLoginDialog();
 			}
 
 		}
@@ -237,7 +228,6 @@ public class CommitActivity extends Activity {
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			RequestPayInfoThread payThread = new RequestPayInfoThread();
 			payThread.run();
@@ -246,112 +236,67 @@ public class CommitActivity extends Activity {
 	};
 	
 	private void initialize(){
-		
 		Bundle bundle = getIntent().getExtras();  
 		parcelableData = bundle.getParcelable("PayInfo");  
-		String testBundleString = bundle.getString("MyString");
-		shopId = parcelableData.getShopId();
-		time = parcelableData.getTime();	
-		shop =Tools. findShopById(shopId);
+		mShopId = parcelableData.getShopId();
+		time = parcelableData.getTime();
+		mShopInfoObject = PatternShopInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
 		tableId = parcelableData.getTableId();
 		tableName= parcelableData.getTableName();
 		tablePrice = parcelableData.getTablePrice();
-		price = Float.parseFloat(shop.getServicePrice()) + tablePrice;
-	//	Log.d("shopPirce===============", shop.getServicePrice());
-	//	Log.d("tablePrice==============", tablePrice+"");
+		//price = Float.parseFloat((mShopInfoObject.getShopServerprice() != null ? mShopInfoObject.getShopServerprice() : "0")) + tablePrice;
 		
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
-		textView_money_describ.setText("(∂®Ω"+tablePrice+"‘™+∑˛ŒÒ∑—"+shop.getServicePrice()+"‘™)");
+		textView_money_describ.setText("(ÂÆöÈáë"+tablePrice+"ÂÖÉ+ÊúçÂä°Ë¥π"+mShopInfoObject.getShopServerprice()+"ÂÖÉ)");
+		textView_shopId = (TextView) findViewById(R.id.textView_shopid);
 		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
 		textView_timeinfo = (TextView) findViewById(R.id.textView_timeinfo);
 		textView_seat = (TextView) findViewById(R.id.textView_seat);
 		textView_money = (TextView) findViewById(R.id.textView_money);
-		textView_pay_inall = (TextView) findViewById(R.id.textView_money_inall);
-		Log.d("CommitActivity___shop.getName()", shop.getName());
-		textView_shopName.setText(shop.getName());
-		textView_timeinfo.setText(time);
-		textView_seat.setText(tableName);
-		servicePrice = (Float.parseFloat(shop.getServicePrice())+tablePrice)+"";
-		textView_money.setText(servicePrice+"");
-		textView_pay_inall.setText(servicePrice+"");
-//		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
-//		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
-//		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
+		textView_agree = (TextView) findViewById(R.id.textView_agree);
+		Log.d("CommitActivity___shop.getName()", mShopInfoObject.getShopName());
+		textView_shopId.setText(mShopInfoObject.getShopID());
+		textView_shopName.setText(mShopInfoObject.getShopName());
+		textView_timeinfo.setText(parcelableData.getTime());
+		textView_seat.setText(parcelableData.getTableName());
+		//servicePrice = (Float.parseFloat(mShopInfoObject.getShopServerprice() != null ? mShopInfoObject.getShopServerprice() : "0") + tablePrice) + "";
+		textView_money.setText(mShopInfoObject.getShopServerprice());
 		
 		radioButton_agree = (RadioButton) findViewById(R.id.radioButton_agree);
-		radioButton_agree.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+		/*radioButton_agree.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				// TODO Auto-generated method stub
-				
 				if (arg1) {
-//					final Dialog dialog = new MyDialog(BookTableActivity.this,
-//							R.style.MyDialog);
-//
-//					dialog.show();
-					final Dialog dialog = new UserDialog(CommitActivity.this,
-							R.style.MyDialog);
-
-					dialog.show();
-					dialog.setOnDismissListener(new OnDismissListener() {
-						
-						@Override
-						public void onDismiss(DialogInterface arg0) {
-							// TODO Auto-generated method stub
-							if (isAgree == false) {
-								radioButton_agree.setChecked(false);
-							}
-						}
-					});
-					Button btn_agree = (Button) dialog.findViewById(R.id.button_accept);
-					btn_agree.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View arg0) {
-							// TODO Auto-generated method stub
-							dialog.dismiss();
-							radioButton_agree.setChecked(true);
-							isAgree = true;
-						}
-						
-						
-					});
-					Button btn_nagree = (Button) dialog.findViewById(R.id.button_naccept);
-					btn_nagree.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View arg0) {
-							// TODO Auto-generated method stub
-							dialog.dismiss();
-							radioButton_agree.setChecked(false);
-							isAgree = false;
-						}
-						
-						
-					});
-					//isAgree = arg1;
+					showProtocolDialog();
 				}
-				//Log.d("isAgree================", isAgree+"");
+			}
+		});*/
+		textView_agree.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showProtocolDialog();
 			}
 		});
-		
-		
-		
+		radioButton_agree.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if(radioButton_agree.isChecked()) {
+					
+				}
+			}
+		});
+
 		editText_name = (EditText) findViewById(R.id.editText_name);
 		editText_phoneNum = (EditText) findViewById(R.id.editText_phone_number);
 		checkBox_default = (CheckBox) findViewById(R.id.checkBox_default);
 		checkBox_default.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
 				if (checkBox_default.isChecked()) {
 					checkBox_others.setChecked(false);
 					//checkBox_default.refreshDrawableState();
 					editText_name.setEnabled(false);
 					editText_phoneNum.setEnabled(false);
-					
 				}
 			}
 		});
@@ -359,10 +304,8 @@ public class CommitActivity extends Activity {
 		
 		checkBox_others = (CheckBox) findViewById(R.id.checkBox_for_other);
 		checkBox_others.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// TODO Auto-generated method stub
 				if (
 					checkBox_others.isChecked()) {
 					checkBox_default.setChecked(false);
@@ -380,42 +323,59 @@ public class CommitActivity extends Activity {
 		checkBox_default.setChecked(true);
 		btn_commit = (Button) findViewById(R.id.button_commit);
 		btn_commit.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				if (isAgree) {
-					
+				if(radioButton_agree.isChecked()) {
 					Message msg = new Message();
 					payHandler.sendMessage(msg);
-					
-					
-					
-					
+				} else {
+					MyApplication.getInstance().showMessage(R.string.agree_protocal_tips);
+					showProtocolDialog();
 				}
-				else {
-					Toast.makeText(context, "ƒ˙ªπ√ª”–Õ¨“‚”√ªß–≠“È", Toast.LENGTH_SHORT).show();
-				}
-				
-				
 			}
 		});
 		btn_back = (Button) findViewById(R.id.button_back);
 		btn_back.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				CommitActivity.this.finish();
 			}
 		});
-		
+	}
+	
+	private void showProtocolDialog() {
+		final Dialog dialog = new UserDialog(CommitActivity.this, R.style.MyDialog);
+		dialog.show();
+		dialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				if (isAgree == false) {
+					radioButton_agree.setChecked(false);
+				} else {
+					radioButton_agree.setChecked(true);
+				}
+			}
+		});
+		Button btn_agree = (Button) dialog.findViewById(R.id.button_accept);
+		btn_agree.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				dialog.dismiss();
+				isAgree = true;
+			}
+		});
+		Button btn_nagree = (Button) dialog.findViewById(R.id.button_naccept);
+		btn_nagree.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				dialog.dismiss();
+				isAgree = false;
+			}
+		});
 	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		//
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 
 			CommitActivity.this.finish();
@@ -423,27 +383,25 @@ public class CommitActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 	
-	private void showDialog() {
+	private void showLoginDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("Ã· æ")
-				.setMessage("ƒ˙ªπ√ª”–µ«¬º,«Îœ»µ«¬º")
+				.setTitle("ÊèêÁ§∫")
+				.setMessage("ÊÇ®ËøòÊ≤°ÊúâÁôªÂΩï,ËØ∑ÂÖàÁôªÂΩï")
 				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("»∑∂®", new DialogInterface.OnClickListener() {
+				setPositiveButton("Á°ÆÂÆö", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 						Intent intent = new Intent(context, LoginActivity.class);
 						startActivity(intent);
 
 						CommitActivity.this.finish();
 					}
 				})
-				.setNegativeButton("»°œ˚", new DialogInterface.OnClickListener() {
+				.setNegativeButton("ÂèñÊ∂à", new DialogInterface.OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
 					}
 				}).
 
