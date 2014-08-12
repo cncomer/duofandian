@@ -43,7 +43,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cncom.app.base.util.DebugUtils;
-import com.cncom.app.base.util.PatternShopInfoUtils;
+import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullAndLoadListView.OnLoadMoreListener;
@@ -58,25 +58,23 @@ import com.shwy.bestjoy.utils.NetworkUtils;
 /**
  * 店家信息的界面
  * 
- * @author sean
+ * @author chs
  * 
  */
 public class RestaurantListActivity extends Activity implements OnClickListener {
 	private static final String TAG = "RestaurantListActivity";
 	private AnimationDrawable draw;
     private	LinearLayout progress;
-	private List<StoreInfo> listStore;
 	private ImageButton btn_search;
 	private EditText search;
 	private Button btn_home;
 	private PopupWindow popupWindow;
 	private Button btn_sort;
-	private ListView mShopListView;
 	private Context context = RestaurantListActivity.this;
 	private ImageButton btn_back;
 	private Button btn_more;
 	private Dialog dialog;
-	private PullAndLoadListView mShopInfoListView;
+	private PullAndLoadListView mShopListView;
 	private ShopListAdapter mShopListAdapter;
 	private static final int STATE_IDLE = 0;
 	private static final int STATE_FREASHING = STATE_IDLE + 1;
@@ -91,22 +89,18 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_restaurant_list);
 
-		mShopInfoListView = (PullAndLoadListView) findViewById(R.id.listView_all_store);
+		mShopListView = (PullAndLoadListView) findViewById(R.id.listView_all_store);
 		mShopsList = new ArrayList<ShopInfoObject>();
-		mShopListAdapter = new ShopListAdapter(context);
+		mShopListAdapter = new ShopListAdapter(context, mShopsList);
 		initialize();
 
 		loadAllShopInfoAsyncTask();
 	}
 	
-	
-	
 	@Override
 	protected void onResume() {
 		super.onResume();
 	}
-
-
 
 	@Override
 	protected void onRestart() {
@@ -132,34 +126,30 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		search = (EditText) findViewById(R.id.editText_search);
 		search.addTextChangedListener(new TextWatcher() {
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before,
-					int count) {
-				// textview.setText(edittext.getText());
-				// Toast.makeText(context, s, Toast.LENGTH_SHORT).show();
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if(TextUtils.isEmpty(search.getText().toString().trim())) {
+					loadAllShopInfoAsyncTask();
+				}
+				//mShopListAdapter.initShopList(searchShopByName(search.getText().toString().trim()));
 			}
-
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count,
-					int after) {
-
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 			}
-
 			@Override
 			public void afterTextChanged(Editable s) {
-
 			}
 
 		});
-		mShopInfoListView.setAdapter(mShopListAdapter);
-		mShopInfoListView.setOnItemClickListener(mShopListAdapter);
-		mShopInfoListView.setOnRefreshListener(new OnRefreshListener() {
+		mShopListView.setAdapter(mShopListAdapter);
+		mShopListView.setOnItemClickListener(mShopListAdapter);
+		mShopListView.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // Do work to refresh the list here.
                 GetDataTask();
             }
         });
-		mShopInfoListView.setOnLoadMoreListener(new OnLoadMoreListener() {
+		mShopListView.setOnLoadMoreListener(new OnLoadMoreListener() {
 			
 			public void onLoadMore() {
 				// Do the work to load more items at the end of list here.
@@ -187,12 +177,10 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		}
 		if (v.equals(btn_more)) {
 			if (popupWindow == null || !popupWindow.isShowing()) {
-				View view = LayoutInflater.from(context).inflate(
-						R.layout.popmenu, null);
+				View view = LayoutInflater.from(context).inflate(R.layout.popmenu, null);
 				RelativeLayout myBill = (RelativeLayout) view.findViewById(R.id.mybill);
 				RelativeLayout exitLogin = (RelativeLayout) view.findViewById(R.id.exit_login);
 				exitLogin.setOnClickListener(new OnClickListener() {
-					
 					@Override
 					public void onClick(View v) {
 						if (Contant.ISLOGIN) {
@@ -200,7 +188,6 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 						} else {
 							Intent intent = new Intent(context, LoginActivity.class);
 							startActivity(intent);
-							
 						}
 						popupWindow.dismiss();
 						popupWindow = null;
@@ -210,7 +197,6 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 					
 					@Override
 					public void onClick(View arg0) {
-						Log.d("popwindow=============", "in");
 						Intent intent = new Intent(context, BillListActivity.class);
 						startActivity(intent); 
 						popupWindow.dismiss();
@@ -242,54 +228,47 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 			}
 		}
 		if (v.equals(btn_search)) {
-			if (listStore!=null&&!search.getText().toString().equals("")) {
-				String temp = search.getText().toString();
-				List<StoreInfo> tempList = new ArrayList<StoreInfo>();
-				for (int i = 0; i < Contant.SHOP_LIST.size(); i++) {
-					if (temp.equals(Contant.SHOP_LIST.get(i).getName())||
-						Contant.SHOP_LIST.get(i).getName().contains(temp)) {
-						tempList.add(Contant.SHOP_LIST.get(i));
-						Log.d("search===========", Contant.SHOP_LIST.get(i).getName());
-					}
-					else {
-						//listStore.remove(i);
-					}
-				}
-				listStore = tempList;
-				mShopListView.invalidate();
-				if (popupWindow!=null) {
-					popupWindow.dismiss();
-					popupWindow = null;
-				}
-			}
-			else {
-				
-			}
-			
+			loadShopInfoByNameAsyncTask(search.getText().toString().trim());
+			//mShopListAdapter.initShopList(searchShopByName(search.getText().toString().trim()));
 		}
 	}
 
+	private List<ShopInfoObject> searchShopByName(String searchStr) {
+		List <ShopInfoObject> searchList = new ArrayList<ShopInfoObject>(); 
+		if (mShopsList != null && !TextUtils.isEmpty(searchStr)) {
+			for (int i = 0; i < mShopsList.size(); i++) {
+				if (searchStr.equals(mShopsList.get(i).getShopName())||
+						mShopsList.get(i).getShopName().contains(searchStr)) {
+					searchList.add(mShopsList.get(i));
+					Log.d(TAG, mShopsList.get(i).getShopName());
+				}
+			}
+			if (popupWindow!=null) {
+				popupWindow.dismiss();
+				popupWindow = null;
+			}
+		}
+		if(TextUtils.isEmpty(searchStr)) {
+			return mShopsList;
+		}
+		return searchList;
+	}
+	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (popupWindow != null && popupWindow.isShowing()) {
-
 			popupWindow.dismiss();
-
 			popupWindow = null;
 		}
-
 		return super.onTouchEvent(event);
-
 	}
 	
 	private void showExitLoginDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
 				.setTitle("提示")
 				.setMessage("您已经登录,是否要退出重新登录?")
-				.
 				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
+				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						Contant.ISLOGIN = false;
@@ -297,17 +276,14 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 						Intent intent1 = new Intent();
 						intent1.setAction("login");
 						sendBroadcast(intent1);
-						Toast.makeText(context, "成功退出登录", Toast.LENGTH_SHORT)
-								.show();
+						Toast.makeText(context, "成功退出登录", Toast.LENGTH_SHORT).show();
 					}
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 					}
-				}).
-
-				create();
+				}).create();
 		alertDialog.show();
 	}
 
@@ -345,14 +321,19 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 
 
 	public class ShopListAdapter extends BaseAdapter implements ListView.OnItemClickListener{
-
 		private Context _context;
-		private ShopListAdapter (Context context) {
+		private List<ShopInfoObject> _shoplist;
+		public ShopListAdapter (Context context, List<ShopInfoObject> shoplist) {
 			_context = context;
+			_shoplist = shoplist;
+		}
+		public void initShopList(List<ShopInfoObject> shoplist) {
+			_shoplist = shoplist;
+			notifyDataSetChanged();
 		}
 		@Override
 		public int getCount() {
-			return mShopsList != null ? mShopsList.size() : 0;
+			return _shoplist != null ? _shoplist.size() : 0;
 		}
 
 		@Override
@@ -386,21 +367,21 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 				holder = (ViewHolder) convertView.getTag();
 			}
 			/*Float f = 0f;
-			if(!TextUtils.isEmpty((mShopsList.get(position).getMaintenancePointDistance()))) {
-				f = Float.valueOf(mShopsList.get(position).getMaintenancePointDistance()) / 1000;
+			if(!TextUtils.isEmpty((_shoplist.get(position).getMaintenancePointDistance()))) {
+				f = Float.valueOf(_shoplist.get(position).getMaintenancePointDistance()) / 1000;
 			}*/
-			holder._name.setText(mShopsList.get(position).getShopName());
-			holder._price.setText(mShopsList.get(position).getShopServerprice());
-			holder._detail.setText(mShopsList.get(position).getShopBrief());
-			if(!TextUtils.isEmpty(mShopsList.get(position).getShopYouHui())) holder._youhui.setVisibility(View.VISIBLE);
-			if(!TextUtils.isEmpty(mShopsList.get(position).getShopTuanGou())) holder._tuangou.setVisibility(View.VISIBLE);
-			if(!TextUtils.isEmpty(mShopsList.get(position).getShopDianCan())) holder._diancan.setVisibility(View.VISIBLE);
-			if(!TextUtils.isEmpty(mShopsList.get(position).getShopMaiDian())) holder._maidian.setVisibility(View.VISIBLE);
+			holder._name.setText(_shoplist.get(position).getShopName());
+			holder._price.setText(_shoplist.get(position).getShopServerprice());
+			holder._detail.setText(_shoplist.get(position).getShopBrief());
+			if(!TextUtils.isEmpty(_shoplist.get(position).getShopYouHui())) holder._youhui.setVisibility(View.VISIBLE);
+			if(!TextUtils.isEmpty(_shoplist.get(position).getShopTuanGou())) holder._tuangou.setVisibility(View.VISIBLE);
+			if(!TextUtils.isEmpty(_shoplist.get(position).getShopDianCan())) holder._diancan.setVisibility(View.VISIBLE);
+			if(!TextUtils.isEmpty(_shoplist.get(position).getShopMaiDian())) holder._maidian.setVisibility(View.VISIBLE);
 			/*final int pos = position;
 			holder._phone.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					String tel = mShopsList.get(pos).getMaintenancePointTel();
+					String tel = _shoplist.get(pos).getMaintenancePointTel();
 					if(!TextUtils.isEmpty(tel)) {
 						Intents.callPhone(getActivity(), tel);						
 					} else {
@@ -420,7 +401,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		public void onItemClick(AdapterView<?> listView, View view, int pos, long arg3) {
 			if(mLoadState == STATE_FREASHING) return;
 			Bundle bundle = new Bundle();
-			bundle.putString("shop_id", mShopsList.get(pos-1).getShopID());
+			bundle.putString("shop_id", _shoplist.get(pos-1).getShopID());
 			RestuarantInfoActivity.startIntent(_context, bundle);
 		}
 	}
@@ -445,7 +426,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 				queryJsonObject.put("pageindex", 1);
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllShopInfoUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseShops(NetworkUtils.getContentFromInput(is));
-				mShopsList = PatternShopInfoUtils.getShopInfoClean(serviceResultObject.mShops, getContentResolver());
+				mShopsList = PatternInfoUtils.getShopInfoClean(serviceResultObject.mShops, getContentResolver());
 
 				DebugUtils.logD(TAG, "mShopsList = " + mShopsList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
@@ -478,8 +459,8 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 			} else {
 				mLoadPageIndex = 1;
 			}
-			mShopInfoListView.onRefreshComplete();
-			mShopListAdapter.notifyDataSetChanged();
+			mShopListView.onRefreshComplete();
+			mShopListAdapter.initShopList(mShopsList);
 			mLoadState = STATE_FREASH_COMPLETE;
 			DebugUtils.logD(TAG, "huasong onPostExecute onLoadMoreComplete");
 		}
@@ -487,8 +468,8 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		@Override
 		protected void onCancelled() {
 			super.onCancelled();
-			mShopInfoListView.onRefreshComplete();
-			mShopListAdapter.notifyDataSetChanged();
+			mShopListView.onRefreshComplete();
+			mShopListAdapter.initShopList(mShopsList);
 			mLoadState = STATE_FREASH_CANCEL;
 		}
 	}
@@ -515,7 +496,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 				queryJsonObject.put("pageindex", ++mLoadPageIndex);
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllShopInfoUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseShops(NetworkUtils.getContentFromInput(is));
-				mShopsList.addAll(PatternShopInfoUtils.getShopInfo(serviceResultObject.mShops, getContentResolver()));
+				mShopsList.addAll(PatternInfoUtils.getShopInfo(serviceResultObject.mShops, getContentResolver()));
 
 				DebugUtils.logD(TAG, "mShopsList = " + mShopsList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
@@ -539,8 +520,8 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		@Override
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
-			mShopInfoListView.onLoadMoreComplete();
-			mShopListAdapter.notifyDataSetChanged();
+			mShopListView.onLoadMoreComplete();
+			mShopListAdapter.initShopList(mShopsList);
 			mLoadState = STATE_FREASH_COMPLETE;
 			DebugUtils.logD(TAG, "huasong onPostExecute onLoadMoreComplete");
 		}
@@ -548,8 +529,8 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		@Override
 		protected void onCancelled() {
 			super.onCancelled();
-			mShopInfoListView.onLoadMoreComplete();
-			mShopListAdapter.notifyDataSetChanged();
+			mShopListView.onLoadMoreComplete();
+			mShopListAdapter.initShopList(mShopsList);
 			mLoadState = STATE_FREASH_CANCEL;
 		}
 	}
@@ -558,10 +539,10 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 	
 	private LoadAllShopInfoAsyncTask mLoadAllShopInfoAsyncTask;
 	private void loadAllShopInfoAsyncTask(String... param) {
-		int locatCount = PatternShopInfoUtils.getDataCount(getContentResolver());
+		int locatCount = PatternInfoUtils.getDataCount(getContentResolver());
 		if(locatCount > 0){//本地已有缓存
-			mShopsList = PatternShopInfoUtils.getShopInfoLocal(getContentResolver());
-			mShopListAdapter.notifyDataSetChanged();
+			mShopsList = PatternInfoUtils.getShopInfoLocal(getContentResolver());
+			mShopListAdapter.initShopList(mShopsList);
 		} else {
 			showProgressDialog();
 			mLoadState = STATE_FREASHING;
@@ -582,7 +563,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 				queryJsonObject.put("pageindex", 1);
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllShopInfoUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseShops(NetworkUtils.getContentFromInput(is));
-				mShopsList = PatternShopInfoUtils.getShopInfo(serviceResultObject.mShops, getContentResolver());
+				mShopsList = PatternInfoUtils.getShopInfo(serviceResultObject.mShops, getContentResolver());
 				DebugUtils.logD(TAG, "mShopsList = " + mShopsList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
@@ -614,7 +595,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 				mLoadPageIndex = 1;
 			}
 			mLoadState = STATE_FREASH_COMPLETE;
-			mShopListAdapter.notifyDataSetChanged();
+			mShopListAdapter.initShopList(mShopsList);
 			dismissProgressDialog();
 		}
 
@@ -622,7 +603,75 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		protected void onCancelled() {
 			super.onCancelled();
 			mLoadState = STATE_FREASH_CANCEL;
-			mShopListAdapter.notifyDataSetChanged();
+			mShopListAdapter.initShopList(mShopsList);
+			dismissProgressDialog();
+		}
+	}
+	
+	private LoadShopInfoByNameAsyncTask mLoadShopInfoByNameAsyncTask;
+	private void loadShopInfoByNameAsyncTask(String... param) {
+		if(TextUtils.isEmpty(param[0])) return;
+		showProgressDialog();
+		mLoadState = STATE_FREASHING;
+		AsyncTaskUtils.cancelTask(mLoadShopInfoByNameAsyncTask);
+		mLoadShopInfoByNameAsyncTask = new LoadShopInfoByNameAsyncTask();
+		mLoadShopInfoByNameAsyncTask.execute(param);
+	}
+
+	private class LoadShopInfoByNameAsyncTask extends AsyncTask<String, Void, ServiceResultObject> {
+		@Override
+		protected ServiceResultObject doInBackground(String... params) {
+			//更新保修卡信息
+			ServiceResultObject serviceResultObject = new ServiceResultObject();
+			InputStream is = null;
+			try {
+				JSONObject queryJsonObject = new JSONObject();
+				queryJsonObject.put("condition", params[0]);
+				is = NetworkUtils.openContectionLocked(ServiceObject.getAllShopInfoUrl("para", queryJsonObject.toString()), null);
+				serviceResultObject = ServiceResultObject.parseShops(NetworkUtils.getContentFromInput(is));
+				DebugUtils.logD(TAG, "mShopsList = " + mShopsList);
+				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
+				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
+				if (serviceResultObject.isOpSuccessfully()) {
+					String data = serviceResultObject.mStrData;
+					DebugUtils.logD(TAG, "Data = " + data);
+				}
+			} catch (JSONException e) {
+				DebugUtils.logD(TAG, "JSONException = " + e);
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (IOException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			}finally {
+				NetworkUtils.closeInputStream(is);
+			}
+			return serviceResultObject;
+		}
+
+		@Override
+		protected void onPostExecute(ServiceResultObject result) {
+			super.onPostExecute(result);
+			if(result.mShops == null || result.mShops.length() == 0) {
+				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
+			} else {
+				mLoadPageIndex = 1;
+			}
+			mLoadState = STATE_FREASH_COMPLETE;
+			try {
+				mShopListAdapter.initShopList(PatternInfoUtils.getShopInfo(result.mShops));
+			} catch (JSONException e) {
+			}
+			dismissProgressDialog();
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			mLoadState = STATE_FREASH_CANCEL;
+			mShopListAdapter.initShopList(mShopsList);
 			dismissProgressDialog();
 		}
 	}

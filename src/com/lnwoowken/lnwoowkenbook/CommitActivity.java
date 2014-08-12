@@ -28,7 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cncom.app.base.account.MyAccountManager;
-import com.cncom.app.base.util.PatternShopInfoUtils;
+import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
 import com.lnwoowken.lnwoowkenbook.model.BookTime;
@@ -240,7 +240,7 @@ public class CommitActivity extends Activity {
 		parcelableData = bundle.getParcelable("PayInfo");  
 		mShopId = parcelableData.getShopId();
 		time = parcelableData.getTime();
-		mShopInfoObject = PatternShopInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
+		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
 		tableId = parcelableData.getTableId();
 		tableName= parcelableData.getTableName();
 		tablePrice = parcelableData.getTablePrice();

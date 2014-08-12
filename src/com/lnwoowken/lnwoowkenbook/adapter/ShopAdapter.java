@@ -9,46 +9,47 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.cncom.app.base.util.ShopInfoObject;
 import com.lnwoowken.lnwoowkenbook.R;
 import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
 
 public class ShopAdapter extends BaseAdapter {
 	private Context context;
-	private List<StoreInfo> list;
+	private List<ShopInfoObject> mList;
 	private int selectedPosition = -1;
-	//private String[][] arr;
-//	private Typeface typeface12=null;//微软雅黑
-//	private Typeface typeface3=null;//times
-	public ShopAdapter(Context context,List<StoreInfo> list) {
+	
+	public ShopAdapter(Context context,List<ShopInfoObject> list) {
 		this.context = context;
-		this.list = list;
+		this.mList = list;
 
+	}
+	
+	public void updateShopList(List<ShopInfoObject> list) {
+		mList = list;
+		notifyDataSetChanged();
 	}
 	
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
 		
-		return list.size();
+		return mList.size();
 	}
 
 	@Override
-	public StoreInfo getItem(int arg0) {
-		// TODO Auto-generated method stub
-		StoreInfo item = null;
-
-        if (null != list)
+	public ShopInfoObject getItem(int arg0) {
+		ShopInfoObject item = null;
+        if (null != mList)
         {
-            item = list.get(arg0);
+            item = mList.get(arg0);
         }
-
         return item;
 		
 	}
 
 	@Override
 	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
 		return arg0;
 	}
 	public void setSelectedPosition(int position) {  
@@ -57,7 +58,6 @@ public class ShopAdapter extends BaseAdapter {
 	@SuppressLint("ResourceAsColor")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		ViewHolder groupHolder=null;
 		if(convertView==null){
 			convertView=LayoutInflater.from(context).inflate(R.layout.list_shop_classification_item,null);
@@ -74,12 +74,10 @@ public class ShopAdapter extends BaseAdapter {
 		}else{
 			groupHolder=(ViewHolder)convertView.getTag();
 		}
-		if (list.get(position)!=null) {
-			groupHolder.title.setText(list.get(position).getName());
+		if (mList.get(position)!=null) {
+			groupHolder.title.setText(mList.get(position).getShopName());
 			//groupHolder.icon.setBackgroundResource(list.get(position).getImgId());
 		}
-		
-		
 		//convertView.setClickable(true);
 		return convertView;
 	}

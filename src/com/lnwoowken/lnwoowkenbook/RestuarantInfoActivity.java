@@ -45,7 +45,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cncom.app.base.util.PatternShopInfoUtils;
+import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
 import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
@@ -165,7 +165,7 @@ public class RestuarantInfoActivity extends Activity {
 		textView_shopName = (TextView) findViewById(R.id.textView_storename);
 		intent = RestuarantInfoActivity.this.getIntent();
 		mShopId = intent.getExtras().getString("shop_id");
-		mShopInfoObject = PatternShopInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
+		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
 		if (mShopInfoObject != null) {
 			textView_shopName.setText(mShopInfoObject.getShopName());
 			Log.d("mShopInfoObject.getShopName()-------------------", mShopInfoObject.getShopName() + "");

@@ -22,7 +22,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cncom.app.base.util.PatternShopInfoUtils;
+import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
 import com.lnwoowken.lnwoowkenbook.tools.MyCount;
@@ -83,7 +83,7 @@ public class PayInfoActivity extends Activity {
 		String testBundleString = bundle.getString("MyString");
 		mShopId = parcelableData.getShopId();
 		time = parcelableData.getTime();
-		mShopInfoObject =  PatternShopInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
+		mShopInfoObject =  PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
 		tableId = parcelableData.getTableId();
 		tableName = parcelableData.getTableName();
 		tablePrice = parcelableData.getTablePrice();

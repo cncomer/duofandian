@@ -54,7 +54,7 @@ import android.widget.Toast;
 
 import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.util.DebugUtils;
-import com.cncom.app.base.util.PatternShopInfoUtils;
+import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
@@ -460,7 +460,7 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllAvailableTableUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseAvailableTables(NetworkUtils.getContentFromInput(is));
-				mShopAvailableTableList = PatternShopInfoUtils.getShopAvailableTableList(serviceResultObject.mShops);
+				mShopAvailableTableList = PatternInfoUtils.getShopAvailableTableList(serviceResultObject.mShops);
 				DebugUtils.logD(TAG, "mShopAvailableTableList = " + mShopAvailableTableList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
