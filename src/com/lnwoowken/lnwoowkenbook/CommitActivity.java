@@ -1,6 +1,12 @@
 package com.lnwoowken.lnwoowkenbook;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,6 +15,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,19 +30,25 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
+import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
 import com.lnwoowken.lnwoowkenbook.model.BookTime;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
 import com.lnwoowken.lnwoowkenbook.network.Client;
 import com.lnwoowken.lnwoowkenbook.network.JsonParser;
 import com.lnwoowken.lnwoowkenbook.tools.Tools;
+import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.lnwoowken.lnwoowkenbook.view.UserDialog;
+import com.shwy.bestjoy.utils.AsyncTaskUtils;
+import com.shwy.bestjoy.utils.NetworkUtils;
 
 public class CommitActivity extends Activity {
 	private static final String TAG = "CommitActivity";
@@ -67,6 +81,7 @@ public class CommitActivity extends Activity {
 	private float price_service;
 	private PayInfoData parcelableData;
 	private RadioButton radioButton_agree;
+	private Dialog dialog;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +92,7 @@ public class CommitActivity extends Activity {
 	
 	private void createBill() {
 		if (MyAccountManager.getInstance().hasLoginned()) {
-			String jsonStr = "{\"uid\":\"" + MyAccountManager.getInstance().getCurrentAccountUid() + "\",\"sid\":\""
+			/*String jsonStr = "{\"uid\":\"" + MyAccountManager.getInstance().getCurrentAccountUid() + "\",\"sid\":\""
 					+ mShopId + "\",\"tid\":\"" + tableId + "\",\"rprice\":\""
 					+ parcelableData.getRprice() + "\",\"sprice\":\""
 					+ parcelableData.getSprice() + "\",\"dtimeid\":\""
@@ -124,7 +139,7 @@ public class CommitActivity extends Activity {
 					payId = JsonParser.parsePayNumberJson(result);
 					getTnumber(payId);
 				}
-			}
+			}*/
 		} else {
 			showLoginDialog();
 		}
@@ -163,8 +178,7 @@ public class CommitActivity extends Activity {
 		opJson = Client.encodeBase64(opJson);
 		String str = Tools.getRequestStr(Contant.SERVER_IP, Contant.SERVER_PORT
 				+ "", "pay?id=", Contant.UPMPPAY, "&op=" + opJson);
-		resultJson = Client
-				.executeHttpGetAndCheckNet(str, CommitActivity.this);
+		resultJson = Client.executeHttpGetAndCheckNet(str, CommitActivity.this);
 		resultJson = Client.decodeBase64(resultJson);
 
 		if (resultJson != null) {
@@ -314,6 +328,7 @@ public class CommitActivity extends Activity {
 				if(radioButton_agree.isChecked()) {
 					Message msg = new Message();
 					payHandler.sendMessage(msg);
+					//createBillAsyncTask();
 				} else {
 					MyApplication.getInstance().showMessage(R.string.agree_protocal_tips);
 					showProtocolDialog();
@@ -389,9 +404,91 @@ public class CommitActivity extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 					}
-				}).
-
-				create();
+				}).create();
 		alertDialog.show();
+	}
+	
+	
+
+	private CreateBillAsyncTask mCreateBillAsyncTask;
+	private void createBillAsyncTask(String... param) {
+		showProgressDialog();
+		AsyncTaskUtils.cancelTask(mCreateBillAsyncTask);
+		mCreateBillAsyncTask = new CreateBillAsyncTask();
+		mCreateBillAsyncTask.execute(param);
+	}
+
+	private class CreateBillAsyncTask extends AsyncTask<String, Void, ServiceResultObject> {
+		@Override
+		protected ServiceResultObject doInBackground(String... params) {
+			ServiceResultObject serviceResultObject = new ServiceResultObject();
+			InputStream is = null;
+			try {
+				JSONObject queryJsonObject = new JSONObject();
+				queryJsonObject.put("deskID", params[0]);
+				queryJsonObject.put("deskID", params[0]);
+				is = NetworkUtils.openContectionLocked(ServiceObject.getShopByPinpaiUrl("para", queryJsonObject.toString()), null);
+				serviceResultObject = ServiceResultObject.parsePinpaiShops(NetworkUtils.getContentFromInput(is));
+				DebugUtils.logD(TAG, "mShopsList = " + serviceResultObject.mShops);
+				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
+				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
+			} catch (JSONException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (IOException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			}finally {
+				NetworkUtils.closeInputStream(is);
+			}
+			return serviceResultObject;
+		}
+
+		@Override
+		protected void onPostExecute(ServiceResultObject result) {
+			super.onPostExecute(result);
+			if(result.mShops == null || result.mShops.length() == 0) {
+				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
+			}
+			/*try {
+				mShopListAdapter.updateShopList(PatternInfoUtils.getShopInfo(result.mShops));
+			} catch (JSONException e) {
+			}*/
+			dismissProgressDialog();
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			dismissProgressDialog();
+		}
+	}
+	
+
+	private void dismissProgressDialog(){
+		if(dialog != null && dialog.isShowing()) {
+			dialog.dismiss();
+			dialog = null;
+		}
+	}
+	
+	private void showProgressDialog(){
+		if(dialog != null && dialog.isShowing()) return; 
+		dialog = new ProgressDialog(CommitActivity.this, R.style.ProgressDialog);
+		dialog.show();
+		LinearLayout progress = (LinearLayout) dialog.findViewById(R.id.imageView_progress);
+		progress.setBackgroundResource(R.anim.animition_progress); 
+		final AnimationDrawable draw = (AnimationDrawable)progress.getBackground(); 
+        draw.start();
+        dialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				draw.stop();
+			}
+		});
+		dialog.setCanceledOnTouchOutside(false);
 	}
 }

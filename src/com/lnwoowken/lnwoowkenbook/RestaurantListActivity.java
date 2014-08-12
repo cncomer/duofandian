@@ -371,7 +371,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 				f = Float.valueOf(_shoplist.get(position).getMaintenancePointDistance()) / 1000;
 			}*/
 			holder._name.setText(_shoplist.get(position).getShopName());
-			holder._price.setText(_shoplist.get(position).getShopServerprice());
+			holder._price.setText(_shoplist.get(position).getShopRenJun());
 			holder._detail.setText(_shoplist.get(position).getShopBrief());
 			if(!TextUtils.isEmpty(_shoplist.get(position).getShopYouHui())) holder._youhui.setVisibility(View.VISIBLE);
 			if(!TextUtils.isEmpty(_shoplist.get(position).getShopTuanGou())) holder._tuangou.setVisibility(View.VISIBLE);

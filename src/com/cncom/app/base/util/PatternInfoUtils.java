@@ -45,7 +45,7 @@ public class PatternInfoUtils {
 			shopInfoObject.setShopDianCan(obj.getString(ShopInfoObject.SHOP_DIANCAN));
 			shopInfoObject.setShopMaiDian(obj.getString(ShopInfoObject.SHOP_MAIDIAN));
 			shopInfoObject.setShopShowId(obj.getString(ShopInfoObject.SHOP_SHOW_ID));
-			shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
+			//shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
 
 			result.add(shopInfoObject);
 		}
@@ -81,7 +81,7 @@ public class PatternInfoUtils {
 			shopInfoObject.setShopDianCan(obj.getString(ShopInfoObject.SHOP_DIANCAN));
 			shopInfoObject.setShopMaiDian(obj.getString(ShopInfoObject.SHOP_MAIDIAN));
 			shopInfoObject.setShopShowId(obj.getString(ShopInfoObject.SHOP_SHOW_ID));
-			shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
+			//shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
 			
 			shopInfoObject.saveDatabase(cr, null);
 
