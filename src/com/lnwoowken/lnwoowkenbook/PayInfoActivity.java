@@ -38,15 +38,15 @@ public class PayInfoActivity extends Activity {
 	private TextView tv;
 	private Context context = PayInfoActivity.this;
 	private Intent intent;
-	private float price;
+	private int price;
 	private TextView textView_price;
 	private TextView textView_needpay;
 	private String mShopId;
 	private String time;
-	private String servicePrice;
+	private String mServicePrice;
 	private String tableId;
 	private String tableName;
-	private String tablePrice;
+	private String mTablePrice;
 	private PayInfoData parcelableData;
 	// private int tableId;
 	private ShopInfoObject mShopInfoObject;
@@ -84,9 +84,10 @@ public class PayInfoActivity extends Activity {
 		mShopInfoObject =  PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
 		tableId = parcelableData.getTableId();
 		tableName = parcelableData.getTableName();
-		tablePrice = parcelableData.getTablePrice();
-		//price = Float.parseFloat(mShopInfoObject.getShopServerprice()) + tablePrice;
+		mTablePrice = parcelableData.getTablePrice();
+		mServicePrice = parcelableData.getSprice();
 		tNumber = getIntent().getExtras().getString("tNumber");
+		price = (int) ((Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mServicePrice) ? "0" : mServicePrice));
 		tv = (TextView) findViewById(R.id.textView_count);
 		if (tNumber!=null&&!tNumber.equals("")) {
 			if (mc == null) {
@@ -105,7 +106,6 @@ public class PayInfoActivity extends Activity {
 		textView_needpay.setText(price + "");
 		btn_commit = (Button) findViewById(R.id.button_commit);
 		btn_commit.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 //				Message msg = new Message();

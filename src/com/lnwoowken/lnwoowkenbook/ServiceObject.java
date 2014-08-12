@@ -71,6 +71,13 @@ public class ServiceObject {
 		.append(para).append("=").appendUrlEncodedString(jsonString);
 		return sb.toString();
 	}
+	
+	public static String getLiushuiNumberUrl(String para, String jsonString) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/GenOrder.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
+		return sb.toString();
+	}
 	/**
 	 * 获取所有店铺id, 如返回：[{"ID":"1"},{"ID":"2"},{"ID":"3"},{"ID":"4"},{"ID":"5"}]
 	 * @return

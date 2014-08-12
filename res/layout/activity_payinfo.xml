@@ -97,7 +97,7 @@
                     android:layout_alignParentRight="true"
                     android:text="@string/no_data"
                     android:textColor="@color/textColor"
-                    android:textSize="18dip" />
+                    android:textSize="16dip" />
 
                 <TextView
                     android:id="@+id/textView_title_shopname"
@@ -106,7 +106,7 @@
                     android:layout_alignParentLeft="true"
                     android:text="@string/pay_price"
                     android:textColor="@color/textColor"
-                    android:textSize="18dip" />
+                    android:textSize="16dip" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -124,7 +124,7 @@
                     android:layout_alignParentRight="true"
                     android:text="@string/no_data"
                     android:textColor="@color/textColor"
-                    android:textSize="18dip" />
+                    android:textSize="16dip" />
 
                 <TextView
                     android:id="@+id/textView_title_timeinfo"
@@ -133,7 +133,7 @@
                     android:layout_alignParentLeft="true"
                     android:text="@string/jifen_countdown"
                     android:textColor="@color/textColor"
-                    android:textSize="18dip" />
+                    android:textSize="16dip" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -151,7 +151,7 @@
                     android:layout_alignParentRight="true"
                     android:text="@string/no_data"
                     android:textColor="@color/textColor"
-                    android:textSize="18dip" />
+                    android:textSize="16dip" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                     android:layout_alignParentLeft="true"
                     android:text="@string/vip_account"
                     android:textColor="@color/textColor"
-                    android:textSize="18dip" />
+                    android:textSize="16dip" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -177,7 +177,7 @@
                     android:layout_alignParentRight="true"
                     android:text="@string/no_data"
                     android:textColor="@color/textColor"
-                    android:textSize="18dip" />
+                    android:textSize="16dip" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -185,7 +185,7 @@
                     android:layout_alignParentLeft="true"
                     android:text="@string/vip_account_countdown"
                     android:textColor="@color/textColor"
-                    android:textSize="18dip" />
+                    android:textSize="16dip" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -203,7 +203,7 @@
                     android:layout_alignParentLeft="true"
                     android:text="@string/final_pay"
                     android:textColor="@color/textColor"
-                    android:textSize="18dip" />
+                    android:textSize="16dip" />
 
                 <TextView
                     android:id="@+id/textView_needpay"
@@ -213,7 +213,7 @@
                     android:layout_centerVertical="true"
                     android:text="@string/no_data"
                     android:textColor="@color/textColor"
-                    android:textSize="18dip" />
+                    android:textSize="16dip" />
             </RelativeLayout>
 
             <LinearLayout

@@ -52,7 +52,6 @@ import com.shwy.bestjoy.utils.NetworkUtils;
 
 public class CommitActivity extends Activity {
 	private static final String TAG = "CommitActivity";
-	private float price;
 	private String tNumber;
 	private String payId;
 	private Context context = CommitActivity.this;
@@ -66,6 +65,7 @@ public class CommitActivity extends Activity {
 	private String time;
 	private String mServicePrice;
 	private String mTablePrice;
+	private int mPriceTotal;
 	private TextView textView_money_describ;
 	private String tableId;
 	private String tableName;
@@ -92,7 +92,7 @@ public class CommitActivity extends Activity {
 	
 	private void createBill() {
 		if (MyAccountManager.getInstance().hasLoginned()) {
-			/*String jsonStr = "{\"uid\":\"" + MyAccountManager.getInstance().getCurrentAccountUid() + "\",\"sid\":\""
+			String jsonStr = "{\"uid\":\"" + MyAccountManager.getInstance().getCurrentAccountUid() + "\",\"sid\":\""
 					+ mShopId + "\",\"tid\":\"" + tableId + "\",\"rprice\":\""
 					+ parcelableData.getRprice() + "\",\"sprice\":\""
 					+ parcelableData.getSprice() + "\",\"dtimeid\":\""
@@ -139,7 +139,7 @@ public class CommitActivity extends Activity {
 					payId = JsonParser.parsePayNumberJson(result);
 					getTnumber(payId);
 				}
-			}*/
+			}
 		} else {
 			showLoginDialog();
 		}
@@ -194,7 +194,7 @@ public class CommitActivity extends Activity {
 			// }
 			// }
 			
-			Intent intent = new Intent(CommitActivity.this,PayInfoActivity.class);
+			Intent intent = new Intent(CommitActivity.this, PayInfoActivity.class);
 			Bundle bundle = new Bundle();  
 			bundle.putString("MyString", "test bundle");  
 			bundle.putParcelable("PayData", parcelableData); 
@@ -243,8 +243,7 @@ public class CommitActivity extends Activity {
 		mTablePrice = parcelableData.getTablePrice();
 		mServicePrice = parcelableData.getSprice();
 		
-		int dingjin = (int) (Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2);
-		int service = Integer.parseInt(TextUtils.isEmpty(mServicePrice) ? "0" : mServicePrice);
+		mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mServicePrice) ? "0" : mServicePrice));
 		
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
 		textView_money_describ.setText("(定金" + (int) (Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2)+"元+服务费" + mServicePrice + "元)");
@@ -260,7 +259,7 @@ public class CommitActivity extends Activity {
 		textView_timeinfo.setText(parcelableData.getTime());
 		textView_seat.setText(parcelableData.getTableName());
 		//应付金额： 服务费+订金（额定消费X20%）
-		textView_money.setText((int) ((Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mServicePrice) ? "0" : mServicePrice)) + "");
+		textView_money.setText(mPriceTotal + "");
 		
 		radioButton_agree = (RadioButton) findViewById(R.id.radioButton_agree);
 		/*radioButton_agree.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -326,9 +325,9 @@ public class CommitActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(radioButton_agree.isChecked()) {
-					Message msg = new Message();
-					payHandler.sendMessage(msg);
-					//createBillAsyncTask();
+					//Message msg = new Message();
+					//payHandler.sendMessage(msg);
+					createBillAsyncTask();
 				} else {
 					MyApplication.getInstance().showMessage(R.string.agree_protocal_tips);
 					showProtocolDialog();
@@ -425,11 +424,12 @@ public class CommitActivity extends Activity {
 			InputStream is = null;
 			try {
 				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("deskID", params[0]);
-				queryJsonObject.put("deskID", params[0]);
-				is = NetworkUtils.openContectionLocked(ServiceObject.getShopByPinpaiUrl("para", queryJsonObject.toString()), null);
-				serviceResultObject = ServiceResultObject.parsePinpaiShops(NetworkUtils.getContentFromInput(is));
-				DebugUtils.logD(TAG, "mShopsList = " + serviceResultObject.mShops);
+				queryJsonObject.put("deskID", tableId);
+				queryJsonObject.put("price", mPriceTotal);
+				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
+				is = NetworkUtils.openContectionLocked(ServiceObject.getLiushuiNumberUrl("para", queryJsonObject.toString()), null);
+				serviceResultObject = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
+				DebugUtils.logD(TAG, "number = " + serviceResultObject.mStrData);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
 			} catch (JSONException e) {
@@ -450,14 +450,13 @@ public class CommitActivity extends Activity {
 		@Override
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
-			if(result.mShops == null || result.mShops.length() == 0) {
-				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
-			}
-			/*try {
-				mShopListAdapter.updateShopList(PatternInfoUtils.getShopInfo(result.mShops));
-			} catch (JSONException e) {
-			}*/
 			dismissProgressDialog();
+			if(TextUtils.isEmpty(result.mStrData)) {
+				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
+			} else {
+				tNumber = result.mStrData;
+				commitPay();
+			}
 		}
 
 		@Override
@@ -475,6 +474,16 @@ public class CommitActivity extends Activity {
 		}
 	}
 	
+	public void commitPay() {
+		Intent intent = new Intent(CommitActivity.this, PayInfoActivity.class);
+		Bundle bundle = new Bundle();  
+		bundle.putParcelable("PayData", parcelableData); 
+		bundle.putString("tNumber", tNumber);
+		intent.putExtras(bundle);  
+		startActivity(intent);
+		CommitActivity.this.finish();
+	}
+
 	private void showProgressDialog(){
 		if(dialog != null && dialog.isShowing()) return; 
 		dialog = new ProgressDialog(CommitActivity.this, R.style.ProgressDialog);
