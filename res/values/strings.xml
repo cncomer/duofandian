@@ -41,7 +41,7 @@
     <string name="tab_default">默认</string>
     <string name="tab_all">全部分类</string>
     <string name="activity_hello_world">helloword</string>
-    <string name="pay_warning">1.专座预定成功后请在10分钟内完成支付,超时系统将自动释放您选择的餐桌\n2.请仔细核对您的定单信息,一经购买成功,不退不换</string>
+    <string name="pay_warning">1.请仔细核对您的定单信息\n2.请仔细阅读定单的重要说明\n3.请30秒内确认支付，否则将自动取消定单。</string>
     <string name="pay_tips">小提示:请在预定时间的15分钟内到店,否则该桌将自动释放给公众,服务费不予退还,如有特殊需求请联系商家</string>
     <string name="pay_vital_tips">1.额定消费要求（如消费低于XXX元，则用订金补足差额，剩余订金返还到会员的支付账户）\n\n2.定单成功后，会员提前预订时间2小时退订或拨打电话XXX-XX-XXX退订，同时您的服务费与订金直接退入您夺饭点会员账户，期待您下次消费。\n\n3.逾期：您逾期之后如果还需要进行VIP服务或其他服务请联系我们客户电话400-xxxx-xxxx。</string>
     <string name="pay_vital_tips_title">重要说明</string>
@@ -75,7 +75,7 @@
     <string name="score2">环境 8.5</string>
     <string name="score3">服务 8.9</string>
     <string name="login">登录</string>
-    <string name="no_data">暂无数据</string>
+    <string name="no_data">无</string>
     <string name="no_net">无网络,请先开启网络</string>
     <string name="app_name">夺饭点</string>
     <string name="action_settings">Settings</string>
@@ -268,4 +268,10 @@
   <string name="time_info">时间信息:</string>
   <string name="vip_seat">会员专座:</string>
   <string name="agree_protocal_tips">您还没有同意用户协议</string>
+  <string name="back_level">返回上一级</string>
+  <string name="first_level">第一级</string>
+  <string name="jifen_countdown">积分抵扣:</string>
+  <string name="vip_account">会员账户:</string>
+  <string name="vip_account_countdown">VIP用户优惠服务费:</string>
+  <string name="final_pay">最终支付:</string>
 </resources>

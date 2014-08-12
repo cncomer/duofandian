@@ -10,11 +10,11 @@ public class PayInfoData  implements Parcelable{
     private String tableId;  
     private String time; 
     private String tableName;
-    private float tablePrice;
+    private String tablePrice;
     
     private String uid;
-	private float rprice;
-	private float sprice;
+	private String rprice;
+	private String sprice;
 	private String dtimeid;
 	private String sttid;
 	private String secid;
@@ -28,11 +28,11 @@ public class PayInfoData  implements Parcelable{
 		this.content = content;
 	}
 
-	public float getTablePrice() {
+	public String getTablePrice() {
 		return tablePrice;
 	}
 
-	public void setTablePrice(float tablePrice) {
+	public void setTablePrice(String tablePrice) {
 		this.tablePrice = tablePrice;
 	}
 
@@ -57,10 +57,10 @@ public class PayInfoData  implements Parcelable{
         tableId = in.readString();  
         time = in.readString();
         tableName = in.readString();
-        tablePrice = in.readFloat();
+        tablePrice = in.readString();
         uid = in.readString();
-        rprice = in.readFloat();
-        sprice = in.readFloat();
+        rprice = in.readString();
+        sprice = in.readString();
         dtimeid = in.readString();
         sttid = in.readString();
         secid = in.readString();
@@ -80,10 +80,10 @@ public class PayInfoData  implements Parcelable{
         dest.writeString(tableId);  
         dest.writeString(time);
         dest.writeString(tableName);
-        dest.writeFloat(tablePrice);
+        dest.writeString(tablePrice);
         dest.writeString(uid);
-        dest.writeFloat(rprice);
-        dest.writeFloat(sprice);
+        dest.writeString(rprice);
+        dest.writeString(sprice);
         dest.writeString(dtimeid);
         dest.writeString(sttid);
         dest.writeString(secid);
@@ -141,16 +141,16 @@ public class PayInfoData  implements Parcelable{
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	public float getRprice() {
+	public String getRprice() {
 		return rprice;
 	}
-	public void setRprice(float rprice) {
+	public void setRprice(String rprice) {
 		this.rprice = rprice;
 	}
-	public float getSprice() {
+	public String getSprice() {
 		return sprice;
 	}
-	public void setSprice(float sprice) {
+	public void setSprice(String sprice) {
 		this.sprice = sprice;
 	}
 	public String getDtimeid() {

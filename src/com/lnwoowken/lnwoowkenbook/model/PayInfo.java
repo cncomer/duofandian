@@ -4,8 +4,8 @@ public class PayInfo {
 
 	
 	private String uid;
-	private float rprice;
-	private float sprice;
+	private String rprice;
+	private String sprice;
 	private String dtimeid;
 	private String sttid;
 	private String secid;
@@ -16,7 +16,7 @@ public class PayInfo {
 	private String tableId;  
     private String time; 
     private String tableName;
-    private float tablePrice;
+    private String tablePrice;
     private String content;
     
     
@@ -34,16 +34,16 @@ public class PayInfo {
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	public float getRprice() {
+	public String getRprice() {
 		return rprice;
 	}
-	public void setRprice(float rprice) {
+	public void setRprice(String rprice) {
 		this.rprice = rprice;
 	}
-	public float getSprice() {
+	public String getSprice() {
 		return sprice;
 	}
-	public void setSprice(float sprice) {
+	public void setSprice(String sprice) {
 		this.sprice = sprice;
 	}
 	public String getDtimeid() {
@@ -88,10 +88,10 @@ public class PayInfo {
 	public void setTableName(String tableName) {
 		this.tableName = tableName;
 	}
-	public float getTablePrice() {
+	public String getTablePrice() {
 		return tablePrice;
 	}
-	public void setTablePrice(float tablePrice) {
+	public void setTablePrice(String tablePrice) {
 		this.tablePrice = tablePrice;
 	}
 	

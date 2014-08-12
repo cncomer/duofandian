@@ -46,7 +46,7 @@ public class PayInfoActivity extends Activity {
 	private String servicePrice;
 	private String tableId;
 	private String tableName;
-	private float tablePrice;
+	private String tablePrice;
 	private PayInfoData parcelableData;
 	// private int tableId;
 	private ShopInfoObject mShopInfoObject;
@@ -74,13 +74,11 @@ public class PayInfoActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_payinfo);
 		initialize();
-
 	}
 
 	private void initialize() {
 		Bundle bundle = getIntent().getExtras();
 		parcelableData = bundle.getParcelable("PayData");
-		String testBundleString = bundle.getString("MyString");
 		mShopId = parcelableData.getShopId();
 		time = parcelableData.getTime();
 		mShopInfoObject =  PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
@@ -119,9 +117,7 @@ public class PayInfoActivity extends Activity {
 					else {
 						Toast.makeText(context, "未获得支付流水号", Toast.LENGTH_SHORT).show();
 					}
-					
-				}
-				else {
+				} else {
 					Toast.makeText(context, "您还没有选择支付方式", Toast.LENGTH_SHORT).show();
 				}
 				

@@ -402,10 +402,10 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 						pay.setTime(shopAvailableTableObj.getmShiduanTime());
 						pay.setTableName(shopAvailableTableObj.getDeskName());
 						pay.setTableId(shopAvailableTableObj.getDeskId());
-						//pay.setTablePrice(shopAvailableTableObj);
+						pay.setTablePrice(shopAvailableTableObj.getDabiaoPrice());
 						pay.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
 						//pay.setRprice(tempStyle.getPrice());
-						// /pay.setSprice(Float.parseFloat(Tools.findShopById(shopId).getServicePrice()));
+						pay.setSprice(shopAvailableTableObj.getServicePrice());
 						//pay.setDtimeid(tableInfo.getAId());
 						//pay.setSttid(tableStyleId + "");
 						//pay.setSecid(se);
@@ -428,13 +428,7 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 			} else {
 				Toast.makeText(context, "您还没有接受协议", Toast.LENGTH_SHORT).show();
 			}
-
 		}
-
-		else {
-
-		}
-
 	}
 
 	private QueryAvilableTableSynckTAsk mQueryAvilableTableSynckTAsk;

@@ -125,10 +125,13 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 						if(position == 0) {
 							loadInfoAsyncTask();	
 							mCurrentLevel = LEVEL_SECOND;
+							btn_return.setText(R.string.back_level);
 						}
 						break;
 					case LEVEL_SECOND:
-						loadShopInfoAsyncTask(mTabAdapter.getItem(position));					
+						String title = mTabAdapter.getItem(position);
+						loadShopInfoAsyncTask(title);	
+						content_title.setText(title);				
 						break;
 				}
 				break;
@@ -139,11 +142,12 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 	public void onClick(View v) {
 		if (v.equals(btn_return)) {
 			mSelectTree = null;
-			content_title.setText("");
-			mShopList.clear();
-			mShopListAdapter.notifyDataSetChanged();
+			//content_title.setText("");
+			//mShopList.clear();
+			//mShopListAdapter.notifyDataSetChanged();
 			mTabAdapter.initTabList();
 			mCurrentLevel = LEVEL_FIRST;
+			btn_return.setText(R.string.first_level);
 		}
 		if (v.equals(btn_back)) {
 			TabHostActivity.this.finish();

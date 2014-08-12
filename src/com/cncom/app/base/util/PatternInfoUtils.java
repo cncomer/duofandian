@@ -180,6 +180,8 @@ public class PatternInfoUtils {
 			shopAvailableTableObject.setShiduanTime(obj.getString(TableInfoObject.SHIDUAN_TIME));
 			shopAvailableTableObject.setShiduanName(obj.getString(TableInfoObject.SHIDUAN_TIME));
 			shopAvailableTableObject.setDeskId(obj.getString(TableInfoObject.DESK_ID));
+			shopAvailableTableObject.setDabiaoPrice(obj.getString(TableInfoObject.DESK_DABIAO_PRICE));
+			shopAvailableTableObject.setServicePrice(obj.getString(TableInfoObject.DESK_SERVICE_PRICE));
 			
 			result.add(shopAvailableTableObject);
 		}

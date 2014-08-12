@@ -84,7 +84,7 @@
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="50dip"
+                android:layout_height="40dip"
                 android:background="@drawable/boder_bottom"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dip"
@@ -104,14 +104,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="定单金额:"
+                    android:text="@string/pay_price"
                     android:textColor="@color/textColor"
                     android:textSize="18dip" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="50dip"
+                android:layout_height="40dip"
                 android:background="@drawable/boder_bottom"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dip"
@@ -131,14 +131,66 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="使用优惠:"
+                    android:text="@string/jifen_countdown"
                     android:textColor="@color/textColor"
                     android:textSize="18dip" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="50dip"
+                android:layout_height="40dip"
+                android:background="@drawable/boder_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" >
+
+                <TextView
+                    android:id="@+id/textView_vip_account"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/no_data"
+                    android:textColor="@color/textColor"
+                    android:textSize="18dip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/vip_account"
+                    android:textColor="@color/textColor"
+                    android:textSize="18dip" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
+                android:background="@drawable/boder_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" >
+
+                <TextView
+                    android:id="@+id/textView_vipcountdown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/no_data"
+                    android:textColor="@color/textColor"
+                    android:textSize="18dip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/vip_account_countdown"
+                    android:textColor="@color/textColor"
+                    android:textSize="18dip" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
                 android:background="@drawable/boder_bottom"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dip"
@@ -149,7 +201,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="还需支付:"
+                    android:text="@string/final_pay"
                     android:textColor="@color/textColor"
                     android:textSize="18dip" />
 
@@ -190,7 +242,7 @@
                     android:lineSpacingExtra="10dip"
                     android:text="@string/pay_warning"
                     android:textColor="@color/textColor"
-                    android:textSize="15dip" />
+                    android:textSize="12dip" />
             </LinearLayout>
 
             <RelativeLayout

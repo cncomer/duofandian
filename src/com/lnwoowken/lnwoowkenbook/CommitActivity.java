@@ -1,7 +1,5 @@
 package com.lnwoowken.lnwoowkenbook;
 
-
-
 import java.util.List;
 
 import android.app.Activity;
@@ -14,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,7 +24,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.util.PatternInfoUtils;
@@ -52,12 +50,11 @@ public class CommitActivity extends Activity {
 	private EditText editText_name;
 	private String mShopId;
 	private String time;
-	private String servicePrice;
+	private String mServicePrice;
+	private String mTablePrice;
 	private TextView textView_money_describ;
 	private String tableId;
 	private String tableName;
-	private float tablePrice;
-	//private int tableId;
 	private ShopInfoObject mShopInfoObject;
 	private TextView textView_shopId;
 	private TextView textView_shopName;
@@ -70,8 +67,6 @@ public class CommitActivity extends Activity {
 	private float price_service;
 	private PayInfoData parcelableData;
 	private RadioButton radioButton_agree;
-	//private TextView textView_shopName;
-	//private TextView textView_shopName;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -127,13 +122,8 @@ public class CommitActivity extends Activity {
 				}
 				else {
 					payId = JsonParser.parsePayNumberJson(result);
-					
-					//Log.d("createBill============", payId);
 					getTnumber(payId);
 				}
-				
-				// Log.d("createBill============", payId);
-
 			}
 		} else {
 			showLoginDialog();
@@ -202,10 +192,7 @@ public class CommitActivity extends Activity {
 			
 			//pay(tNumber);
 			
-			
-			
 			// JsonParser.parseShopInfoJson(resultJson,Contant.SHOP_LIST.get(i));
-
 		}
 		return resultJson;
 	}
@@ -220,19 +207,15 @@ public class CommitActivity extends Activity {
 			} else {
 				showLoginDialog();
 			}
-
 		}
-
 	}
 	private Handler payHandler = new Handler() {
-
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			RequestPayInfoThread payThread = new RequestPayInfoThread();
 			payThread.run();
 		}
-
 	};
 	
 	private void initialize(){
@@ -243,11 +226,14 @@ public class CommitActivity extends Activity {
 		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
 		tableId = parcelableData.getTableId();
 		tableName= parcelableData.getTableName();
-		tablePrice = parcelableData.getTablePrice();
-		//price = Float.parseFloat((mShopInfoObject.getShopServerprice() != null ? mShopInfoObject.getShopServerprice() : "0")) + tablePrice;
+		mTablePrice = parcelableData.getTablePrice();
+		mServicePrice = parcelableData.getSprice();
+		
+		int dingjin = (int) (Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2);
+		int service = Integer.parseInt(TextUtils.isEmpty(mServicePrice) ? "0" : mServicePrice);
 		
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
-		textView_money_describ.setText("(定金"+tablePrice+"元+服务费"+mShopInfoObject.getShopServerprice()+"元)");
+		textView_money_describ.setText("(定金" + (int) (Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2)+"元+服务费" + mServicePrice + "元)");
 		textView_shopId = (TextView) findViewById(R.id.textView_shopid);
 		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
 		textView_timeinfo = (TextView) findViewById(R.id.textView_timeinfo);
@@ -259,8 +245,8 @@ public class CommitActivity extends Activity {
 		textView_shopName.setText(mShopInfoObject.getShopName());
 		textView_timeinfo.setText(parcelableData.getTime());
 		textView_seat.setText(parcelableData.getTableName());
-		//servicePrice = (Float.parseFloat(mShopInfoObject.getShopServerprice() != null ? mShopInfoObject.getShopServerprice() : "0") + tablePrice) + "";
-		textView_money.setText(mShopInfoObject.getShopServerprice());
+		//应付金额： 服务费+订金（额定消费X20%）
+		textView_money.setText((int) ((Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mServicePrice) ? "0" : mServicePrice)) + "");
 		
 		radioButton_agree = (RadioButton) findViewById(R.id.radioButton_agree);
 		/*radioButton_agree.setOnCheckedChangeListener(new OnCheckedChangeListener() {

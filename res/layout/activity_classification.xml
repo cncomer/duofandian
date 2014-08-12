@@ -89,12 +89,12 @@
                     android:layout_width="120dip"
                     android:layout_height="40dip"
                     android:background="@drawable/buttons"
-                    android:text="返回第一级"
+                    android:text="@string/first_level"
                     android:textColor="@color/text_selector" />
 
                 <ListView
                     android:id="@+id/listView_tab"
-                    android:layout_width="120dip"
+                    android:layout_width="100dip"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:background="@color/top_bottom"
