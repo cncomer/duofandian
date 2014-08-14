@@ -280,4 +280,6 @@
   <string name="note_content">备注：请输入20字以内</string>
   <string name="input_yanzhengcode">请输入验证码</string>
   <string name="get_yanzhengcode">获取验证码</string>
+  <string name="pay_success_tips">恭喜，您已完成支付并抢位成功，</string>
+  <string name="pay_cancel_tips">您已取消支付，如需抢位请重新提交订单信息</string>
 </resources>

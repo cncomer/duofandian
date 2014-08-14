@@ -170,9 +170,11 @@ public class PayInfoActivity extends Activity {
 				mc.cancel();
 				mc = null;
 				tv.setText("");
-				//Toast.makeText(context, "支付成功", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, context.getString(R.string.pay_success_tips), Toast.LENGTH_LONG).show();
 				PayInfoActivity.this.finish();
 			}
+		} else if (str.equalsIgnoreCase("cancel")) {
+			Toast.makeText(context, context.getString(R.string.pay_cancel_tips), Toast.LENGTH_LONG).show();
 		}
 //		if (str.equalsIgnoreCase(R_SUCCESS)) {
 //			showResultDialog(" 支付成功！ ");
@@ -206,8 +208,8 @@ public class PayInfoActivity extends Activity {
 	private void pay(String tn) {
 		Activity a = PayInfoActivity.this;
 		//UPPayAssistEx.startPay(a, null, null, tn, "01");
-		//UPPayAssistEx.startPayByJAR(a, PayActivity.class, null, null, tn, "00");
-		UPPayAssistEx.startPayByJAR(a, PayActivity.class, null, null, tn, "01");
+		UPPayAssistEx.startPayByJAR(a, PayActivity.class, null, null, tn, "00");
+		//UPPayAssistEx.startPayByJAR(a, PayActivity.class, null, null, tn, "01");
 	}
 
 }
