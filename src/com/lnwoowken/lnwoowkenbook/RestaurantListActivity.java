@@ -427,8 +427,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 				queryJsonObject.put("pageindex", 1);
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllShopInfoUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseShops(NetworkUtils.getContentFromInput(is));
-				//mShopsList = PatternInfoUtils.getShopInfoClean(serviceResultObject.mShops, getContentResolver());
-				mShopsList = PatternInfoUtils.getShopInfo(serviceResultObject.mShops);
+				mShopsList = PatternInfoUtils.getShopInfoClean(serviceResultObject.mShops, getContentResolver());
 
 				DebugUtils.logD(TAG, "mShopsList = " + mShopsList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
@@ -498,8 +497,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 				queryJsonObject.put("pageindex", ++mLoadPageIndex);
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllShopInfoUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseShops(NetworkUtils.getContentFromInput(is));
-				//mShopsList.addAll(PatternInfoUtils.getShopInfo(serviceResultObject.mShops, getContentResolver()));
-				mShopsList.addAll(PatternInfoUtils.getShopInfo(serviceResultObject.mShops));
+				mShopsList.addAll(PatternInfoUtils.getShopInfo(serviceResultObject.mShops, getContentResolver()));
 
 				DebugUtils.logD(TAG, "mShopsList = " + mShopsList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
@@ -543,7 +541,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 	private LoadAllShopInfoAsyncTask mLoadAllShopInfoAsyncTask;
 	private void loadAllShopInfoAsyncTask(String... param) {
 		int locatCount = PatternInfoUtils.getDataCount(getContentResolver());
-		if(locatCount > 0){//本地已有缓存
+		if(locatCount > 0 && false){//本地已有缓存
 			mShopsList = PatternInfoUtils.getShopInfoLocal(getContentResolver());
 			mShopListAdapter.initShopList(mShopsList);
 			mLoadPageIndex = locatCount / 10 + 1;
@@ -567,8 +565,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 				queryJsonObject.put("pageindex", 1);
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllShopInfoUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseShops(NetworkUtils.getContentFromInput(is));
-				//mShopsList = PatternInfoUtils.getShopInfo(serviceResultObject.mShops, getContentResolver());
-				mShopsList = PatternInfoUtils.getShopInfo(serviceResultObject.mShops);
+				mShopsList = PatternInfoUtils.getShopInfo(serviceResultObject.mShops, getContentResolver());
 				DebugUtils.logD(TAG, "mShopsList = " + mShopsList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
