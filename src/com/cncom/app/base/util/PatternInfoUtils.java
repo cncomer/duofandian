@@ -46,6 +46,10 @@ public class PatternInfoUtils {
 			shopInfoObject.setShopMaiDian(obj.getString(ShopInfoObject.SHOP_MAIDIAN));
 			shopInfoObject.setShopShowId(obj.getString(ShopInfoObject.SHOP_SHOW_ID));
 			//shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
+			shopInfoObject.setShopShen(obj.getString(ShopInfoObject.SHOP_SHEN));
+			shopInfoObject.setShopCity(obj.getString(ShopInfoObject.SHOP_CITY));
+			shopInfoObject.setShopQu(obj.getString(ShopInfoObject.SHOP_QU));
+			shopInfoObject.setShopDeskCount(obj.getString(ShopInfoObject.SHOP_DESK_COUNT));
 
 			result.add(shopInfoObject);
 		}
@@ -82,6 +86,10 @@ public class PatternInfoUtils {
 			shopInfoObject.setShopMaiDian(obj.getString(ShopInfoObject.SHOP_MAIDIAN));
 			shopInfoObject.setShopShowId(obj.getString(ShopInfoObject.SHOP_SHOW_ID));
 			//shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
+			shopInfoObject.setShopShen(obj.getString(ShopInfoObject.SHOP_SHEN));
+			shopInfoObject.setShopCity(obj.getString(ShopInfoObject.SHOP_CITY));
+			shopInfoObject.setShopQu(obj.getString(ShopInfoObject.SHOP_QU));
+			shopInfoObject.setShopDeskCount(obj.getString(ShopInfoObject.SHOP_DESK_COUNT));
 			
 			shopInfoObject.saveDatabase(cr, null);
 
@@ -123,7 +131,11 @@ public class PatternInfoUtils {
 				shopInfoObject.setShopDianCan(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DIANCAN)));
 				shopInfoObject.setShopMaiDian(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_MAIDIAN)));
 				shopInfoObject.setShopShowId(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHOW_ID)));
-				shopInfoObject.setShopDetail(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DETAIL)));
+				//shopInfoObject.setShopDetail(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DETAIL)));
+				shopInfoObject.setShopShen(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHEN)));
+				shopInfoObject.setShopCity(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CITY)));
+				shopInfoObject.setShopQu(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QU)));
+				shopInfoObject.setShopDeskCount(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DESK_COUNT)));
 				
 				result.add(shopInfoObject);
 			}
@@ -158,7 +170,11 @@ public class PatternInfoUtils {
 				shopInfoObject.setShopDianCan(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DIANCAN)));
 				shopInfoObject.setShopMaiDian(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_MAIDIAN)));
 				shopInfoObject.setShopShowId(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHOW_ID)));
-				shopInfoObject.setShopDetail(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DETAIL)));
+				//shopInfoObject.setShopDetail(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DETAIL)));
+				shopInfoObject.setShopShen(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHEN)));
+				shopInfoObject.setShopCity(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CITY)));
+				shopInfoObject.setShopQu(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QU)));
+				shopInfoObject.setShopDeskCount(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DESK_COUNT)));
 			}
 			c.close();
 		}

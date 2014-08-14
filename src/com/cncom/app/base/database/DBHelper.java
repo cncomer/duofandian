@@ -72,6 +72,10 @@ private static final String TAG = "DBHelper";
   public static final String SHOP_MAIDIAN = "maidan";
   public static final String SHOP_SHOW_ID = "showid";
   public static final String SHOP_DETAIL = "detail";
+  public static final String SHOP_SHEN = "Shen";
+  public static final String SHOP_CITY = "City";
+  public static final String SHOP_QU = "Qu";
+  public static final String SHOP_DESK_COUNT = "desk_count";
   //shop info table end
   
   
@@ -174,7 +178,11 @@ private static final String TAG = "DBHelper";
 	            SHOP_DIANCAN + " TEXT, " +
 	            SHOP_MAIDIAN + " TEXT, " +
 	            SHOP_SHOW_ID + " TEXT, " +
-	            SHOP_DETAIL + " TEXT" +
+	            SHOP_DETAIL + " TEXT, " +
+	            SHOP_SHEN + " TEXT, " +
+	            SHOP_CITY + " TEXT, " +
+	            SHOP_QU + " TEXT, " +
+	            SHOP_DESK_COUNT + " TEXT" +
 	            ");");
   }
   

@@ -32,6 +32,10 @@ public class ShopInfoObject {
 	private String shopMaiDian;
 	private String shopShowId;
 	private String shopDetail;
+	private String shopShen;
+	private String shopCity;
+	private String shopQu;
+	private String shopDeskCount;
 	
 	private String maintenancePointUrl;
 	public static final String[] SHOP_PROJECTION = new String[]{
@@ -58,6 +62,10 @@ public class ShopInfoObject {
 		DBHelper.SHOP_MAIDIAN,
 		DBHelper.SHOP_SHOW_ID,
 		DBHelper.SHOP_DETAIL,
+		DBHelper.SHOP_SHEN,
+		DBHelper.SHOP_CITY,
+		DBHelper.SHOP_QU,
+		DBHelper.SHOP_DESK_COUNT,
 	};
 
 	/*public static final String MAINTENCE_PROJECTION_AID_SELECTION = DBHelper.MAINTENCE_POINT_AID + "=?";
@@ -86,6 +94,10 @@ public class ShopInfoObject {
 	  public static final String SHOP_MAIDIAN = "maidan";
 	  public static final String SHOP_SHOW_ID = "showid";
 	  public static final String SHOP_DETAIL = "detail";
+	  public static final String SHOP_SHEN = "Shen";
+	  public static final String SHOP_CITY = "City";
+	  public static final String SHOP_QU = "Qu";
+	  public static final String SHOP_DESK_COUNT = "desk_count";
 	
 
 	public String getShopAddress() {
@@ -242,6 +254,34 @@ public class ShopInfoObject {
 		this.shopDetail = shopDetail;
 	}
 	
+	public String getShopShen() {
+		return shopShen;
+	}
+	public void setShopShen(String shopShen) {
+		this.shopShen = shopShen;
+	}
+	
+	public String getShopCity() {
+		return shopCity;
+	}
+	public void setShopCity(String shopCity) {
+		this.shopCity = shopCity;
+	}
+	
+	public String getShopQu() {
+		return shopQu;
+	}
+	public void setShopQu(String shopQu) {
+		this.shopQu = shopQu;
+	}
+	
+	public String getShopDeskCount() {
+		return shopDeskCount;
+	}
+	public void setShopDeskCount(String shopDeskCount) {
+		this.shopDeskCount = shopDeskCount;
+	}
+	
 	public boolean saveDatabase(ContentResolver cr, ContentValues addtion) {
 		ContentValues values = new ContentValues();
 		if (addtion != null) {
@@ -269,6 +309,10 @@ public class ShopInfoObject {
 		values.put(DBHelper.SHOP_MAIDIAN, shopMaiDian);
 		values.put(DBHelper.SHOP_SHOW_ID, shopShowId);
 		values.put(DBHelper.SHOP_DETAIL, shopDetail);
+		values.put(DBHelper.SHOP_SHEN, shopShen);
+		values.put(DBHelper.SHOP_CITY, shopCity);
+		values.put(DBHelper.SHOP_QU, shopQu);
+		values.put(DBHelper.SHOP_DESK_COUNT, shopDeskCount);
 		
 		Uri uri = cr.insert(BjnoteContent.Shops.CONTENT_URI, values);
 		if (uri != null) {
