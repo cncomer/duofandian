@@ -124,7 +124,7 @@
 	            android:layout_width="152dip"
 	            android:layout_height="38dip"
 	            android:layout_marginLeft="20dip"
-	            android:layout_marginTop="40dp"
+	            android:layout_marginTop="80dp"
 	            android:background="@drawable/camera_back"
 	            android:gravity="center_vertical" >
 	
@@ -140,7 +140,7 @@
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                style="@style/right_panel_menu"
-	                android:text="美食相机"/>
+	                android:text="美食相机" />
 	        </LinearLayout>
 	    </LinearLayout>
 	</ScrollView>

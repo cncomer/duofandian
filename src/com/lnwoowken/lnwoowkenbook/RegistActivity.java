@@ -365,8 +365,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			}
 		}
 		else if (v.equals(btn_home)) {
-			Intent intent = new Intent(RegistActivity.this, TestMain.class);
-			startActivity(intent);
+			MainActivity.startIntentClearTop(context, null);
 			RegistActivity.this.finish();
 		}
 	}

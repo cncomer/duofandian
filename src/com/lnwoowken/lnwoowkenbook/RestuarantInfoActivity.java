@@ -274,8 +274,7 @@ public class RestuarantInfoActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(RestuarantInfoActivity.this, TestMain.class);
-				startActivity(intent);
+				MainActivity.startIntentClearTop(context, null);
 				RestuarantInfoActivity.this.finish();
 			}
 		});

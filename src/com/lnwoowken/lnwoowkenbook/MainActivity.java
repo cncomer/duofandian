@@ -1,211 +1,266 @@
 ﻿package com.lnwoowken.lnwoowkenbook;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import android.os.Bundle;
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v4.app.TaskStackBuilder;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener,
-OnPageChangeListener {
-	private  SharedPreferences preferences;
-	// 页卡内容
-	private ViewPager viewPager;
-
-	private ViewPagerAdapter viewPagerAdapter;
-	// 页面列表
-	private List<View> views;
-
-	private ImageView[] dots;
-
-	private int currentIndex;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.ui.BaseSlidingFragmentActivity;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.shwy.bestjoy.utils.DebugUtils;
+/**
+ * @author chenkai
+ *
+ */
+public class MainActivity extends BaseSlidingFragmentActivity implements 
+	SlidingMenu.OnOpenedListener, SlidingMenu.OnClosedListener{
+	private static final String TAG = "MainActivity2";
+	private MainActivityContentFragment mContent;
+	private PersonalInfoCenterFragment mMenu;
+	private Bundle mBundles;
+	/**表示是否是第一次进入*/
+	private static final String  KEY_FIRST_SHOW = "MainActivity2.first";
 	
-	private int lastX = 0;
-
-	private static final int[] pics = {R.drawable.start_1,	R.drawable.start_2};
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		if (checkFirst()) {
-			viewPager = (ViewPager) findViewById(R.id.viewpager);
-			views = new ArrayList<View>();
-			
-	/*		// 初始化引导图片列表
-			LinearLayout.LayoutParams mParams = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.FILL_PARENT);
-
-			for (int i = 0; i < pics.length; i++) {
-				ImageView iv = new ImageView(this);
-				iv.setLayoutParams(mParams);
-				iv.setImageResource(pics[i]);
-				views.add(iv);
-			}*/
-			
-			// 初始化引导图片列表
-			LayoutInflater inflater = (LayoutInflater) this
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View view1 = inflater.inflate(R.layout.viewpager1, null);
-			View view2 = inflater.inflate(R.layout.viewpager2, null);
-			views.add(view1);
-			views.add(view2);
-			
-			// 初始化Adapter
-			viewPagerAdapter = new ViewPagerAdapter(views);
-			//viewPager.setOnTouchListener(this);
-			viewPager.setAdapter(viewPagerAdapter);
-			// 设置一个监听器，当ViewPager中的页面改变时调用
-			viewPager.setOnPageChangeListener(this);
-
-			initBottomDots();
-		}
-		else {
-			Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
-			startActivity(intent);
-			MainActivity.this.finish();
+		DebugUtils.logD(TAG, "onCreate()");
+		if (isFinishing()) {
+			return ;
 		}
 		
 		
-		
-
-	}
-
-	private void initBottomDots() {
-		LinearLayout ll = (LinearLayout) findViewById(R.id.dot);
-		dots = new ImageView[pics.length];
-		for (int i = 0; i < pics.length; i++) {
-			dots[i] = (ImageView) ll.getChildAt(i);
-			dots[i].setEnabled(true);
-			dots[i].setOnClickListener(this);
-			dots[i].setTag(i);
+		if (savedInstanceState != null) {
+			mContent = (MainActivityContentFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mContent");
+			mMenu = (PersonalInfoCenterFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mMenu");
+			DebugUtils.logD(TAG, "savedInstanceState != null, we try to get Fragment from FragmentManager, mContent=" + mContent + ", mMenu=" + mMenu);
 		}
-		currentIndex = 0;
-		dots[currentIndex].setEnabled(false);
+		if (mContent == null) {
+			mContent = new MainActivityContentFragment();
+			mContent.setArguments(mBundles);
+			// set the Above View
+			setContentView(R.layout.content_frame);
+			getSupportFragmentManager()
+			.beginTransaction()
+			.add(R.id.content_frame, mContent)
+			.commit();
+		} else {
+			// set the Above View
+			setContentView(R.layout.content_frame);
+			getSupportFragmentManager()
+			.beginTransaction()
+			.replace(R.id.content_frame, mContent)
+			.commit();
+		}
+		
+		if (mMenu == null) {
+			mMenu = new PersonalInfoCenterFragment();
+			// set the Behind View
+			setBehindContentView(R.layout.menu_frame);
+			getSupportFragmentManager()
+			.beginTransaction()
+			.add(R.id.menu_frame, mMenu)
+			.commit();
+
+		} else {
+			// set the Behind View
+			setBehindContentView(R.layout.menu_frame);
+			getSupportFragmentManager()
+			.beginTransaction()
+			.replace(R.id.menu_frame, mMenu)
+			.commit();
+
+		}
+		
+		
+		// customize the SlidingMenu
+		SlidingMenu sm = getSlidingMenu();
+//		sm.setBehindOffsetRes(R.dimen.choose_device_slidingmenu_offset);
+//        sm.setAboveOffsetRes(R.dimen.choose_device_slidingmenu_offset);
+		sm.setShadowWidthRes(R.dimen.shadow_width);
+		sm.setShadowDrawable(R.drawable.shadow);
+		sm.setBehindScrollScale(0.25f);
+		sm.setFadeDegree(0.25f);
+		sm.setMode(SlidingMenu.LEFT);
+		sm.setTouchModeAbove(SlidingMenu.LEFT);
+		sm.setBehindOffsetRes(R.dimen.choose_device_choose_slidingmenu_offset);
+		sm.setOnOpenedListener(this);
+		sm.setOnClosedListener(this);
+		
+		setSlidingActionBarEnabled(true);
+		
+		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setLogo(R.drawable.logo_appname);
+		getSupportActionBar().setDisplayUseLogoEnabled(true);
+		
 	}
-
-	@Override
-	public void onClick(View v) {
-		int position = (Integer) v.getTag();
-		setCurView(position);
-		setCurDot(position);
-	}
-
-
-
-//	/**
-//	 * 进入主界面
-//	 */
-//	public void GoToMainActivity() {
-//		Intent i = new Intent(MainActivity.this, FristActivity.class);
-//		startActivity(i);
-//		this.finish();
-//	}
 	
 	@Override
-	public void onPageScrollStateChanged(int state) {
+	public boolean onCreateOptionsMenu(Menu menu) {
+//		getSupportMenuInflater().inflate(R.menu.new_card_activity_menu, menu);
+		menu.add(1000, R.string.menu_login, 0,  R.string.menu_login).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//login
+		menu.add(1000, R.string.exit_login, 1,  R.string.exit_login).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		return true;
 	}
 
 	@Override
-	public void onPageScrolled(int index, float arg1, int dis) {
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		boolean hasLogined = MyAccountManager.getInstance().hasLoginned();
+		menu.findItem(R.string.menu_login).setVisible(!hasLogined);
+		menu.findItem(R.string.exit_login).setVisible(hasLogined);
+		return true;
 	}
-
+	
 	@Override
-	public void onPageSelected(int index) {
-		setCurDot(index);
+	public void onResume() {
+		super.onResume();
 	}
-
-	private void setCurDot(int positon) {
-		if (positon < 0 || positon > pics.length - 1 || currentIndex == positon) {
-			return;
-		}
-		dots[positon].setEnabled(false);
-		dots[currentIndex].setEnabled(true);
-		currentIndex = positon;
-		final Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
-		new Thread(){
-			public void run() {
-				try {
-					
-					Thread.sleep(1000);
-					startActivity(intent);
-					finish();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			};
-			
-		}.start();
-		
-
-//		GoToMainActivity();
-	}
-
-	private void setCurView(int position) {
-		if (position < 0 || position > pics.length) {
-			return;
-		}
-		viewPager.setCurrentItem(position);
-	}
-
-//	@Override
-//	public boolean onTouch(View v, MotionEvent event) {
-//		switch (event.getAction()) {
-//		case MotionEvent.ACTION_DOWN:
-//			lastX = (int)event.getX();
-//			break;
-//		case MotionEvent.ACTION_MOVE:
-//			if((lastX - event.getX()) >100 && (currentIndex == views.size() -1)){
-//				GoToMainActivity();
-//				this.finish();
-//			}
-//			break;
-//		default:
-//			break;
-//		}
-//		return false;
-//	}
-
+	
 	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
+	public void onDestroy() {
 		super.onDestroy();
-		finish();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+        case android.R.id.home:
+        	
+	        if (true) {
+	        	if (getSlidingMenu().isMenuShowing()) {
+					getSlidingMenu().showContent();
+				} else {
+					getSlidingMenu().showMenu();
+				}
+	        	return true;
+	        }
+     	   Intent upIntent = NavUtils.getParentActivityIntent(this);
+     	   if (upIntent == null) {
+     		   // If we has configurated parent Activity in AndroidManifest.xml, we just finish current Activity.
+     		   finish();
+     		   return true;
+     	   }
+            if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+                // This activity is NOT part of this app's task, so create a new task
+                // when navigating up, with a synthesized back stack.
+                TaskStackBuilder.create(this)
+                        // Add all of this activity's parents to the back stack
+                        .addNextIntentWithParentStack(upIntent)
+                        // Navigate up to the closest parent
+                        .startActivities();
+            } else {
+                // This activity is part of this app's task, so simply
+                // navigate up to the logical parent activity.
+                NavUtils.navigateUpTo(this, upIntent);
+            }
+            return true;
+        case R.string.menu_login:
+        	Intent intent = new Intent(this, LoginActivity.class);
+			startActivity(intent);
+        	return true;
+        case R.string.exit_login:
+        	showExitLoginDialog();
+        	return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 
-	private boolean checkFirst(){
-		//读取SharedPreferences中需要的数据
-        preferences = getSharedPreferences("count",MODE_WORLD_READABLE);
-        int count = preferences.getInt("count", 0);
-        boolean b = false;
-        //判断程序与第几次运行，如果是第一次运行则跳转到引导页面
-        if (count == 0) {
-            b = true;
-        }
-        
-        Editor editor = preferences.edit();
-        //存入数据
-        editor.putInt("count", ++count);
-        //提交修改
-        editor.commit();
-        return b;
+	@Override
+	public void onOpened() {
+		//当SlidingMenu打开后，我们需要隐藏掉手动打开SlidinMenu按钮
 	}
 
+
+	@Override
+	public void onClosed() {
+		//当SlidingMenu关闭后，我们需要重新显示手动打开SlidinMenu按钮
+		
+	}
+	
+	public void onNewIntent(Intent intent){
+		super.onNewIntent(intent);
+		DebugUtils.logD(TAG, "onNewIntent " + intent);
+	}
+	
+	public static void startIntent(Context context, Bundle bundle) {
+		Intent intent = new Intent(context, MainActivity.class);
+		if (bundle != null) intent.putExtras(bundle);
+		context.startActivity(intent);
+	}
+	
+	public static void startIntentClearTop(Context context, Bundle bundle) {
+		Intent intent = new Intent(context, MainActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		if (bundle != null) intent.putExtras(bundle);
+		context.startActivity(intent);
+	}
+	
+	private void showExitLoginDialog() {
+	    new AlertDialog.Builder(this)
+			.setTitle("提示")
+			.setMessage("您已经登录,是否要退出重新登录?")
+			.
+			// setIcon(R.drawable.welcome_logo).
+			setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					MyAccountManager.getInstance().deleteDefaultAccount();
+					Intent in = new Intent();
+					in.setAction("login");
+					sendBroadcast(in);
+					Toast.makeText(mContext, "成功退出登录", Toast.LENGTH_SHORT).show();
+				}
+			})
+			.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+				}
+			}).show();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_MENU && event.getAction() == KeyEvent.ACTION_DOWN) {
+			if (getSlidingMenu().isMenuShowing()) {
+				getSlidingMenu().showContent();
+			} else {
+				getSlidingMenu().showMenu();
+			}
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		mBundles = intent.getExtras();
+		if (mBundles == null) {
+			DebugUtils.logD(TAG, "checkIntent failed, due to mBundles is null");
+		}
+		return true;
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		DebugUtils.logD(TAG, "onSaveInstanceState(), we try to save Fragment to FragmentManager, mContent=" + mContent + ", mMenu=" + mMenu);
+		getSupportFragmentManager().putFragment(outState, "mContent", mContent);
+		getSupportFragmentManager().putFragment(outState, "mMenu", mMenu);
+	}
+	
 }

@@ -87,11 +87,11 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 	}
 	
 	private void initViews(View view) {
-		view.findViewById(R.id.imageButton_book).setOnClickListener(this);//ÇÀÎ»
-		view.findViewById(R.id.imageButton_pick_food).setOnClickListener(this);//µã²Ë
-		view.findViewById(R.id.imageButton_vip).setOnClickListener(this); //»áÔ±
+		view.findViewById(R.id.imageButton_book).setOnClickListener(this);//ï¿½ï¿½Î»
+		view.findViewById(R.id.imageButton_pick_food).setOnClickListener(this);//ï¿½ï¿½ï¿½
+		view.findViewById(R.id.imageButton_vip).setOnClickListener(this); //ï¿½ï¿½Ô±
 		
-		view.findViewById(R.id.imageView_bottom).setOnClickListener(this); //¶áÌØ±ð
+		view.findViewById(R.id.imageView_bottom).setOnClickListener(this); //ï¿½ï¿½ï¿½Ø±ï¿½
 		
 		mGalleryTitle = (TextView) view.findViewById(R.id.textView_imgtitle);
 		mDotsLayout = (LinearLayout) view.findViewById(R.id.dots);
@@ -194,7 +194,7 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 			if (id == R.id.imageButton_book) {
 				flag = Contant.ANIMITION_START_RESTUARANTLISTACITVITY;
 			} else if (id == R.id.imageButton_pick_food) {
-				Toast.makeText(getActivity(), "¸Ã¹¦ÄÜÔÝ²»¿ª·Å", Toast.LENGTH_SHORT).show();
+				MyApplication.getInstance().showUnsupportMessage();
 			} else if (id == R.id.imageButton_vip) {
 				flag = Contant.ANIMITION_START_REGISTACITVITY;
 			}

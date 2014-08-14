@@ -20,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.module.ModuleSettings;
 import com.cncom.app.base.service.PhotoManagerUtilsV2;
 import com.cncom.app.base.util.BeepAndVibrate;
 import com.cncom.app.base.util.BitmapUtils;
@@ -54,7 +55,7 @@ public class MyApplication extends Application{
 		mInstance = this;
 		DevicesUtils.getInstance().setContext(this);
 		DeviceStorageUtils.getInstance().setContext(this);
-		
+		ModuleSettings.getInstance().setContext(this);
 		DateUtils.getInstance().setContext(this);
 		//add by chenkai, 20131201, 网络监听
 		ComConnectivityManager.getInstance().setContext(this);

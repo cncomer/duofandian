@@ -127,7 +127,7 @@
         </activity>  -->
         
    	<activity
-            android:name="com.lnwoowken.lnwoowkenbook.MainActivity"
+            android:name="com.lnwoowken.lnwoowkenbook.JumpActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             
@@ -257,7 +257,7 @@
             android:authorities="com.lnwoowken.lnwoowkenbook.provider.BjnoteProvider"/>
         
         <activity
-            android:name="com.lnwoowken.lnwoowkenbook.MainActivity2"
+            android:name="com.lnwoowken.lnwoowkenbook.MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@style/AppActionBarTheme.MainActivityActionBar"

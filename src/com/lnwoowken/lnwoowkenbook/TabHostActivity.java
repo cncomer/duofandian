@@ -153,8 +153,7 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 			TabHostActivity.this.finish();
 		}
 		if (v.equals(btn_home)) {
-			Intent intent = new Intent(TabHostActivity.this, TestMain.class);
-			startActivity(intent);
+			MainActivity.startIntentClearTop(context, null);
 			TabHostActivity.this.finish();
 		}
 		if (v.equals(btn_more)) {

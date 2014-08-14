@@ -1,5 +1,6 @@
 package com.lnwoowken.lnwoowkenbook;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.module.ModuleSettings;
 import com.cncom.app.base.ui.BaseFragment;
 
 public class PersonalInfoCenterFragment extends BaseFragment implements View.OnClickListener{
@@ -62,7 +64,7 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 		
 		mGuestTopLayout = view.findViewById(R.id.guest_top_layout);
 		
-		
+		ModuleSettings.getInstance().installModule((ViewGroup) view.findViewById(R.id.menu_content), this);
 		return view;
 	}
 	
@@ -100,7 +102,18 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 			LoginActivity.startActivity(getActivity());
 			break;
 		case R.id.member_top_layout:
+			UserInfoActivity.startActivity(getActivity());
 			break;
+		case R.id.menu_duo_seat:
+			Intent intent = new Intent(getActivity(), RestaurantListActivity.class);
+			intent.putExtra("flag_from", "main");
+			getActivity().startActivity(intent);
+			break;
+		case R.id.menu_order_dishes:
+			default:
+				MyApplication.getInstance().showUnsupportMessage();
+				break;
+			
 		}
 		
 	}

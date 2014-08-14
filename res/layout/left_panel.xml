@@ -99,14 +99,12 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView_boder"
-            android:layout_width="fill_parent"
-            android:layout_height="1px"
-            android:background="@color/textColor2" />
-
     </LinearLayout>
-        
+    <View
+        android:id="@+id/imageView_boder"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/textColor2" />
     <ScrollView android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1.0"
@@ -116,167 +114,11 @@
 	    <LinearLayout android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        android:orientation="vertical">
-	        <LinearLayout
-	            android:id="@+id/item_seat"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="20dip"
-	            android:layout_marginTop="@dimen/left_panel_item_layout_margin_top"
-	            android:gravity="center_vertical" >
-	
-	            <ImageView
-	                android:id="@+id/imageView_seat"
-	                android:layout_width="24dip"
-	                android:layout_height="22dip"
-	                android:background="@drawable/icon_seat" />
-	
-	            <TextView
-	                android:id="@+id/textView_seat"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginLeft="10dip"
-	                android:text="抢位"
-	                android:textSize="14dip" />
-	        </LinearLayout>
-	
-	        <LinearLayout
-	            android:id="@+id/item_diancai"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="20dip"
-	            android:layout_marginTop="@dimen/left_panel_item_layout_margin_top"
-	            android:gravity="center_vertical" >
-	
-	            <ImageView
-	                android:id="@+id/imageView_diancai"
-	                android:layout_width="24dip"
-	                android:layout_height="22dip"
-	                android:background="@drawable/icon_diancai" />
-	
-	            <TextView
-	                android:id="@+id/textView_diancai"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginLeft="10dip"
-	                android:text="点菜"
-	                android:textSize="14dip" />
-	        </LinearLayout>
-	
-	        <LinearLayout
-	            android:id="@+id/item_myBill"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="20dip"
-	            android:layout_marginTop="@dimen/left_panel_item_layout_margin_top"
-	            android:gravity="center_vertical" >
-	
-	            <ImageView
-	                android:id="@+id/imageView_myBill"
-	                android:layout_width="24dip"
-	                android:layout_height="17dip"
-	                android:background="@drawable/icon_mybill" />
-	
-	            <TextView
-	                android:id="@+id/textView_myBill"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginLeft="10dip"
-	                android:text="我的定单"
-	                android:textSize="14dip" />
-	        </LinearLayout>
-	
-	        <LinearLayout
-	            android:id="@+id/item_myAccent"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="20dip"
-	            android:layout_marginTop="@dimen/left_panel_item_layout_margin_top"
-	            android:gravity="center_vertical" >
-	
-	            <ImageView
-	                android:id="@+id/imageView_myAccent"
-	                android:layout_width="24dip"
-	                android:layout_height="24dip"
-	                android:background="@drawable/icon_accent" />
-	
-	            <TextView
-	                android:id="@+id/textView_myAccent"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginLeft="10dip"
-	                android:text="我的账户"
-	                android:textSize="14dip" />
-	        </LinearLayout>
-	
-	        <LinearLayout
-	            android:id="@+id/item_qrcode"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="20dip"
-	            android:layout_marginTop="@dimen/left_panel_item_layout_margin_top"
-	            android:gravity="center_vertical" >
-	
-	            <ImageView
-	                android:id="@+id/imageView_qrcode"
-	                android:layout_width="24dip"
-	                android:layout_height="17dip"
-	                android:background="@drawable/icon_qrcode" />
-	
-	            <TextView
-	                android:id="@+id/textView_qrcode"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginLeft="10dip"
-	                android:text="二维码买单"
-	                android:textSize="14dip" />
-	        </LinearLayout>
-	
-	        <LinearLayout
-	            android:id="@+id/item_myscore"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="20dip"
-	            android:layout_marginTop="@dimen/left_panel_item_layout_margin_top"
-	            android:gravity="center_vertical" >
-	
-	            <ImageView
-	                android:id="@+id/imageView_myscore"
-	                android:layout_width="24dip"
-	                android:layout_height="22dip"
-	                android:background="@drawable/icon_jifen" />
-	
-	            <TextView
-	                android:id="@+id/textView_myscore"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginLeft="10dip"
-	                android:text="我的积分"
-	                android:textSize="14dip" />
-	        </LinearLayout>
-	
-	        <LinearLayout
-	            android:id="@+id/item_item_setting"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="20dip"
-	            android:layout_marginTop="@dimen/left_panel_item_layout_margin_top"
-	            android:gravity="center_vertical" >
-	
-	            <ImageView
-	                android:id="@+id/imageView_setting"
-	                android:layout_width="24dip"
-	                android:layout_height="24dip"
-	                android:background="@drawable/icon_setting" />
-	
-	            <TextView
-	                android:id="@+id/textView_setting"
-	                android:layout_width="wrap_content"
-	                android:layout_height="wrap_content"
-	                android:layout_marginLeft="10dip"
-	                android:text="设置"
-	                android:textSize="14dip" />
-	        </LinearLayout>
-	
+	        <LinearLayout android:id="@+id/menu_content"
+	            android:layout_width="fill_parent"
+	            android:orientation="vertical"
+	            android:layout_height="wrap_content"/>
+	            
 	        <LinearLayout
 	            android:id="@+id/item_camera"
 	            android:layout_width="152dip"
@@ -297,9 +139,8 @@
 	                android:id="@+id/textView_setting"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
-	                android:layout_marginLeft="10dip"
-	                android:text="美食相机"
-	                android:textSize="14dip" />
+	                style="@style/right_panel_menu"
+	                android:text="美食相机"/>
 	        </LinearLayout>
 	    </LinearLayout>
 	</ScrollView>

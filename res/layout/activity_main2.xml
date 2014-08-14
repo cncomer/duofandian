@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="horizontal"
-    tools:context=".MainActivity" >
+    tools:context=".JumpActivity" >
 
     <!-- 使用自定义的侧滑布局，orientation必须为水平方向 -->
 
