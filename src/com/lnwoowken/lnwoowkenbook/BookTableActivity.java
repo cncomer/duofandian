@@ -390,6 +390,8 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 				if (MyAccountManager.getInstance().hasLoginned()) {
 					StoreInfo shop;
 					boolean b = false;
+					Calendar c = Calendar.getInstance();
+					c.setTime(calendar.getSelectedStartDate());
 					if (!TextUtils.isEmpty(mSelectedDeskID)) {
 						TableInfoObject shopAvailableTableObj = null;
 						for(TableInfoObject obj : mShopAvailableTableList) {
@@ -399,8 +401,8 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 						}
 						PayInfo pay = new PayInfo();
 						pay.setShopId(mShopId);
-						pay.setTime(shopAvailableTableObj.getmShiduanTime());
-						pay.setTableName(shopAvailableTableObj.getDeskName());
+						pay.setTime(c.get(Calendar.MONTH) + 1 + this.getResources().getString(R.string.month) + c.get(Calendar.DAY_OF_MONTH) + this.getResources().getString(R.string.day) + " " + DateUtils.getInstance().getWeekDay(c) + " " + shopAvailableTableObj.getmShiduanTime());
+						pay.setTableName(shopAvailableTableObj.getDeskName() + "  " + mDeskType.substring(0, mDeskType.indexOf("(")));
 						pay.setTableId(shopAvailableTableObj.getDeskId());
 						pay.setTablePrice(shopAvailableTableObj.getDabiaoPrice());
 						pay.setUid(MyAccountManager.getInstance().getCurrentAccountUid());

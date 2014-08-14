@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,8 +29,6 @@ import com.umpay.creditcard.android.UmpayActivity;
 import com.unionpay.UPPayAssistEx;
 import com.unionpay.uppay.PayActivity;
 
-@SuppressLint("HandlerLeak")
-@SuppressWarnings("unused")
 public class PayInfoActivity extends Activity {
 	private boolean isAgree;
 	private MyCount mc;
@@ -48,27 +45,12 @@ public class PayInfoActivity extends Activity {
 	private String tableName;
 	private String mTablePrice;
 	private PayInfoData parcelableData;
-	// private int tableId;
 	private ShopInfoObject mShopInfoObject;
 	private static final int requestCode = 888;
 	private Button btn_commit;
 	private Button btn_back;
 	private String tNumber;
 	private RadioButton radioUpmp;
-	
-	
-
-//	private Handler payHandler = new Handler() {
-//
-//		@Override
-//		public void handleMessage(Message msg) {
-//			super.handleMessage(msg);
-//			RequestPayInfoThread payThread = new RequestPayInfoThread();
-//			payThread.run();
-//		}
-//
-//	};
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -91,15 +73,10 @@ public class PayInfoActivity extends Activity {
 		tv = (TextView) findViewById(R.id.textView_count);
 		if (tNumber!=null&&!tNumber.equals("")) {
 			if (mc == null) {
-				mc = new MyCount(60 * 10 * 1000, 1000, tv);
+				mc = new MyCount(30 * 1000, 1000, tv);
 				mc.start();
 			}
 		}
-		// intent = getIntent();
-		// price = intent.getExtras().getInt("price");
-		// shopId = intent.getExtras().getInt("shopId");
-		// time = intent.getExtras().getString("time");
-		// tableId = intent.getExtras().getString("tableId");
 		textView_price = (TextView) findViewById(R.id.textView_price);
 		textView_needpay = (TextView) findViewById(R.id.textView_needpay);
 		textView_price.setText(price + "");
@@ -113,8 +90,7 @@ public class PayInfoActivity extends Activity {
 				if (isAgree) {
 					if (!TextUtils.isEmpty(tNumber)) {
 						pay(tNumber);
-					}
-					else {
+					} else {
 						Toast.makeText(context, "未获得支付流水号", Toast.LENGTH_SHORT).show();
 					}
 				} else {
@@ -134,7 +110,6 @@ public class PayInfoActivity extends Activity {
 		});
 		radioUpmp = (RadioButton) findViewById(R.id.radioButton_upmp);
 		radioUpmp.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				isAgree = arg1;
@@ -143,12 +118,10 @@ public class PayInfoActivity extends Activity {
 //							R.style.MyDialog);
 //
 //					dialog.show();
-					
 				}
 				Log.d("isAgree================", isAgree+"");
 			}
 		});
-
 	}
 
 	@Override
@@ -160,10 +133,6 @@ public class PayInfoActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 
-	
-
-	
-
 	private void startSdkToPay(String tradNo, int payType) {
 		// 跳转到SDK页面
 		// 将输入的参数传入Activity
@@ -173,10 +142,6 @@ public class PayInfoActivity extends Activity {
 		intent.setClass(PayInfoActivity.this, UmpayActivity.class);
 		startActivityForResult(intent, requestCode);
 	}
-
-	
-
-	
 
 	public static boolean checkApkExist(Context context, String packageName) {
 		if (packageName == null || packageName.equals("")) {
@@ -218,14 +183,12 @@ public class PayInfoActivity extends Activity {
 //		}
 	}
 
-	public static boolean retrieveApkFromAssets(Context context,
-			String srcfileName, String desFileName) {
+	public static boolean retrieveApkFromAssets(Context context, String srcfileName, String desFileName) {
 		boolean bRet = false;
 		try {
 			InputStream is = context.getAssets().open(srcfileName);
 
-			FileOutputStream fos = context.openFileOutput(desFileName,
-					Context.MODE_WORLD_READABLE);
+			FileOutputStream fos = context.openFileOutput(desFileName, Context.MODE_WORLD_READABLE);
 			byte[] temp = new byte[1024];
 			int i = 0;
 			while ((i = is.read(temp)) > 0) {
@@ -241,15 +204,10 @@ public class PayInfoActivity extends Activity {
 	}
 
 	private void pay(String tn) {
-		
-		
 		Activity a = PayInfoActivity.this;
 		//UPPayAssistEx.startPay(a, null, null, tn, "01");
-		UPPayAssistEx.startPayByJAR(a, PayActivity.class, null, null, tn, "00");
-		
-		
-		//UPPayAssistEx.startPayByJAR(a, PayActivity.class, null, null, tn, "01");
+		//UPPayAssistEx.startPayByJAR(a, PayActivity.class, null, null, tn, "00");
+		UPPayAssistEx.startPayByJAR(a, PayActivity.class, null, null, tn, "01");
 	}
-	
 
 }

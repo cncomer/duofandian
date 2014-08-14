@@ -173,7 +173,7 @@
                         android:layout_gravity="center_vertical"
                         android:text="@string/selected_time_info"
                         android:textColor="@color/main_color"
-                       
+                        android:layout_marginLeft="10dip"
                         android:textSize="18dip" />
                 </LinearLayout>
 
@@ -188,7 +188,7 @@
                         android:id="@+id/button_select_table"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dip"
+                        android:layout_marginLeft="10dip"
                         android:background="@drawable/btn_choose_seat" />
 
                     <TextView
@@ -196,6 +196,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dip"
                         android:text="@string/selected_table_info"
                         android:textColor="@color/main_color"
                        
@@ -231,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dip"
                     android:layout_marginRight="20dip"
-                    android:text="抢位备注"
+                    android:text="@string/note_content"
                     android:textColor="@color/textColor_gray"
                     android:background="@drawable/edit_content_bg"
                     android:ems="10" />

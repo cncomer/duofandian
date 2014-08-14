@@ -274,4 +274,10 @@
   <string name="vip_account">会员账户:</string>
   <string name="vip_account_countdown">VIP用户优惠服务费:</string>
   <string name="final_pay">最终支付:</string>
+  <string name="heyue_tips">您是否同意上述合约中的所有条款？</string>
+  <string name="sort">筛选</string>
+  <string name="search">搜索</string>
+  <string name="note_content">备注：请输入20字以内</string>
+  <string name="input_yanzhengcode">请输入验证码</string>
+  <string name="get_yanzhengcode">获取验证码</string>
 </resources>

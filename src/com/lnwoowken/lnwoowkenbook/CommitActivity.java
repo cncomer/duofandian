@@ -246,7 +246,7 @@ public class CommitActivity extends Activity {
 		mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mServicePrice) ? "0" : mServicePrice));
 		
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
-		textView_money_describ.setText("(定金" + (int) (Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2)+"元+服务费" + mServicePrice + "元)");
+		textView_money_describ.setText(" (定金" + (int) (Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2)+"元+服务费" + mServicePrice + "元)");
 		textView_shopId = (TextView) findViewById(R.id.textView_shopid);
 		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
 		textView_timeinfo = (TextView) findViewById(R.id.textView_timeinfo);

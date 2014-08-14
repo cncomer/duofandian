@@ -28,6 +28,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -171,6 +172,7 @@ public class RestuarantInfoActivity extends Activity {
 			Log.d("mShopInfoObject.getShopName()-------------------", mShopInfoObject.getShopName() + "");
 			String price = textView_price.getText().toString() + mShopInfoObject.getShopServerprice();
 			textView_price.setText(price);
+			updateShotcutImage();
 		}
 		btn_back = (Button) findViewById(R.id.button_back);
 		btn_back.setOnClickListener(new OnClickListener() {
@@ -280,6 +282,14 @@ public class RestuarantInfoActivity extends Activity {
 		/*mThread = new RequestOtherShopThread();
 		Message msg = new Message();
 		handler.sendMessage(msg);*/
+	}
+
+	private void updateShotcutImage() {
+		if(!TextUtils.isEmpty(mShopInfoObject.getShopYouHui())) findViewById(R.id.imageView_hui).setVisibility(View.VISIBLE);
+		if(!TextUtils.isEmpty(mShopInfoObject.getShopTuanGou())) findViewById(R.id.imageView_tuan).setVisibility(View.VISIBLE);
+		if(!TextUtils.isEmpty(mShopInfoObject.getShopDianCan())) findViewById(R.id.imageView_dian).setVisibility(View.VISIBLE);
+		if(!TextUtils.isEmpty(mShopInfoObject.getShopMaiDian())) findViewById(R.id.imageView_mai).setVisibility(View.VISIBLE);
+		
 	}
 
 	@Override

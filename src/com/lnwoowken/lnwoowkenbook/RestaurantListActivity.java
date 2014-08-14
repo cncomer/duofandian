@@ -65,7 +65,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 	private static final String TAG = "RestaurantListActivity";
 	private AnimationDrawable draw;
     private	LinearLayout progress;
-	private ImageButton btn_search;
+	private Button btn_search;
 	private EditText search;
 	private Button btn_home;
 	private PopupWindow popupWindow;
@@ -115,7 +115,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 	private void initialize() {
 		btn_back = (ImageButton) findViewById(R.id.imageButton_back);
 		btn_back.setOnClickListener(RestaurantListActivity.this);
-		btn_search = (ImageButton) findViewById(R.id.imageButton_search);
+		btn_search = (Button) findViewById(R.id.button_search);
 		btn_search.setOnClickListener(RestaurantListActivity.this);
 		btn_sort = (Button) findViewById(R.id.button_sort);
 		btn_sort.setOnClickListener(RestaurantListActivity.this);

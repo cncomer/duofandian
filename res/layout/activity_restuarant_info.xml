@@ -84,11 +84,6 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical" >
-
-            <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" >
-
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -104,116 +99,134 @@
                         android:background="@drawable/shop_img" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/textView_storename"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/shop_img"
-                    android:layout_below="@+id/shop_img"
-                    
-                    android:layout_marginTop="10dip"
-                    android:layout_marginLeft="30dip"
-                    android:text="商店名"
-                    android:textColor="@color/textColor"
-                    android:textSize="22dip"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/textView_score1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/shop_img"
-                    android:layout_below="@+id/textView_storename"
-                    android:text="@string/score1"
-                    android:textColor="@color/textColor"
-                    android:textSize="15dip"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/textView_score2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textView_storename"
-                    android:layout_marginLeft="5dip"
-                    android:layout_toRightOf="@+id/textView_score1"
-                    android:text="@string/score2"
-                    android:textColor="@color/textColor"
-                    android:textSize="15dip"
-                    android:visibility="gone" />
-
-                <TextView
-                    android:id="@+id/textView_score3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textView_storename"
-                    android:layout_marginLeft="5dip"
-                    android:layout_toRightOf="@+id/textView_score2"
-                    android:text="@string/score3"
-                    android:textColor="@color/textColor"
-                    android:textSize="15dip"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/imageView_star1"
-                    android:layout_width="15dip"
-                    android:layout_height="15dip"
-                    android:layout_alignRight="@+id/shop_img"
-                    android:layout_alignTop="@+id/textView_storename"
-                    android:layout_marginLeft="2dip"
-                    android:src="@drawable/img_star"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/imageView_star2"
-                    android:layout_width="15dip"
-                    android:layout_height="15dip"
-                    android:layout_alignTop="@+id/imageView_star1"
-                    android:layout_marginLeft="2dip"
-                    android:layout_toLeftOf="@+id/imageView_star1"
-                    android:src="@drawable/img_star"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/imageView_star3"
-                    android:layout_width="15dip"
-                    android:layout_height="15dip"
-                    android:layout_alignTop="@+id/imageView_star2"
-                    android:layout_marginLeft="2dip"
-                    android:layout_toLeftOf="@+id/imageView_star2"
-                    android:src="@drawable/img_star"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/imageView_star4"
-                    android:layout_width="15dip"
-                    android:layout_height="15dip"
-                    android:layout_alignTop="@+id/imageView_star3"
-                    android:layout_marginLeft="2dip"
-                    android:layout_toLeftOf="@+id/imageView_star3"
-                    android:src="@drawable/img_star"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/imageView_star5"
-                    android:layout_width="15dip"
-                    android:layout_height="15dip"
-                    android:layout_alignTop="@+id/imageView_star4"
-                    android:layout_marginLeft="2dip"
-                    android:layout_toLeftOf="@+id/imageView_star4"
-                    android:src="@drawable/img_star"
-                    android:visibility="invisible" />
-
-                <TextView
-                    android:id="@+id/textView_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignRight="@+id/imageView_star1"
-                    android:layout_alignTop="@+id/textView_score3"
-                    android:text="人均:"
-                    android:textColor="@color/textColor"
-                    android:textSize="15dip"
-                    android:visibility="gone" />
-            </RelativeLayout>
+		        <LinearLayout
+		            android:layout_width="fill_parent"
+		            android:layout_height="fill_parent"
+		            android:orientation="horizontal" >
+	                <TextView
+	                    android:id="@+id/textView_storename"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginTop="10dip"
+	                    android:layout_marginLeft="30dip"
+	                    android:text="商店名"
+	                    android:textColor="@color/textColor"
+	                    android:textSize="22dip"
+	                    android:textStyle="bold" />
+	                
+		            <LinearLayout
+		                android:layout_width="fill_parent"
+		                android:layout_height="fill_parent"
+		                android:layout_marginTop="15dip"
+		                android:orientation="horizontal" >
+		            <ImageView
+		                android:id="@+id/imageView_hui"
+		                android:layout_width="18dip"
+		                android:layout_height="18dip"
+		                android:layout_marginLeft="5dip"
+		                android:background="@drawable/icon_hui"
+		                android:visibility="gone"/>
+		            <ImageView
+		                android:id="@+id/imageView_tuan"
+		                android:layout_width="18dip"
+		                android:layout_height="18dip"
+		                android:layout_marginLeft="5dip"
+		                android:background="@drawable/icon_tuan"
+                        android:visibility="gone" />
+		                
+		            <ImageView
+		                android:id="@+id/imageView_dian"
+		                android:layout_width="18dip"
+		                android:layout_height="18dip"
+		                android:layout_marginLeft="5dip"
+		                android:background="@drawable/icon_dian"
+                        android:visibility="gone" />
+		            <ImageView
+		                android:id="@+id/imageView_mai"
+		                android:layout_width="18dip"
+		                android:layout_height="18dip"
+		                android:layout_marginLeft="5dip"
+		                android:background="@drawable/icon_mai"
+                        android:visibility="gone"/>
+	                <TextView
+	                    android:id="@+id/textView_score1"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:text="@string/score1"
+	                    android:textColor="@color/textColor"
+	                    android:textSize="15dip"
+	                    android:visibility="gone" />
+	
+	                <TextView
+	                    android:id="@+id/textView_score2"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="5dip"
+	                    android:text="@string/score2"
+	                    android:textColor="@color/textColor"
+	                    android:textSize="15dip"
+	                    android:visibility="gone" />
+	
+	                <TextView
+	                    android:id="@+id/textView_score3"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="5dip"
+	                    android:text="@string/score3"
+	                    android:textColor="@color/textColor"
+	                    android:textSize="15dip"
+	                    android:visibility="gone" />
+	
+	                <ImageView
+	                    android:id="@+id/imageView_star1"
+	                    android:layout_width="15dip"
+	                    android:layout_height="15dip"
+	                    android:layout_marginLeft="2dip"
+	                    android:src="@drawable/img_star"
+	                    android:visibility="invisible" />
+	
+	                <ImageView
+	                    android:id="@+id/imageView_star2"
+	                    android:layout_width="15dip"
+	                    android:layout_height="15dip"
+	                    android:layout_marginLeft="2dip"
+	                    android:src="@drawable/img_star"
+	                    android:visibility="invisible" />
+	
+	                <ImageView
+	                    android:id="@+id/imageView_star3"
+	                    android:layout_width="15dip"
+	                    android:layout_height="15dip"
+	                    android:layout_marginLeft="2dip"
+	                    android:src="@drawable/img_star"
+	                    android:visibility="invisible" />
+	
+	                <ImageView
+	                    android:id="@+id/imageView_star4"
+	                    android:layout_width="15dip"
+	                    android:layout_height="15dip"
+	                    android:layout_marginLeft="2dip"
+	                    android:src="@drawable/img_star"
+	                    android:visibility="invisible" />
+	
+	                <ImageView
+	                    android:id="@+id/imageView_star5"
+	                    android:layout_width="15dip"
+	                    android:layout_height="15dip"
+	                    android:layout_marginLeft="2dip"
+	                    android:src="@drawable/img_star"
+	                    android:visibility="invisible" />
+	
+	                <TextView
+	                    android:id="@+id/textView_price"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:text="人均:"
+	                    android:textColor="@color/textColor"
+	                    android:textSize="15dip"
+	                    android:visibility="gone" />
+	            </LinearLayout>
+            </LinearLayout>
 
             <ImageView
                 android:id="@+id/imageView2"
