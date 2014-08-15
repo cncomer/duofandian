@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu_duo_seat">抢位</string>
+    <string name="menu_order_dishes">点菜</string>
+    <string name="menu_my_order">我的订单</string>
+    <string name="menu_my_account">我的账户</string>
+    <string name="menu_pay_by_qr">二维码买单</string>
+    <string name="menu_my_jifen">我的积分</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_camera_foods">美食相机</string>
+</resources>

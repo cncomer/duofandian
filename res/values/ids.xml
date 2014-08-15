@@ -14,4 +14,14 @@
   <item type="id" name="search_book_contents_failed"/>
   <item type="id" name="search_book_contents_succeeded"/>
   
+  
+  
+  
+  <item type="id" name="menu_duo_seat"/>
+  <item type="id" name="menu_order_dishes"/>
+  <item type="id" name="menu_my_order"/>
+  <item type="id" name="menu_my_account"/>
+  <item type="id" name="menu_pay_by_qr"/>
+  <item type="id" name="menu_my_jifen"/>
+  <item type="id" name="menu_settings"/>
 </resources>

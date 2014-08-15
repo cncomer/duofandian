@@ -251,8 +251,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			
 		}
 		else if (v.equals(btn_home)) {
-			Intent intent = new Intent(LoginActivity.this, TestMain.class);
-			startActivity(intent);
+			MainActivity.startIntentClearTop(context, null);
 			LoginActivity.this.finish();
 		}
 		

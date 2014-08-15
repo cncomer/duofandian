@@ -218,14 +218,12 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 			}
 		}
 		if (v.equals(btn_home)) {
-			Intent intent = new Intent(RestaurantListActivity.this,
-					TestMain.class);
-			startActivity(intent);
-			RestaurantListActivity.this.finish();
 			if (popupWindow!=null) {
 				popupWindow.dismiss();
 				popupWindow = null;
 			}
+			MainActivity.startIntentClearTop(context, null);
+			RestaurantListActivity.this.finish();
 		}
 		if (v.equals(btn_search)) {
 			loadShopInfoByNameAsyncTask(search.getText().toString().trim());

@@ -10,6 +10,7 @@
     <dimen name="preview_image_view_size">60dip</dimen>
      <!-- qrcode scan end -->
      
-     <dimen name="left_panel_item_layout_margin_top">10dp</dimen>
+     <dimen name="left_panel_item_layout_margin_top">14dp</dimen>
+     <dimen name="left_panel_item_layout_margin_left">20dp</dimen>
 
 </resources>

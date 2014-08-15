@@ -382,8 +382,7 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 			}
 
 		} else if (v.equals(btn_home)) {
-			Intent intent = new Intent(BookTableActivity.this, TestMain.class);
-			startActivity(intent);
+			MainActivity.startIntentClearTop(context, null);
 			BookTableActivity.this.finish();
 		} else if (v.equals(btn_commintButton)) {
 			if (isAccept) {
