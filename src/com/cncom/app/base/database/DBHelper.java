@@ -78,6 +78,20 @@ private static final String TAG = "DBHelper";
   public static final String SHOP_DESK_COUNT = "desk_count";
   //shop info table end
   
+  //caixi table begin
+  public static final String TABLE_NAME_CAIXI = "caixi";
+  
+  public static final String CAIXI_ID = "ID";
+  public static final String CAIXI_NAME = "Name";
+  //caixi table end
+  
+  //shangquan table begin
+  public static final String TABLE_NAME_SHANGQUAN = "shangquan";
+  
+  public static final String SHANGQUAN_ID = "ID";
+  public static final String SHANGQUAN_NAME = "Name";
+  //shangquan table end
+  
   
   public DBHelper(Context context) {
     super(context, DB_NAME, null, DB_VERSION);
@@ -128,6 +142,13 @@ private static final String TAG = "DBHelper";
   	   
   	   //Create Shop Info table
   	   createShopInfoTable(sqLiteDatabase);
+  	   
+  	   //Create Caixi table
+  	   createCaixiTable(sqLiteDatabase);
+  	   
+  	   //Create Shangquan table
+  	   createShangquanTable(sqLiteDatabase);
+  	   
   	   // Create scan history
  		//createScanHistory(sqLiteDatabase);
   		
@@ -186,9 +207,23 @@ private static final String TAG = "DBHelper";
 	            ");");
   }
   
+  private void createCaixiTable(SQLiteDatabase sqLiteDatabase) {
+	  sqLiteDatabase.execSQL(
+	            "CREATE TABLE " + TABLE_NAME_CAIXI + " (" +
+	            CAIXI_ID + " INTEGER PRIMARY KEY, " +
+	            CAIXI_NAME + " TEXT);");
+  }
+  
+  private void createShangquanTable(SQLiteDatabase sqLiteDatabase) {
+	  sqLiteDatabase.execSQL(
+	            "CREATE TABLE " + TABLE_NAME_CAIXI + " (" +
+	            SHANGQUAN_ID + " INTEGER PRIMARY KEY, " +
+	            SHANGQUAN_NAME + " TEXT);");
+  }
+  
   private void createScanHistory(SQLiteDatabase sqLiteDatabase) {
 	  sqLiteDatabase.execSQL(
-	            "CREATE TABLE " + TABLE_SCAN_NAME + " (" +
+	            "CREATE TABLE " + TABLE_NAME_SHANGQUAN + " (" +
 	            ID_COL + " INTEGER PRIMARY KEY, " +
 	            TEXT_COL + " TEXT, " +
 	            FORMAT_COL + " TEXT, " +

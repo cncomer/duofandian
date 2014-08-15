@@ -540,7 +540,7 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 	
 	private LoadAllShopInfoAsyncTask mLoadAllShopInfoAsyncTask;
 	private void loadAllShopInfoAsyncTask(String... param) {
-		int locatCount = PatternInfoUtils.getDataCount(getContentResolver());
+		int locatCount = PatternInfoUtils.getShopsDataCount(getContentResolver());
 		if(locatCount > 0 && false){//本地已有缓存
 			mShopsList = PatternInfoUtils.getShopInfoLocal(getContentResolver());
 			mShopListAdapter.initShopList(mShopsList);

@@ -65,9 +65,34 @@ public class ServiceObject {
 		return sb.toString();
 	}
 	
+	public static String getShangquanUrl() {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/GetShangQuanCaiXi.ashx");
+		return sb.toString();
+	}
+	
+	public static String getCaixiUrl() {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/GetShangQuanCaiXi.ashx");
+		return sb.toString();
+	}
+	
+	public static String getXingzhengquUrl() {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/GetShangQuanCaiXi.ashx");
+		return sb.toString();
+	}
+	
 	public static String getShopByPinpaiUrl(String para, String jsonString) {
 		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
 		sb.append("Mobile/common/GetShopByBrand.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
+		return sb.toString();
+	}
+	
+	public static String getShangquanUrl(String para, String jsonString) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/GetPagedShopDetailByShangquan.ashx?")
 		.append(para).append("=").appendUrlEncodedString(jsonString);
 		return sb.toString();
 	}
@@ -140,7 +165,7 @@ public class ServiceObject {
 			return resultObject;
 		}
 
-		public static ServiceResultObject parsePinpai(String content) {
+		public static ServiceResultObject parsePinpaiInfo(String content) {
 			ServiceResultObject resultObject = new ServiceResultObject();
 			if (TextUtils.isEmpty(content)) {
 				return resultObject;
@@ -149,6 +174,48 @@ public class ServiceObject {
 				JSONObject jsonObject = new JSONObject(content);
 				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
 				resultObject.mShops = jsonObject.getJSONArray("Data");
+				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
+				DebugUtils.logD("ServiceResultObject", "pinpai = " + resultObject.mShops);
+				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
+				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
+			} catch (JSONException e) {
+				e.printStackTrace();
+				resultObject.mStatusMessage = e.getMessage();
+			}
+			return resultObject;
+		}
+
+		public static ServiceResultObject parseShangquanInfo(String content) {
+			ServiceResultObject resultObject = new ServiceResultObject();
+			if (TextUtils.isEmpty(content)) {
+				return resultObject;
+			}
+			try {
+				JSONObject jsonObject = new JSONObject(content);
+				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
+				JSONObject dataObject = jsonObject.getJSONObject("Data");
+				resultObject.mShops = dataObject.getJSONArray("shangquan");
+				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
+				DebugUtils.logD("ServiceResultObject", "pinpai = " + resultObject.mShops);
+				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
+				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
+			} catch (JSONException e) {
+				e.printStackTrace();
+				resultObject.mStatusMessage = e.getMessage();
+			}
+			return resultObject;
+		}
+
+		public static ServiceResultObject parseCaixiInfo(String content) {
+			ServiceResultObject resultObject = new ServiceResultObject();
+			if (TextUtils.isEmpty(content)) {
+				return resultObject;
+			}
+			try {
+				JSONObject jsonObject = new JSONObject(content);
+				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
+				JSONObject dataObject = jsonObject.getJSONObject("Data");
+				resultObject.mShops = dataObject.getJSONArray("caixi");
 				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
 				DebugUtils.logD("ServiceResultObject", "pinpai = " + resultObject.mShops);
 				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);

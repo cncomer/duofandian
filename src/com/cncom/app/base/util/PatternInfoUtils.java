@@ -8,10 +8,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.database.Cursor;
+import android.net.Uri;
 
 import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.database.DBHelper;
+import com.shwy.bestjoy.utils.DebugUtils;
 
 public class PatternInfoUtils {
 	private static final String SELECTION_BY_SHOPID = DBHelper.SHOP_ID + "=?";
@@ -97,7 +100,7 @@ public class PatternInfoUtils {
 		}
 		return result;
 	}
-
+	
 	public static List<ShopInfoObject> getShopInfoClean(JSONArray shops, ContentResolver cr) throws JSONException {
 		deleteCachedData(cr);
 		
@@ -203,6 +206,52 @@ public class PatternInfoUtils {
 		}
 		return result;
 	}
+	
+	public static List<String> getCaixiListLocal(ContentResolver cr) throws JSONException {
+		List<String> result = new ArrayList<String>();
+		Cursor c = cr.query(BjnoteContent.Caixi.CONTENT_URI, new String[] {DBHelper.CAIXI_NAME}, null, null, null);
+		if (c != null) {
+			while (c.moveToNext()) {
+				result.add(c.getString(c.getColumnIndex(DBHelper.CAIXI_NAME)));
+			}
+			c.close();
+		}
+		return result;
+	}
+	
+	public static List<String> getShangquanListLocal(ContentResolver cr) throws JSONException {
+		List<String> result = new ArrayList<String>();
+		Cursor c = cr.query(BjnoteContent.Shangquan.CONTENT_URI, new String[] {DBHelper.SHANGQUAN_NAME}, null, null, null);
+		if (c != null) {
+			while (c.moveToNext()) {
+				result.add(c.getString(c.getColumnIndex(DBHelper.SHANGQUAN_NAME)));
+			}
+			c.close();
+		}
+		return result;
+	}
+	
+	private static boolean saveCaixiDatabase(ContentResolver cr, String name) {
+		ContentValues values = new ContentValues();
+		values.put(DBHelper.CAIXI_NAME, name);
+		
+		Uri uri = cr.insert(BjnoteContent.Caixi.CONTENT_URI, values);
+		if (uri != null) {
+			return true;
+		}
+		return false;
+	}
+	
+	private static boolean saveShangquanDatabase(ContentResolver cr, String name) {
+		ContentValues values = new ContentValues();
+		values.put(DBHelper.SHANGQUAN_NAME, name);
+		
+		Uri uri = cr.insert(BjnoteContent.Shangquan.CONTENT_URI, values);
+		if (uri != null) {
+			return true;
+		}
+		return false;
+	}
 
 	public static int deleteCachedData(ContentResolver cr) {
 		return cr.delete(BjnoteContent.Shops.CONTENT_URI, null, null);
@@ -220,9 +269,29 @@ public class PatternInfoUtils {
 		return id;
 	}
 	
-	public static int getDataCount(ContentResolver cr) {
+	public static int getShopsDataCount(ContentResolver cr) {
 		int length = 0;
 		Cursor c = cr.query(BjnoteContent.Shops.CONTENT_URI, ShopInfoObject.SHOP_PROJECTION, null, null, null);
+		if (c != null) {
+			length = c.getCount();
+			c.close();
+		}
+		return length;
+	}
+	
+	public static int getCaixiDataCount(ContentResolver cr) {
+		int length = 0;
+		Cursor c = cr.query(BjnoteContent.Caixi.CONTENT_URI, new String[] {DBHelper.CAIXI_NAME}, null, null, null);
+		if (c != null) {
+			length = c.getCount();
+			c.close();
+		}
+		return length;
+	}
+	
+	public static int getShangquanDataCount(ContentResolver cr) {
+		int length = 0;
+		Cursor c = cr.query(BjnoteContent.Shangquan.CONTENT_URI, new String[] {DBHelper.SHANGQUAN_NAME}, null, null, null);
 		if (c != null) {
 			length = c.getCount();
 			c.close();
@@ -236,8 +305,30 @@ public class PatternInfoUtils {
 		//{"shiduan_id":"1","desk_type":"2人桌(1-2人)","desk_name":"A2","date":"2014/7/18 0:00:00","desk_status":"2","shiduan_time":"12:15","shiduan_name":"午市","DeskID":"1"}
 		for(int i = 0; i < pinpais.length(); i++) {
 			JSONObject obj = pinpais.getJSONObject(i);
-			result.add(obj.getString("HeadName"));
+			result.add(obj.getString("HeadName").trim());
 		}
 		return result;
-	} 
+	}
+	
+	public static ArrayList<String> getCaixiList(JSONArray caixi) throws JSONException {
+		ArrayList<String> result = new ArrayList<String>();
+		if(caixi == null) return result;
+		for(int i = 0; i < caixi.length(); i++) {
+			String name = caixi.getJSONObject(i).getString(DBHelper.CAIXI_NAME).trim();
+			result.add(name);
+		}
+		
+		return result;
+	}
+	
+	public static ArrayList<String> getShangquanList(JSONArray shangquan) throws JSONException {
+		ArrayList<String> result = new ArrayList<String>();
+		if(shangquan == null) return result;
+		for(int i = 0; i < shangquan.length(); i++) {
+			String name = shangquan.getString(i).trim();
+			result.add(name);
+		}
+		
+		return result;
+	}
 }

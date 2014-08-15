@@ -39,6 +39,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cncom.app.base.database.DBHelper;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
@@ -81,6 +82,13 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 	private static final int LEVEL_THIRD = LEVEL_SECOND + 1;
 	//当前为第一级
 	private int mCurrentLevel = LEVEL_FIRST;
+
+	private int mCurrentMode;
+	
+	private static final int PINPAI = 0;
+	private static final int SHANGQUAN = 1;
+	private static final int CAIXI = 2;
+	private static final int XINGZHENGQU = 3;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,12 +129,21 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 			case R.id.listView_tab://左边的导航栏
 				switch (mCurrentLevel) {
 					case LEVEL_FIRST:
-						//品牌
-						if(position == 0) {
-							loadInfoAsyncTask();	
-							mCurrentLevel = LEVEL_SECOND;
-							btn_return.setText(R.string.back_level);
+						if(position == PINPAI) {
+							//品牌
+							loadInfoAsyncTask(PINPAI);
+						} else if (position == SHANGQUAN) {
+							//商圈
+							loadInfoAsyncTask(SHANGQUAN);
+						} else if (position == CAIXI) {
+							//菜系
+							loadInfoAsyncTask(CAIXI);
+						} else if (position == XINGZHENGQU) {
+							//行政区
+							//loadInfoAsyncTask(XINGZHENGQU);
 						}
+						mCurrentLevel = LEVEL_SECOND;
+						btn_return.setText(R.string.back_level);
 						break;
 					case LEVEL_SECOND:
 						String title = mTabAdapter.getItem(position);
@@ -243,29 +260,45 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 	}
 
 	private LoadInfoAsyncTask mLoadInfoAsyncTask;
-	private void loadInfoAsyncTask(String... param) {
+	private void loadInfoAsyncTask(Integer... param) {
 		showProgressDialog();
 		AsyncTaskUtils.cancelTask(mLoadInfoAsyncTask);
 		mLoadInfoAsyncTask = new LoadInfoAsyncTask();
 		mLoadInfoAsyncTask.execute(param);
 	}
 
-	private class LoadInfoAsyncTask extends AsyncTask<String, Void, ServiceResultObject> {
+	private class LoadInfoAsyncTask extends AsyncTask<Integer, Void, ServiceResultObject> {
 		@Override
-		protected ServiceResultObject doInBackground(String... params) {
+		protected ServiceResultObject doInBackground(Integer... params) {
 			//更新保修卡信息
 			ServiceResultObject serviceResultObject = new ServiceResultObject();
 			InputStream is = null;
 			try {
-				is = NetworkUtils.openContectionLocked(ServiceObject.getPinpaiUrl(), null);
-				serviceResultObject = ServiceResultObject.parsePinpai(NetworkUtils.getContentFromInput(is));
+				switch (params[0]) {
+					case PINPAI:
+						mCurrentMode = PINPAI;
+						is = NetworkUtils.openContectionLocked(ServiceObject.getPinpaiUrl(), null);
+						serviceResultObject = ServiceResultObject.parsePinpaiInfo(NetworkUtils.getContentFromInput(is));
+						break;
+					case SHANGQUAN:
+						mCurrentMode = SHANGQUAN;
+						is = NetworkUtils.openContectionLocked(ServiceObject.getShangquanUrl(), null);
+						serviceResultObject = ServiceResultObject.parseShangquanInfo(NetworkUtils.getContentFromInput(is));
+						break;
+					case CAIXI:
+						mCurrentMode = CAIXI;
+						is = NetworkUtils.openContectionLocked(ServiceObject.getCaixiUrl(), null);
+						serviceResultObject = ServiceResultObject.parseCaixiInfo(NetworkUtils.getContentFromInput(is));
+						break;
+					case XINGZHENGQU:
+						mCurrentMode = XINGZHENGQU;
+						is = NetworkUtils.openContectionLocked(ServiceObject.getXingzhengquUrl(), null);
+						serviceResultObject = ServiceResultObject.parsePinpaiInfo(NetworkUtils.getContentFromInput(is));
+						break;
+				}
 				DebugUtils.logD(TAG, "mShopsList = " + serviceResultObject.mShops);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
-				if (serviceResultObject.isOpSuccessfully()) {
-					String data = serviceResultObject.mStrData;
-					DebugUtils.logD(TAG, "Data = " + data);
-				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 				serviceResultObject.mStatusMessage = e.getMessage();
@@ -285,7 +318,21 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			}
 			try {
-				mTabAdapter.updateTabList(PatternInfoUtils.getPinpaiList(result.mShops));
+
+				switch (mCurrentMode) {
+					case PINPAI:
+						mTabAdapter.updateTabList(PatternInfoUtils.getPinpaiList(result.mShops));
+						break;
+					case SHANGQUAN:
+						mTabAdapter.updateTabList(PatternInfoUtils.getShangquanList(result.mShops));
+						break;
+					case CAIXI:
+						mTabAdapter.updateTabList(PatternInfoUtils.getCaixiList(result.mShops));
+						break;
+					case XINGZHENGQU:
+						mTabAdapter.updateTabList(PatternInfoUtils.getPinpaiList(result.mShops));
+						break;
+				}
 			} catch (JSONException e) {
 			}
 			dismissProgressDialog();
@@ -314,16 +361,11 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 			ServiceResultObject serviceResultObject = new ServiceResultObject();
 			InputStream is = null;
 			try {
-				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("brandname", params[0]);
-				is = NetworkUtils.openContectionLocked(ServiceObject.getShopByPinpaiUrl("para", queryJsonObject.toString()), null);
+				is = NetworkUtils.openContectionLocked(getTabUrl(params[0]), null);
 				serviceResultObject = ServiceResultObject.parsePinpaiShops(NetworkUtils.getContentFromInput(is));
 				DebugUtils.logD(TAG, "mShopsList = " + serviceResultObject.mShops);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
-			} catch (JSONException e) {
-				e.printStackTrace();
-				serviceResultObject.mStatusMessage = e.getMessage();
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 				serviceResultObject.mStatusMessage = e.getMessage();
@@ -334,6 +376,47 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 				NetworkUtils.closeInputStream(is);
 			}
 			return serviceResultObject;
+		}
+
+		private String getTabUrl(String json) {
+			String url = null;
+			switch (mCurrentMode) {
+				case PINPAI:
+					url = ServiceObject.getShopByPinpaiUrl("para", getJsonObject(json).toString());
+					break;
+				case SHANGQUAN:
+					url = ServiceObject.getShangquanUrl("para", getJsonObject(json).toString());
+					break;
+				case CAIXI:
+					url = ServiceObject.getShangquanUrl("para", getJsonObject(json).toString());
+					break;
+				case XINGZHENGQU:
+					url = ServiceObject.getShopByPinpaiUrl("para", getJsonObject(json).toString());
+					break;
+			}
+			return url;
+		}
+
+		private Object getJsonObject(String value) {
+			JSONObject queryJsonObject = new JSONObject();
+			try {
+				switch (mCurrentMode) {
+					case PINPAI:
+						queryJsonObject.put("brandname", value);
+						break;
+					case SHANGQUAN:
+						queryJsonObject.put("shangquan", value);
+						break;
+					case CAIXI:
+						queryJsonObject.put("caixi", value);
+						break;
+					case XINGZHENGQU:
+						queryJsonObject.put("brandname", value);
+						break;
+					}
+				} catch (JSONException e) {
+				}
+			return queryJsonObject;
 		}
 
 		@Override
