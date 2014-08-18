@@ -144,10 +144,10 @@ private static final String TAG = "DBHelper";
   	   createShopInfoTable(sqLiteDatabase);
   	   
   	   //Create Caixi table
-  	   createCaixiTable(sqLiteDatabase);
+  	   //createCaixiTable(sqLiteDatabase);
   	   
   	   //Create Shangquan table
-  	   createShangquanTable(sqLiteDatabase);
+  	   //createShangquanTable(sqLiteDatabase);
   	   
   	   // Create scan history
  		//createScanHistory(sqLiteDatabase);

@@ -261,7 +261,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 	private boolean checkYanZhengCode(){
 		boolean b = false;
 		String str = editText_checkSMS.getText().toString();
-		if (mYanZhengCodeFromServer.equals(SecurityUtils.MD5.md5(str))) {
+		if (mYanZhengCodeFromServer != null && mYanZhengCodeFromServer.equals(SecurityUtils.MD5.md5(str))) {
 			b = true;
 		} else {
 			b = false;
