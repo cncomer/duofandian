@@ -289,7 +289,6 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/imageView1"
-                    android:layout_toLeftOf="@+id/radioButton1"
                     android:text="银联支付"
                     android:textColor="@color/textColor"
                     android:textSize="15dip"

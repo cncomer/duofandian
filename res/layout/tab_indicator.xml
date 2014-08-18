@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/textColor"
         android:layout_centerVertical="true"
- 		android:layout_toRightOf="@+id/tabicon"
         android:textSize="18dip"
         android:layout_marginLeft="5dip"
     />

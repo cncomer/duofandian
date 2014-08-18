@@ -419,7 +419,6 @@
                                 android:id="@+id/textView_imgtitle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_alignLeft="@+id/imageView_eat"
                                 android:layout_alignParentTop="true"
                                 android:layout_marginTop="20dp"
                                 android:text="图片标题"
