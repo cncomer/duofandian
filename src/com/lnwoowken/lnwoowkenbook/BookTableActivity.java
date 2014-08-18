@@ -22,14 +22,12 @@ import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
-import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -58,7 +56,6 @@ import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
-import com.lnwoowken.lnwoowkenbook.model.Contant;
 import com.lnwoowken.lnwoowkenbook.model.PayInfo;
 import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
 import com.lnwoowken.lnwoowkenbook.model.TableInfo;
@@ -646,7 +643,9 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 		hour.setVisibleItems(3);*/
 		final WheelView minute = (WheelView) dialog.findViewById(R.id.minute);
 //		minute.setViewAdapter(new ArrayWheelAdapter<String>(BookTableActivity.this, minutes));
-		minute.setViewAdapter(new ArrayListWheelAdapter(BookTableActivity.this));
+		ArrayListWheelAdapter arrayListWheelAdapter = new ArrayListWheelAdapter(BookTableActivity.this);
+		arrayListWheelAdapter.setTextSize(26);
+		minute.setViewAdapter(arrayListWheelAdapter);
 		//minute.setViewAdapter(new NumericWheelAdapter(BookTableActivity.this, 0, 59));
 		minute.setCyclic(true);
 		minute.setCurrentItem(1);
@@ -684,7 +683,9 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 						.findViewById(R.id.minute);
 				// minute.setViewAdapter(new
 				// ArrayWheelAdapter<String>(BookTableActivity.this, minutes));
-				style.setViewAdapter(new TableListWheelTextAdapter(BookTableActivity.this));
+				TableListWheelTextAdapter tableListWheelTextAdapter = new TableListWheelTextAdapter(BookTableActivity.this);
+				tableListWheelTextAdapter.setTextSize(26);
+				style.setViewAdapter(tableListWheelTextAdapter);
 				style.setCyclic(true);
 				style.setCurrentItem(1);
 				style.setVisibleItems(3);
