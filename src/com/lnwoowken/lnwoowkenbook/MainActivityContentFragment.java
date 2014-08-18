@@ -40,7 +40,7 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 	private Drawable[] mDotDrawableArray;
 	private int[] mAddsDrawableId = { R.drawable.pic_1, R.drawable.pic_2,
 			R.drawable.pic_3, R.drawable.pic_4, R.drawable.pic_5, };
-	private String[] mImageTitle = new String[] { "page1", "page2", "page3", "page4", "page5" };
+	private String[] mImageTitle = new String[] { "码头人家", "码头人家", "码头人家", "码头人家", "码头人家" };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
