@@ -87,11 +87,11 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 	}
 	
 	private void initViews(View view) {
-		view.findViewById(R.id.imageButton_book).setOnClickListener(this);//��λ
-		view.findViewById(R.id.imageButton_pick_food).setOnClickListener(this);//���
-		view.findViewById(R.id.imageButton_vip).setOnClickListener(this); //��Ա
+		view.findViewById(R.id.imageButton_book).setOnClickListener(this);
+		view.findViewById(R.id.imageButton_pick_food).setOnClickListener(this);
+		view.findViewById(R.id.imageButton_vip).setOnClickListener(this);
 		
-		view.findViewById(R.id.imageView_bottom).setOnClickListener(this); //���ر�
+		view.findViewById(R.id.imageView_bottom).setOnClickListener(this);
 		
 		mGalleryTitle = (TextView) view.findViewById(R.id.textView_imgtitle);
 		mDotsLayout = (LinearLayout) view.findViewById(R.id.dots);

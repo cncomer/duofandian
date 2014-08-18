@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="43dp"
     android:orientation="horizontal"
-    android:layout_marginTop="20dp"
-    android:layout_marginLeft="@dimen/left_panel_item_layout_margin_left"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/left_panel_menu_item"
     android:gravity="center_vertical" >
 
     <ImageView
         android:id="@+id/icon"
         android:duplicateParentState="true"
-        android:layout_width="36dp"
-        android:scaleType="centerInside"
-        android:layout_height="36dp" />
+        android:scaleType="fitCenter"
+        style="@style/left_panel_menu_icon"/>
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        style="@style/right_panel_menu"/>
+        style="@style/left_panel_menu_title"/>
 </LinearLayout>

@@ -12,21 +12,20 @@
         android:fillViewport="true"
         android:scrollbars="none"
         android:fadingEdgeLength="0dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
+         android:layout_marginLeft="19dp"
+        android:layout_marginRight="19dp"
         android:layout_height="fill_parent">
 
         <LinearLayout
-            android:layout_width="420dp"
+            android:layout_width="323dp"
             android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
             android:orientation="vertical" >
 
             <FrameLayout
                 android:id="@+id/relativeLayout_pictures"
                 android:layout_width="fill_parent"
-                android:layout_height="394dp"
+                android:layout_height="314dp"
                 android:background="@color/White" >
 
                 <android.support.v4.view.ViewPager
@@ -36,7 +35,7 @@
 			    </android.support.v4.view.ViewPager>
 
                 <LinearLayout android:layout_width="fill_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="36dp"
                     android:orientation="horizontal"
                     android:background="@drawable/back_bottom"
                     android:layout_gravity="bottom">
@@ -50,18 +49,18 @@
 	                    android:text="图片标题"
 	                    android:shadowDx="1.0"
 	                    android:shadowDy="2.0"
-	                    android:shadowRadius="2.0"
-	                    android:textSize="20sp"
+	                    android:shadowRadius="4.0"
 	                    android:shadowColor="@color/black"
-	                    android:paddingLeft="15dp"
+	                    android:paddingLeft="13dp"
+	                    android:textSize="15sp"
 	                    android:textColor="@color/White"/>
 	                <LinearLayout
 	        			android:id="@+id/dots"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
 				        android:layout_gravity="center_vertical|right"
-				        android:layout_marginLeft="15dp"
-				        android:layout_marginRight="15dp"
+				        android:layout_marginLeft="13dp"
+				        android:layout_marginRight="13dp"
 				        android:orientation="horizontal" />
                 </LinearLayout>
                 
@@ -75,31 +74,31 @@
 
                 <ImageButton
                     android:id="@+id/imageButton_book"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:background="@drawable/button_book" />
 				<View android:layout_height="fill_parent"
 				    android:layout_width="0dp"
 				    android:layout_weight="1.0"/>
                 <ImageButton
                     android:id="@+id/imageButton_pick_food"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:background="@drawable/button_pick_food" />
 				<View android:layout_height="fill_parent"
 				    android:layout_width="0dp"
 				    android:layout_weight="1.0"/>
                 <ImageButton
                     android:id="@+id/imageButton_vip"
-                    android:layout_width="130dp"
-                    android:layout_height="130dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:background="@drawable/button_vip" />
             </LinearLayout>
 
             <ImageView android:layout_marginTop="13dp"
                 android:id="@+id/imageView_bottom"
                 android:layout_width="fill_parent"
-                android:layout_height="133dp"
+                android:layout_height="99dp"
                 android:scaleType="fitXY"
                 android:background="@drawable/duo_te_bie" />
             

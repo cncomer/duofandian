@@ -9,7 +9,7 @@
     <ImageView
         android:id="@+id/icon"
         android:duplicateParentState="true"
-        android:scaleType="fitCenter"
+        android:scaleType="centerInside"
         style="@style/left_panel_menu_icon"/>
 
     <TextView
