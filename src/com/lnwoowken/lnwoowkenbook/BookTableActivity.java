@@ -445,10 +445,10 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 			InputStream is = null;
 			try {
 				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("shopid", 1);//mShopId
+				queryJsonObject.put("shopid", mShopId);//mShopId
 				queryJsonObject.put("date",  DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()));
 				queryJsonObject.put("desktype", mDeskType);//2人桌(1-2人) 4人桌(4-6人) 6人桌(8-10人) 包房
-				queryJsonObject.put("shiduan_name", mDeskType);
+				queryJsonObject.put("shiduan_name", mShiduanName);
 
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllAvailableTableUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseAvailableTables(NetworkUtils.getContentFromInput(is));

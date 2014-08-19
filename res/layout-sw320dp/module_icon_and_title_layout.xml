@@ -11,7 +11,7 @@
         android:id="@+id/icon"
         android:duplicateParentState="true"
         android:layout_width="24dp"
-        android:scaleType="centerInside"
+        android:scaleType="fitCenter"
         android:layout_height="24dp" />
 
     <TextView

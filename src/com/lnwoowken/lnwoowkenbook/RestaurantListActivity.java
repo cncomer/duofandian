@@ -372,10 +372,13 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 			holder._tablenum.setText(_shoplist.get(position).getShopDeskCount());
 			holder._price.setText(_shoplist.get(position).getShopRenJun());
 			holder._detail.setText(_shoplist.get(position).getShopBrief());
-			if(!TextUtils.isEmpty(_shoplist.get(position).getShopYouHui())) holder._youhui.setVisibility(View.VISIBLE);
-			if(!TextUtils.isEmpty(_shoplist.get(position).getShopTuanGou())) holder._tuangou.setVisibility(View.VISIBLE);
-			if(!TextUtils.isEmpty(_shoplist.get(position).getShopDianCan())) holder._diancan.setVisibility(View.VISIBLE);
-			if(!TextUtils.isEmpty(_shoplist.get(position).getShopMaiDian())) holder._maidian.setVisibility(View.VISIBLE);
+			String n = _shoplist.get(position).getShopName();
+			String a = _shoplist.get(position).getShopTuanGou();
+			ShopInfoObject b = _shoplist.get(position);
+			if(!TextUtils.isEmpty(_shoplist.get(position).getShopYouHui())) holder._youhui.setVisibility(View.VISIBLE); else holder._youhui.setVisibility(View.GONE);
+			if(!TextUtils.isEmpty(_shoplist.get(position).getShopTuanGou())) holder._tuangou.setVisibility(View.VISIBLE); else holder._tuangou.setVisibility(View.GONE);
+			if(!TextUtils.isEmpty(_shoplist.get(position).getShopDianCan())) holder._diancan.setVisibility(View.VISIBLE); else holder._diancan.setVisibility(View.GONE);
+			if(!TextUtils.isEmpty(_shoplist.get(position).getShopMaiDian())) holder._maidian.setVisibility(View.VISIBLE); else holder._maidian.setVisibility(View.GONE);
 			/*final int pos = position;
 			holder._phone.setOnClickListener(new OnClickListener() {
 				@Override

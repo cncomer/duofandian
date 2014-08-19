@@ -6,9 +6,9 @@ public class TableListWheelTextAdapter extends AbstractWheelTextAdapter {
 	// items
     public static final String[] DESK_TYPE = new String[] {
 		"2人桌(1-2人)",
-		"4人桌(4-6人)",
-		"6人桌(8-10人)",
-		"包房",
+		"4人桌(3-4人)",
+		"6人桌(5-6人)",
+		"包房(8-10人)",
     };
 
     /**
