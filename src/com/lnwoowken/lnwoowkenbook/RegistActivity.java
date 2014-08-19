@@ -483,5 +483,10 @@ public class RegistActivity extends Activity implements OnClickListener {
 		return super.onTouchEvent(event);
 
 	}
+	
+	public static void startActivity(Context context) {
+		Intent intent = new Intent(context, RegistActivity.class);
+		context.startActivity(intent);
+	}
 
 }

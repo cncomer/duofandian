@@ -19,13 +19,10 @@ public class ServiceObject {
 	 * @param pwd
 	 * @return
 	 */
-	public static String getLoginOrUpdateUrl(String tel, String pwd) {
+	public static String getLoginOrUpdateUrl(String para, String jsonString) {
 		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
-		//sb.append("mobile/common/login.ashx?cell=").append(tel)
-		//.append("&pwd=").appendUrlEncodedString(pwd);
-		sb.append("mobile/common/login.ashx?para={\"cell\":\"").append(tel)
-		.append("\",\"pwd\":\"").appendUrlEncodedString(pwd)
-		.append("\"}");
+		sb.append("mobile/common/login.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
 		return sb.toString();
 	}
 	

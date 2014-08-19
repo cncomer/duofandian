@@ -1,6 +1,9 @@
 package com.lnwoowken.lnwoowkenbook;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.module.ModuleSettings;
 import com.cncom.app.base.ui.BaseFragment;
+import com.shwy.bestjoy.utils.AsyncTaskUtils;
 
 public class PersonalInfoCenterFragment extends BaseFragment implements View.OnClickListener{
 
@@ -23,10 +28,19 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 	
 	private TextView mMemberName, mMemberLevel, mMemberTel;
 	
+	
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		this.setHasOptionsMenu(true);
+	}
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		updateViews();
+		getActivity().invalidateOptionsMenu();
+		
 	}
 
 	@Override
@@ -39,13 +53,42 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 		super.onDestroy();
 	}
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    	menu.add(1000, R.string.menu_login, 0,  R.string.menu_login).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//login
+		menu.add(1000, R.string.exit_login, 1,  R.string.exit_login).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        //Nothing to see here.
+    }
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 		super.onPrepareOptionsMenu(menu);
+		boolean hasLogined = MyAccountManager.getInstance().hasLoginned();
+		menu.findItem(R.string.menu_login).setVisible(!hasLogined);
+		menu.findItem(R.string.exit_login).setVisible(hasLogined);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+        case R.string.menu_login:
+        	Intent intent = new Intent(getActivity(), LoginActivity.class);
+			startActivity(intent);
+        	return true;
+        case R.string.exit_login:
+        	new AlertDialog.Builder(getActivity())
+        	.setTitle(R.string.msg_existing_system_confirm_title)
+			.setMessage(R.string.msg_existing_system_confirm)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					deleteAccountAsync();
+				}
+			})
+			.setNegativeButton(android.R.string.cancel, null)
+			.show();
+        	return true;
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -118,5 +161,41 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 		
 	}
 	
+	 private DeleteAccountTask mDeleteAccountTask;
+	 private void deleteAccountAsync() {
+		 AsyncTaskUtils.cancelTask(mDeleteAccountTask);
+		 showDialog(DIALOG_PROGRESS);
+		 mDeleteAccountTask = new DeleteAccountTask();
+		 mDeleteAccountTask.execute();
+	 }
+	 private class DeleteAccountTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			MyAccountManager.getInstance().deleteDefaultAccount();
+			MyAccountManager.getInstance().saveLastUsrTel("");
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			dismissDialog(DIALOG_PROGRESS);
+			getActivity().invalidateOptionsMenu();
+			updateViews();
+			MyApplication.getInstance().showMessage(R.string.msg_op_successed);
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			getActivity().invalidateOptionsMenu();
+			updateViews();
+			dismissDialog(DIALOG_PROGRESS);
+		}
+		
+		
+		 
+	 }
 
 }

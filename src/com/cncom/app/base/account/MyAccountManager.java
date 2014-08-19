@@ -3,10 +3,7 @@
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 
-import com.cncom.app.base.database.BjnoteContent;
-import com.cncom.app.base.database.DBHelper;
 import com.shwy.bestjoy.utils.DebugUtils;
 
 public class MyAccountManager {

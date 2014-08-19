@@ -1,21 +1,12 @@
 ﻿package com.lnwoowken.lnwoowkenbook;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
-import android.widget.Toast;
 
-import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.ui.BaseSlidingFragmentActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.shwy.bestjoy.utils.DebugUtils;
@@ -101,25 +92,10 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().setLogo(R.drawable.logo_appname);
 		getSupportActionBar().setDisplayUseLogoEnabled(true);
 		
-	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-//		getSupportMenuInflater().inflate(R.menu.new_card_activity_menu, menu);
-		menu.add(1000, R.string.menu_login, 0,  R.string.menu_login).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);//login
-		menu.add(1000, R.string.exit_login, 1,  R.string.exit_login).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		return true;
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		boolean hasLogined = MyAccountManager.getInstance().hasLoginned();
-		menu.findItem(R.string.menu_login).setVisible(!hasLogined);
-		menu.findItem(R.string.exit_login).setVisible(hasLogined);
-		return true;
 	}
 	
 	@Override
@@ -134,46 +110,17 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()) {
-        case android.R.id.home:
-        	
-	        if (true) {
-	        	if (getSlidingMenu().isMenuShowing()) {
-					getSlidingMenu().showContent();
-				} else {
-					getSlidingMenu().showMenu();
-				}
-	        	return true;
-	        }
-     	   Intent upIntent = NavUtils.getParentActivityIntent(this);
-     	   if (upIntent == null) {
-     		   // If we has configurated parent Activity in AndroidManifest.xml, we just finish current Activity.
-     		   finish();
-     		   return true;
-     	   }
-            if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                // This activity is NOT part of this app's task, so create a new task
-                // when navigating up, with a synthesized back stack.
-                TaskStackBuilder.create(this)
-                        // Add all of this activity's parents to the back stack
-                        .addNextIntentWithParentStack(upIntent)
-                        // Navigate up to the closest parent
-                        .startActivities();
-            } else {
-                // This activity is part of this app's task, so simply
-                // navigate up to the logical parent activity.
-                NavUtils.navigateUpTo(this, upIntent);
-            }
-            return true;
-        case R.string.menu_login:
-        	Intent intent = new Intent(this, LoginActivity.class);
-			startActivity(intent);
-        	return true;
-        case R.string.exit_login:
-        	showExitLoginDialog();
-        	return true;
+	     switch(item.getItemId()) {
+		     case android.R.id.home:
+			     if (getSlidingMenu().isMenuShowing()) {
+			    	 getSlidingMenu().showContent();
+			     } else {
+			    	 getSlidingMenu().showMenu();
+			     }
+				 return true;
 		}
 		return super.onOptionsItemSelected(item);
+		
 	}
 
 
@@ -208,30 +155,6 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 		context.startActivity(intent);
 	}
 	
-	private void showExitLoginDialog() {
-	    new AlertDialog.Builder(this)
-			.setTitle("提示")
-			.setMessage("您已经登录,是否要退出重新登录?")
-			.
-			// setIcon(R.drawable.welcome_logo).
-			setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					MyAccountManager.getInstance().deleteDefaultAccount();
-					Intent in = new Intent();
-					in.setAction("login");
-					sendBroadcast(in);
-					Toast.makeText(mContext, "成功退出登录", Toast.LENGTH_SHORT).show();
-				}
-			})
-			.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-				}
-			}).show();
-	}
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

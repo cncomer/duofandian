@@ -51,6 +51,9 @@
     <string name="exit_login">退出登录</string>
     <string name="account_mngmt">账户管理</string>
     <string name="attention_username">用户名:请输入手机号</string>
+    <string name="attention_userpwd">密码:请输入密码</string>
+    <string name="attention_empty_name_or_password">用户名和密码不能为空</string>
+    <string name="attention_empty_name_or_password_is_incorrect">请检查用户名密码是否正确</string>
     <string name="attention_pwd">密码:</string>
     <string name="ourfriend">夺饭点的伙伴</string>
     <string name="mychoice">我的点菜</string>
@@ -63,7 +66,7 @@
     <string name="female">女士</string>
     <string name="title_price_average">人均:</string>
     <string name="btn_confirm">确认</string>
-    <string name="login_error">登录失败</string>
+    <string name="login_error">登录失败,请检查用户名和密码是否正确</string>
     <string name="login_success">登录成功</string>
     <string name="btn_regist">注册</string>
     <string name="title_bill_confirm">定单确认</string>
@@ -282,4 +285,15 @@
   <string name="get_yanzhengcode">获取验证码</string>
   <string name="pay_success_tips">恭喜，您已完成支付并抢位成功，</string>
   <string name="pay_cancel_tips">您已取消支付，如需抢位请重新提交订单信息</string>
+  
+  
+  <string name="title_hot_hotel_tip">热门餐厅不等位!</string>
+  <string name="msg_login_dialog_title_wait">正在登录...</string>
+   <string name="msg_update_dialog_title_wait">正在更新...</string>
+  <string name="msg_login_download_accountinfo_wait">正在载入账户信息....</string>
+  <string name="msg_op_canceled">操作取消</string>
+  <string name="msg_op_successed">操作成功</string>
+   <string name="msg_op_failed">操作失败</string>
+   <string name="msg_existing_system_confirm">您已经登录,是否要退出重新登录?</string>
+   <string name="msg_existing_system_confirm_title">提示</string>
 </resources>
