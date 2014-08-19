@@ -1,11 +1,10 @@
 ﻿package com.lnwoowken.lnwoowkenbook;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -15,38 +14,62 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.lnwoowken.lnwoowkenbook.model.Contant;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.cncom.app.base.account.AccountObject;
+import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.ui.BaseActionbarActivity;
+import com.shwy.bestjoy.utils.AsyncTaskUtils;
 
-public class UserInfoActivity extends Activity implements OnClickListener {
+public class UserInfoActivity extends BaseActionbarActivity implements OnClickListener {
 	// private Button btn_regist;
 	// private Context context = UserInfoActivity.this;
 	private TextView userName;
 	private TextView phoneNumber;
-	private Button btn_back;
-	private TextView exitLogin;
+	private TextView mMemberJifen, mMemberLevel;
 	private RelativeLayout r1, r2, r3, r4, r5, r6;
+	private AccountObject mAccountObject;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_user_center);
+		mAccountObject = MyAccountManager.getInstance().getAccountObject();
 		initialize();
 
+	}
+	
+	@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(1000, R.string.exit_login, 1,  R.string.exit_login).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return super.onCreateOptionsMenu(menu);
+    }
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()) {
+        case R.string.exit_login:
+        	new AlertDialog.Builder(this)
+        	.setTitle(R.string.msg_existing_system_confirm_title)
+			.setMessage(R.string.msg_existing_system_confirm)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					deleteAccountAsync();
+				}
+			})
+			.setNegativeButton(android.R.string.cancel, null)
+			.show();
+        	return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		String text = "敬请期待！";
-		if (v.equals(btn_back)) {
-			UserInfoActivity.this.finish();
-		}
-		if (v.equals(exitLogin)) {
-			if (Contant.ISLOGIN) {
-				showExitLoginDialog();
-			}
-		}
 		if (v.equals(r1)) {
 			Toast.makeText(UserInfoActivity.this, text, 1).show();
 			// Toast.makeText(UserInfoActivity.this, text,Toast.LENGTH_SHORT).show();
@@ -81,10 +104,10 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 	private void initialize() {
 		userName = (TextView) findViewById(R.id.textView_username);
 		phoneNumber = (TextView) findViewById(R.id.textView_phone_data);
-		btn_back = (Button) findViewById(R.id.button_back);
-		btn_back.setOnClickListener(UserInfoActivity.this);
-		exitLogin = (TextView) findViewById(R.id.textView_exit);
-		exitLogin.setOnClickListener(UserInfoActivity.this);
+		
+		mMemberLevel = (TextView) findViewById(R.id.textView5);
+		mMemberJifen = (TextView) findViewById(R.id.textView7);
+		
 		r1 = (RelativeLayout) findViewById(R.id.r1);
 		r2 = (RelativeLayout) findViewById(R.id.r2);
 		r3 = (RelativeLayout) findViewById(R.id.r3);
@@ -97,42 +120,57 @@ public class UserInfoActivity extends Activity implements OnClickListener {
 		r4.setOnClickListener(UserInfoActivity.this);
 		r5.setOnClickListener(UserInfoActivity.this);
 		r6.setOnClickListener(UserInfoActivity.this);
-		if (Contant.USER != null) {
-			userName.setText(Contant.USER.getName());
-			phoneNumber.setText(Contant.USER.getPhoneNum());
+		
+		
+		userName.setText(mAccountObject.mAccountName);
+		phoneNumber.setText(mAccountObject.mAccountTel);
+		
+		mMemberLevel.setText(mAccountObject.mAccountLevel);
+		mMemberJifen.setText(mAccountObject.mAccountJifen);
+	}
+	
+	 private DeleteAccountTask mDeleteAccountTask;
+	 private void deleteAccountAsync() {
+		 AsyncTaskUtils.cancelTask(mDeleteAccountTask);
+		 showDialog(DIALOG_PROGRESS);
+		 mDeleteAccountTask = new DeleteAccountTask();
+		 mDeleteAccountTask.execute();
+	 }
+	 private class DeleteAccountTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			MyAccountManager.getInstance().deleteDefaultAccount();
+			MyAccountManager.getInstance().saveLastUsrTel("");
+			return null;
 		}
-	}
 
-	private void showExitLoginDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this).setTitle("提示")
-				.setMessage("您确定要退出登录吗?")
-				.
-				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("确定", new DialogInterface.OnClickListener() {
+		@Override
+		protected void onPostExecute(Void result) {
+			super.onPostExecute(result);
+			dismissDialog(DIALOG_PROGRESS);
+			MyApplication.getInstance().showMessage(R.string.msg_op_successed);
+			finish();
+		}
 
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						Contant.ISLOGIN = false;
-						Contant.USER = null;
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			dismissDialog(DIALOG_PROGRESS);
+		}
+		
+		
+		 
+	 }
 
-						UserInfoActivity.this.finish();
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-					}
-				}).
-
-				create();
-		alertDialog.show();
-	}
 	
 	public static void startActivity(Context context) {
 		Intent intent = new Intent(context, UserInfoActivity.class);
 		context.startActivity(intent);
+	}
+
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		return true;
 	}
 }

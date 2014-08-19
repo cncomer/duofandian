@@ -296,4 +296,7 @@
    <string name="msg_op_failed">操作失败</string>
    <string name="msg_existing_system_confirm">您已经登录,是否要退出重新登录?</string>
    <string name="msg_existing_system_confirm_title">提示</string>
+   <string name="member_level">会员等级</string>
+   <string name="member_jifen">会员积分</string>
+   <string name="member_phone">手机号</string>
 </resources>

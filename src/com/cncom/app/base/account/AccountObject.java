@@ -107,10 +107,8 @@ public class AccountObject implements InfoInterface{
 		AccountObject account = null;
 		Cursor c = null;
 		if (uid == -1) {
-			//获取默认账户
 			c = context.getContentResolver().query(BjnoteContent.Accounts.CONTENT_URI, PROJECTION, WHERE_DEFAULT, null, null);
 		} else {
-			//获取指定uid的账户
 			c = context.getContentResolver().query(BjnoteContent.Accounts.CONTENT_URI, PROJECTION, WHERE_UID, new String[]{String.valueOf(uid)}, null);
 		}
 		if (c != null) {
@@ -163,6 +161,9 @@ public class AccountObject implements InfoInterface{
 		values.put(DBHelper.ACCOUNT_PWD, mAccountPwd);
 		values.put(DBHelper.ACCOUNT_EMAIL, mAccountEmail);
 		values.put(DBHelper.ACCOUNT_USER, mAccountUser);
+		if (TextUtils.isEmpty(mAccountJifen)) {
+			mAccountJifen = "0";
+		}
 		values.put(DBHelper.ACCOUNT_JIFEN, mAccountJifen);
 		values.put(DBHelper.ACCOUNT_TOTAL, mAccountTotal);
 		values.put(DBHelper.ACCOUNT_YUQITIME, mAccountYuqiTimes);

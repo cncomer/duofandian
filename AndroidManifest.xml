@@ -200,7 +200,9 @@
         </activity>
         <activity
             android:name=".UserInfoActivity"
+            android:label="@string/title_user"
             android:launchMode="singleTop"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle"
             android:screenOrientation="portrait" >
         </activity>
         <activity
