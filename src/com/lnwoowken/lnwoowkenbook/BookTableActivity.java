@@ -66,6 +66,7 @@ import com.lnwoowken.lnwoowkenbook.view.CalendarView;
 import com.lnwoowken.lnwoowkenbook.view.DeskListDialog;
 import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.lnwoowken.lnwoowkenbook.view.TimeDialog;
+import com.lnwoowken.lnwoowkenbook.view.UserDialog;
 import com.lnwoowken.lnwoowkenbook.view.TimeView.ArrayListWheelAdapter;
 import com.lnwoowken.lnwoowkenbook.view.TimeView.TableListWheelTextAdapter;
 import com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView;
@@ -76,7 +77,6 @@ import com.umpay.creditcard.android.UmpayActivity;
 
 public class BookTableActivity extends Activity implements OnClickListener, OnTouchListener {
 	private static final String TAG = "BookTableActivity";
-	private boolean isAccept = false;
 	private Button btn_chooseFood;
 	// private RequestTableStyleThread tableStyleThread;
 	private EditText edite_content;
@@ -141,6 +141,7 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 	private List<TableInfoObject> mShopAvailableTableList;
 	private DeskListAdapter mDeskListAdapter;
 	private String mSelectedDeskID;
+	private String mDabiaoPrice;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -334,7 +335,6 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 			btn_Right = (ImageButton) dialog_calendar
 					.findViewById(R.id.calendarRight);
 			btn_left.setOnClickListener(new OnClickListener() {
-
 				@Override
 				public void onClick(View v) {
 					// 点击上一月 同样返回年月
@@ -382,7 +382,7 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 			MainActivity.startIntentClearTop(context, null);
 			BookTableActivity.this.finish();
 		} else if (v.equals(btn_commintButton)) {
-			if (isAccept) {
+			if (isTimeChosen) {
 				if (MyAccountManager.getInstance().hasLoginned()) {
 					StoreInfo shop;
 					boolean b = false;
@@ -395,12 +395,13 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 								shopAvailableTableObj = obj;
 							}
 						}
+						mDabiaoPrice = shopAvailableTableObj.getDabiaoPrice();
 						PayInfo pay = new PayInfo();
 						pay.setShopId(mShopId);
 						pay.setTime(c.get(Calendar.MONTH) + 1 + this.getResources().getString(R.string.month) + c.get(Calendar.DAY_OF_MONTH) + this.getResources().getString(R.string.day) + " " + DateUtils.getInstance().getWeekDay(c) + " " + shopAvailableTableObj.getmShiduanTime());
 						pay.setTableName(shopAvailableTableObj.getDeskName() + "  " + mDeskType.substring(0, mDeskType.indexOf("(")));
 						pay.setTableId(shopAvailableTableObj.getDeskId());
-						pay.setTablePrice(shopAvailableTableObj.getDabiaoPrice());
+						pay.setTablePrice(mDabiaoPrice);
 						pay.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
 						//pay.setRprice(tempStyle.getPrice());
 						pay.setSprice(shopAvailableTableObj.getServicePrice());
@@ -418,13 +419,13 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 						startActivity(intent);
 						// BookTableActivity.this.finish();
 					} else {
-						Toast.makeText(context, "请选择桌子", Toast.LENGTH_SHORT).show();
+						Toast.makeText(context, "请选择您要预定的桌子", Toast.LENGTH_SHORT).show();
 					}
 				} else {
 					showLoginDialog();
 				}
 			} else {
-				Toast.makeText(context, "您还没有接受协议", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "请选择您要预定的时间", Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
@@ -551,7 +552,7 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 			public void onClick(View v) {
 				if(mSelectedDeskID != null) {
 					dialog.dismiss();
-					MyApplication.getInstance().showMessage("你选择了:" + mSelectedDeskID);
+					isTableChosen = true;
 				} else {
 					MyApplication.getInstance().showMessage(R.string.select_desk_tips);
 				}
@@ -562,7 +563,6 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 		private Context _context;
 		private int month, day;
 		private Calendar c = Calendar.getInstance();
-		private int clickedPos = -1;
 		private DeskListAdapter (Context context) {
 			_context = context;
 			c.setTime(calendar.getSelectedStartDate());
@@ -609,7 +609,6 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 			holder._qiang.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					clickedPos = position;
 					mDeskListAdapter.notifyDataSetChanged();
 					mSelectedDeskID = mShopAvailableTableList.get(position).getDeskId();
 				}
@@ -625,28 +624,13 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 	}
 
 	private void showTimeDialog() {
-
 		final Dialog dialog = new TimeDialog(BookTableActivity.this, R.style.MyDialog);
 		dialog.show();
-		LayoutInflater inflater = getLayoutInflater();
 		
-		View layout = inflater.inflate(R.layout.dailog_timepicker, (ViewGroup) findViewById(R.id.dialog_layout_timer));
-		//final WheelView hour = (WheelView)dialog.findViewById(R.id.hour);
-		//final String minutes[] = new String[] {"15", "30", "45","00"};
-		
-//		  wv.setViewAdapter(new ArrayWheelAdapter<String>(MainActivity.this, countries));
-//		  wv.setCurrentItem(7);
-		
-		/*hour.setViewAdapter(new NumericWheelAdapter(BookTableActivity.this, 0, 23));
-		hour.setCyclic(true);
-		hour.setCurrentItem(20);
-		hour.setVisibleItems(3);*/
 		final WheelView minute = (WheelView) dialog.findViewById(R.id.minute);
-//		minute.setViewAdapter(new ArrayWheelAdapter<String>(BookTableActivity.this, minutes));
 		ArrayListWheelAdapter arrayListWheelAdapter = new ArrayListWheelAdapter(BookTableActivity.this);
 		arrayListWheelAdapter.setTextSize(26);
 		minute.setViewAdapter(arrayListWheelAdapter);
-		//minute.setViewAdapter(new NumericWheelAdapter(BookTableActivity.this, 0, 59));
 		minute.setCyclic(true);
 		minute.setCurrentItem(1);
 		minute.setVisibleItems(2);
@@ -662,27 +646,14 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 		btnOk.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// mHour = hour.getCurrentItem();
-				// mMinute = Integer.parseInt(
-				// minutes[minute.getCurrentItem()]);
-				// Message msg = new Message();
-				// setTimeHandler.sendMessage(msg);
-
-				//se = time_list.get(minute.getCurrentItem()).getId() + "";
-				//final String timeName = time_list.get(minute.getCurrentItem()).getTimeName();
 				mShiduanName = ArrayListWheelAdapter.SHIDUAN[minute.getCurrentItem()];
 				dialog.dismiss();
 
-				final Dialog tableStyle = new TimeDialog(
-						BookTableActivity.this, R.style.MyDialog);
+				final Dialog tableStyle = new TimeDialog(BookTableActivity.this, R.style.MyDialog);
 
 				tableStyle.show();
 				
-				//WheelView hour = (WheelView) tableStyle.findViewById(R.id.hour);
-				final WheelView style = (WheelView) tableStyle
-						.findViewById(R.id.minute);
-				// minute.setViewAdapter(new
-				// ArrayWheelAdapter<String>(BookTableActivity.this, minutes));
+				final WheelView style = (WheelView) tableStyle.findViewById(R.id.minute);
 				TableListWheelTextAdapter tableListWheelTextAdapter = new TableListWheelTextAdapter(BookTableActivity.this);
 				tableListWheelTextAdapter.setTextSize(26);
 				style.setViewAdapter(tableListWheelTextAdapter);
@@ -703,100 +674,70 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 				btnOk.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						//if (mShopAvailableTableList != null && mShopAvailableTableList.size() > 0) {
-							//tableStyleId = mShopAvailableTableList.get(style.getCurrentItem()).getDeskId();
-							//minPrice = mShopAvailableTableList.get(style.getCurrentItem()).getShiduanName();
-							tableStyle.dismiss();
-							String str = "";
-							//String money = list_tableStyle.get(style.getCurrentItem()).getCount();
-							// for (int i = 0; i < list_tableStyle.size(); i++)
-							// {
-							// str +=
-							// list_tableStyle.get(i).getStyleName()+"消费满"+list_tableStyle.get(i).getCount()+"元,";
-							// }
-//							str += "您所预定的"
-//									+ list_tableStyle.get(
-//											style.getCurrentItem())
-//											.getStyleName()
-//									+ "需满足"
-//									+ money
-//									+ "元.当您的消费满足"
-//									+ money
-//									+ "元,您所支付的定金将在1-3个工作日内全额返还.\n当您的消费未满足"
-//									+ money
-//									+ "元,您所支付的定金将不予返还.\n小提示:为确保您的消费金额真实性,请您在餐厅结账时,告知餐厅服务员您是夺饭点会员.\n您是否接受?";
-							// str
-							// +=list_tableStyle.get(style.getCurrentItem()).getStyleName()+"消费满"+list_tableStyle.get(style.getCurrentItem()).getCount()
-							// + "即可享受免排队优先权.\n您是否接受?";
-							mDeskType = TableListWheelTextAdapter.DESK_TYPE[style.getCurrentItem()];
-							str="你选择的日期是:" + DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()) + "\n桌形为:" + mDeskType + "\n时段为:" + mShiduanName + "\n您是否继续?";
-							showCheckDialog(str);
-							//textView.setText(str);
-							//textView_selectTime.setText("您选择的时间是:" + "what time" + " " + timeName);
-							isTimeChosen = true;
-							isTableChosen = false;
-						//} else {
-						//	Toast.makeText(context, "该店暂无任何桌型可供选择", Toast.LENGTH_SHORT).show();
-						//	tableStyle.dismiss();
-						//}
-
+						tableStyle.dismiss();
+						mDeskType = TableListWheelTextAdapter.DESK_TYPE[style.getCurrentItem()];
+						StringBuilder str = new StringBuilder("你选择的日期是：" + DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()) + "\n桌型：" + mDeskType + "\n时段：" + mShiduanName  + "\n达标金额：");
+						if(!TextUtils.isEmpty(mDabiaoPrice)) str.append(mDabiaoPrice + "元"); else str.append("无"); 
+						showDialog(str.toString());
 					}
 				});
 			}
 		});
 	}
 
-	private void showCheckDialog(String str) {
-		Dialog alertDialog = new AlertDialog.Builder(this).setTitle("提示")
-				.setMessage(str)
-				.
-				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						isAccept = true;
-						// Intent intent = new Intent(context,
-						// LoginActivity.class);
-						// startActivity(intent);
-						//
-						// //BookTableActivity.this.finish();
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						isAccept = false;
-					}
-				}).
-
-				create();
+	private void showDialog(String str) {
+		final Dialog alertDialog = new Dialog(BookTableActivity.this, R.style.MyDialog);
+		alertDialog.setTitle("提示信息");
+		alertDialog.setContentView(R.layout.dialog_layout);
+		TextView title = (TextView) alertDialog.findViewById(R.id.title);
+		TextView context = (TextView) alertDialog.findViewById(R.id.message);
+		Button buttonOk = (Button) alertDialog.findViewById(R.id.button_ok);
+		Button buttonCancel = (Button) alertDialog.findViewById(R.id.button_back);
+		title.setText("提示信息");
+		context.setText(str);
 		alertDialog.setCanceledOnTouchOutside(false);
+		buttonOk.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				isTimeChosen = true;
+				isTableChosen = false;
+				alertDialog.dismiss();
+			}
+		});
+		buttonCancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				alertDialog.dismiss();
+			}
+		});
 		alertDialog.show();
 	}
 
 	private void showLoginDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("提示")
-				.setMessage("您还没有登录,请先登录")
-				.
-				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Intent intent = new Intent(context, LoginActivity.class);
-						startActivity(intent);
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).
-
-				create();
+		final Dialog alertDialog = new Dialog(BookTableActivity.this, R.style.MyDialog);
+		alertDialog.setTitle("提示");
+		alertDialog.setContentView(R.layout.dialog_layout);
+		TextView title = (TextView) alertDialog.findViewById(R.id.title);
+		TextView context = (TextView) alertDialog.findViewById(R.id.message);
+		Button buttonOk = (Button) alertDialog.findViewById(R.id.button_ok);
+		Button buttonCancel = (Button) alertDialog.findViewById(R.id.button_back);
+		title.setText("提示");
+		context.setText("您还没有登录,请先登录");
+		alertDialog.setCanceledOnTouchOutside(false);
+		buttonOk.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(BookTableActivity.this, LoginActivity.class);
+				startActivity(intent);
+				alertDialog.dismiss();
+			}
+		});
+		buttonCancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				alertDialog.dismiss();
+			}
+		});
 		alertDialog.show();
 	}
 

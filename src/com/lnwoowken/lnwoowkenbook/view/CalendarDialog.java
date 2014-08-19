@@ -22,7 +22,7 @@ public class CalendarDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.dialog_layout);
+        this.setContentView(R.layout.dialog_calendar_layout);
     }
 
 }

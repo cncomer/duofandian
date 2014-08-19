@@ -12,19 +12,16 @@ public class TableListDialog extends Dialog{
 
 	public TableListDialog(Context context) {
 		super(context);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public TableListDialog(Context context,int id) {
 		super(context,id);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.dialog_table_list);
-		//getWindow().setFeatureInt(Window.FEATURE_NO_TITLE, R.layout.title);//镊畾涔夊竷锟?锟斤拷锟?
 		
 	}
 
