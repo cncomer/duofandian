@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     <style name="AppActionBarTheme" parent="Theme.Sherlock">
+     <style name="AppActionBarTheme" parent="Theme.Sherlock.Light">
         <item name="actionBarStyle">@style/AppActionBar</item>
         <item name="android:actionBarStyle">@style/AppActionBar</item>
          <item name="android:windowContentOverlay">@null</item>

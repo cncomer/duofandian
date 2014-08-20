@@ -92,7 +92,6 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 		
 		getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
 		getSupportActionBar().setLogo(R.drawable.logo_appname);
 		getSupportActionBar().setDisplayUseLogoEnabled(true);
 		

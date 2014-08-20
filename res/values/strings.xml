@@ -48,7 +48,7 @@
     <string name="pay_infomation">消费满足350元</string>
     <string name="pay_infomation_remarks">如果消费小于350元,餐厅将按350元收取餐费</string>
     <string name="male">先生</string>
-    <string name="exit_login">退出登录</string>
+    <string name="exit_login">退出</string>
     <string name="account_mngmt">账户管理</string>
     <string name="attention_username">用户名:请输入手机号</string>
     <string name="attention_userpwd">密码:请输入密码</string>
@@ -299,4 +299,7 @@
    <string name="member_level">会员等级</string>
    <string name="member_jifen">会员积分</string>
    <string name="member_phone">手机号</string>
+   
+   <string name="menu_search">搜索</string>
+   <string name="title_city_shanghai">上海</string>
 </resources>

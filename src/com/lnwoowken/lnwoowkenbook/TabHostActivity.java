@@ -462,4 +462,10 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 		});
 		dialog.setCanceledOnTouchOutside(false);
 	}
+	
+	
+	public static void startActivity(Context context) {
+		Intent intent = new Intent(context, TabHostActivity.class);
+		context.startActivity(intent);
+	}
 }
