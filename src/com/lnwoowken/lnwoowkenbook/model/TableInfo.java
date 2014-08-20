@@ -9,26 +9,27 @@ package com.lnwoowken.lnwoowkenbook.model;
 public class TableInfo {
 
 	private String aid;//--时段id
-	private String aname;//--桌名
+	private String name;//--桌名
 	//private String tntid;//--桌型id
 	private String rt;//--时点
-	private String dtypeid;//--桌型id
+	private String style;//--桌型
 	private String stid;
 	//private String total;//--当前桌子状态
-	//private String price;//--价格
-	private String staRes;//--状态
+	private String price;//--价格
+	private String sPrice;//--价格
+	private String state;//--状态
 	//private String drid;//--时段id	
 	private String rCode;//--订单号
 	private String phone;//--联系方式
 	private String peopleNum;//--人数
-	private String tid;//--桌子id
+	private String tableid;//--桌子id
 	
-	public String getDtypeid() {
-		return dtypeid;
+	public String getTableStyle() {
+		return style;
 	}
 
-	public void setDtypeid(String dtypeid) {
-		this.dtypeid = dtypeid;
+	public void setTableStyle(String dtypeid) {
+		this.style = dtypeid;
 	}
 
 	public String getStid() {
@@ -38,20 +39,20 @@ public class TableInfo {
 	public void setStid(String stid) {
 		this.stid = stid;
 	}
-	public String getTid() {
-		return tid;
+	public String getTableId() {
+		return tableid;
 	}
 
-	public void setTid(String tid) {
-		this.tid = tid;
+	public void setTableId(String tid) {
+		this.tableid = tid;
 	}
 
 	public String getStaRes() {
-		return staRes;
+		return state;
 	}
 
 	public void setStaRes(String staRes) {
-		this.staRes = staRes;
+		this.state = staRes;
 	}
 //
 //	public String getDrid() {
@@ -102,17 +103,21 @@ public class TableInfo {
 		this.peopleNum = num;
 	}
 
+	public String getSprice() {
+		return sPrice;
+	}
 
-	
-	
-//	public String getPrice() {
-//		return price;
-//	}
-//
-//	public void setPrice(String price) {
-//		this.price = price;
-//	}
+	public void setSprice(String sPrice) {
+		this.sPrice = sPrice;
+	}
 
+	public String getPrice() {
+		return price;
+	}
+
+	public void setPrice(String price) {
+		this.price = price;
+	}
 	
 	public String getAId() {
 		return aid;
@@ -122,12 +127,12 @@ public class TableInfo {
 		this.aid = id;
 	}
 
-	public String getAname() {
-		return aname;
+	public String getTableName() {
+		return name;
 	}
 
-	public void setAname(String name) {
-		this.aname = name;
+	public void setTableName(String name) {
+		this.name = name;
 	}
 //
 //	public String getTotal() {

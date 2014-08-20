@@ -22,49 +22,34 @@ private Context context;
 	
 	private List<TableInfo> tableList;
 	
-//	private Typeface typeface12=null;//微软雅黑
-//	private Typeface typeface3=null;//times
 	public TableListAdapter(Context context,List<TableInfo> tableList) {
 		this.context = context;
-		
-		//this.subclassname=subclassname;
-		this.tableList = tableList;// = InitProduct();
-		//this.child=InitChild();
-//		this.typeface12=Typeface.createFromAsset(context.getAssets(),"font/msyh.ttf");
-//		this.typeface3=Typeface.createFromAsset(context.getAssets(),"font/TIMES.TTF");
+		this.tableList = tableList;
 	}
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
-		
 		return this.tableList.size();
 	}
 
 	@Override
 	public TableInfo getItem(int arg0) {
-		// TODO Auto-generated method stub
 		TableInfo item = null;
-
-        if (null != tableList)
-        {
-            item = tableList.get(arg0);
-        }
+		if (null != tableList) {
+			item = tableList.get(arg0);
+		}
 
         return item;
-		
 	}
 
 	@Override
 	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
 		return arg0;
 	}
 
 	@SuppressLint("ResourceAsColor")
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
 		ViewHolder groupHolder=null;
 		if(convertView==null){
 			convertView=LayoutInflater.from(context).inflate(R.layout.table_list_item,null);
@@ -73,17 +58,12 @@ private Context context;
 			groupHolder.tableName=(TextView) convertView.findViewById(R.id.textView_table_name);
 			groupHolder.total=(TextView) convertView.findViewById(R.id.textView_table_total);
 			groupHolder.time=(TextView) convertView.findViewById(R.id.textView_time);
-			
-			//groupHolder.img_distance=(ImageButton) convertView.findViewById(R.id.imageButton_distance);
-			
 			convertView.setTag(groupHolder);
 		}else{
 			groupHolder=(ViewHolder)convertView.getTag();
 		}
-		int total_num = -1;
 		TableInfo table = getItem(position);
 		if (table!=null) {
-//			String str_total =  table.getTotal();
 			String table_state = "";
 			table_state = table.getStaRes();
 			if (table_state.equals("")||table_state == null) {
@@ -110,40 +90,9 @@ private Context context;
 					break;
 				}
 			}
-//			if (str_total!=null&&!str_total.equals("")) {
-//				try {
-//					total_num = Integer.parseInt(str_total);
-//				} catch (Exception e) {
-//					// TODO: handle exception
-//					Log.d("catch",  e.toString());
-//				}
-//			}
-//			
-//			if (total_num<=1&&total_num>=0) {
-//				groupHolder.row.setVisibility(View.VISIBLE);
-//				if (total_num==0) {
-//				//	Log.d("free______________", "");
-//					groupHolder.row.setBackgroundResource(R.drawable.boder_bottom);
-//					table_state = "空闲";
-//					
-//				}
-//				if (total_num == 1) {
-//				//	Log.d("unfree______________", "");
-//					groupHolder.row.setBackgroundColor(R.color.textColor_gray);
-//					table_state = "繁忙";
-//				}
-//				
-//				
-//			}
-//			else {
-//				groupHolder.row.setVisibility(View.GONE);
-//			}
-			groupHolder.tableName.setText(tableList.get(position).getAname());
+			groupHolder.tableName.setText(tableList.get(position).getTableName());
 			groupHolder.time.setText(tableList.get(position).getRt());
-			//groupHolder.total.setText(table_state);
 		}
-		
-		//convertView.setClickable(true);
 		return convertView;
 	}
 	
@@ -153,8 +102,5 @@ private Context context;
 		TextView total;
 		TextView time;
 		LinearLayout row;
-		//TextView environmentLevel;
-		
-		//ImageButton img_distance;
 	}
 }

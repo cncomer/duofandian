@@ -3,6 +3,7 @@ package com.lnwoowken.lnwoowkenbook;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,10 +22,14 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
+import com.lnwoowken.lnwoowkenbook.model.BillObject;
+import com.lnwoowken.lnwoowkenbook.model.TableInfo;
 import com.lnwoowken.lnwoowkenbook.tools.MyCount;
+import com.shwy.bestjoy.utils.DateUtils;
 import com.unionpay.UPPayAssistEx;
 import com.unionpay.uppay.PayActivity;
 
@@ -39,12 +44,9 @@ public class PayInfoActivity extends Activity {
 	private TextView textView_needpay;
 	private String mShopId;
 	private String time;
-	private String mServicePrice;
-	private String tableId;
-	private String tableName;
-	private String mTablePrice;
 	private PayInfoData parcelableData;
 	private ShopInfoObject mShopInfoObject;
+	private TableInfo mTableInfo;
 	private static final int requestCode = 888;
 	private Button btn_commit;
 	private Button btn_back;
@@ -63,12 +65,14 @@ public class PayInfoActivity extends Activity {
 		mShopId = parcelableData.getShopId();
 		time = parcelableData.getTime();
 		mShopInfoObject =  PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
-		tableId = parcelableData.getTableId();
-		tableName = parcelableData.getTableName();
-		mTablePrice = parcelableData.getTablePrice();
-		mServicePrice = parcelableData.getSprice();
+		mTableInfo = new TableInfo();
+		mTableInfo.setTableId(parcelableData.getTableId());
+		mTableInfo.setTableName(parcelableData.getTableName());
+		mTableInfo.setTableStyle(parcelableData.getTableName().substring(parcelableData.getTableName().lastIndexOf(" ") + 1));
+		mTableInfo.setPrice(parcelableData.getTablePrice());
+		mTableInfo.setSprice(parcelableData.getSprice());
 		tNumber = getIntent().getExtras().getString("tNumber");
-		price = (int) ((Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mServicePrice) ? "0" : mServicePrice));
+		price = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
 		tv = (TextView) findViewById(R.id.textView_count);
 		if (tNumber!=null&&!tNumber.equals("")) {
 			if (mc == null) {
@@ -153,10 +157,12 @@ public class PayInfoActivity extends Activity {
 				mc = null;
 				tv.setText("");
 				Toast.makeText(context, context.getString(R.string.pay_success_tips), Toast.LENGTH_LONG).show();
+				saveBillDatabase(BillObject.STATE_SUCCESS);
 				PayInfoActivity.this.finish();
 			}
 		} else if (str.equalsIgnoreCase("cancel")) {
 			Toast.makeText(context, context.getString(R.string.pay_cancel_tips), Toast.LENGTH_LONG).show();
+			saveBillDatabase(BillObject.STATE_UNPAY);
 		}
 //		if (str.equalsIgnoreCase(R_SUCCESS)) {
 //			showResultDialog(" 支付成功！ ");
@@ -165,6 +171,18 @@ public class PayInfoActivity extends Activity {
 //		} else if (str.equalsIgnoreCase(R_CANCEL)) {
 //			showResultDialog(" 你已取消了本次订单的支付！ ");
 //		}
+	}
+
+	private void saveBillDatabase(int state) {
+		BillObject billObj = new BillObject();
+		billObj.setBillNumber("2800010820000005");
+		billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
+		billObj.setTableName(mTableInfo.getTableName());
+		billObj.setCreateTime(DateUtils.TOPIC_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
+		billObj.setDate(DateUtils.TOPIC_DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
+		billObj.setState(state);
+		billObj.setTableStyle(mTableInfo.getTableStyle());
+		BillListManager.saveBill(billObj, getContentResolver());
 	}
 
 	public static boolean retrieveApkFromAssets(Context context, String srcfileName, String desFileName) {

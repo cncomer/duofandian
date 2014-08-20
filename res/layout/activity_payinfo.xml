@@ -77,7 +77,31 @@
             android:layout_height="fill_parent"
             android:background="@color/top_bottom"
             android:orientation="vertical" >
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="40dip"
+                android:background="@drawable/boder_bottom"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dip"
+                android:paddingRight="20dip" >
 
+                <TextView
+                    android:id="@+id/textView_billnumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/no_data"
+                    android:textColor="@color/textColor"
+                    android:textSize="16dip" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/bill_number"
+                    android:textColor="@color/textColor"
+                    android:textSize="16dip" />
+            </RelativeLayout>
             <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="40dip"

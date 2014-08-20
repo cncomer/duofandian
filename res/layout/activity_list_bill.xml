@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dip"
         android:background="@drawable/boder_bottom_grayback" >
-
         <Button
             android:id="@+id/button_back"
             android:layout_width="30dip"
@@ -28,7 +27,6 @@
             android:text="我的定单"
             android:textColor="@color/main_color"
             android:textSize="20dip" />
-
         <Button
             android:id="@+id/button_more"
             android:layout_width="40dip"
@@ -57,7 +55,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="50dip" >
-
             <LinearLayout
                 android:id="@+id/center_line"
                 android:layout_width="1px"
@@ -76,7 +73,6 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/center_line"
                 android:gravity="center" >
-
                 <Button
                     android:id="@+id/button_bill_unpay"
                     android:layout_width="wrap_content"
@@ -94,7 +90,6 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/center_line"
                 android:gravity="center" >
-
                 <Button
                     android:id="@+id/button_bill_all"
                     android:layout_width="wrap_content"

@@ -23,9 +23,10 @@ public class BjnoteProvider extends ContentProvider{
 	private String[] mTables = new String[]{
 			DBHelper.TABLE_NAME_ACCOUNTS,
 			DBHelper.TABLE_NAME_SHOPS,
-			DBHelper.TABLE_SCAN_NAME,
+			//DBHelper.TABLE_SCAN_NAME,
 			DBHelper.TABLE_NAME_CAIXI,
 			DBHelper.TABLE_NAME_SHANGQUAN,
+			DBHelper.TABLE_NAME_BILL,
 //			ContactsDBHelper.TABLE_NAME_MYLIFE_CONSUME,
 	};
 	private static final int BASE = 8;
@@ -42,8 +43,11 @@ public class BjnoteProvider extends ContentProvider{
 	private static final int SHANGQUAN = 0x0300;
 	private static final int SHANGQUAN_ID = 0x0301;
 	
-	private static final int SCAN_HISTORY = 0x0400;
-	private static final int SCAN_HISTORY_ID = 0x0401;
+	private static final int BILL = 0x0400;
+	private static final int BILL_ID = 0x0401;
+	
+	private static final int SCAN_HISTORY = 0x0500;
+	private static final int SCAN_HISTORY_ID = 0x0501;
 	
 	
 	private static final UriMatcher sURIMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -61,6 +65,9 @@ public class BjnoteProvider extends ContentProvider{
 
 	        matcher.addURI(BjnoteContent.AUTHORITY, "shangquan", SHANGQUAN);
 	        matcher.addURI(BjnoteContent.AUTHORITY, "shangquan/#", SHANGQUAN_ID);
+
+	        matcher.addURI(BjnoteContent.AUTHORITY, "bills", BILL);
+	        matcher.addURI(BjnoteContent.AUTHORITY, "bills/#", BILL_ID);
 	        
 	        matcher.addURI(BjnoteContent.AUTHORITY, "scan_history", SCAN_HISTORY);
 	        matcher.addURI(BjnoteContent.AUTHORITY, "scan_history/#", SCAN_HISTORY_ID);
@@ -120,6 +127,10 @@ public class BjnoteProvider extends ContentProvider{
     	case SHANGQUAN_ID:
     		notify = BjnoteContent.Shangquan.CONTENT_URI;
     		break;
+    	case BILL:
+    	case BILL_ID:
+    		notify = BjnoteContent.Bills.CONTENT_URI;
+    		break;
 		case SCAN_HISTORY:
 		case SCAN_HISTORY_ID:
 			notify = BjnoteContent.ScanHistory.CONTENT_URI;
@@ -148,6 +159,8 @@ public class BjnoteProvider extends ContentProvider{
 	    	case CAIXI_ID:
 	    	case SHANGQUAN:
 	    	case SHANGQUAN_ID:
+	    	case BILL:
+	    	case BILL_ID:
 			case SCAN_HISTORY:
 			case SCAN_HISTORY_ID:
         	count = db.delete(table, buildSelection(match, uri, selection), selectionArgs);
@@ -227,6 +240,8 @@ public class BjnoteProvider extends ContentProvider{
 	    	case CAIXI_ID:
 	    	case SHANGQUAN:
 	    	case SHANGQUAN_ID:
+	    	case BILL:
+	    	case BILL_ID:
 			case SCAN_HISTORY:
 			case SCAN_HISTORY_ID:
         	     result = db.query(table, projection, selection, selectionArgs, null, null, sortOrder);
@@ -253,6 +268,8 @@ public class BjnoteProvider extends ContentProvider{
 	    	case CAIXI_ID:
 	    	case SHANGQUAN:
 	    	case SHANGQUAN_ID:
+	    	case BILL:
+	    	case BILL_ID:
 			case SCAN_HISTORY:
 			case SCAN_HISTORY_ID:
         	    count = db.update(table, values, buildSelection(match, uri, selection), selectionArgs);
@@ -268,6 +285,7 @@ public class BjnoteProvider extends ContentProvider{
 	    	case SHOP_ID:
 	    	case CAIXI_ID:
 	    	case SHANGQUAN_ID:
+	    	case BILL_ID:
 			case SCAN_HISTORY_ID:
 			try {
 				id = ContentUris.parseId(uri);

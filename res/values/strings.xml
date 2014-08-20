@@ -266,6 +266,7 @@
   <string name="book_tips">一次操作只能抢一个位子哦</string>
   <string name="select_desk_tips">请选择一个桌位</string>
   <string name="pay_price">应付金额:</string>
+  <string name="bill_number">订单号:</string>
   <string name="shop_id">ID号:</string>
   <string name="shop_name">店名:</string>
   <string name="time_info">时间信息:</string>

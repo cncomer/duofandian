@@ -92,6 +92,27 @@ private static final String TAG = "DBHelper";
   public static final String SHANGQUAN_NAME = "Name";
   //shangquan table end
   
+  //bill table begin
+  public static final String TABLE_NAME_BILL = "bills";
+  public static final String BILL_ID = "_id";
+  public static final String BILL_UID = "uid";
+  public static final String BILL_SID = "sid";
+  public static final String BILL_TID = "tid";
+  public static final String BILL_PEOPLENUM = "peoplenum";
+  public static final String BILL_RCODE = "rcode";
+  public static final String BILL_MAC = "mac";
+  public static final String BILL_IP = "ip";
+  public static final String BILL_PHONE = "phone";
+  public static final String BILL_VERSION = "version";
+  public static final String BILL_SHOPNAME = "shopname";
+  public static final String BILL_DATE = "date";
+  public static final String BILL_TIME = "time";
+  public static final String BILL_STATE = "state";
+  public static final String BILL_TABLENAME = "tablename";
+  public static final String BILL_TABLESTYLE = "tableStyle";
+  public static final String BILL_CREATETIME = "createTime";
+  public static final String BILL_NUMBER = "billnumber";
+  //bill table end
   
   public DBHelper(Context context) {
     super(context, DB_NAME, null, DB_VERSION);
@@ -148,6 +169,9 @@ private static final String TAG = "DBHelper";
   	   
   	   //Create Shangquan table
   	   //createShangquanTable(sqLiteDatabase);
+  	   
+  	   //Create bill table
+  	   createBillTable(sqLiteDatabase);
   	   
   	   // Create scan history
  		//createScanHistory(sqLiteDatabase);
@@ -219,6 +243,29 @@ private static final String TAG = "DBHelper";
 	            "CREATE TABLE " + TABLE_NAME_CAIXI + " (" +
 	            SHANGQUAN_ID + " INTEGER PRIMARY KEY, " +
 	            SHANGQUAN_NAME + " TEXT);");
+  }
+  
+  private void createBillTable(SQLiteDatabase sqLiteDatabase) {
+	  sqLiteDatabase.execSQL(
+	            "CREATE TABLE " + TABLE_NAME_BILL + " (" +
+	            BILL_ID + " INTEGER PRIMARY KEY, " +
+	            BILL_UID + " TEXT, " +
+	            BILL_SID + " TEXT, " +
+	            BILL_TID + " TEXT, " +
+	            BILL_PEOPLENUM + " TEXT, " +
+	            BILL_RCODE + " TEXT, " +
+	            BILL_MAC + " TEXT, " +
+	            BILL_IP + " TEXT, " +
+	            BILL_PHONE + " TEXT, " +
+	            BILL_VERSION + " TEXT, " +
+	            BILL_SHOPNAME + " TEXT, " +
+	            BILL_DATE + " TEXT, " +
+	            BILL_TIME + " TEXT, " +
+	            BILL_STATE + " INTEGER NOT NULL DEFAULT 1, " +
+	            BILL_TABLENAME + " TEXT, " +
+	            BILL_TABLESTYLE + " TEXT, " +
+	            BILL_CREATETIME + " TEXT, " +
+	            BILL_NUMBER + " TEXT);");
   }
   
   private void createScanHistory(SQLiteDatabase sqLiteDatabase) {

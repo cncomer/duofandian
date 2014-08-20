@@ -16,47 +16,39 @@ import android.widget.TextView;
 import com.lnwoowken.lnwoowkenbook.BillListActivity;
 import com.lnwoowken.lnwoowkenbook.R;
 import com.lnwoowken.lnwoowkenbook.SurveyActivity;
-import com.lnwoowken.lnwoowkenbook.model.Bill;
+import com.lnwoowken.lnwoowkenbook.model.BillObject;
 
 public class BillListAdapter  extends BaseAdapter {
-
 	private Context context;
-	private List<Bill> bill;
+	private List<BillObject> mBillList;
 	HashMap<Integer, View> lmap = new HashMap<Integer, View>();
-	public BillListAdapter(Context context,List<Bill> bill) {
+	public BillListAdapter(Context context,List<BillObject> bill) {
 		this.context = context;
-		this.bill = bill;// = InitProduct();
-
+		this.mBillList = bill;// = InitProduct();
 	}
 	
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
-		
-		return this.bill.size();
+		return this.mBillList.size();
 	}
 
 	@Override
-	public Object getItem(int arg0) {
-		// TODO Auto-generated method stub
-		return arg0;
+	public Object getItem(int pos) {
+		return pos;
 	}
 
 	@Override
-	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
-		return arg0;
+	public long getItemId(int id) {
+		return id;
 	}
 
 	@Override
-	public View getView(final int position, View convertView1, ViewGroup parent) {
-		// TODO Auto-generated method stub
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder groupHolder=null;
 		View view;
-		if(lmap.get(position) == null){
-			view = LayoutInflater.from(context).inflate(
-					R.layout.survey_list_item, null);
-			view=LayoutInflater.from(context).inflate(R.layout.bill_list_item,null);
+		if (lmap.get(position) == null) {
+			view = LayoutInflater.from(context).inflate(R.layout.survey_list_item, null);
+			view = LayoutInflater.from(context).inflate(R.layout.bill_list_item, null);
 			groupHolder=new ViewHolder();
 			
 			groupHolder.textView_billnumber=(TextView) view.findViewById(R.id.textView_billnumber);
@@ -69,24 +61,22 @@ public class BillListAdapter  extends BaseAdapter {
 			groupHolder.textView_tableName=(TextView) view.findViewById(R.id.textView_tableName);
 			groupHolder.btn_survey=(ImageButton) view.findViewById(R.id.imageButton_survey);
 
-			
 			view.setTag(groupHolder);
-		}else{
+		} else {
 			view = lmap.get(position);
 			groupHolder=(ViewHolder)view.getTag();
 		} 
-		if (bill.get(position)!=null) {
-			Bill b = bill.get(position);
+		if (mBillList.get(position)!=null) {
+			BillObject b = mBillList.get(position);
 			groupHolder.textView_billnumber.setText(b.getBillNumber());
 			groupHolder.textView_tableStyle.setText(b.getTableStyle());
 			groupHolder.textView_state.setText(b.getState()+"");
 			groupHolder.textView_createDate.setText(b.getCreateTime());
 			groupHolder.textView_shopName.setText(b.getShopName());
 			groupHolder.textView_date.setText(b.getDate());
-			groupHolder.textView_time.setText(b.getTimeId()+"");
+			groupHolder.textView_time.setText(b.getTime()+"");
 			groupHolder.textView_tableName.setText(b.getTableName());
-		}
-		else {
+		} else {
 			String str = context.getResources().getString(R.string.no_data);
 			groupHolder.textView_billnumber.setText(str);
 			groupHolder.textView_tableStyle.setText(str);
@@ -98,25 +88,19 @@ public class BillListAdapter  extends BaseAdapter {
 			groupHolder.textView_tableName.setText(str);
 		}
 		groupHolder.btn_survey.setOnClickListener(new OnClickListener() {
-			
 			@Override
 			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(context,SurveyActivity.class);
-				intent.putExtra("rid", bill.get(position).getId());
+				intent.putExtra("rid", mBillList.get(position).getId());
 				context.startActivity(intent);
 			}
 		});
-		
-		
 		//groupHolder.name.setText(productList.get(position));
 		//convertView.setClickable(true);
 		return view;
 	}
 	
-	
 	static class ViewHolder{
-		
 		TextView textView_billnumber;
 		TextView textView_shopName;
 		TextView textView_date;
@@ -126,7 +110,6 @@ public class BillListAdapter  extends BaseAdapter {
 		TextView textView_state;
 		TextView textView_createDate;
 		ImageButton btn_survey;
-
 	}
 
 }

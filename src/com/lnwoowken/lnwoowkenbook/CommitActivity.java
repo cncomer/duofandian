@@ -2,14 +2,13 @@ package com.lnwoowken.lnwoowkenbook;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.Date;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -18,8 +17,6 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -40,14 +37,12 @@ import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
-import com.lnwoowken.lnwoowkenbook.model.BookTime;
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.network.Client;
-import com.lnwoowken.lnwoowkenbook.network.JsonParser;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
+import com.lnwoowken.lnwoowkenbook.model.BillObject;
+import com.lnwoowken.lnwoowkenbook.model.TableInfo;
 import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.lnwoowken.lnwoowkenbook.view.UserDialog;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
+import com.shwy.bestjoy.utils.DateUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
 
 public class CommitActivity extends Activity {
@@ -63,13 +58,10 @@ public class CommitActivity extends Activity {
 	private EditText editText_name;
 	private String mShopId;
 	private String time;
-	private String mServicePrice;
-	private String mTablePrice;
 	private int mPriceTotal;
 	private TextView textView_money_describ;
-	private String tableId;
-	private String tableName;
 	private ShopInfoObject mShopInfoObject;
+	private TableInfo mTableInfo;
 	private TextView textView_shopId;
 	private TextView textView_shopName;
 	private TextView textView_timeinfo;
@@ -94,15 +86,17 @@ public class CommitActivity extends Activity {
 		mShopId = parcelableData.getShopId();
 		time = parcelableData.getTime();
 		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
-		tableId = parcelableData.getTableId();
-		tableName= parcelableData.getTableName();
-		mTablePrice = parcelableData.getTablePrice();
-		mServicePrice = parcelableData.getSprice();
+		mTableInfo = new TableInfo();
+		mTableInfo.setTableId(parcelableData.getTableId());
+		mTableInfo.setTableName(parcelableData.getTableName().substring(0, parcelableData.getTableName().lastIndexOf(" ")));
+		mTableInfo.setTableStyle(parcelableData.getTableName().substring(parcelableData.getTableName().lastIndexOf(" ") + 1));
+		mTableInfo.setPrice(parcelableData.getTablePrice());
+		mTableInfo.setSprice(parcelableData.getSprice());
 		
-		mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mServicePrice) ? "0" : mServicePrice));
+		mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
 		
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
-		textView_money_describ.setText(" (定金" + (int) (Integer.parseInt(TextUtils.isEmpty(mTablePrice) ? "0" : mTablePrice) * 0.2)+"元+服务费" + mServicePrice + "元)");
+		textView_money_describ.setText(" (定金" + (int) (Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2)+"元+服务费" + mTableInfo.getSprice() + "元)");
 		textView_shopId = (TextView) findViewById(R.id.textView_shopid);
 		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
 		textView_timeinfo = (TextView) findViewById(R.id.textView_timeinfo);
@@ -236,7 +230,7 @@ public class CommitActivity extends Activity {
 			InputStream is = null;
 			try {
 				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("deskID", tableId);
+				queryJsonObject.put("deskID", mTableInfo.getTableId());
 				queryJsonObject.put("price", mPriceTotal);
 				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
 				is = NetworkUtils.openContectionLocked(ServiceObject.getLiushuiNumberUrl("para", queryJsonObject.toString()), null);
@@ -266,6 +260,16 @@ public class CommitActivity extends Activity {
 			if(TextUtils.isEmpty(result.mStrData)) {
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			} else {
+				BillObject billObj = new BillObject();
+				billObj.setBillNumber("2800010820000005");
+				billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
+				billObj.setTableName(mTableInfo.getTableName());
+				billObj.setCreateTime(DateUtils.TOPIC_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
+				billObj.setDate(DateUtils.TOPIC_DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
+				billObj.setState(BillObject.STATE_UNPAY);
+				billObj.setTableStyle(mTableInfo.getTableStyle());
+				BillListManager.saveBill(billObj, getContentResolver());
+				
 				tNumber = result.mStrData;
 				commitPay();
 			}

@@ -146,11 +146,9 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		display = getWindowManager().getDefaultDisplay();
-		bitmap = BitmapFactory.decodeResource(getResources(),
-				R.drawable.table_back);
+		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.table_back);
 		setContentView(R.layout.activity_booktable);
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-				.permitAll().build();
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		intent = BookTableActivity.this.getIntent();
 		mShopId = intent.getExtras().getString("shop_id");
@@ -171,10 +169,8 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 				}
 			}
 		});
-
 		btn_chooseFood = (Button) findViewById(R.id.imageButton_pickfood);
 		btn_chooseFood.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View arg0) {
 				Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
@@ -188,7 +184,6 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 	 */
 	@SuppressWarnings("deprecation")
 	private void initialize() {
-
 		btn_back = (Button) findViewById(R.id.Button_back);
 		btn_back.setOnClickListener(BookTableActivity.this);
 		textView_bookTime = (TextView) findViewById(R.id.textView_book_time);
@@ -214,16 +209,10 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 		btn_more.setOnClickListener(BookTableActivity.this);
 
 		tableImage = (ImageView) findViewById(R.id.imageView_table_info);
-		int margin_int = com.lnwoowken.lnwoowkenbook.tools.Tools.dip2px(
-				context, 20);
-		RelativeLayout.LayoutParams l2 = new RelativeLayout.LayoutParams(
-				screenWidth, screenWidth * 235 / 480);
-
+		int margin_int = com.lnwoowken.lnwoowkenbook.tools.Tools.dip2px(context, 20);
+		RelativeLayout.LayoutParams l2 = new RelativeLayout.LayoutParams(screenWidth, screenWidth * 235 / 480);
 		l2.setMargins(0, 0, 0, 0);
-
-		RelativeLayout.LayoutParams l1 = new RelativeLayout.LayoutParams(
-				screenWidth, screenWidth * 235 / 480);
-
+		RelativeLayout.LayoutParams l1 = new RelativeLayout.LayoutParams(screenWidth, screenWidth * 235 / 480);
 		l1.setMargins(0, Tools.dip2px(context, 50), 0, 0);
 		tableRelativeLayout = (RelativeLayout) findViewById(R.id.layout_shoptable);
 
@@ -236,7 +225,6 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 		// minZoom();
 		center();
 		tableImage.setImageMatrix(matrix);
-
 	}
 
 	public TableInfo getTableInfoById() {
@@ -412,7 +400,6 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 						Intent intent = new Intent();
 						intent.setClass(context, CommitActivity.class);
 						Bundle bundle = new Bundle();
-						bundle.putString("MyString", "test bundle");
 						bundle.putParcelable("PayInfo", new PayInfoData(pay));
 						intent.putExtras(bundle);
 

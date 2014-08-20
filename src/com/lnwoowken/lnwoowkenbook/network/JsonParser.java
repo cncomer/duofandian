@@ -12,7 +12,7 @@ import org.json.JSONStringer;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.lnwoowken.lnwoowkenbook.model.Bill;
+import com.lnwoowken.lnwoowkenbook.model.BillObject;
 import com.lnwoowken.lnwoowkenbook.model.BookTime;
 import com.lnwoowken.lnwoowkenbook.model.PayInfo;
 import com.lnwoowken.lnwoowkenbook.model.ShopTree;
@@ -579,8 +579,8 @@ public class JsonParser {
 	 *            json格式的字符串
 	 */
 	@SuppressLint("NewApi")
-	public static List<Bill> parseBillListJson(String jsonData) {
-		List<Bill> tempList = new ArrayList<Bill>();
+	public static List<BillObject> parseBillListJson(String jsonData) {
+		List<BillObject> tempList = new ArrayList<BillObject>();
 			if (jsonData.startsWith("\"") && jsonData.endsWith("\"")) {
 				jsonData = jsonData.substring(1, jsonData.length() - 1);
 				jsonData = jsonData.replace("\\\"", "\"");
@@ -606,7 +606,7 @@ public class JsonParser {
 						String version = temp.getString("version");
 						String shopname = temp.getString("shopname");
 						String tablename = temp.getString("tablename");
-						Bill bill = new Bill();
+						BillObject bill = new BillObject();
 						bill.setId(id);
 						bill.setIp(ip);
 						bill.setMac(mac);
@@ -649,7 +649,7 @@ public class JsonParser {
 					String version = temp.getString("version");
 					String shopname = temp.getString("shopname");
 					String tablename = temp.getString("tablename");
-					Bill bill = new Bill();
+					BillObject bill = new BillObject();
 					bill.setId(id);
 					bill.setIp(ip);
 					bill.setMac(mac);
@@ -710,7 +710,6 @@ public class JsonParser {
 					Log.d("parseTimeInfo___________", tempTime.getPrice());
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -837,7 +836,6 @@ public class JsonParser {
 
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -873,7 +871,6 @@ public class JsonParser {
 				// tempList.add(shop);
 				// Log.d("___________", tempList.get(0).getId()+"");
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -899,17 +896,17 @@ public class JsonParser {
 					// String id = temp.getString("Id");
 					TableInfo tempTable = new TableInfo();
 					tempTable.setAId(temp.getString("aid"));
-					tempTable.setAname(temp.getString("aname"));
+					tempTable.setTableName(temp.getString("aname"));
 					tempTable.setStaRes(temp.getString("staRes"));
 					tempTable.setStid(temp.getString("stid"));
-					tempTable.setDtypeid(temp.getString("dtypeid"));
+					tempTable.setTableStyle(temp.getString("dtypeid"));
 				//	tempTable.setPrice(temp.getString("price"));
 					tempTable.setRt(temp.getString("rt"));
 					//tempTable.setTnid(temp.getString("tntid"));
 					tempTable.setrCode(temp.getString("RCode"));
 					tempTable.setPhone(temp.getString("Phone"));
 					tempTable.setPeopleNum(temp.getString("PeopleNum"));
-					tempTable.setTid(temp.getString("TId"));
+					tempTable.setTableId(temp.getString("TId"));
 					// tempShop.setTableImagePath(temp.getString("PicMain"));
 					// tempShop.setPriceLevel(temp.getString("priceLevel"));
 					// tempShop.setEnvironmentLevel(temp.getString("environmentLevel"));
@@ -931,7 +928,6 @@ public class JsonParser {
 
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -941,21 +937,20 @@ public class JsonParser {
 				JSONObject temp = new JSONObject(jsonData);
 				TableInfo tempTable = new TableInfo();
 				tempTable.setAId(temp.getString("aid"));
-				tempTable.setAname(temp.getString("aname"));
+				tempTable.setTableName(temp.getString("aname"));
 				tempTable.setStaRes(temp.getString("staRes"));
 				tempTable.setStid(temp.getString("stid"));
-				tempTable.setDtypeid(temp.getString("dtypeid"));
+				tempTable.setTableStyle(temp.getString("dtypeid"));
 			//	tempTable.setPrice(temp.getString("price"));
 				tempTable.setRt(temp.getString("rt"));
 			//	tempTable.setTnid(temp.getString("tntid"));
 				tempTable.setrCode(temp.getString("RCode"));
 				tempTable.setPhone(temp.getString("Phone"));
 				tempTable.setPeopleNum(temp.getString("PeopleNum"));
-				tempTable.setTid(temp.getString("TId"));
+				tempTable.setTableId(temp.getString("TId"));
 				tempList.add(tempTable);
 				// Log.d("___________", tempList.get(0).getId()+"");
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -963,7 +958,6 @@ public class JsonParser {
 	}
 
 	public static List<PayInfo> parsePayInfoJson(String jsonData) {
-		// StoreInfo tempShop = null;
 		List<PayInfo> tempList;
 		tempList = new ArrayList<PayInfo>();
 		if (jsonData.startsWith("\"") && jsonData.endsWith("\"")) {
@@ -995,7 +989,6 @@ public class JsonParser {
 					// Log.d("___________", s);
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
@@ -1010,7 +1003,6 @@ public class JsonParser {
 				tempList.add(tempTable);
 				// Log.d("___________", tempList.get(0).getId()+"");
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
