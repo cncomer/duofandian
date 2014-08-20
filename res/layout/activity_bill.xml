@@ -6,52 +6,6 @@
     android:focusable="true"
     android:focusableInTouchMode="true" >
 
-    <RelativeLayout
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:background="@color/top_bottom" >
-
-        <Button
-            android:id="@+id/button_back"
-            android:layout_width="30dip"
-            android:layout_height="30dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
-            android:background="@drawable/button_back" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/title_bill_confirm"
-            android:textColor="@color/main_color"
-            android:textSize="20dip" />
-
-        <!--
-        <Button
-            android:id="@+id/button_more"
-            android:layout_width="30dip"
-            android:layout_height="30dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/button_more_selector" />
-
-        <Button
-            android:id="@+id/button_home"
-            android:layout_width="30dip"
-            android:layout_height="30dip"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
-            android:layout_toLeftOf="@+id/button_more"
-            android:background="@drawable/button_home" />
-        -->
-    </RelativeLayout>
-
     <LinearLayout
         android:id="@+id/bottom"
         android:layout_width="fill_parent"
@@ -61,8 +15,6 @@
         android:layout_marginTop="5dip"
         android:background="@color/top_bottom"
         android:gravity="center" >
-
-       
 
         <Button
             android:id="@+id/button_commit"
