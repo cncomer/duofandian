@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +10,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,29 +18,23 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.widget.SearchView;
+import com.actionbarsherlock.widget.SearchView.OnQueryTextListener;
+import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
@@ -49,8 +42,6 @@ import com.costum.android.widget.PullAndLoadListView;
 import com.costum.android.widget.PullAndLoadListView.OnLoadMoreListener;
 import com.costum.android.widget.PullToRefreshListView.OnRefreshListener;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
 import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
@@ -61,18 +52,10 @@ import com.shwy.bestjoy.utils.NetworkUtils;
  * @author chs
  * 
  */
-public class RestaurantListActivity extends Activity implements OnClickListener {
+public class RestaurantListActivity extends BaseActionbarActivity implements OnClickListener {
 	private static final String TAG = "RestaurantListActivity";
 	private AnimationDrawable draw;
     private	LinearLayout progress;
-	private Button btn_search;
-	private EditText search;
-	private Button btn_home;
-	private PopupWindow popupWindow;
-	private Button btn_sort;
-	private Context context = RestaurantListActivity.this;
-	private ImageButton btn_back;
-	private Button btn_more;
 	private Dialog dialog;
 	private PullAndLoadListView mShopListView;
 	private ShopListAdapter mShopListAdapter;
@@ -85,61 +68,76 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 	private List <ShopInfoObject> mShopsList;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_restaurant_list);
-
-		mShopListView = (PullAndLoadListView) findViewById(R.id.listView_all_store);
-		mShopsList = new ArrayList<ShopInfoObject>();
-		mShopListAdapter = new ShopListAdapter(context, mShopsList);
+		setTitle(R.string.title_city_shanghai);
 		initialize();
-
 		loadAllShopInfoAsyncTask();
 	}
 	
 	@Override
-	protected void onResume() {
-		super.onResume();
-	}
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getSupportMenuInflater().inflate(R.menu.search_menu, menu);
+		SearchView searchView = (SearchView) menu.findItem(R.string.menu_search).getActionView();
+		searchView.setQueryHint(getString(R.string.menu_search));
+		searchView.setOnQueryTextListener(new OnQueryTextListener() {
 
-	@Override
-	protected void onRestart() {
-		super.onRestart();
-	}
+			@Override
+            public boolean onQueryTextSubmit(String query) {
+				loadShopInfoByNameAsyncTask(query);
+	            return true;
+            }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
+			@Override
+            public boolean onQueryTextChange(String newText) {
+	            return true;
+            }
+			
+		});
+		
+		try {
+            Class<?> argClass = searchView.getClass();
+            //指定某个私有属性
+            Field mSearchHintIconField = argClass.getDeclaredField("mSearchHintIcon");
+            mSearchHintIconField.setAccessible(true);
+            View mSearchHintIcon = (View)mSearchHintIconField.get(searchView);
+            mSearchHintIcon.setVisibility(View.GONE);
+             /*
+            //注意mSearchPlate的背景是stateListDrawable(不同状态不同的图片)  所以不能用BitmapDrawable
+            Field ownField = argClass.getDeclaredField("mSearchPlate");
+            //setAccessible 它是用来设置是否有权限访问反射类中的私有属性的，只有设置为true时才可以访问，默认为false
+            ownField.setAccessible(true);
+            View mView = (View) ownField.get(searchView);
+            mView.setBackground(getResources().getDrawable(R.drawable.contacts_search_writebg));
+ 			*/
+ 
+            //指定某个私有属性  
+            Field mQueryTextView = argClass.getDeclaredField("mQueryTextView");
+            mQueryTextView.setAccessible(true);
+            Class<?> mTextViewClass = mQueryTextView.get(searchView).getClass().getSuperclass().getSuperclass().getSuperclass();
+ 
+ 
+           //mCursorDrawableRes光标图片Id的属性 这个属性是TextView的属性，所以要用mQueryTextView（SearchAutoComplete）
+            //的父类（AutoCompleteTextView）的父  类( EditText）的父类(TextView)  
+            Field mCursorDrawableRes = mTextViewClass.getDeclaredField("mCursorDrawableRes");
+            //setAccessible 它是用来设置是否有权限访问反射类中的私有属性的，只有设置为true时才可以访问，默认为false
+            mCursorDrawableRes.setAccessible(true);
+          //注意第一个参数持有这个属性(mQueryTextView)的对象(mSearchView) 光标必须是一张图片不能是颜色，因为光标有两张图片，
+            //一张是第一次获得焦点的时候的闪烁的图片，一张是后边有内容时候的图片，如果用颜色填充的话，就会失去闪烁的那张图片，
+            //颜色填充的会缩短文字和光标的距离（某些字母会背光标覆盖一部分）。
+//            mCursorDrawableRes.set(mQueryTextView.get(searchView), R.drawable.icon_small_add_delete);  
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+		return true;
 	}
 
 	private void initialize() {
-		btn_back = (ImageButton) findViewById(R.id.imageButton_back);
-		btn_back.setOnClickListener(RestaurantListActivity.this);
-		btn_search = (Button) findViewById(R.id.button_search);
-		btn_search.setOnClickListener(RestaurantListActivity.this);
-		btn_sort = (Button) findViewById(R.id.button_sort);
-		btn_sort.setOnClickListener(RestaurantListActivity.this);
-		btn_more = (Button) findViewById(R.id.button_more);
-		btn_more.setOnClickListener(RestaurantListActivity.this);
-		btn_home = (Button) findViewById(R.id.button_home);
-		btn_home.setOnClickListener(RestaurantListActivity.this);
-		search = (EditText) findViewById(R.id.editText_search);
-		search.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				if(TextUtils.isEmpty(search.getText().toString().trim())) {
-					loadAllShopInfoAsyncTask();
-				}
-				//mShopListAdapter.initShopList(searchShopByName(search.getText().toString().trim()));
-			}
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-			@Override
-			public void afterTextChanged(Editable s) {
-			}
-
-		});
+		findViewById(R.id.button_sort).setOnClickListener(this);
+		mShopListView = (PullAndLoadListView) findViewById(R.id.listView_all_store);
+		mShopsList = new ArrayList<ShopInfoObject>();
+		mShopListAdapter = new ShopListAdapter(mContext, mShopsList);
 		mShopListView.setAdapter(mShopListAdapter);
 		mShopListView.setOnItemClickListener(mShopListAdapter);
 		mShopListView.setOnRefreshListener(new OnRefreshListener() {
@@ -160,74 +158,10 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 
 	@Override
 	public void onClick(View v) {
-		if (v.equals(btn_back)) {
-			RestaurantListActivity.this.finish();
-			if (popupWindow!=null) {
-				popupWindow.dismiss();
-				popupWindow = null;
-			}
-		}
-		if (v.equals(btn_sort)) {
-			Intent intent = new Intent(context, TabHostActivity.class);
-			startActivity(intent);
-			if (popupWindow!=null) {
-				popupWindow.dismiss();
-				popupWindow = null;
-			}
-		}
-		if (v.equals(btn_more)) {
-			if (popupWindow == null || !popupWindow.isShowing()) {
-				View view = LayoutInflater.from(context).inflate(R.layout.popmenu, null);
-				RelativeLayout myBill = (RelativeLayout) view.findViewById(R.id.mybill);
-				RelativeLayout exitLogin = (RelativeLayout) view.findViewById(R.id.exit_login);
-				exitLogin.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (Contant.ISLOGIN) {
-							showExitLoginDialog();
-						} else {
-							Intent intent = new Intent(context, LoginActivity.class);
-							startActivity(intent);
-						}
-						popupWindow.dismiss();
-						popupWindow = null;
-					}
-				});
-				myBill.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View arg0) {
-						Intent intent = new Intent(context, BillListActivity.class);
-						startActivity(intent); 
-						popupWindow.dismiss();
-						popupWindow = null;
-					}
-				});
-				popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
-						LayoutParams.WRAP_CONTENT);
-				popupWindow.showAsDropDown(v, 10, 10);
-				// 使其聚集
-				// popupWindow.setFocusable(true);
-				// 设置允许在外点击消失
-				// popupWindow.setOutsideTouchable(true);
-				// 刷新状态（必须刷新否则无效）
-				popupWindow.update();
-			} else {
-				popupWindow.dismiss();
-				popupWindow = null;
-			}
-		}
-		if (v.equals(btn_home)) {
-			if (popupWindow!=null) {
-				popupWindow.dismiss();
-				popupWindow = null;
-			}
-			MainActivity.startIntentClearTop(context, null);
-			RestaurantListActivity.this.finish();
-		}
-		if (v.equals(btn_search)) {
-			loadShopInfoByNameAsyncTask(search.getText().toString().trim());
-			//mShopListAdapter.initShopList(searchShopByName(search.getText().toString().trim()));
+		switch(v.getId()){
+		case R.id.button_sort:
+			TabHostActivity.startActivity(mContext);
+			break;
 		}
 	}
 
@@ -241,10 +175,6 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 					Log.d(TAG, mShopsList.get(i).getShopName());
 				}
 			}
-			if (popupWindow!=null) {
-				popupWindow.dismiss();
-				popupWindow = null;
-			}
 		}
 		if(TextUtils.isEmpty(searchStr)) {
 			return mShopsList;
@@ -252,39 +182,6 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 		return searchList;
 	}
 	
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (popupWindow != null && popupWindow.isShowing()) {
-			popupWindow.dismiss();
-			popupWindow = null;
-		}
-		return super.onTouchEvent(event);
-	}
-	
-	private void showExitLoginDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("提示")
-				.setMessage("您已经登录,是否要退出重新登录?")
-				// setIcon(R.drawable.welcome_logo).
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Contant.ISLOGIN = false;
-						Contant.USER = null;
-						Intent intent1 = new Intent();
-						intent1.setAction("login");
-						sendBroadcast(intent1);
-						Toast.makeText(context, "成功退出登录", Toast.LENGTH_SHORT).show();
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).create();
-		alertDialog.show();
-	}
-
 	private void dismissProgressDialog(){
 		if(dialog != null && dialog.isShowing()) {
 			dialog.dismiss();
@@ -677,5 +574,10 @@ public class RestaurantListActivity extends Activity implements OnClickListener 
 			mShopListAdapter.initShopList(mShopsList);
 			dismissProgressDialog();
 		}
+	}
+
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		return true;
 	}
 }
