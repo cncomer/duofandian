@@ -175,46 +175,58 @@
         <activity
             android:name=".RestaurantListActivity"
             android:launchMode="singleTask"
+            android:label="@string/title_city_shanghai"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".RegistActivity"
             android:launchMode="singleTask"
+            android:label="@string/title_regist"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/login"
             android:launchMode="singleTask"
-            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".RestuarantInfoActivity"
             android:launchMode="singleTop"
+            android:label="@string/title_shop_info"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".CommitActivity"
             android:launchMode="singleTop"
+            android:label="@string/title_bill_confirm"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".UserInfoActivity"
             android:label="@string/title_user"
             android:launchMode="singleTop"
-            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".PayInfoActivity"
             android:launchMode="singleTop"
+            android:label="@string/title_bill_pay"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".BookTableActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:launchMode="singleTop"
+            android:label="@string/title_book_table"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>

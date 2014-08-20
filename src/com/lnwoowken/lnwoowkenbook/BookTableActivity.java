@@ -9,8 +9,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -51,6 +49,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.TableInfoObject;
@@ -66,7 +65,6 @@ import com.lnwoowken.lnwoowkenbook.view.CalendarView;
 import com.lnwoowken.lnwoowkenbook.view.DeskListDialog;
 import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.lnwoowken.lnwoowkenbook.view.TimeDialog;
-import com.lnwoowken.lnwoowkenbook.view.UserDialog;
 import com.lnwoowken.lnwoowkenbook.view.TimeView.ArrayListWheelAdapter;
 import com.lnwoowken.lnwoowkenbook.view.TimeView.TableListWheelTextAdapter;
 import com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView;
@@ -75,7 +73,7 @@ import com.shwy.bestjoy.utils.DateUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
 import com.umpay.creditcard.android.UmpayActivity;
 
-public class BookTableActivity extends Activity implements OnClickListener, OnTouchListener {
+public class BookTableActivity extends BaseActionbarActivity implements OnClickListener, OnTouchListener {
 	private static final String TAG = "BookTableActivity";
 	private Button btn_chooseFood;
 	// private RequestTableStyleThread tableStyleThread;
@@ -104,8 +102,6 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 	private PointF prev = new PointF();
 	private PointF mid = new PointF();
 	float dist = 1f;
-	private PopupWindow popupWindow;
-	private Button btn_home;
 	private TextView title_date;
 	private ImageButton btn_left;
 	private ImageButton btn_Right;
@@ -143,7 +139,8 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 	private String mSelectedDeskID;
 	private String mDabiaoPrice;
 
-	protected void onCreate(Bundle savedInstanceState) {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		display = getWindowManager().getDefaultDisplay();
 		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.table_back);
@@ -153,6 +150,15 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 		intent = BookTableActivity.this.getIntent();
 		mShopId = intent.getExtras().getString("shop_id");
 		initialize();
+
+	}
+
+	/**
+	 * 初始化一些控件
+	 */
+	@SuppressWarnings("deprecation")
+	private void initialize() {
+
 		textView = (TextView) findViewById(R.id.textView_attention);
 
 		edite_content = (EditText) findViewById(R.id.editText_content);
@@ -177,15 +183,6 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 			}
 		});
 
-	}
-
-	/**
-	 * 初始化一些控件
-	 */
-	@SuppressWarnings("deprecation")
-	private void initialize() {
-		btn_back = (Button) findViewById(R.id.Button_back);
-		btn_back.setOnClickListener(BookTableActivity.this);
 		textView_bookTime = (TextView) findViewById(R.id.textView_book_time);
 		textView_selectTime = (TextView) findViewById(R.id.textView_selected_time);
 		btn_select_time = (ImageButton) findViewById(R.id.button_select_time);
@@ -200,24 +197,26 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 		choose_time.setOnClickListener(BookTableActivity.this);
 		choose_seat.setOnClickListener(BookTableActivity.this);
 		layout_shoptable = (RelativeLayout) findViewById(R.id.layout_shoptable);
-		int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-		int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
-
-		btn_home = (Button) findViewById(R.id.button_home);
-		btn_home.setOnClickListener(BookTableActivity.this);
-		btn_more = (Button) findViewById(R.id.button_more);
-		btn_more.setOnClickListener(BookTableActivity.this);
-
+//		int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+//		int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+//
+//
 		tableImage = (ImageView) findViewById(R.id.imageView_table_info);
-		int margin_int = com.lnwoowken.lnwoowkenbook.tools.Tools.dip2px(context, 20);
-		RelativeLayout.LayoutParams l2 = new RelativeLayout.LayoutParams(screenWidth, screenWidth * 235 / 480);
-		l2.setMargins(0, 0, 0, 0);
-		RelativeLayout.LayoutParams l1 = new RelativeLayout.LayoutParams(screenWidth, screenWidth * 235 / 480);
-		l1.setMargins(0, Tools.dip2px(context, 50), 0, 0);
+//		int margin_int = com.lnwoowken.lnwoowkenbook.tools.Tools.dip2px(
+//				context, 20);
+//		RelativeLayout.LayoutParams l2 = new RelativeLayout.LayoutParams(
+//				screenWidth, screenWidth * 235 / 480);
+//
+//		l2.setMargins(0, 0, 0, 0);
+//
+//		RelativeLayout.LayoutParams l1 = new RelativeLayout.LayoutParams(
+//				screenWidth, screenWidth * 235 / 480);
+//
+//		l1.setMargins(0, Tools.dip2px(context, 50), 0, 0);
 		tableRelativeLayout = (RelativeLayout) findViewById(R.id.layout_shoptable);
-
-		tableRelativeLayout.setLayoutParams(l1);
-		tableImage.setLayoutParams(l2);
+//
+//		tableRelativeLayout.setLayoutParams(l1);
+//		tableImage.setLayoutParams(l2);
 		tableImage.setImageBitmap(bitmap);// 填充控件
 		tableImage.setOnTouchListener(this);// 设置触屏监听
 		dm = new DisplayMetrics();
@@ -231,14 +230,6 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 		return null;
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-
-			BookTableActivity.this.finish();
-		}
-		return super.onKeyDown(keyCode, event);
-	}
 
 	/**
 	 * 在这里接收并处理支付结果
@@ -289,9 +280,7 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 
 	@Override
 	public void onClick(View v) {
-		if (v.equals(btn_back)) {
-			BookTableActivity.this.finish();
-		} else if (v.equals(btn_select_time) || v.equals(choose_time)) {
+		if (v.equals(btn_select_time) || v.equals(choose_time)) {
 			dialog_calendar = new CalendarDialog(BookTableActivity.this,
 					R.style.MyDialog);
 
@@ -348,27 +337,6 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 				Toast.makeText(BookTableActivity.this, "请先选择时间",
 						Toast.LENGTH_LONG).show();
 			}
-		} else if (v.equals(btn_more)) {
-			if (popupWindow == null || !popupWindow.isShowing()) {
-				View view = LayoutInflater.from(context).inflate(
-						R.layout.popmenu, null);
-				popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
-						LayoutParams.WRAP_CONTENT);
-				popupWindow.showAsDropDown(v, 10, 10);
-				// 使其聚集
-				// popupWindow.setFocusable(true);
-				// 设置允许在外点击消失
-				// popupWindow.setOutsideTouchable(true);
-				// 刷新状态（必须刷新否则无效）
-				popupWindow.update();
-			} else {
-				popupWindow.dismiss();
-				popupWindow = null;
-			}
-
-		} else if (v.equals(btn_home)) {
-			MainActivity.startIntentClearTop(context, null);
-			BookTableActivity.this.finish();
 		} else if (v.equals(btn_commintButton)) {
 			if (isTimeChosen) {
 				if (MyAccountManager.getInstance().hasLoginned()) {
@@ -895,5 +863,10 @@ public class BookTableActivity extends Activity implements OnClickListener, OnTo
 			}
 
 		}
+	}
+
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		return true;
 	}
 }

@@ -16,8 +16,11 @@
     </style>
     
      <style name="AppActionBarTheme.MainActivityActionBar.BlueTitle">
-         <item name="actionBarStyle">@style/AppActionBar.BlueTitleBar</item>
-        <item name="android:actionBarStyle">@style/AppActionBar.BlueTitleBar</item>
+         <item name="actionBarStyle">@style/AppActionBar.BlueTitleBar.GrayBar</item>
+        <item name="android:actionBarStyle">@style/AppActionBar.BlueTitleBar.GrayBar</item>
+     </style>
+     
+     <style name="AppActionBarTheme.MainActivityActionBar.BlueTitle.Up">
         <item name="homeAsUpIndicator">@drawable/button_back</item>
         <item name="android:homeAsUpIndicator">@drawable/button_back</item>
      </style>

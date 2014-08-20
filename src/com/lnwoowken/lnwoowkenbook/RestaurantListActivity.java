@@ -66,14 +66,25 @@ public class RestaurantListActivity extends BaseActionbarActivity implements OnC
 	private int mLoadState = STATE_IDLE;
 	private int mLoadPageIndex = 0;
 	private List <ShopInfoObject> mShopsList;
+	
+	private boolean mFirstStart = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_restaurant_list);
-		setTitle(R.string.title_city_shanghai);
 		initialize();
-		loadAllShopInfoAsyncTask();
+//		loadAllShopInfoAsyncTask();
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (mFirstStart) {
+			mFirstStart = false;
+			mShopListView.prepareForRefresh();
+			mShopListView.onRefresh();
+		}
 	}
 	
 	@Override
@@ -154,6 +165,7 @@ public class RestaurantListActivity extends BaseActionbarActivity implements OnC
 				LoadMoreDataTask();
 			}
 		});
+		
 	}
 
 	@Override

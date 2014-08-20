@@ -32,6 +32,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
@@ -45,7 +46,7 @@ import com.shwy.bestjoy.utils.AsyncTaskUtils;
 import com.shwy.bestjoy.utils.DateUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
 
-public class CommitActivity extends Activity {
+public class CommitActivity extends BaseActionbarActivity {
 	private static final String TAG = "CommitActivity";
 	private String tNumber;
 	private String payId;
@@ -74,7 +75,7 @@ public class CommitActivity extends Activity {
 	private Dialog dialog;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bill);
 		initialize();
@@ -164,13 +165,6 @@ public class CommitActivity extends Activity {
 					MyApplication.getInstance().showMessage(R.string.agree_protocal_tips);
 					showProtocolDialog();
 				}
-			}
-		});
-		btn_back = (Button) findViewById(R.id.button_back);
-		btn_back.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				CommitActivity.this.finish();
 			}
 		});
 	}
@@ -314,5 +308,10 @@ public class CommitActivity extends Activity {
 			}
 		});
 		dialog.setCanceledOnTouchOutside(false);
+	}
+
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		return true;
 	}
 }

@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
@@ -33,7 +34,7 @@ import com.shwy.bestjoy.utils.DateUtils;
 import com.unionpay.UPPayAssistEx;
 import com.unionpay.uppay.PayActivity;
 
-public class PayInfoActivity extends Activity {
+public class PayInfoActivity extends BaseActionbarActivity {
 	private static final String TAG = "PayInfoActivity";
 	private boolean isAgree;
 	private MyCount mc;
@@ -53,7 +54,7 @@ public class PayInfoActivity extends Activity {
 	private String tNumber;
 	private RadioButton radioUpmp;
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_payinfo);
 		initialize();
@@ -97,13 +98,6 @@ public class PayInfoActivity extends Activity {
 				} else {
 					Toast.makeText(context, "您还没有选择支付方式", Toast.LENGTH_SHORT).show();
 				}
-			}
-		});
-		btn_back = (Button) findViewById(R.id.button_back);
-		btn_back.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				PayInfoActivity.this.finish();
 			}
 		});
 		radioUpmp = (RadioButton) findViewById(R.id.radioButton_upmp);
@@ -207,6 +201,12 @@ public class PayInfoActivity extends Activity {
 
 	private void pay(String tn) {
 		UPPayAssistEx.startPayByJAR((Activity)PayInfoActivity.this, PayActivity.class, null, null, tn, "00");
+	}
+
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 }

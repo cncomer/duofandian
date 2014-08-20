@@ -5,54 +5,10 @@
     android:background="@color/White" >
 
     <RelativeLayout
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:background="@color/top_bottom" >
-
-        <Button
-            android:id="@+id/Button_back"
-            android:layout_width="30dip"
-            android:layout_height="30dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
-            android:background="@drawable/button_back" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="@string/title_book_table"
-            android:textColor="@color/main_color"
-            android:textSize="20dip" />
-
-        <Button
-            android:id="@+id/button_more"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/button_more_selector" />
-
-        <Button
-            android:id="@+id/button_home"
-            android:layout_width="30dip"
-            android:layout_height="30dip"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
-            android:layout_toLeftOf="@+id/button_more"
-            android:background="@drawable/button_home" />
-    </RelativeLayout>
-
-    <RelativeLayout
         android:id="@+id/layout_shoptable"
         android:layout_width="fill_parent"
-        android:layout_height="200dip"
-        android:layout_below="@+id/top" >
+        android:layout_marginTop="5dip"
+        android:layout_height="200dip">
 
         <ImageView
             android:id="@+id/imageView_table_info"
@@ -66,7 +22,7 @@
             android:layout_height="30dip"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="29dp"
+            android:layout_marginBottom="19dp"
             android:background="@drawable/tag_vip" />
     </RelativeLayout>
 

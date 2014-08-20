@@ -37,19 +37,19 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.cncom.app.base.account.AccountObject;
+import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
 import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
 import com.shwy.bestjoy.utils.SecurityUtils;
 
 @SuppressLint("HandlerLeak")
-public class RegistActivity extends Activity implements OnClickListener {
+public class RegistActivity extends BaseActionbarActivity implements OnClickListener {
 	private PopupWindow popupWindow;
 	private long num;// = Tools.getRandomNum();
 	private long pwd;// = Tools.getRandomNum();
 	private Button btn_regist;
 	private Button btn_back;
 	private Button btn_home;//--返回主界面
-	private Context context = RegistActivity.this;
 	private RequestServerThread mThread;
 	private RequestServerThread threadSMS;
 	private Button btn_getSMS;
@@ -103,7 +103,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			if (mThread.getResult().equals(Contant.NO_NET)||msg.arg1==1) {
-				Toast.makeText(context,  R.string.no_net, Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext,  R.string.no_net, Toast.LENGTH_SHORT).show();
 			}
 			else {
 				String result = mThread.getResult();//Client.decodeBase64(mThread.getResult());
@@ -120,10 +120,10 @@ public class RegistActivity extends Activity implements OnClickListener {
 					mAccountObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
 					mAccountObject.mStatusMessage = jsonObject.getString("StatusMessage");
 					if(mAccountObject.mStatusCode == 1) {
-						Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
+						Toast.makeText(mContext, "注册成功", Toast.LENGTH_SHORT).show();
 						showDialog();
 					} else {
-						Toast.makeText(context, "注册失败,原因:" + mAccountObject.mStatusMessage, Toast.LENGTH_SHORT).show();
+						Toast.makeText(mContext, "注册失败,原因:" + mAccountObject.mStatusMessage, Toast.LENGTH_SHORT).show();
 					}
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
@@ -137,10 +137,10 @@ public class RegistActivity extends Activity implements OnClickListener {
 	
 	
 	private void initialize(){
-		btn_more = (Button) findViewById(R.id.button_more);
-		btn_more.setOnClickListener(RegistActivity.this);
-		btn_home = (Button) findViewById(R.id.button_home);
-		btn_home.setOnClickListener(RegistActivity.this);
+		btn_getSMS = (Button) findViewById(R.id.button_getSMS);
+		btn_getSMS.setOnClickListener(RegistActivity.this);
+		btn_regist = (Button) findViewById(R.id.button_regist);
+		btn_regist.setOnClickListener(RegistActivity.this);
 		name = (EditText) findViewById(R.id.editText_name);
 		email = (EditText) findViewById(R.id.editText_email);
 		niname = (EditText) findViewById(R.id.editText_niname);
@@ -217,24 +217,17 @@ public class RegistActivity extends Activity implements OnClickListener {
 		if (result.contains("1")) {
 			isRecieved = true;
 			if (!TextUtils.isEmpty(name.getText().toString().trim())) {
-				Toast.makeText(context, "短信已经发送号码为"+name.getText().toString()+"的手机", Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, "短信已经发送号码为"+name.getText().toString()+"的手机", Toast.LENGTH_SHORT).show();
 			}
 		}
 		return isRecieved;
 	}
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.acitvity_regist);
-		btn_getSMS = (Button) findViewById(R.id.button_getSMS);
-		btn_getSMS.setOnClickListener(RegistActivity.this);
-		btn_back = (Button) findViewById(R.id.button_back);
-		btn_back.setOnClickListener(RegistActivity.this);
-		btn_regist = (Button) findViewById(R.id.button_regist);
-		btn_regist.setOnClickListener(RegistActivity.this);
-		initialize();
 		mAccountObject = new AccountObject();
+		initialize();
 	}
 
 	private String getOpJson(){
@@ -271,19 +264,19 @@ public class RegistActivity extends Activity implements OnClickListener {
 	
 	private boolean checkInput() {
 		if(!checkConfirm()) {
-			Toast.makeText(context, "密码输入不一致", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, "密码输入不一致", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		if(!checkYanZhengCode()) {
-			Toast.makeText(context, "验证码不正确", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, "验证码不正确", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		if(TextUtils.isEmpty(email.getText().toString())) {
-			Toast.makeText(context, "请输入邮箱", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, "请输入邮箱", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		if(TextUtils.isEmpty(niname.getText().toString())) {
-			Toast.makeText(context, "请输入昵称", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, "请输入昵称", Toast.LENGTH_SHORT).show();
 			return false;
 		}
 		return true;
@@ -297,7 +290,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 				//para={"cell":"18621951097","pwd":"wangkun","nickname":"kun","email":"369319633@qq.com"}
 				String str = "http://manage.lnwoowken.com/Mobile/common/register.ashx?para={\"cell\":\"" + name.getText().toString().trim() + "\",\"pwd\":\"" + password.getText().toString() + "\",\"nickname\":\"" + niname.getText().toString().trim() + "\",\"email\":\"" + email.getText().toString().trim() +"\"}";
 				int flag = Contant.FLAG_REGIST;
-				mThread = new RequestServerThread(str, resultHandler, context, flag);
+				mThread = new RequestServerThread(str, resultHandler, mContext, flag);
 				Message msg = new Message();
 				handler.sendMessage(msg);
 			}	
@@ -312,7 +305,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 				btn_getSMS.setTextColor(Color.GRAY);
 				doTimeCountDown();
 			} else {
-				Toast.makeText(context, "用户名不能为空", Toast.LENGTH_SHORT).show();
+				Toast.makeText(mContext, "用户名不能为空", Toast.LENGTH_SHORT).show();
 			}
 			
 		}
@@ -321,7 +314,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 		}
 		else if (v.equals(btn_more)) {
 			if (popupWindow == null || !popupWindow.isShowing()) {
-				View view = LayoutInflater.from(context).inflate(
+				View view = LayoutInflater.from(mContext).inflate(
 						R.layout.popmenu, null);
 				RelativeLayout myBill = (RelativeLayout) view.findViewById(R.id.mybill);
 				RelativeLayout exitLogin = (RelativeLayout) view.findViewById(R.id.exit_login);
@@ -333,7 +326,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 						if (Contant.ISLOGIN) {
 							showExitLoginDialog();
 						} else {
-							Intent intent = new Intent(context, LoginActivity.class);
+							Intent intent = new Intent(mContext, LoginActivity.class);
 							startActivity(intent);
 							
 						}
@@ -347,7 +340,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 					public void onClick(View arg0) {
 						// TODO Auto-generated method stub
 						Log.d("popwindow=============", "in");
-						Intent intent = new Intent(context, BillListActivity.class);
+						Intent intent = new Intent(mContext, BillListActivity.class);
 						startActivity(intent); 
 						popupWindow.dismiss();
 						popupWindow = null;
@@ -365,7 +358,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			}
 		}
 		else if (v.equals(btn_home)) {
-			MainActivity.startIntentClearTop(context, null);
+			MainActivity.startIntentClearTop(mContext, null);
 			RegistActivity.this.finish();
 		}
 	}
@@ -382,14 +375,14 @@ public class RegistActivity extends Activity implements OnClickListener {
 
 		@Override
 		public void onFinish() {
-			btn_getSMS.setText(context.getResources().getString(R.string.get_yanzheng_code));
+			btn_getSMS.setText(mContext.getResources().getString(R.string.get_yanzheng_code));
 			btn_getSMS.setEnabled(true);
-			btn_getSMS.setTextColor(context.getResources().getColor(R.color.text_selector));
+			btn_getSMS.setTextColor(mContext.getResources().getColor(R.color.text_selector));
 		}
 
 		@Override
 		public void onTick(long millisUntilFinished) {
-			btn_getSMS.setText(context.getResources()
+			btn_getSMS.setText(mContext.getResources()
 					.getString(R.string.time_countdown, millisUntilFinished / 1000));
 		}
 	}
@@ -405,7 +398,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 			e1.printStackTrace();
 		}*/
 		String smsStr = "http://" + Contant.SERVER_IP + "/Mobile/common/GetRandCode.ashx?para={\"cell\":\"" + phone + "\"}";
-		threadSMS = new RequestServerThread(smsStr, smsResultHandler, context, Contant.FLAG_GETSMS);
+		threadSMS = new RequestServerThread(smsStr, smsResultHandler, mContext, Contant.FLAG_GETSMS);
 	}
 	
 	private void showDialog() {
@@ -418,7 +411,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						// TODO Auto-generated method stub
-						Intent intent = new Intent(context, LoginActivity.class);
+						Intent intent = new Intent(mContext, LoginActivity.class);
 						startActivity(intent);
 						RegistActivity.this.finish();
 						//BookTableActivity.this.finish();
@@ -451,7 +444,7 @@ public class RegistActivity extends Activity implements OnClickListener {
 						Intent intent1 = new Intent();
 						intent1.setAction("login");
 						sendBroadcast(intent1);
-						Toast.makeText(context, "成功退出登录", Toast.LENGTH_SHORT)
+						Toast.makeText(mContext, "成功退出登录", Toast.LENGTH_SHORT)
 								.show();
 					}
 				})
@@ -487,6 +480,10 @@ public class RegistActivity extends Activity implements OnClickListener {
 	public static void startActivity(Context context) {
 		Intent intent = new Intent(context, RegistActivity.class);
 		context.startActivity(intent);
+	}
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		return true;
 	}
 
 }

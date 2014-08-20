@@ -68,7 +68,6 @@
 		    android:layout_height="wrap_content"
 		    android:text="桌"
 		    android:textColor="@color/textColor"
-		    android:layout_marginRight="5dip"
 		    android:textSize="14dip" />
         </LinearLayout>
         <LinearLayout
@@ -154,7 +153,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dip"
-                android:layout_marginRight="20dip"
                 android:textColor="@color/small_textColor"
                 android:text="地址"
                 android:singleLine="true" />
@@ -165,7 +163,6 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="20dip"
                 android:visibility="gone" >
 
                 <TextView

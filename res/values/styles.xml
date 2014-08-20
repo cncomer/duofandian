@@ -48,7 +48,6 @@
         <item name="background">@color/wt</item>
         <item name="android:background">@color/wt</item>
     </style>
-    
     <style name="MainActivityTextAppearance">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
@@ -57,6 +56,10 @@
     <style name="AppActionBar.BlueTitleBar">
         <item name="titleTextStyle">@style/ActionBarBlueTitle</item>
         <item name="android:titleTextStyle">@style/ActionBarBlueTitle</item>
+    </style>
+    <style name="AppActionBar.BlueTitleBar.GrayBar">
+        <item name="background">@color/top_bottom</item>
+        <item name="android:background">@color/top_bottom</item>
     </style>
     <style name="ActionBarBlueTitle" parent="TextAppearance.Sherlock.Widget.ActionBar.Title">
          <item name="android:textSize">@dimen/action_bar_title_text_size</item>

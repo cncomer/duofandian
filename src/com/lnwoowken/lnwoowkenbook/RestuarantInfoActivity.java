@@ -16,7 +16,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -31,7 +30,6 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -39,13 +37,12 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
@@ -58,7 +55,7 @@ import com.lnwoowken.lnwoowkenbook.tools.Tools;
  * 餐厅详情
  *
  */
-public class RestuarantInfoActivity extends Activity {
+public class RestuarantInfoActivity extends BaseActionbarActivity implements View.OnClickListener{
 	private Button btn_chooseFood;
 	private List<ShopInfoObject> mShopList;
 	private List<StoreInfo> shopid;
@@ -69,10 +66,8 @@ public class RestuarantInfoActivity extends Activity {
 	private Bitmap bitmap = null;
 	ProgressDialog dialog = null;
 	private RequestOtherShopThread mThread;
-	private PopupWindow popupWindow;
 	ShopInfoObject mShopInfoObject;
 	private Button btn_chooseTable;// --进入选桌界面的按钮
-	private Button btn_back;//--返回上一页
 	private Intent intent;
 	private String mShopId;
 	private ImageView shopImg;
@@ -81,51 +76,16 @@ public class RestuarantInfoActivity extends Activity {
 	private TextView textView_price;//--人均消费
 	private TextView textView_address;//--餐厅地址
 	private TextView textView_phone;//--联系电话
-	private Button btn_home;//--返回主界面
-	private Button btn_more;//--“更多”按钮
-	private Button btnTittle;;
 	private Context context = RestuarantInfoActivity.this;
 
 	// CalendarView calendar;
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_restuarant_info);
-
 		initialize();
 
 	}
-
-	@SuppressWarnings("unused")
-	private static String Md5(String plainText) {
-		String result = "";
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(plainText.getBytes());
-			byte b[] = md.digest();
-
-			int i;
-
-			StringBuffer buf = new StringBuffer("");
-			for (int offset = 0; offset < b.length; offset++) {
-				i = b[offset];
-				if (i < 0)
-					i += 256;
-				if (i < 16)
-					buf.append("0");
-				buf.append(Integer.toHexString(i));
-			}
-
-			result = buf.toString();
-			Log.d("32", buf.toString());
-			Log.d("16", buf.toString().substring(8, 24));
-
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
 
 
 	@SuppressWarnings({ "deprecation", "unused" })
@@ -141,24 +101,6 @@ public class RestuarantInfoActivity extends Activity {
 		l2.setMargins(0, 0, 0, 0);
 		shopImg.setLayoutParams(l2);
 
-		
-
-//		String[] mItems = new String[]{"其他分店"};
-//		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.simple_spinner_item);
-//		//String level[] = getResources().getStringArray(R.array.affair_level);//资源文件
-//		for (int i = 0; i < mItems.length; i++) {
-//		adapter.add(mItems[i]);
-//		}
-//		adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-//		spinnerShop.setAdapter(adapter);
-		
-//		spinnerShop = (Spinner) findViewById(R.id.textView1);
-//
-//		String[] mItems = new String[]{"其他分店"};
-//
-//		ArrayAdapter<String> _Adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, mItems);
-//
-//		spinnerShop.setAdapter(_Adapter);
 
 		textView_price = (TextView) findViewById(R.id.textView_price);
 
@@ -174,13 +116,6 @@ public class RestuarantInfoActivity extends Activity {
 			textView_price.setText(price);
 			updateShotcutImage();
 		}
-		btn_back = (Button) findViewById(R.id.button_back);
-		btn_back.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				RestuarantInfoActivity.this.finish();
-			}
-		});
 		btn_chooseFood = (Button) findViewById(R.id.imageButton_pickfood);
 		btn_chooseFood.setOnClickListener(new OnClickListener() {
 			@Override
@@ -196,18 +131,6 @@ public class RestuarantInfoActivity extends Activity {
 				Intent intent = new Intent(RestuarantInfoActivity.this, BookTableActivity.class);
 				intent.putExtra("shop_id", mShopInfoObject.getShopID());
 				startActivity(intent);
-				
-//				if (Contant.ISLOGIN) {
-//					if (shopId != 0) {
-//
-//						Intent intent = new Intent(RestuarantInfoActivity.this,
-//								BookTableActivity.class);
-//						intent.putExtra("shopId", shopId);
-//						startActivity(intent);
-//					}
-//				} else {
-//					showDialog();
-//				}
 
 			}
 		});
@@ -218,69 +141,6 @@ public class RestuarantInfoActivity extends Activity {
 			textView_phone.setText(mShopInfoObject.getShopContactsPhone());
 			textView_info.setText(mShopInfoObject.getShopBrief());
 		}
-		btn_more = (Button) findViewById(R.id.button_more);
-		btn_more.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if (popupWindow == null || !popupWindow.isShowing()) {
-					View view = LayoutInflater.from(context).inflate(
-							R.layout.popmenu, null);
-					RelativeLayout myBill = (RelativeLayout) view.findViewById(R.id.mybill);
-					RelativeLayout exitLogin = (RelativeLayout) view.findViewById(R.id.exit_login);
-					exitLogin.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							if (Contant.ISLOGIN) {
-								showExitLoginDialog();
-							} else {
-								Intent intent = new Intent(context, LoginActivity.class);
-								startActivity(intent);
-								
-							}
-							popupWindow.dismiss();
-							popupWindow = null;
-						}
-					});
-					myBill.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View arg0) {
-							Log.d("popwindow=============", "in");
-							Intent intent = new Intent(context, BillListActivity.class);
-							startActivity(intent); 
-							popupWindow.dismiss();
-							popupWindow = null;
-						}
-					});
-					popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
-							LayoutParams.WRAP_CONTENT);
-					popupWindow.showAsDropDown(v, 10, 10);
-					// 使其聚集
-					// popupWindow.setFocusable(true);
-					// 设置允许在外点击消失
-					// popupWindow.setOutsideTouchable(true);
-					// 刷新状态（必须刷新否则无效）
-					popupWindow.update();
-				} else {
-					popupWindow.dismiss();
-					popupWindow = null;
-				}
-			}
-		});
-		btn_home = (Button) findViewById(R.id.button_home);
-		btn_home.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				MainActivity.startIntentClearTop(context, null);
-				RestuarantInfoActivity.this.finish();
-			}
-		});
-		/*mThread = new RequestOtherShopThread();
-		Message msg = new Message();
-		handler.sendMessage(msg);*/
 	}
 
 	private void updateShotcutImage() {
@@ -290,90 +150,6 @@ public class RestuarantInfoActivity extends Activity {
 		if(!TextUtils.isEmpty(mShopInfoObject.getShopMaiDian())) findViewById(R.id.imageView_mai).setVisibility(View.VISIBLE);
 		
 	}
-
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			RestuarantInfoActivity.this.finish();
-		}
-		return super.onKeyDown(keyCode, event);
-	}
-
-	@SuppressWarnings("unused")
-	private void showDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("提示")
-				.setMessage("您还没有登录,请先登录")
-				.
-				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Intent intent = new Intent(context, LoginActivity.class);
-						startActivity(intent);
-
-						RestuarantInfoActivity.this.finish();
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).
-
-				create();
-		alertDialog.show();
-	}
-
-	
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (popupWindow != null && popupWindow.isShowing()) {
-
-			popupWindow.dismiss();
-
-			popupWindow = null;
-
-		}
-
-		return super.onTouchEvent(event);
-
-	}
-	
-	private void showExitLoginDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("提示")
-				.setMessage("您已经登录,是否要退出重新登录?")
-				.
-				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Contant.ISLOGIN = false;
-						Contant.USER = null;
-						Intent intent1 = new Intent();
-						intent1.setAction("login");
-						sendBroadcast(intent1);
-						Toast.makeText(context, "成功退出登录", Toast.LENGTH_SHORT)
-								.show();
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).
-
-				create();
-		alertDialog.show();
-	}
-	
-	
-	
 	
 	private Handler handler = new Handler() {
 
@@ -608,6 +384,17 @@ public class RestuarantInfoActivity extends Activity {
 		}
 		intent.putExtras(bundle);
 		context.startActivity(intent);
+	}
+
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		return true;
 	}
 	
 }
