@@ -17,12 +17,13 @@ public class MyCount extends CountDownTimer{
     public void onTick(long millisUntilFinished) {  
         Date date = new Date(millisUntilFinished);  
         SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");  
-        String str = sdf.format(date);  
+        String str = sdf.format(date);
+		str = str.substring(str.indexOf(":") + 1);
         System.out.println(str);  
-        tv.setText(str);  
+        tv.setText("倒计时" + str + "秒");  
     }  
     @Override  
     public void onFinish() {  
-        tv.setText("finish");  
+        tv.setText("结束");
     }  
 }

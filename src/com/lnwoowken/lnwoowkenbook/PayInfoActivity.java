@@ -25,16 +25,15 @@ import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
 import com.lnwoowken.lnwoowkenbook.tools.MyCount;
-import com.umpay.creditcard.android.UmpayActivity;
 import com.unionpay.UPPayAssistEx;
 import com.unionpay.uppay.PayActivity;
 
 public class PayInfoActivity extends Activity {
+	private static final String TAG = "PayInfoActivity";
 	private boolean isAgree;
 	private MyCount mc;
 	private TextView tv;
 	private Context context = PayInfoActivity.this;
-	private Intent intent;
 	private int price;
 	private TextView textView_price;
 	private TextView textView_needpay;
@@ -85,8 +84,6 @@ public class PayInfoActivity extends Activity {
 		btn_commit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-//				Message msg = new Message();
-//				payHandler.sendMessage(msg);
 				if (isAgree) {
 					if (!TextUtils.isEmpty(tNumber)) {
 						pay(tNumber);
@@ -96,16 +93,13 @@ public class PayInfoActivity extends Activity {
 				} else {
 					Toast.makeText(context, "您还没有选择支付方式", Toast.LENGTH_SHORT).show();
 				}
-				
 			}
 		});
 		btn_back = (Button) findViewById(R.id.button_back);
 		btn_back.setOnClickListener(new OnClickListener() {
-
 			@Override
 			public void onClick(View v) {
 				PayInfoActivity.this.finish();
-				
 			}
 		});
 		radioUpmp = (RadioButton) findViewById(R.id.radioButton_upmp);
@@ -114,12 +108,10 @@ public class PayInfoActivity extends Activity {
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 				isAgree = arg1;
 				if (arg1) {
-//					final Dialog dialog = new MyDialog(BookTableActivity.this,
-//							R.style.MyDialog);
-//
+//					final Dialog dialog = new MyDialog(BookTableActivity.this, R.style.MyDialog);
 //					dialog.show();
 				}
-				Log.d("isAgree================", isAgree+"");
+				Log.d(TAG, isAgree+"");
 			}
 		});
 	}
@@ -131,16 +123,6 @@ public class PayInfoActivity extends Activity {
 			PayInfoActivity.this.finish();
 		}
 		return super.onKeyDown(keyCode, event);
-	}
-
-	private void startSdkToPay(String tradNo, int payType) {
-		// 跳转到SDK页面
-		// 将输入的参数传入Activity
-		Intent intent = new Intent();
-		intent.putExtra("tradeNo", tradNo);
-		intent.putExtra("payType", payType);
-		intent.setClass(PayInfoActivity.this, UmpayActivity.class);
-		startActivityForResult(intent, requestCode);
 	}
 
 	public static boolean checkApkExist(Context context, String packageName) {
@@ -164,7 +146,7 @@ public class PayInfoActivity extends Activity {
 			return;
 		}
 		String str = data.getExtras().getString("pay_result");
-		Log.d("onActivityResult==============", str);
+		Log.d(TAG, str);
 		if (str.equalsIgnoreCase("success")) {
 			if (mc!=null) {
 				mc.cancel();
@@ -206,10 +188,7 @@ public class PayInfoActivity extends Activity {
 	}
 
 	private void pay(String tn) {
-		Activity a = PayInfoActivity.this;
-		//UPPayAssistEx.startPay(a, null, null, tn, "01");
-		UPPayAssistEx.startPayByJAR(a, PayActivity.class, null, null, tn, "00");
-		//UPPayAssistEx.startPayByJAR(a, PayActivity.class, null, null, tn, "01");
+		UPPayAssistEx.startPayByJAR((Activity)PayInfoActivity.this, PayActivity.class, null, null, tn, "00");
 	}
 
 }

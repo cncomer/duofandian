@@ -76,9 +76,7 @@ public class CommitActivity extends Activity {
 	private TextView textView_seat;
 	private TextView textView_money;
 	private TextView textView_agree;
-	private List<BookTime> time_list;
 	private Button btn_commit;
-	private float price_service;
 	private PayInfoData parcelableData;
 	private RadioButton radioButton_agree;
 	private Dialog dialog;
@@ -89,148 +87,6 @@ public class CommitActivity extends Activity {
 		setContentView(R.layout.activity_bill);
 		initialize();
 	}
-	
-	private void createBill() {
-		if (MyAccountManager.getInstance().hasLoginned()) {
-			String jsonStr = "{\"uid\":\"" + MyAccountManager.getInstance().getCurrentAccountUid() + "\",\"sid\":\""
-					+ mShopId + "\",\"tid\":\"" + tableId + "\",\"rprice\":\""
-					+ parcelableData.getRprice() + "\",\"sprice\":\""
-					+ parcelableData.getSprice() + "\",\"dtimeid\":\""
-					+ parcelableData.getDtimeid() + "\",\"sttid\":\""
-					+ parcelableData.getSttid() + "\",\"content\":\""
-					+ parcelableData.getContent() + "\",\"secid\":\""
-					+ parcelableData.getSecid() + "\"" + "}";
-
-			jsonStr = Client.encodeBase64(jsonStr);
-			String str = Tools.getRequestStr(Contant.SERVER_IP,
-					Contant.SERVER_PORT + "", "Reserve?id=", "Rl3", "&op="
-							+ jsonStr);
-			Log.d(TAG, " str = " + str);
-			String result = Client.executeHttpGetAndCheckNet(str,
-					CommitActivity.this);
-
-			Log.d(TAG, "result = " + result);
-			if (result != null) {
-				// Toast.makeText(BookTableActivity.this,
-				// result,Toast.LENGTH_LONG).show();
-			}
-
-			result = Client.decodeBase64(result);
-
-			if (result != null) {
-				// if (JsonParser.checkError(result)) {
-				// Toast.makeText(PayInfoActivity.this, "支付时遇到问题\n错误代码"+result,
-				// Toast.LENGTH_LONG).show();
-				// }
-				// else {
-				// Toast.makeText(PayInfoActivity.this, result,
-				// Toast.LENGTH_LONG).show();
-				// Log.d("pay", str);
-				// Log.d("pay", result);
-				// List<PayInfo> payList = JsonParser.parsePayInfoJson(result);
-				// PayInfo pay = payList.get(0);
-				// startSdkToPay(pay.gettNumber(), 9);
-				// }
-				Log.d("pay()=============", result);
-				if (JsonParser.checkError(result)) {
-					//Log.d("checkError()=============", result);
-				}
-				else {
-					payId = JsonParser.parsePayNumberJson(result);
-					getTnumber(payId);
-				}
-			}
-		} else {
-			showLoginDialog();
-		}
-
-	}
-	
-	private String getTnumber(String pid) {
-		// String resultJson = null;
-		// String strId =
-		// "{\"id\":\""+Contant.UPMPPAY+"\",\"vd\":\"0\",\"vc\":\"0\"}";
-		// String opJson = "{\"pid\":\""
-		// +pid + "\",\"pp\":\""
-		// + price + "\"}";
-		// opJson = Client.encodeBase64(opJson);
-		// String url = "http://" + Contant.SERVER_IP + ":"+ Contant.SERVER_PORT
-		// + "/javadill/pay";
-		//
-		// List <NameValuePair> params=new ArrayList<NameValuePair>();
-		// params.add(new BasicNameValuePair("id",strId));
-		// params.add(new BasicNameValuePair("op",opJson));
-		// try {
-		// resultJson = Client.doPost(params, url);
-		// if (resultJson != null) {
-		//
-		// Log.d("getTnumber=============", resultJson);
-		// // JsonParser.parseShopInfoJson(resultJson,Contant.SHOP_LIST.get(i));
-		//
-		// }
-		// //Log.d("version=============", resultJson);
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-
-		String resultJson;
-		String opJson = "{\"pid\":\"" + pid + "\",\"pp\":\"" + 0.01 + "\"}";
-		opJson = Client.encodeBase64(opJson);
-		String str = Tools.getRequestStr(Contant.SERVER_IP, Contant.SERVER_PORT
-				+ "", "pay?id=", Contant.UPMPPAY, "&op=" + opJson);
-		resultJson = Client.executeHttpGetAndCheckNet(str, CommitActivity.this);
-		resultJson = Client.decodeBase64(resultJson);
-
-		if (resultJson != null) {
-
-		//	Log.d("getTnumber=============", resultJson);
-			tNumber = JsonParser.parseTradeNumberJson(resultJson);
-			// if (tNumber!=null&&!tNumber.equals("")) {
-			// if (checkApkExist(context, "com.unionpay.uppay")) {
-			//
-			// }
-			// else {
-			// //retrieveApkFromAssets(context, srcfileName, desFileName)
-			// }
-			// }
-			
-			Intent intent = new Intent(CommitActivity.this, PayInfoActivity.class);
-			Bundle bundle = new Bundle();  
-			bundle.putString("MyString", "test bundle");  
-			bundle.putParcelable("PayData", parcelableData); 
-			bundle.putString("tNumber", tNumber);
-			intent.putExtras(bundle);  
-			startActivity(intent);
-			CommitActivity.this.finish();
-			
-			
-			//pay(tNumber);
-			
-			// JsonParser.parseShopInfoJson(resultJson,Contant.SHOP_LIST.get(i));
-		}
-		return resultJson;
-	}
-	
-	public class RequestPayInfoThread extends Thread {
-
-		@Override
-		public void run() {
-			super.run();
-			if (MyAccountManager.getInstance().hasLoginned()) {
-				createBill();
-			} else {
-				showLoginDialog();
-			}
-		}
-	}
-	private Handler payHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			RequestPayInfoThread payThread = new RequestPayInfoThread();
-			payThread.run();
-		}
-	};
 	
 	private void initialize(){
 		Bundle bundle = getIntent().getExtras();  
@@ -262,14 +118,6 @@ public class CommitActivity extends Activity {
 		textView_money.setText(mPriceTotal + "");
 		
 		radioButton_agree = (RadioButton) findViewById(R.id.radioButton_agree);
-		/*radioButton_agree.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-				if (arg1) {
-					showProtocolDialog();
-				}
-			}
-		});*/
 		textView_agree.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -279,12 +127,10 @@ public class CommitActivity extends Activity {
 		radioButton_agree.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(radioButton_agree.isChecked()) {
-					
+				if (radioButton_agree.isChecked()) {
 				}
 			}
 		});
-
 		editText_name = (EditText) findViewById(R.id.editText_name);
 		editText_phoneNum = (EditText) findViewById(R.id.editText_phone_number);
 		checkBox_default = (CheckBox) findViewById(R.id.checkBox_default);
@@ -293,31 +139,25 @@ public class CommitActivity extends Activity {
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (checkBox_default.isChecked()) {
 					checkBox_others.setChecked(false);
-					//checkBox_default.refreshDrawableState();
 					editText_name.setEnabled(false);
 					editText_phoneNum.setEnabled(false);
 				}
 			}
 		});
 		
-		
 		checkBox_others = (CheckBox) findViewById(R.id.checkBox_for_other);
 		checkBox_others.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (
-					checkBox_others.isChecked()) {
+				if (checkBox_others.isChecked()) {
 					checkBox_default.setChecked(false);
 					editText_name.setEnabled(true);
 					editText_phoneNum.setEnabled(true);
-					//checkBox_default.refreshDrawableState();
-				}
-				else {
+				} else {
 					editText_name.setEnabled(false);
 					editText_phoneNum.setEnabled(false);
 				}
 			}
-			
 		});
 		checkBox_default.setChecked(true);
 		btn_commit = (Button) findViewById(R.id.button_commit);
@@ -325,8 +165,6 @@ public class CommitActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				if(radioButton_agree.isChecked()) {
-					//Message msg = new Message();
-					//payHandler.sendMessage(msg);
 					createBillAsyncTask();
 				} else {
 					MyApplication.getInstance().showMessage(R.string.agree_protocal_tips);
@@ -383,32 +221,6 @@ public class CommitActivity extends Activity {
 		return super.onKeyDown(keyCode, event);
 	}
 	
-	private void showLoginDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("提示")
-				.setMessage("您还没有登录,请先登录")
-				.
-				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Intent intent = new Intent(context, LoginActivity.class);
-						startActivity(intent);
-
-						CommitActivity.this.finish();
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).create();
-		alertDialog.show();
-	}
-	
-	
-
 	private CreateBillAsyncTask mCreateBillAsyncTask;
 	private void createBillAsyncTask(String... param) {
 		showProgressDialog();
@@ -465,7 +277,6 @@ public class CommitActivity extends Activity {
 			dismissProgressDialog();
 		}
 	}
-	
 
 	private void dismissProgressDialog(){
 		if(dialog != null && dialog.isShowing()) {
