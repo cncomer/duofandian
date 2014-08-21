@@ -156,7 +156,7 @@ public class MyAccountManager {
     }
     
     public String getAccountName() {
-    	if (TextUtils.isEmpty(mAccountObject.mAccountName)) {
+    	if (!TextUtils.isEmpty(mAccountObject.mAccountName)) {
     		return mAccountObject.mAccountName;
     	}
     	return mContext.getString(R.string.title_member_name);
