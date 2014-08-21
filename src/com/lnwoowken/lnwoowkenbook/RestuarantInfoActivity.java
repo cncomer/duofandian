@@ -55,7 +55,7 @@ import com.lnwoowken.lnwoowkenbook.tools.Tools;
  * 餐厅详情
  *
  */
-public class RestuarantInfoActivity extends BaseActionbarActivity implements View.OnClickListener{
+public class RestuarantInfoActivity extends BaseActionbarActivity {
 	private Button btn_chooseFood;
 	private List<ShopInfoObject> mShopList;
 	private List<StoreInfo> shopid;
@@ -388,7 +388,11 @@ public class RestuarantInfoActivity extends BaseActionbarActivity implements Vie
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
+		switch(v.getId()) {
+		default:
+			super.onClick(v);
+		}
+	
 		
 	}
 

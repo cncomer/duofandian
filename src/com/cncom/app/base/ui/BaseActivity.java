@@ -64,9 +64,9 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 			mContent = (FrameLayout) super.findViewById(R.id.cncom_content);
 			mHomeBtn = (ImageView) super.findViewById(R.id.cncom_button_home);
 			mBackBtn = (ImageView) super.findViewById(R.id.cncom_button_back);
-			
-			mHomeBtn.setOnClickListener(this);
-			mBackBtn.setOnClickListener(this);
+			mTitleView.setText(getTitle());
+			mHomeBtn.setOnClickListener(BaseActivity.this);
+			mBackBtn.setOnClickListener(BaseActivity.this);
 		}
 		
 		

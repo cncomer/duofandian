@@ -52,7 +52,7 @@ import com.shwy.bestjoy.utils.NetworkUtils;
  * @author chs
  * 
  */
-public class RestaurantListActivity extends BaseActionbarActivity implements OnClickListener {
+public class RestaurantListActivity extends BaseActionbarActivity {
 	private static final String TAG = "RestaurantListActivity";
 	private AnimationDrawable draw;
     private	LinearLayout progress;
@@ -174,6 +174,8 @@ public class RestaurantListActivity extends BaseActionbarActivity implements OnC
 		case R.id.button_sort:
 			TabHostActivity.startActivity(mContext);
 			break;
+		default:
+			super.onClick(v);
 		}
 	}
 
@@ -373,6 +375,7 @@ public class RestaurantListActivity extends BaseActionbarActivity implements OnC
 			mShopListView.onRefreshComplete();
 			mShopListAdapter.initShopList(mShopsList);
 			mLoadState = STATE_FREASH_COMPLETE;
+			mShopListView.setSelection(0);
 			DebugUtils.logD(TAG, "huasong onPostExecute onLoadMoreComplete");
 		}
 

@@ -79,7 +79,7 @@ public abstract class BaseActionbarActivity extends SherlockFragmentActivity imp
 			mContent = (FrameLayout) super.findViewById(R.id.cncom_content);
 			mHomeBtn = (ImageView) super.findViewById(R.id.cncom_button_home);
 			mBackBtn = (ImageView) super.findViewById(R.id.cncom_button_back);
-			
+			mTitleView.setText(getTitle());
 			mHomeBtn.setOnClickListener(this);
 			mBackBtn.setOnClickListener(this);
 		}

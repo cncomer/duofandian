@@ -21,7 +21,7 @@ import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 
-public class UserInfoActivity extends BaseActionbarActivity implements OnClickListener {
+public class UserInfoActivity extends BaseActionbarActivity{
 	// private Button btn_regist;
 	// private Context context = UserInfoActivity.this;
 	private TextView userName;
@@ -89,6 +89,7 @@ public class UserInfoActivity extends BaseActionbarActivity implements OnClickLi
 		if (v.equals(r6)) {
 			Toast.makeText(UserInfoActivity.this, text, 1).show();
 		}
+		super.onClick(v);
 	}
 
 	@Override

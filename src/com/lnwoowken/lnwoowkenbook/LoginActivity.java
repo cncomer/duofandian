@@ -26,7 +26,7 @@ import com.shwy.bestjoy.utils.AsyncTaskUtils;
 import com.shwy.bestjoy.utils.ComConnectivityManager;
 import com.shwy.bestjoy.utils.NetworkUtils;
 
-public class LoginActivity extends BaseActionbarActivity implements OnClickListener {
+public class LoginActivity extends BaseActionbarActivity {
 	private static final String TAG = "LoginActivity";
 	private EditText editText_uid;
 	private EditText editText_pwd;
@@ -80,7 +80,10 @@ public class LoginActivity extends BaseActionbarActivity implements OnClickListe
 				}
 			}
 			break;
+			default:
+				super.onClick(v);
 		}
+		
 	}
 	private FidnPasswordTask mFidnPasswordTask;
 	private void findPasswordAsync() {

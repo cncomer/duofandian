@@ -43,8 +43,7 @@ import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
 import com.shwy.bestjoy.utils.SecurityUtils;
 
 @SuppressLint("HandlerLeak")
-public class RegistActivity extends BaseActionbarActivity implements OnClickListener {
-	private PopupWindow popupWindow;
+public class RegistActivity extends BaseActionbarActivity{
 	private long num;// = Tools.getRandomNum();
 	private long pwd;// = Tools.getRandomNum();
 	private Button btn_regist;
@@ -62,7 +61,6 @@ public class RegistActivity extends BaseActionbarActivity implements OnClickList
 	private EditText niname;
 	private EditText password;
 	private EditText editText_pwd_confirm;
-	private Button btn_more;
 	private AccountObject mAccountObject;
 	private static final int TIME_COUNDOWN = 120000;
 	private String mYanZhengCodeFromServer;
@@ -283,8 +281,8 @@ public class RegistActivity extends BaseActionbarActivity implements OnClickList
 	}
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		if (v.equals(btn_regist)) {
+		switch(v.getId()) {
+		case R.id.button_regist:
 			Log.d("regist==============", "onclick");			
 			if(checkInput()) {
 				//para={"cell":"18621951097","pwd":"wangkun","nickname":"kun","email":"369319633@qq.com"}
@@ -294,8 +292,8 @@ public class RegistActivity extends BaseActionbarActivity implements OnClickList
 				Message msg = new Message();
 				handler.sendMessage(msg);
 			}	
-		}
-		else if (v.equals(btn_getSMS)) {
+			break;
+		case R.id.button_getSMS:
 			String phone = name.getText().toString().trim();
 			if (!TextUtils.isEmpty(phone)) {
 				getSMS(phone);
@@ -307,60 +305,12 @@ public class RegistActivity extends BaseActionbarActivity implements OnClickList
 			} else {
 				Toast.makeText(mContext, "用户名不能为空", Toast.LENGTH_SHORT).show();
 			}
-			
+			break;
+			default:
+				super.onClick(v);
 		}
-		else if (v.equals(btn_back)) {
-			RegistActivity.this.finish();
-		}
-		else if (v.equals(btn_more)) {
-			if (popupWindow == null || !popupWindow.isShowing()) {
-				View view = LayoutInflater.from(mContext).inflate(
-						R.layout.popmenu, null);
-				RelativeLayout myBill = (RelativeLayout) view.findViewById(R.id.mybill);
-				RelativeLayout exitLogin = (RelativeLayout) view.findViewById(R.id.exit_login);
-				exitLogin.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						if (Contant.ISLOGIN) {
-							showExitLoginDialog();
-						} else {
-							Intent intent = new Intent(mContext, LoginActivity.class);
-							startActivity(intent);
-							
-						}
-						popupWindow.dismiss();
-						popupWindow = null;
-					}
-				});
-				myBill.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View arg0) {
-						// TODO Auto-generated method stub
-						Log.d("popwindow=============", "in");
-						Intent intent = new Intent(mContext, BillListActivity.class);
-						startActivity(intent); 
-						popupWindow.dismiss();
-						popupWindow = null;
-					}
-				});
-				popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
-						LayoutParams.WRAP_CONTENT);
-				popupWindow.showAsDropDown(v, 10, 10);
-				// 使其聚集
-				// popupWindow.setFocusable(true);
-				// 设置允许在外点击消失
-				// popupWindow.setOutsideTouchable(true);
-				// 刷新状态（必须刷新否则无效）
-				popupWindow.update();
-			}
-		}
-		else if (v.equals(btn_home)) {
-			MainActivity.startIntentClearTop(mContext, null);
-			RegistActivity.this.finish();
-		}
+		
+		
 	}
 	private void doTimeCountDown() {
 		new TimeCount(TIME_COUNDOWN, 1000).start();
@@ -426,55 +376,6 @@ public class RegistActivity extends BaseActionbarActivity implements OnClickList
 
 				create();
 		alertDialog.show();
-	}
-	
-	private void showExitLoginDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("提示")
-				.setMessage("您已经登录,是否要退出重新登录?")
-				.
-				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						Contant.ISLOGIN = false;
-						Contant.USER = null;
-						Intent intent1 = new Intent();
-						intent1.setAction("login");
-						sendBroadcast(intent1);
-						Toast.makeText(mContext, "成功退出登录", Toast.LENGTH_SHORT)
-								.show();
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-					}
-				}).
-
-				create();
-		alertDialog.show();
-	}
-	
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-
-		// TODO Auto-generated method stub
-
-		if (popupWindow != null && popupWindow.isShowing()) {
-
-			popupWindow.dismiss();
-
-			popupWindow = null;
-
-		}
-
-		return super.onTouchEvent(event);
-
 	}
 	
 	public static void startActivity(Context context) {
