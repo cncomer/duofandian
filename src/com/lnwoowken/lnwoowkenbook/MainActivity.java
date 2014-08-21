@@ -97,6 +97,10 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 		
 	}
 	
+	protected boolean showActinBar() {
+		return true;
+	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();

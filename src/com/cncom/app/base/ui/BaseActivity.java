@@ -11,8 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,9 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.lnwoowken.lnwoowkenbook.MainActivity;
 import com.lnwoowken.lnwoowkenbook.MyApplication;
 import com.lnwoowken.lnwoowkenbook.R;
@@ -32,8 +27,8 @@ import com.shwy.bestjoy.utils.ImageHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
-public abstract class BaseActionbarActivity extends SherlockFragmentActivity implements View.OnClickListener{
-	private static final String TAG = "BaseActionbarActivity";
+public abstract class BaseActivity extends Activity implements View.OnClickListener{
+	private static final String TAG = "BaseActivity";
 
 	private static final int CurrentPictureGalleryRequest = 11000;
 	private static final int CurrentPictureCameraRequest = 11001;
@@ -45,8 +40,6 @@ public abstract class BaseActionbarActivity extends SherlockFragmentActivity imp
 	private LinearLayout mTitleBar;
 	private FrameLayout mTitleLayout;
 	private FrameLayout mContent;
-	/**对于指定了NoActionBar的主题，这个变量为false,也就是没有ActionBar的特性*/
-	private boolean mHasActionBar = false;
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -59,14 +52,6 @@ public abstract class BaseActionbarActivity extends SherlockFragmentActivity imp
 		mContext = this;
 		//统计应用启动数据
 		PushAgent.getInstance(mContext).onAppStart();
-		if (getSupportActionBar() != null) {
-			mHasActionBar = true;
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			getSupportActionBar().setDisplayShowHomeEnabled(false);
-			if (!showActinBar()) {
-				getSupportActionBar().hide();
-			}
-		}
 		
 	}
 	//add by chenkai, 兼容ActionBar和自定义的居中TitleBar on
@@ -88,23 +73,10 @@ public abstract class BaseActionbarActivity extends SherlockFragmentActivity imp
 	}
 	@Override
 	public void setContentView(int layoutResId) {
-		if (showActinBar() && mHasActionBar) {
-			super.setContentView(layoutResId);
-		} else {
-			initTitleBar();
-			LayoutInflater.from(mContext).inflate(layoutResId, mContent, true);
-		}
+		initTitleBar();
+		LayoutInflater.from(mContext).inflate(layoutResId, mContent, true);
 	}
 	
-	@Override
-	public View findViewById(int id) {
-		if (showActinBar() && mHasActionBar) {
-			return super.findViewById(id);
-		} else {
-			return mContent.findViewById(id);
-		}
-		
-	}
 	@Override
 	public void setTitle(int titleId) {
 		setTitle(getString(titleId));
@@ -115,7 +87,6 @@ public abstract class BaseActionbarActivity extends SherlockFragmentActivity imp
 		mTitleView.setText(title);
 		super.setTitle(title);
     }
-    
     /**返回TitleBar*/
     public View getTitleBar() {
     	return mTitleBar;
@@ -124,20 +95,11 @@ public abstract class BaseActionbarActivity extends SherlockFragmentActivity imp
     public View getTitleLayout() {
     	return mTitleLayout;
     }
-    
     public void setTitleColor(int textColor) {
     	initTitleBar();
 		mTitleView.setTextColor(textColor);
 		super.setTitleColor(textColor);
     }
-
-	/**
-	 * 是否显示ActionBar, 默认不显示，显示居中的TitleBar
-	 * @return
-	 */
-	protected boolean showActinBar() {
-		return false;
-	}
 	//add by chenkai, 兼容ActionBar和自定义的居中TitleBar off
 	
 	//add by chenkai, 20140726 增加youmeng统计时长 begin
@@ -301,48 +263,6 @@ public abstract class BaseActionbarActivity extends SherlockFragmentActivity imp
        protected ProgressDialog getProgressDialog() {
     	   return mProgressDialog;
        }
-       
-       @Override
-       public boolean onCreateOptionsMenu(Menu menu) {
-           return super.onCreateOptionsMenu(menu);
-       }
-       
-       @Override
-       public boolean onOptionsItemSelected(MenuItem item) {
-           switch (item.getItemId()) {
-           // Respond to the action bar's Up/Home button
-           case android.R.id.home:
-        	   Intent upIntent = NavUtils.getParentActivityIntent(this);
-        	   if (upIntent == null) {
-        		   // If we has configurated parent Activity in AndroidManifest.xml, we just finish current Activity.
-        		   finish();
-        		   return true;
-        	   }
-               if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                   // This activity is NOT part of this app's task, so create a new task
-                   // when navigating up, with a synthesized back stack.
-                   TaskStackBuilder.create(this)
-                           // Add all of this activity's parents to the back stack
-                           .addNextIntentWithParentStack(upIntent)
-                           // Navigate up to the closest parent
-                           .startActivities();
-               } else {
-                   // This activity is part of this app's task, so simply
-                   // navigate up to the logical parent activity.
-                   NavUtils.navigateUpTo(this, upIntent);
-               }
-               return true;
-               default :
-            	   return super.onOptionsItemSelected(item);
-           }
-
-       }
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		return super.onPrepareOptionsMenu(menu);
-	}
-	
 	
 	@Override
 	public void onClick(View view) {

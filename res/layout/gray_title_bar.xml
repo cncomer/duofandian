@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cncom_title_bar"
+    android:layout_width="match_parent"
+    android:layout_height="50dip"
+    android:background="@color/top_bottom"
+    android:gravity="center" >
+
+    <ImageView
+        android:id="@+id/cncom_button_back"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_marginLeft="10dip"
+        android:clickable="true"
+        android:background="@drawable/abs__activated_background_holo_light"
+        android:src="@drawable/button_back" />
+
+    <!-- 我们可以移除布局的所有views,增加我们需要的自定义title布局 -->
+
+    <FrameLayout
+        android:id="@+id/cncom_title_custom_layout"
+        android:layout_width="0dip"
+        android:layout_height="fill_parent"
+        android:layout_weight="1.0" >
+
+        <TextView
+            android:id="@+id/cncom_title"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="上海"
+            android:textColor="@color/main_color"
+            android:textSize="20sp" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/cncom_button_home"
+        android:layout_width="30dip"
+        android:layout_height="30dip"
+        android:layout_marginRight="5dip"
+        android:clickable="true"
+        android:background="@drawable/abs__activated_background_holo_light"
+        android:src="@drawable/button_home" />
+
+</LinearLayout>
