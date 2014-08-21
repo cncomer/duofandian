@@ -158,16 +158,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dip"
-                        android:layout_marginTop="13dip"
+                        android:layout_marginTop="10dip"
                         android:layout_marginBottom="13dip"
                         android:gravity="center_vertical"
                         android:id="@+id/item_myBill" >
 
-                        <ImageView
-                            android:id="@+id/imageView_myBill"
-                            android:layout_width="24dip"
-                            android:layout_height="17dip"
-                            android:background="@drawable/icon_mybill" />
+                        <RelativeLayout android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+	                        <ImageView
+	                            android:id="@+id/imageView_myBill"
+	                            android:layout_width="24dip"
+	                            android:layout_height="17dip"
+                                android:layout_marginTop="5dip"
+	                            android:background="@drawable/icon_mybill" />
+                            <ImageView
+                                android:id="@+id/imageView_myBill_tips"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="25dip"
+                                android:background="@drawable/dot_tips" />
+                        </RelativeLayout>
 
                         <TextView
                             android:id="@+id/textView_myBill"
