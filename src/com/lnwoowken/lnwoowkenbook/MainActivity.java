@@ -21,6 +21,7 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 	private MainActivityContentFragment mContent;
 	private PersonalInfoCenterFragment mMenu;
 	private Bundle mBundles;
+	private boolean mIsNeedShowContent = false;
 	/**表示是否是第一次进入*/
 	private static final String  KEY_FIRST_SHOW = "MainActivity2.first";
 	
@@ -109,6 +110,12 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 	@Override
 	public void onResume() {
 		super.onResume();
+		if (mIsNeedShowContent) {
+			mIsNeedShowContent = false;
+			if (getSlidingMenu().isMenuShowing()) {
+				getSlidingMenu().showContent();
+			}
+		}
 	}
 	
 	@Override
@@ -146,6 +153,7 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 	
 	public void onNewIntent(Intent intent){
 		super.onNewIntent(intent);
+		mIsNeedShowContent = true;
 		DebugUtils.logD(TAG, "onNewIntent " + intent);
 	}
 	
