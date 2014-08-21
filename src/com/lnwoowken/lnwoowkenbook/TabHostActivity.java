@@ -12,7 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -22,7 +21,6 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -39,7 +37,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cncom.app.base.database.DBHelper;
+import com.cncom.app.base.ui.BaseActivity;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
@@ -48,20 +46,15 @@ import com.lnwoowken.lnwoowkenbook.adapter.ShopAdapter;
 import com.lnwoowken.lnwoowkenbook.adapter.TabAdapter;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
 import com.lnwoowken.lnwoowkenbook.model.ShopTree;
-import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
 import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
 
 @SuppressLint("HandlerLeak")
 @SuppressWarnings("unused")
-public class TabHostActivity extends Activity implements OnClickListener, OnItemClickListener {
+public class TabHostActivity extends BaseActivity implements OnItemClickListener {
 	private static final String TAG = "TabHostActivity";
 	//private RequestShopListThread myThread;
-	private PopupWindow popupWindow;
-	private Button btn_more;//--“更多”按钮
-	private Button btn_home;//--返回主界面
-	private Button btn_back;//--返回上一页
 	private TabAdapter mTabAdapter = null;
 	private ShopAdapter mShopListAdapter;
 	private String resultTree;
@@ -91,7 +84,7 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 	private static final int XINGZHENGQU = 3;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_classification);
 		initialize();
@@ -105,12 +98,6 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 		//content_title.setText(Contant.DEFAULTSORT);
 		btn_return = (Button) findViewById(R.id.button_return);
 		btn_return.setOnClickListener(TabHostActivity.this);
-		btn_back = (Button) findViewById(R.id.button_back);
-		btn_back.setOnClickListener(TabHostActivity.this);
-		btn_home = (Button) findViewById(R.id.button_home);
-		btn_home.setOnClickListener(TabHostActivity.this);
-		btn_more = (Button) findViewById(R.id.button_more);
-		btn_more.setOnClickListener(TabHostActivity.this);
 		
 		mTabAdapter = new TabAdapter(context);
 		listView_tab.setAdapter(mTabAdapter);
@@ -166,98 +153,9 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 			mCurrentLevel = LEVEL_FIRST;
 			btn_return.setText(R.string.first_level);
 		}
-		if (v.equals(btn_back)) {
-			TabHostActivity.this.finish();
-		}
-		if (v.equals(btn_home)) {
-			MainActivity.startIntentClearTop(context, null);
-			TabHostActivity.this.finish();
-		}
-		if (v.equals(btn_more)) {
-			if (popupWindow == null || !popupWindow.isShowing()) {
-				View view = LayoutInflater.from(context).inflate(
-						R.layout.popmenu, null);
-				RelativeLayout myBill = (RelativeLayout) view.findViewById(R.id.mybill);
-				RelativeLayout exitLogin = (RelativeLayout) view.findViewById(R.id.exit_login);
-				exitLogin.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (Contant.ISLOGIN) {
-							showExitLoginDialog();
-						} else {
-							Intent intent = new Intent(context, LoginActivity.class);
-							startActivity(intent);
-						}
-						popupWindow.dismiss();
-						popupWindow = null;
-					}
-				});
-				myBill.setOnClickListener(new OnClickListener() {
-					
-					@Override
-					public void onClick(View arg0) {
-						Log.d("popwindow=============", "in");
-						Intent intent = new Intent(context, BillListActivity.class);
-						startActivity(intent); 
-						popupWindow.dismiss();
-						popupWindow = null;
-					}
-				});
-				popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT,
-						LayoutParams.WRAP_CONTENT);
-				popupWindow.showAsDropDown(v, 10, 10);
-				// 使其聚集
-				// popupWindow.setFocusable(true);
-				// 设置允许在外点击消失
-				// popupWindow.setOutsideTouchable(true);
-				// 刷新状态（必须刷新否则无效）
-				popupWindow.update();
-			} else {
-				popupWindow.dismiss();
-				popupWindow = null;
-			}
-
-		}
+		super.onClick(v);
 	}
 	
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (popupWindow != null && popupWindow.isShowing()) {
-			popupWindow.dismiss();
-			popupWindow = null;
-		}
-
-		return super.onTouchEvent(event);
-	}
-	
-	private void showExitLoginDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("提示")
-				.setMessage("您已经登录,是否要退出重新登录?")
-				// setIcon(R.drawable.welcome_logo).
-				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Contant.ISLOGIN = false;
-						Contant.USER = null;
-						Intent intent1 = new Intent();
-						intent1.setAction("login");
-						sendBroadcast(intent1);
-						Toast.makeText(context, "成功退出登录", Toast.LENGTH_SHORT)
-								.show();
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).
-
-				create();
-		alertDialog.show();
-	}
-
 	private LoadInfoAsyncTask mLoadInfoAsyncTask;
 	private void loadInfoAsyncTask(Integer... param) {
 		showProgressDialog();
@@ -467,5 +365,10 @@ public class TabHostActivity extends Activity implements OnClickListener, OnItem
 	public static void startActivity(Context context) {
 		Intent intent = new Intent(context, TabHostActivity.class);
 		context.startActivity(intent);
+	}
+
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		return true;
 	}
 }

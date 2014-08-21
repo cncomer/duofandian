@@ -116,8 +116,8 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 			mMemberTopLayout.setVisibility(View.VISIBLE);
 			mGuestTopLayout.setVisibility(View.GONE);
 			
-			mMemberName.setText(MyAccountManager.getInstance().getAccountObject().mAccountName);
-			mMemberLevel.setText(MyAccountManager.getInstance().getAccountObject().mAccountLevel);
+			mMemberName.setText(MyAccountManager.getInstance().getAccountName());
+			mMemberLevel.setText(MyAccountManager.getInstance().getMemberLevelResId());
 			mMemberTel.setText(MyAccountManager.getInstance().getAccountObject().mAccountTel);
 			getActivity().setTitle(MyAccountManager.getInstance().getAccountObject().mAccountTel);
 		} else {

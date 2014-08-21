@@ -10,6 +10,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.cncom.app.base.ui.BaseSlidingFragmentActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.shwy.bestjoy.utils.DebugUtils;
+import com.umeng.message.PushAgent;
 /**
  * @author chenkai
  *
@@ -94,6 +95,10 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		getSupportActionBar().setLogo(R.drawable.logo_appname);
 		getSupportActionBar().setDisplayUseLogoEnabled(true);
+		
+		//启动推送功能
+		PushAgent mPushAgent = PushAgent.getInstance(mContext);
+		mPushAgent.enable();
 		
 	}
 	

@@ -122,12 +122,12 @@ public class UserInfoActivity extends BaseActionbarActivity{
 		r5.setOnClickListener(UserInfoActivity.this);
 		r6.setOnClickListener(UserInfoActivity.this);
 		
-		
-		userName.setText(mAccountObject.mAccountName);
+		userName.setText(MyAccountManager.getInstance().getAccountName());
 		phoneNumber.setText(mAccountObject.mAccountTel);
 		
-		mMemberLevel.setText(mAccountObject.mAccountLevel);
+		mMemberLevel.setText(MyAccountManager.getInstance().getMemberLevelResId());
 		mMemberJifen.setText(mAccountObject.mAccountJifen);
+		
 	}
 	
 	 private DeleteAccountTask mDeleteAccountTask;

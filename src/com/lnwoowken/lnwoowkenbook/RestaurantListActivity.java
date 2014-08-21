@@ -22,10 +22,11 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -68,6 +69,9 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 	private List <ShopInfoObject> mShopsList;
 	
 	private boolean mFirstStart = true;
+	
+	private EditText mSearchInput;
+	private Button mSearchBtn;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -166,6 +170,9 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 			}
 		});
 		
+		mSearchInput = (EditText) findViewById(R.id.editText_search);
+		mSearchBtn = (Button) findViewById(R.id.button_search);
+		mSearchBtn.setOnClickListener(this);
 	}
 
 	@Override
@@ -173,6 +180,9 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 		switch(v.getId()){
 		case R.id.button_sort:
 			TabHostActivity.startActivity(mContext);
+			break;
+		case R.id.button_search:
+			loadShopInfoByNameAsyncTask(mSearchInput.getText().toString().trim());
 			break;
 		default:
 			super.onClick(v);

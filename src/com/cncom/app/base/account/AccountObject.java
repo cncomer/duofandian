@@ -129,8 +129,8 @@ public class AccountObject implements InfoInterface{
 				account.mAccountTel = c.getString(KEY_TEL);
 				account.mAccountPwd = c.getString(KEY_PWD);
 				account.mAccountEmail = c.getString(KEY_EMAIL);
-				account.mAccountJifen = c.getString(KEY_USER);
-				account.mAccountUser = c.getString(KEY_JIFEN);
+				account.mAccountUser = c.getString(KEY_USER);
+				account.mAccountJifen = c.getString(KEY_JIFEN);
 				account.mAccountTotal = c.getString(KEY_TOTAL);
 				account.mAccountYuqiTimes = c.getString(KEY_YUQITIME);
 				account.mAccountPinjia = c.getString(KEY_PINJIA);

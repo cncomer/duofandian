@@ -38,7 +38,7 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 	private Drawable[] mDotDrawableArray;
 	private int[] mAddsDrawableId = { R.drawable.pic_1, R.drawable.pic_2,
 			R.drawable.pic_3, R.drawable.pic_4, R.drawable.pic_5, };
-	private String[] mImageTitle = new String[] { "码头人家", "码头人家", "码头人家", "码头人家", "码头人家" };
+	private String[] mImageTitle = new String[] { "码头人家", "江户鱼米", "望湘园", "星怡会", "侬好蛙" };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -92,6 +92,7 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 		view.findViewById(R.id.imageView_bottom).setOnClickListener(this);
 		
 		mGalleryTitle = (TextView) view.findViewById(R.id.textView_imgtitle);
+		mGalleryTitle.setText(mImageTitle[0]);//设置为第一幅的标题
 		mDotsLayout = (LinearLayout) view.findViewById(R.id.dots);
 		mAdsViewPager = (ViewPager) view.findViewById(R.id.adsViewPager);
 		initViewPagers(mAddsDrawableId.length);

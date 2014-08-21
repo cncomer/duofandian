@@ -37,10 +37,9 @@ public class AccountParser extends InfoInterfaceImpl{
 	private static final String TAG = "AccountParser";
 
 	/***
-	 * "usersdata": {"cell":"18621951097","pwd":"wangkun","yanma":null,"userName":"王坤","UID":1}
-	 * @param jsonObject
-	 * @param accountObject
-	 * @throws JSONException
+	 * {"StatusCode":"1",
+	 * "StatusMessage":"成功返回"
+	 * "Data":{"user_cell":"18611986102","user_email":"250763254@qq.com","user_account":"","user_jifen":"0","username_name":"roy","user_total":"0","user_yuqitimes":0,"user_pinjia":"","user_level":"0","ID":"14","pwd":null}}
 	 */
 	public static void parseAccountData(JSONObject jsonObject, AccountObject accountObject) throws JSONException {
 		accountObject.mAccountTel = jsonObject.getString("user_cell");

@@ -3,7 +3,9 @@
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 
+import com.lnwoowken.lnwoowkenbook.R;
 import com.shwy.bestjoy.utils.DebugUtils;
 
 public class MyAccountManager {
@@ -124,6 +126,40 @@ public class MyAccountManager {
      */
     public static AccountObject initDemoAccountObject(Context context) {
     	return AccountObject.getAccountFromDatabase(context, AccountObject.DEMO_ACCOUNT_UID);
+    }
+    
+    private int[] mMemberLevelResIds = new int[]{
+    		R.string.member_level_0, //普通会员
+    		R.string.member_level_1, //金卡会员
+    		R.string.member_level_2, //钻石会员
+    };
+    private static final int INDEX_MEMBER_LEVEL_0 = 0;
+    private static final int INDEX_MEMBER_LEVEL_1 = 1;
+    private static final int INDEX_MEMBER_LEVEL_2 = 2;
+    /**
+     * 会员等级只有:普通会员、金 卡会员、钻石会员。 
+     * *后台数据库有严格的会员管 理标准:会员等级:按积分来 进行评定。
+     * 10000 积分以下为 普通会员,
+     * 10000-50000 积分为 金卡会员,
+     * 50000 积分以上为钻石会员。由系统自动统计显示。
+     * @return
+     */
+    public int getMemberLevelResId() {
+    	int jifen = Integer.valueOf(mAccountObject.mAccountJifen);
+    	if (jifen< 10000) {
+    		return mMemberLevelResIds[INDEX_MEMBER_LEVEL_0];
+    	} else if (jifen < 50000) {
+    		return mMemberLevelResIds[INDEX_MEMBER_LEVEL_1];
+    	} else {
+    		return mMemberLevelResIds[INDEX_MEMBER_LEVEL_2];
+    	}
+    }
+    
+    public String getAccountName() {
+    	if (TextUtils.isEmpty(mAccountObject.mAccountName)) {
+    		return mAccountObject.mAccountName;
+    	}
+    	return mContext.getString(R.string.title_member_name);
     }
     
 }

@@ -303,5 +303,9 @@
    
    <string name="menu_search">搜索</string>
    <string name="title_city_shanghai">上海</string>
+   <string name="title_member_name">昵称</string>
+   <string name="member_level_0">普通会员</string>
+   <string name="member_level_1">金卡会员</string>
+   <string name="member_level_2">钻石会员</string>
    
 </resources>
