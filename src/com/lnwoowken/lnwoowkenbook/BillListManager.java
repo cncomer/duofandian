@@ -60,4 +60,15 @@ public class BillListManager {
 		}
 		return id;
 	}
+
+	public static boolean isExsited(ContentResolver cr) {
+		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, null, null, null);
+		if (c != null) {
+			if (c.moveToNext()) {
+				return true;
+			}
+			c.close();
+		}
+		return false;
+	}
 }

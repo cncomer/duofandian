@@ -5,12 +5,22 @@
     android:orientation="horizontal"
     android:background="@drawable/left_panel_menu_item"
     android:gravity="center_vertical" >
-
-    <ImageView
-        android:id="@+id/icon"
-        android:duplicateParentState="true"
-        android:scaleType="fitCenter"
-        style="@style/left_panel_menu_icon"/>
+    
+    <RelativeLayout android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/icon"
+            android:duplicateParentState="true"
+            android:scaleType="fitCenter"
+            style="@style/left_panel_menu_icon"/>
+        <ImageView
+            android:id="@+id/imageView_myBill_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dip"
+            android:visibility="gone"
+            android:background="@drawable/dot_tips" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/title"

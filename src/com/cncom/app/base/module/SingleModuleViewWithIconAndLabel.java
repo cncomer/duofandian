@@ -4,8 +4,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.module.ModuleSettings.Module;
 import com.cncom.app.base.module.ModuleViewFactory.ModuleView;
+import com.lnwoowken.lnwoowkenbook.BillListManager;
+import com.lnwoowken.lnwoowkenbook.MyApplication;
 import com.lnwoowken.lnwoowkenbook.R;
 /**
  * 单模块类型, 其视图样式为
@@ -43,6 +46,14 @@ public class SingleModuleViewWithIconAndLabel extends ModuleView{
 //		mModule1TextView.getPaint().setFakeBoldText(true);
 		mModule1TextView.setText(mModule1Info.mLabelResId);
 		
+		if(mModule1Info.mIconResId == R.drawable.menu_my_order) {
+			if(MyAccountManager.getInstance().hasLoginned() && BillListManager.isExsited(MyApplication.getInstance().getContentResolver())) {
+				ImageView dotIconView = (ImageView) loduleLayout.findViewById(R.id.imageView_myBill_tips);
+				
+				dotIconView.setImageResource(R.drawable.dot_tips);
+				dotIconView.setVisibility(View.VISIBLE);
+			}
+		}
 		if (mOnClickListener != null) {
 			mModule1View.setOnClickListener(mOnClickListener);
 		}
