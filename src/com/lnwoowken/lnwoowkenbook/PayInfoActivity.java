@@ -37,10 +37,10 @@ import com.unionpay.uppay.PayActivity;
 public class PayInfoActivity extends BaseActionbarActivity {
 	private static final String TAG = "PayInfoActivity";
 	private boolean isAgree;
-	private MyCount mc;
+	private MyCount mCountDownTime;
 	private Context context = PayInfoActivity.this;
 	private int price;
-	private TextView tv, textView_price, textView_needpay, textView_billnumber;
+	private TextView textView_price, textView_needpay, textView_billnumber;
 	private String mShopId;
 	private String time;
 	private PayInfoData parcelableData;
@@ -74,11 +74,10 @@ public class PayInfoActivity extends BaseActionbarActivity {
 		tNumber = getIntent().getExtras().getString("tNumber");
 		orderNo = getIntent().getExtras().getString("orderNo");
 		price = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
-		tv = (TextView) findViewById(R.id.textView_count);
 		if (tNumber!=null&&!tNumber.equals("")) {
-			if (mc == null) {
-				mc = new MyCount(30 * 1000, 1000, tv);
-				mc.start();
+			if (mCountDownTime == null) {
+				mCountDownTime = new MyCount(30 * 1000, 1000, findViewById(R.id.bottom));
+				mCountDownTime.start();
 			}
 		}
 		textView_price = (TextView) findViewById(R.id.textView_price);
@@ -119,7 +118,6 @@ public class PayInfoActivity extends BaseActionbarActivity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-
 			PayInfoActivity.this.finish();
 		}
 		return super.onKeyDown(keyCode, event);
@@ -130,8 +128,7 @@ public class PayInfoActivity extends BaseActionbarActivity {
 			return false;
 		}
 		try {
-			context.getPackageManager().getApplicationInfo(packageName,
-					PackageManager.GET_UNINSTALLED_PACKAGES);
+			context.getPackageManager().getApplicationInfo(packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -148,10 +145,9 @@ public class PayInfoActivity extends BaseActionbarActivity {
 		String str = data.getExtras().getString("pay_result");
 		Log.d(TAG, str);
 		if (str.equalsIgnoreCase("success")) {
-			if (mc!=null) {
-				mc.cancel();
-				mc = null;
-				tv.setText("");
+			if (mCountDownTime!=null) {
+				mCountDownTime.cancel();
+				mCountDownTime = null;
 				Toast.makeText(context, context.getString(R.string.pay_success_tips), Toast.LENGTH_LONG).show();
 				saveBillDatabase(BillObject.STATE_SUCCESS);
 				PayInfoActivity.this.finish();
@@ -207,7 +203,6 @@ public class PayInfoActivity extends BaseActionbarActivity {
 
 	@Override
 	protected boolean checkIntent(Intent intent) {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
