@@ -49,6 +49,7 @@ import com.shwy.bestjoy.utils.NetworkUtils;
 public class CommitActivity extends BaseActionbarActivity {
 	private static final String TAG = "CommitActivity";
 	private String tNumber;
+	private String orderNo;
 	private String payId;
 	private Context context = CommitActivity.this;
 	private boolean isAgree;
@@ -229,7 +230,7 @@ public class CommitActivity extends BaseActionbarActivity {
 				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
 				is = NetworkUtils.openContectionLocked(ServiceObject.getLiushuiNumberUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
-				DebugUtils.logD(TAG, "number = " + serviceResultObject.mStrData);
+				DebugUtils.logD(TAG, "data = " + serviceResultObject.mJsonData);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
 			} catch (JSONException e) {
@@ -251,11 +252,21 @@ public class CommitActivity extends BaseActionbarActivity {
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
 			dismissProgressDialog();
-			if(TextUtils.isEmpty(result.mStrData)) {
+			if(TextUtils.isEmpty(result.mJsonData.toString())) {
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			} else {
 				BillObject billObj = new BillObject();
-				billObj.setBillNumber("2800010820000005");
+				try {
+					orderNo = result.mJsonData.getString("orderno");
+					tNumber = result.mJsonData.getString("tn");
+				} catch (JSONException e) {
+					e.printStackTrace();
+					return;
+				} catch (Exception e) {
+					e.printStackTrace();
+					return;
+				}
+				billObj.setBillNumber(orderNo);
 				billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
 				billObj.setTableName(mTableInfo.getTableName());
 				billObj.setCreateTime(DateUtils.TOPIC_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
@@ -264,7 +275,6 @@ public class CommitActivity extends BaseActionbarActivity {
 				billObj.setTableStyle(mTableInfo.getTableStyle());
 				BillListManager.saveBill(billObj, getContentResolver());
 				
-				tNumber = result.mStrData;
 				commitPay();
 			}
 		}
@@ -286,8 +296,9 @@ public class CommitActivity extends BaseActionbarActivity {
 	public void commitPay() {
 		Intent intent = new Intent(CommitActivity.this, PayInfoActivity.class);
 		Bundle bundle = new Bundle();  
-		bundle.putParcelable("PayData", parcelableData); 
+		bundle.putParcelable("PayData", parcelableData);
 		bundle.putString("tNumber", tNumber);
+		bundle.putString("orderNo", orderNo);
 		intent.putExtras(bundle);  
 		startActivity(intent);
 		CommitActivity.this.finish();

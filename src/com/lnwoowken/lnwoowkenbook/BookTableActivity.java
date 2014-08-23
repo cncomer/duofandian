@@ -407,8 +407,8 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 				queryJsonObject.put("shiduan_name", mShiduanName);
 
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllAvailableTableUrl("para", queryJsonObject.toString()), null);
-				serviceResultObject = ServiceResultObject.parseAvailableTables(NetworkUtils.getContentFromInput(is));
-				mShopAvailableTableList = PatternInfoUtils.getShopAvailableTableList(serviceResultObject.mShops);
+				serviceResultObject = ServiceResultObject.parseJsonArray(NetworkUtils.getContentFromInput(is));
+				mShopAvailableTableList = PatternInfoUtils.getShopAvailableTableList(serviceResultObject.mJsonArrayData);
 				DebugUtils.logD(TAG, "mShopAvailableTableList = " + mShopAvailableTableList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
@@ -430,7 +430,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 		@Override
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
-			if(result.mShops == null || result.mShops.length() == 0) {
+			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			} else {
 				showDeskList();

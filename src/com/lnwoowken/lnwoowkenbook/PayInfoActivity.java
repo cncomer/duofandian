@@ -38,11 +38,9 @@ public class PayInfoActivity extends BaseActionbarActivity {
 	private static final String TAG = "PayInfoActivity";
 	private boolean isAgree;
 	private MyCount mc;
-	private TextView tv;
 	private Context context = PayInfoActivity.this;
 	private int price;
-	private TextView textView_price;
-	private TextView textView_needpay;
+	private TextView tv, textView_price, textView_needpay, textView_billnumber;
 	private String mShopId;
 	private String time;
 	private PayInfoData parcelableData;
@@ -52,6 +50,7 @@ public class PayInfoActivity extends BaseActionbarActivity {
 	private Button btn_commit;
 	private Button btn_back;
 	private String tNumber;
+	private String orderNo;
 	private RadioButton radioUpmp;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,6 +72,7 @@ public class PayInfoActivity extends BaseActionbarActivity {
 		mTableInfo.setPrice(parcelableData.getTablePrice());
 		mTableInfo.setSprice(parcelableData.getSprice());
 		tNumber = getIntent().getExtras().getString("tNumber");
+		orderNo = getIntent().getExtras().getString("orderNo");
 		price = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
 		tv = (TextView) findViewById(R.id.textView_count);
 		if (tNumber!=null&&!tNumber.equals("")) {
@@ -83,8 +83,10 @@ public class PayInfoActivity extends BaseActionbarActivity {
 		}
 		textView_price = (TextView) findViewById(R.id.textView_price);
 		textView_needpay = (TextView) findViewById(R.id.textView_needpay);
+		textView_billnumber = (TextView) findViewById(R.id.textView_billnumber);
 		textView_price.setText(price + "");
 		textView_needpay.setText(price + "");
+		textView_billnumber.setText(orderNo);
 		btn_commit = (Button) findViewById(R.id.button_commit);
 		btn_commit.setOnClickListener(new OnClickListener() {
 			@Override

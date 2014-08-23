@@ -137,7 +137,7 @@ public class ServiceObject {
 		public String mStatusMessage;
 		public JSONObject mJsonData;
 		public String mStrData;
-		public JSONArray mShops;
+		public JSONArray mJsonArrayData;
 		
 		public static ServiceResultObject parse(String content) {
 			ServiceResultObject resultObject = new ServiceResultObject();
@@ -162,7 +162,7 @@ public class ServiceObject {
 			return resultObject;
 		}
 
-		public static ServiceResultObject parsePinpaiInfo(String content) {
+		public static ServiceResultObject parseJsonArray(String content) {
 			ServiceResultObject resultObject = new ServiceResultObject();
 			if (TextUtils.isEmpty(content)) {
 				return resultObject;
@@ -170,9 +170,9 @@ public class ServiceObject {
 			try {
 				JSONObject jsonObject = new JSONObject(content);
 				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
-				resultObject.mShops = jsonObject.getJSONArray("Data");
+				resultObject.mJsonArrayData = jsonObject.getJSONArray("Data");
 				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
-				DebugUtils.logD("ServiceResultObject", "pinpai = " + resultObject.mShops);
+				DebugUtils.logD("ServiceResultObject", "pinpai = " + resultObject.mJsonArrayData);
 				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
 				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
 			} catch (JSONException e) {
@@ -191,9 +191,9 @@ public class ServiceObject {
 				JSONObject jsonObject = new JSONObject(content);
 				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
 				JSONObject dataObject = jsonObject.getJSONObject("Data");
-				resultObject.mShops = dataObject.getJSONArray("shangquan");
+				resultObject.mJsonArrayData = dataObject.getJSONArray("shangquan");
 				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
-				DebugUtils.logD("ServiceResultObject", "pinpai = " + resultObject.mShops);
+				DebugUtils.logD("ServiceResultObject", "pinpai = " + resultObject.mJsonArrayData);
 				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
 				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
 			} catch (JSONException e) {
@@ -212,9 +212,9 @@ public class ServiceObject {
 				JSONObject jsonObject = new JSONObject(content);
 				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
 				JSONObject dataObject = jsonObject.getJSONObject("Data");
-				resultObject.mShops = dataObject.getJSONArray("caixi");
+				resultObject.mJsonArrayData = dataObject.getJSONArray("caixi");
 				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
-				DebugUtils.logD("ServiceResultObject", "pinpai = " + resultObject.mShops);
+				DebugUtils.logD("ServiceResultObject", "pinpai = " + resultObject.mJsonArrayData);
 				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
 				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
 			} catch (JSONException e) {
@@ -234,51 +234,9 @@ public class ServiceObject {
 				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
 
 				JSONObject dataObject = jsonObject.getJSONObject("Data");
-				resultObject.mShops = dataObject.getJSONArray("data");
+				resultObject.mJsonArrayData = dataObject.getJSONArray("data");
 				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
-				DebugUtils.logD("ServiceResultObject", "mAddresses = " + resultObject.mShops);
-				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
-				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
-			} catch (JSONException e) {
-				e.printStackTrace();
-				resultObject.mStatusMessage = e.getMessage();
-			}
-			return resultObject;
-		}
-
-		public static ServiceResultObject parsePinpaiShops(String content) {
-			ServiceResultObject resultObject = new ServiceResultObject();
-			if (TextUtils.isEmpty(content)) {
-				return resultObject;
-			}
-			try {
-				JSONObject jsonObject = new JSONObject(content);
-				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
-
-				resultObject.mShops = jsonObject.getJSONArray("Data");
-				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
-				DebugUtils.logD("ServiceResultObject", "mAddresses = " + resultObject.mShops);
-				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
-				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
-			} catch (JSONException e) {
-				e.printStackTrace();
-				resultObject.mStatusMessage = e.getMessage();
-			}
-			return resultObject;
-		}
-
-		public static ServiceResultObject parseAvailableTables(String content) {
-			ServiceResultObject resultObject = new ServiceResultObject();
-			if (TextUtils.isEmpty(content)) {
-				return resultObject;
-			}
-			try {
-				JSONObject jsonObject = new JSONObject(content);
-				resultObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
-
-				resultObject.mShops = jsonObject.getJSONArray("Data");
-				resultObject.mStatusMessage = jsonObject.getString("StatusMessage");
-				DebugUtils.logD("ServiceResultObject", "mShops = " + resultObject.mShops);
+				DebugUtils.logD("ServiceResultObject", "mAddresses = " + resultObject.mJsonArrayData);
 				DebugUtils.logD("ServiceResultObject", "StatusCode = " + resultObject.mStatusCode);
 				DebugUtils.logD("ServiceResultObject", "StatusMessage = " +resultObject.mStatusMessage);
 			} catch (JSONException e) {

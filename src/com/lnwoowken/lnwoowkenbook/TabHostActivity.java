@@ -175,7 +175,7 @@ public class TabHostActivity extends BaseActivity implements OnItemClickListener
 					case PINPAI:
 						mCurrentMode = PINPAI;
 						is = NetworkUtils.openContectionLocked(ServiceObject.getPinpaiUrl(), null);
-						serviceResultObject = ServiceResultObject.parsePinpaiInfo(NetworkUtils.getContentFromInput(is));
+						serviceResultObject = ServiceResultObject.parseJsonArray(NetworkUtils.getContentFromInput(is));
 						break;
 					case SHANGQUAN:
 						mCurrentMode = SHANGQUAN;
@@ -190,10 +190,10 @@ public class TabHostActivity extends BaseActivity implements OnItemClickListener
 					case XINGZHENGQU:
 						mCurrentMode = XINGZHENGQU;
 						is = NetworkUtils.openContectionLocked(ServiceObject.getXingzhengquUrl(), null);
-						serviceResultObject = ServiceResultObject.parsePinpaiInfo(NetworkUtils.getContentFromInput(is));
+						serviceResultObject = ServiceResultObject.parseJsonArray(NetworkUtils.getContentFromInput(is));
 						break;
 				}
-				DebugUtils.logD(TAG, "mShopsList = " + serviceResultObject.mShops);
+				DebugUtils.logD(TAG, "mShopsList = " + serviceResultObject.mJsonArrayData);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
 			} catch (ClientProtocolException e) {
@@ -211,23 +211,23 @@ public class TabHostActivity extends BaseActivity implements OnItemClickListener
 		@Override
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
-			if(result.mShops == null || result.mShops.length() == 0) {
+			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			}
 			try {
 
 				switch (mCurrentMode) {
 					case PINPAI:
-						mTabAdapter.updateTabList(PatternInfoUtils.getPinpaiList(result.mShops));
+						mTabAdapter.updateTabList(PatternInfoUtils.getPinpaiList(result.mJsonArrayData));
 						break;
 					case SHANGQUAN:
-						mTabAdapter.updateTabList(PatternInfoUtils.getShangquanList(result.mShops));
+						mTabAdapter.updateTabList(PatternInfoUtils.getShangquanList(result.mJsonArrayData));
 						break;
 					case CAIXI:
-						mTabAdapter.updateTabList(PatternInfoUtils.getCaixiList(result.mShops));
+						mTabAdapter.updateTabList(PatternInfoUtils.getCaixiList(result.mJsonArrayData));
 						break;
 					case XINGZHENGQU:
-						mTabAdapter.updateTabList(PatternInfoUtils.getPinpaiList(result.mShops));
+						mTabAdapter.updateTabList(PatternInfoUtils.getPinpaiList(result.mJsonArrayData));
 						break;
 				}
 			} catch (JSONException e) {
@@ -259,8 +259,8 @@ public class TabHostActivity extends BaseActivity implements OnItemClickListener
 			InputStream is = null;
 			try {
 				is = NetworkUtils.openContectionLocked(getTabUrl(params[0]), null);
-				serviceResultObject = ServiceResultObject.parsePinpaiShops(NetworkUtils.getContentFromInput(is));
-				DebugUtils.logD(TAG, "mShopsList = " + serviceResultObject.mShops);
+				serviceResultObject = ServiceResultObject.parseJsonArray(NetworkUtils.getContentFromInput(is));
+				DebugUtils.logD(TAG, "mShopsList = " + serviceResultObject.mJsonArrayData);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
 			} catch (ClientProtocolException e) {
@@ -319,11 +319,11 @@ public class TabHostActivity extends BaseActivity implements OnItemClickListener
 		@Override
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
-			if(result.mShops == null || result.mShops.length() == 0) {
+			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			}
 			try {
-				mShopListAdapter.updateShopList(PatternInfoUtils.getShopInfo(result.mShops));
+				mShopListAdapter.updateShopList(PatternInfoUtils.getShopInfo(result.mJsonArrayData));
 			} catch (JSONException e) {
 			}
 			dismissProgressDialog();

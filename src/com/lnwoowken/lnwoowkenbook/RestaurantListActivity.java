@@ -349,7 +349,7 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 				queryJsonObject.put("pageindex", 1);
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllShopInfoUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseShops(NetworkUtils.getContentFromInput(is));
-				mShopsList = PatternInfoUtils.getShopInfoClean(serviceResultObject.mShops, getContentResolver());
+				mShopsList = PatternInfoUtils.getShopInfoClean(serviceResultObject.mJsonArrayData, getContentResolver());
 
 				DebugUtils.logD(TAG, "mShopsList = " + mShopsList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
@@ -377,7 +377,7 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
 
-			if(result.mShops == null || result.mShops.length() == 0) {
+			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			} else {
 				mLoadPageIndex = 1;
@@ -420,7 +420,7 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 				queryJsonObject.put("pageindex", ++mLoadPageIndex);
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllShopInfoUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseShops(NetworkUtils.getContentFromInput(is));
-				mShopsList.addAll(PatternInfoUtils.getShopInfo(serviceResultObject.mShops, getContentResolver()));
+				mShopsList.addAll(PatternInfoUtils.getShopInfo(serviceResultObject.mJsonArrayData, getContentResolver()));
 
 				DebugUtils.logD(TAG, "mShopsList = " + mShopsList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
@@ -488,7 +488,7 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 				queryJsonObject.put("pageindex", 1);
 				is = NetworkUtils.openContectionLocked(ServiceObject.getAllShopInfoUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parseShops(NetworkUtils.getContentFromInput(is));
-				mShopsList = PatternInfoUtils.getShopInfo(serviceResultObject.mShops, getContentResolver());
+				mShopsList = PatternInfoUtils.getShopInfo(serviceResultObject.mJsonArrayData, getContentResolver());
 				DebugUtils.logD(TAG, "mShopsList = " + mShopsList);
 				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
 				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
@@ -514,7 +514,7 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 		@Override
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
-			if(result.mShops == null || result.mShops.length() == 0) {
+			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			} else {
 				mLoadPageIndex = 1;
@@ -579,14 +579,14 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 		@Override
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
-			if(result.mShops == null || result.mShops.length() == 0) {
+			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			} else {
 				mLoadPageIndex = 1;
 			}
 			mLoadState = STATE_FREASH_COMPLETE;
 			try {
-				mShopListAdapter.initShopList(PatternInfoUtils.getShopInfo(result.mShops));
+				mShopListAdapter.initShopList(PatternInfoUtils.getShopInfo(result.mJsonArrayData));
 			} catch (JSONException e) {
 			}
 			dismissProgressDialog();
