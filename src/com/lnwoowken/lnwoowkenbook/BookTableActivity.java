@@ -488,7 +488,6 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	}
 	
 	private void showDeskList() {
-
 		final Dialog dialog = new DeskListDialog(BookTableActivity.this, R.style.MyDialog);
 		dialog.show();
 		ListView deskList = (ListView) dialog.findViewById(R.id.desklist);

@@ -106,7 +106,7 @@ public class CommitActivity extends BaseActionbarActivity {
 		textView_money = (TextView) findViewById(R.id.textView_money);
 		textView_agree = (TextView) findViewById(R.id.textView_agree);
 		Log.d("CommitActivity___shop.getName()", mShopInfoObject.getShopName());
-		textView_shopId.setText(mShopInfoObject.getShopID());
+		textView_shopId.setText(mShopInfoObject.getShopShowId());
 		textView_shopName.setText(mShopInfoObject.getShopName());
 		textView_timeinfo.setText(parcelableData.getTime());
 		textView_seat.setText(parcelableData.getTableName());
