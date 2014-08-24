@@ -382,11 +382,10 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 			} else {
 				mLoadPageIndex = 1;
 			}
-			mShopListView.onRefreshComplete();
 			mShopListAdapter.initShopList(mShopsList);
+			mShopListView.onRefreshComplete();
 			mLoadState = STATE_FREASH_COMPLETE;
-			mShopListView.setSelection(0);
-			DebugUtils.logD(TAG, "huasong onPostExecute onLoadMoreComplete");
+			DebugUtils.logD(TAG, "onPostExecute onRefreshComplete");
 		}
 
 		@Override
