@@ -19,12 +19,11 @@
         android:orientation="horizontal" >
 		<TextView
 		    android:id="@+id/textView_storename"
-		    android:layout_width="wrap_content"
+		    android:layout_width="210dp"
 		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="5dp"
 		    android:text="@string/listview_item_storename"
 		    android:textColor="@color/textColor"
-		    android:textSize="20dip"
+		    android:textSize="18dip"
 		    android:singleLine="true" />
         <TextView
             android:layout_width="wrap_content"

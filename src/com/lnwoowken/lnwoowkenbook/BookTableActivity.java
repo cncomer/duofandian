@@ -401,7 +401,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 			InputStream is = null;
 			try {
 				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("shopid", mShopId);//mShopId
+				queryJsonObject.put("shopid", mShopId);
 				queryJsonObject.put("date",  DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()));
 				queryJsonObject.put("desktype", mDeskType);//2人桌(1-2人) 4人桌(4-6人) 6人桌(8-10人) 包房
 				queryJsonObject.put("shiduan_name", mShiduanName);
@@ -445,46 +445,30 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 		}
 	}
 
-	private void dismissProgressDialog(){
-		if(dialog != null && dialog.isShowing()) {
+	private void dismissProgressDialog() {
+		if (dialog != null && dialog.isShowing()) {
 			dialog.dismiss();
 			dialog = null;
 		}
 	}
-	
-	private void showProgressDialog(){
-		if(dialog != null && dialog.isShowing()) return; 
+
+	private void showProgressDialog() {
+		if (dialog != null && dialog.isShowing())
+			return;
 		dialog = new ProgressDialog(BookTableActivity.this, R.style.ProgressDialog);
 		dialog.show();
 		LinearLayout progress = (LinearLayout) dialog.findViewById(R.id.imageView_progress);
-	
-		progress.setBackgroundResource(R.anim.animition_progress); 
-		final AnimationDrawable draw = (AnimationDrawable)progress.getBackground(); 
-        draw.start();
-        dialog.setOnDismissListener(new OnDismissListener() {
+
+		progress.setBackgroundResource(R.anim.animition_progress);
+		final AnimationDrawable draw = (AnimationDrawable) progress.getBackground();
+		draw.start();
+		dialog.setOnDismissListener(new OnDismissListener() {
 			@Override
 			public void onDismiss(DialogInterface arg0) {
 				draw.stop();
 			}
 		});
-//		progress.setIndeterminate(true);
-		//setProgressBarIndeterminateVisibility(true); 
 		dialog.setCanceledOnTouchOutside(false);
-		// TableListDialog dialog = new
-		// TableListDialog(BookTableActivity.this);
-		// dialog.show();
-	}
-	private TableStyle findTableStyleById(int id, List<TableStyle> list) {
-		List<TableStyle> styleList = list;
-		TableStyle tempStyle = null;
-		if (styleList != null) {
-			for (int i = 0; i < styleList.size(); i++) {
-				if (styleList.get(i).getId() == id) {
-					tempStyle = styleList.get(i);
-				}
-			}
-		}
-		return tempStyle;
 	}
 	
 	private void showDeskList() {

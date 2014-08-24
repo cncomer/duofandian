@@ -56,6 +56,13 @@ public class ServiceObject {
 		return sb.toString();
 	}
 	
+	public static String getInOrderingUrl(String para, String jsonString) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/InOrdering.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
+		return sb.toString();
+	}
+	
 	public static String getPinpaiUrl() {
 		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
 		sb.append("Mobile/common/getBrand.ashx");
