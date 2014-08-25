@@ -569,8 +569,7 @@ public class PhotoManagerUtilsV2 {
 	public static File getFileToSave(TaskType type, String photoId) {
 		switch(type) {
 		case SHOP_IMAGE:
-			MyApplication.getInstance().getShopImageFile(photoId);
-			break;
+			return MyApplication.getInstance().getShopImageFile(photoId);
 		case PREVIEW:
 			break;
 		}
