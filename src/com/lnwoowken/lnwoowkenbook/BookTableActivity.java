@@ -344,7 +344,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 					boolean b = false;
 					Calendar c = Calendar.getInstance();
 					c.setTime(calendar.getSelectedStartDate());
-					if (!TextUtils.isEmpty(mSelectedDeskID)) {
+					if (isTableChosen) {
 						TableInfoObject shopAvailableTableObj = null;
 						for(TableInfoObject obj : mShopAvailableTableList) {
 							if(mSelectedDeskID.equals(obj.getDeskId())) {

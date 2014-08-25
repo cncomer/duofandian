@@ -99,8 +99,8 @@ public class PayInfoActivity extends BaseActionbarActivity {
 		textView_price = (TextView) findViewById(R.id.textView_price);
 		textView_needpay = (TextView) findViewById(R.id.textView_needpay);
 		textView_billnumber = (TextView) findViewById(R.id.textView_billnumber);
-		textView_price.setText(price + "");
-		textView_needpay.setText(price + "");
+		textView_price.setText(price + getString(R.string.yuan));
+		textView_needpay.setText(price + getString(R.string.yuan));
 		textView_billnumber.setText(mOrderNumber);
 		btn_commit = (Button) findViewById(R.id.button_commit);
 		btn_commit.setOnClickListener(new OnClickListener() {

@@ -46,6 +46,7 @@
     <string name="pay_vital_tips">1.额定消费要求（如消费低于XXX元，则用订金补足差额，剩余订金返还到会员的支付账户）\n\n2.定单成功后，会员提前预订时间2小时退订或拨打电话XXX-XX-XXX退订，同时您的服务费与订金直接退入您夺饭点会员账户，期待您下次消费。\n\n3.逾期：您逾期之后如果还需要进行VIP服务或其他服务请联系我们客户电话400-xxxx-xxxx。</string>
     <string name="pay_vital_tips_title">重要说明</string>
     <string name="pay_infomation">消费满足350元</string>
+    <string name="yuan">&#160;元</string>
     <string name="pay_infomation_remarks">如果消费小于350元,餐厅将按350元收取餐费</string>
     <string name="male">先生</string>
     <string name="exit_login">退出</string>
@@ -258,7 +259,7 @@
   <string name="menu_more">更多</string>
   <string name="menu_login">登录</string>
   <string name="button_start_use">开始使用</string>
-  <string name="shop_info_query_fail">未查到相关数据</string>
+  <string name="shop_info_query_fail">未查到相关数据,可能该座位已经被抢占了，请返回重新选位</string>
   <string name="select_book_time">请选择预定时间</string>
   <string name="book_time">预定时间为 </string>
   <string name="month">月</string>

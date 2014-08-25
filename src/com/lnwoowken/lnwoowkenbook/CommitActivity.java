@@ -252,7 +252,7 @@ public class CommitActivity extends BaseActionbarActivity {
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
 			dismissProgressDialog();
-			if(TextUtils.isEmpty(result.mJsonData.toString())) {
+			if(result.mStatusCode == 0 || TextUtils.isEmpty(result.mJsonData.toString())) {
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			} else {
 				BillObject billObj = new BillObject();
