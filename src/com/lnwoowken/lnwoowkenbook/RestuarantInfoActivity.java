@@ -53,7 +53,7 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 //		LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(screenWidth, screenWidth*260/480);
 //		l2.setMargins(0, 0, 0, 0);
 //		shopImg.setLayoutParams(l2);
-		
+		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
 		PhotoManagerUtilsV2.getInstance().loadPhotoAsync(TAG, shopImg, mShopInfoObject.getShopPhotoId("01"), null, PhotoManagerUtilsV2.TaskType.SHOP_IMAGE);
 
 		textView_price = (TextView) findViewById(R.id.textView_price);
@@ -61,7 +61,7 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 		textView_shopName = (TextView) findViewById(R.id.textView_storename);
 		intent = RestuarantInfoActivity.this.getIntent();
 		mShopId = intent.getExtras().getString("shop_id");
-		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
+		
 		if (mShopInfoObject != null) {
 			textView_shopName.setText(mShopInfoObject.getShopName());
 			Log.d("mShopInfoObject.getShopName()-------------------", mShopInfoObject.getShopName() + "");
