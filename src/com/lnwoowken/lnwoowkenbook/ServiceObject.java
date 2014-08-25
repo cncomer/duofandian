@@ -139,6 +139,17 @@ public class ServiceObject {
 		return sb.toString();
 	}
 	
+	/**
+	 * 得到餐厅照片,例如http://manage.lnwoowken.com/shopimg/{showid}_01.jpg
+	 * @param photoID 指定的店铺ID_type
+	 * @return
+	 */
+	public static String getShopImage(String photoID) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("shopimg/").append(photoID).append(".jpg");
+		return sb.toString();
+	}
+	
 	public static class ServiceResultObject {
 		public int mStatusCode = 0;
 		public String mStatusMessage;

@@ -6,7 +6,9 @@ import android.net.Uri;
 
 import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.database.DBHelper;
+import com.lnwoowken.lnwoowkenbook.ServiceObject;
 import com.shwy.bestjoy.utils.DebugUtils;
+import com.shwy.bestjoy.utils.UrlEncodeStringBuilder;
 
 public class ShopInfoObject {
 	private static final String TAG = "ShopInfoObject";
@@ -280,6 +282,12 @@ public class ShopInfoObject {
 	}
 	public void setShopDeskCount(String shopDeskCount) {
 		this.shopDeskCount = shopDeskCount;
+	}
+	/**返回形如showId_01的形式，主要用来加载商铺图片的*/
+	public String getShopPhotoId(String type) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(shopShowId).append("_").append(type);
+		return sb.toString();
 	}
 	
 	public boolean saveDatabase(ContentResolver cr, ContentValues addtion) {

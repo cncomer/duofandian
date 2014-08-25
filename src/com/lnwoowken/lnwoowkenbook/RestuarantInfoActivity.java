@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cncom.app.base.service.PhotoManagerUtilsV2;
 import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
@@ -24,8 +25,8 @@ import com.cncom.app.base.util.ShopInfoObject;
  *
  */
 public class RestuarantInfoActivity extends BaseActionbarActivity {
+	private static final String TAG = "RestuarantInfoActivity";
 	private Button btn_chooseFood;
-	private Bitmap bitmap = null;
 	private ShopInfoObject mShopInfoObject;
 	private Button btn_chooseTable;// --进入选桌界面的按钮
 	private Intent intent;
@@ -39,18 +40,21 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_restuarant_info);
+		PhotoManagerUtilsV2.getInstance().requestToken(TAG);
 		initialize();
 	}
 
 	@SuppressWarnings({ "deprecation", "unused" })
 	private void initialize() {
 		shopImg = (ImageView) findViewById(R.id.imageView_shop_img);
-		int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-	//	int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
-		int margin_int = com.lnwoowken.lnwoowkenbook.tools.Tools.dip2px(context, 20);
-		LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(screenWidth, screenWidth*260/480);
-		l2.setMargins(0, 0, 0, 0);
-		shopImg.setLayoutParams(l2);
+//		int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+//	//	int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+//		int margin_int = com.lnwoowken.lnwoowkenbook.tools.Tools.dip2px(context, 20);
+//		LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(screenWidth, screenWidth*260/480);
+//		l2.setMargins(0, 0, 0, 0);
+//		shopImg.setLayoutParams(l2);
+		
+		PhotoManagerUtilsV2.getInstance().loadPhotoAsync(TAG, shopImg, mShopInfoObject.getShopPhotoId("01"), null, PhotoManagerUtilsV2.TaskType.SHOP_IMAGE);
 
 		textView_price = (TextView) findViewById(R.id.textView_price);
 		textView_info = (TextView) findViewById(R.id.textView_info);
@@ -100,10 +104,7 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		if (bitmap!=null) {
-			bitmap.recycle();
-			bitmap = null;
-		}
+		PhotoManagerUtilsV2.getInstance().releaseToken(TAG);
 	}
 	
 	public static void startIntent(Context context, Bundle bundle) {
