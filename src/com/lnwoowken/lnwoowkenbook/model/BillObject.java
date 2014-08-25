@@ -278,10 +278,10 @@ public class BillObject {
 		
 		int uri = cr.update(BjnoteContent.Bills.CONTENT_URI, values, BILL_SELECTION, new String[]{billNumber});
 		if (uri != -1) {
-			DebugUtils.logD(TAG, "saveInDatebase insert");
+			DebugUtils.logD(TAG, "saveInDatebase update");
 			return true;
 		} else {
-			DebugUtils.logD(TAG, "saveInDatebase failly insert");
+			DebugUtils.logD(TAG, "saveInDatebase failly update");
 		}
 		return false;
 	}

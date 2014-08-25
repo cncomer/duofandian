@@ -3,6 +3,7 @@ package com.lnwoowken.lnwoowkenbook.adapter;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,21 +11,22 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.lnwoowken.lnwoowkenbook.BillListActivity;
+import com.lnwoowken.lnwoowkenbook.BillListManager;
 import com.lnwoowken.lnwoowkenbook.R;
 import com.lnwoowken.lnwoowkenbook.SurveyActivity;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
 
-public class BillListAdapter  extends BaseAdapter {
-	private Context context;
+public class BillListAdapter extends BaseAdapter {
+	private Context mContext;
 	private List<BillObject> mBillList;
 	HashMap<Integer, View> lmap = new HashMap<Integer, View>();
 	public BillListAdapter(Context context,List<BillObject> bill) {
-		this.context = context;
-		this.mBillList = bill;// = InitProduct();
+		this.mContext = context;
+		this.mBillList = bill;
 	}
 	
 	@Override
@@ -47,8 +49,7 @@ public class BillListAdapter  extends BaseAdapter {
 		ViewHolder groupHolder=null;
 		View view;
 		if (lmap.get(position) == null) {
-			view = LayoutInflater.from(context).inflate(R.layout.survey_list_item, null);
-			view = LayoutInflater.from(context).inflate(R.layout.bill_list_item, null);
+			view = LayoutInflater.from(mContext).inflate(R.layout.bill_list_item, null);
 			groupHolder=new ViewHolder();
 			
 			groupHolder.textView_billnumber=(TextView) view.findViewById(R.id.textView_billnumber);
@@ -60,6 +61,7 @@ public class BillListAdapter  extends BaseAdapter {
 			groupHolder.textView_time=(TextView) view.findViewById(R.id.textView_time);
 			groupHolder.textView_tableName=(TextView) view.findViewById(R.id.textView_tableName);
 			groupHolder.btn_survey=(ImageButton) view.findViewById(R.id.imageButton_survey);
+			groupHolder.btn_delete = (ImageButton) view.findViewById(R.id.imageButton_delete);
 
 			view.setTag(groupHolder);
 		} else {
@@ -77,7 +79,7 @@ public class BillListAdapter  extends BaseAdapter {
 			groupHolder.textView_time.setText(b.getTime()+"");
 			groupHolder.textView_tableName.setText(b.getTableName());
 		} else {
-			String str = context.getResources().getString(R.string.no_data);
+			String str = mContext.getResources().getString(R.string.no_data);
 			groupHolder.textView_billnumber.setText(str);
 			groupHolder.textView_tableStyle.setText(str);
 			groupHolder.textView_state.setText(str);
@@ -90,13 +92,17 @@ public class BillListAdapter  extends BaseAdapter {
 		groupHolder.btn_survey.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(context,SurveyActivity.class);
+				Intent intent = new Intent(mContext,SurveyActivity.class);
 				intent.putExtra("rid", mBillList.get(position).getId());
-				context.startActivity(intent);
+				mContext.startActivity(intent);
 			}
 		});
-		//groupHolder.name.setText(productList.get(position));
-		//convertView.setClickable(true);
+		groupHolder.btn_delete.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				showDialog(mContext.getString(R.string.delete_tips), position);
+			}
+		});
 		return view;
 	}
 	
@@ -110,6 +116,37 @@ public class BillListAdapter  extends BaseAdapter {
 		TextView textView_state;
 		TextView textView_createDate;
 		ImageButton btn_survey;
+		ImageButton btn_delete;
+	}
+	
+
+	private void showDialog(String str, final int position) {
+		final Dialog alertDialog = new Dialog(mContext, R.style.MyDialog);
+		alertDialog.setTitle(R.string.dialog_title);
+		alertDialog.setContentView(R.layout.dialog_layout);
+		TextView title = (TextView) alertDialog.findViewById(R.id.title);
+		TextView context = (TextView) alertDialog.findViewById(R.id.message);
+		Button buttonOk = (Button) alertDialog.findViewById(R.id.button_ok);
+		Button buttonCancel = (Button) alertDialog.findViewById(R.id.button_back);
+		title.setText(R.string.dialog_title);
+		context.setText(str);
+		alertDialog.setCanceledOnTouchOutside(false);
+		buttonOk.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				BillListManager.deleteBillByNumber(mContext.getContentResolver(), mBillList.get(position).getBillNumber());
+				alertDialog.dismiss();
+				mBillList.remove(mBillList.get(position));
+				notifyDataSetChanged();
+			}
+		});
+		buttonCancel.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				alertDialog.dismiss();
+			}
+		});
+		alertDialog.show();
 	}
 
 }

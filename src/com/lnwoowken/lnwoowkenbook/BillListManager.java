@@ -49,6 +49,10 @@ public class BillListManager {
 		}
 	}
 
+	public static boolean deleteBillByNumber(ContentResolver cr, String billNumber) {
+		return cr.delete(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_SELECTION, new String[] {billNumber}) > 0;
+	}
+
 	public static long isExsited(ContentResolver cr, String bid) {
 		long id = -1;
 		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, BillObject.BILL_SELECTION, new String[] {bid}, null);

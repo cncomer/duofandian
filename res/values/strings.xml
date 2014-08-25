@@ -309,4 +309,7 @@
    <string name="member_level_1">金卡会员</string>
    <string name="member_level_2">钻石会员</string>
    
+   <string name="delete_tips">确定删除吗？</string>
+   <string name="dialog_title">提示信息</string>
+   
 </resources>

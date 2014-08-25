@@ -9,9 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,9 +26,6 @@ import com.cncom.app.base.account.MyAccountManager;
 import com.lnwoowken.lnwoowkenbook.adapter.BillListAdapter;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.network.Client;
-import com.lnwoowken.lnwoowkenbook.network.JsonParser;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
 
 public class BillListActivity extends Activity {
 	private PopupWindow popupWindow;
@@ -42,50 +36,6 @@ public class BillListActivity extends Activity {
 	private Button btn_back;
 	private Button btn_home;
 	private Button btn_more;//--“更多”按钮
-	
-	private Handler toastHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			Toast.makeText(context, "您还没有登录,请先登录", Toast.LENGTH_SHORT).show();
-		}
-	};
-	
-	private Handler billListHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			RequestBillListThread payThread = new RequestBillListThread();
-			payThread.start();
-		}
-	};
-	private Handler UIHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			mBillListAdapter = new BillListAdapter(context, mBillList);
-			listBill.setAdapter(mBillListAdapter);
-			listBill.setDivider(null);
-			listBill.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				}
-			});
-		}
-	};
-	
-	public class RequestBillListThread extends Thread {
-		@Override
-		public void run() {
-			super.run();
-			if (MyAccountManager.getInstance().hasLoginned()) {
-				//createBill();
-				getBillList(Contant.USER.getId()+"");
-			} else {
-				Toast.makeText(context, "您还没有登录,请先登录", Toast.LENGTH_SHORT).show();
-			}
-		}	
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -168,27 +118,6 @@ public class BillListActivity extends Activity {
 		} else {
 			Toast.makeText(context, "您还没有登录,请先登录", Toast.LENGTH_SHORT).show();
 		}
-	}
-	
-	private String getBillList(String uid){
-		String resultJson;
-		String opJson = "{\"id\":\""
-				+ uid + "\"}";
-		opJson = Client.encodeBase64(opJson);
-		String str = Tools.getRequestStr(Contant.SERVER_IP,
-				Contant.SERVER_PORT + "", "Reserve?id=", Contant.LISTBILL,
-				"&op=" + opJson);
-		resultJson = Client.executeHttpGetAndCheckNet(str, BillListActivity.this);
-		resultJson = Client.decodeBase64(resultJson);
-
-		if (resultJson != null) {
-			Log.d("getBillList=============", resultJson);
-			mBillList=JsonParser.parseBillListJson(resultJson);
-			Log.i("INFO", mBillList.size()+"");
-			Message msg = new Message();
-			UIHandler.sendMessage(msg);
-		}
-		return resultJson;
 	}
 	
 	@Override
