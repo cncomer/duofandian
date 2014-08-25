@@ -410,6 +410,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 				Toast.makeText(context, "请选择您要预定的时间", Toast.LENGTH_SHORT).show();
 			}
 		}
+		super.onClick(v);
 	}
 
 	private QueryAvilableTableSynckTAsk mQueryAvilableTableSynckTAsk;
