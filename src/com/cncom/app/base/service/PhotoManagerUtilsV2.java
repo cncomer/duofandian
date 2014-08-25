@@ -33,6 +33,7 @@ import android.widget.ImageView;
 
 import com.lnwoowken.lnwoowkenbook.MyApplication;
 import com.lnwoowken.lnwoowkenbook.R;
+import com.lnwoowken.lnwoowkenbook.ServiceObject;
 import com.shwy.bestjoy.utils.DebugUtils;
 import com.shwy.bestjoy.utils.Intents;
 import com.shwy.bestjoy.utils.NetworkUtils;
@@ -42,10 +43,8 @@ public class PhotoManagerUtilsV2 {
 	private static final String TAG ="PhotoManagerUtils";
 	private static PhotoManagerUtilsV2 INSTANCE = new PhotoManagerUtilsV2();
 	private static Bitmap mDefaultBitmap;
-	private static Bitmap mDefaultCircleTopicBitmap;
-	private static Bitmap mDefaultCirclePhotoBitmap;
-	private static Bitmap mDefaultLoadBitmap;
 	private static Bitmap mDefaultKyBitmap;
+	private static Bitmap mDefaultShopImageBitmap;
 	private Context mContext;
 	private Resources mResources;
 	private static final int MAX_CAPACITY = 100;
@@ -108,8 +107,8 @@ public class PhotoManagerUtilsV2 {
         return null;
     }
     /***
-     * 有时候，对于不同的TaskType，其photoId是同样的，比如展会�?�，同一个展会的ID，ids.png和id.png分别就是不同的TaskType,我们就不能仅仅是依据photoId来缓存了�?
-     * 这里，使用的是保存的文件名来区分�?
+     * 有时候，对于不同的TaskType，其photoId是同样的，比如展会�?�，同一个展会的ID，ids.png和id.png分别就是不同的TaskType,我们就不能仅仅是依据photoId来缓存了�?
+     * 这里，使用的是保存的文件名来区分�?
      * @param photoId
      * @param type
      * @return
@@ -140,6 +139,7 @@ public class PhotoManagerUtilsV2 {
 			MAX_RESULT_IMAGE_SIZE = mContext.getResources().getDimension(R.dimen.barcode_image_view_size);
 			mCurrentImageSize = MAX_RESULT_IMAGE_SIZE;
 			mDefaultKyBitmap = BitmapFactory.decodeResource(mResources, R.drawable.icon);
+			mDefaultShopImageBitmap = null;
 		}
 		
 //		initCache();
@@ -346,6 +346,8 @@ public class PhotoManagerUtilsV2 {
 		switch(type) {
 		case HOME_DEVICE_AVATOR:
 			return mDefaultKyBitmap;
+		case SHOP_IMAGE:
+			return mDefaultShopImageBitmap;
 		case PREVIEW:
 			default:
 				return mDefaultBitmap; 
@@ -429,13 +431,13 @@ public class PhotoManagerUtilsV2 {
         }
         return null;
     }
-    /**异步载入图片，可能会�?要从服务器上下载*/
+    /**异步载入图片，可能会�?要从服务器上下载*/
 	public void loadPhotoAsync(String token, ImageView imageView, String photoId, byte[] photo, TaskType type) {
 		if (cancelPotentialDownload(photoId, imageView)) {
             Bitmap avatar = getBitmapFromCache(photoId, type);
             if (avatar != null && imageView != null) {
                 imageView.setImageBitmap(avatar);
-                //通知监听器，图片已经加载完成�?
+                //通知监听器，图片已经加载完成�?
                 Bundle data = new Bundle();
                 data.putString(Intents.EXTRA_PHOTOID, photoId);
                 data.putString(Intents.EXTRA_TYPE, type.toString());
@@ -453,7 +455,7 @@ public class PhotoManagerUtilsV2 {
             Bitmap avatar = getBitmapFromCache(photoId, type);
             if (avatar != null && imageView != null) {
                 imageView.setImageBitmap(avatar);
-                //通知监听器，图片已经加载完成�?
+                //通知监听器，图片已经加载完成�?
                 Bundle data = new Bundle();
                 data.putString(Intents.EXTRA_PHOTOID, photoId);
                 data.putString(Intents.EXTRA_TYPE, type.toString());
@@ -550,7 +552,7 @@ public class PhotoManagerUtilsV2 {
                 if (this == avatarAsyncTask && imageView != null) {
                 	DebugUtils.logPhotoUtils(TAG, "setImageBitmap for photoId " + mPhotoId);
                     imageView.setImageBitmap(bitmap);
-                    //֪ͨ��������ͼƬ�Ѿ����������?
+                    //֪ͨ��������ͼƬ�Ѿ����������?
                     Bundle data = new Bundle();
                     data.putString(Intents.EXTRA_PHOTOID, mPhotoId);
                     data.putString(Intents.EXTRA_TYPE, mTaskType.toString());
@@ -566,6 +568,8 @@ public class PhotoManagerUtilsV2 {
 	
 	public static File getFileToSave(TaskType type, String photoId) {
 		switch(type) {
+		case SHOP_IMAGE:
+			return MyApplication.getInstance().getShopImageFile(photoId);
 		case PREVIEW:
 			break;
 		}
@@ -574,6 +578,8 @@ public class PhotoManagerUtilsV2 {
 	
 	public static String getServiceUrl(TaskType type, String photoId) {
 		switch(type) {
+		case SHOP_IMAGE:
+			return ServiceObject.getShopImage(photoId);
 		case PREVIEW:
 			return null;
 		}
@@ -699,10 +705,11 @@ public class PhotoManagerUtilsV2 {
 	
 	
 	public enum TaskType {
-		PREVIEW("PreviewVcfType"),       //联系人预�?
+		PREVIEW("PreviewVcfType"),       //联系人预�?
 		MYPREVIEW("MyPreviewVcfType"),    //我的名片预览
 		FaPiao("FaPiao"),
-		HOME_DEVICE_AVATOR("HomeDeviceAvatorType");  //设备avator
+		HOME_DEVICE_AVATOR("HomeDeviceAvatorType"),  //设备avator
+		SHOP_IMAGE("ShopImage"); //店铺图片
 		private String mTypeName;
 		TaskType(String typeName) {
 			mTypeName=typeName;

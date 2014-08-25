@@ -3,6 +3,7 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -363,10 +364,13 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 				e.printStackTrace();
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
-				serviceResultObject.mStatusMessage = e.getMessage();
+				serviceResultObject.mStatusMessage = MyApplication.getInstance().getGernalNetworkError();
+			} catch(SocketException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = MyApplication.getInstance().getGernalNetworkError();
 			} catch (IOException e) {
 				e.printStackTrace();
-				serviceResultObject.mStatusMessage = e.getMessage();
+				serviceResultObject.mStatusMessage = MyApplication.getInstance().getGernalNetworkError();
 			}finally {
 				NetworkUtils.closeInputStream(is);
 			}
@@ -378,7 +382,12 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 			super.onPostExecute(result);
 
 			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
-				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
+				if (result.isOpSuccessfully()) {
+					MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
+				} else {
+					MyApplication.getInstance().showMessage(result.mStatusMessage);
+				}
+				
 			} else {
 				mLoadPageIndex = 1;
 			}
@@ -598,6 +607,15 @@ public class RestaurantListActivity extends BaseActionbarActivity {
 			mShopListAdapter.initShopList(mShopsList);
 			dismissProgressDialog();
 		}
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		AsyncTaskUtils.cancelTask(mRefreshShopInfoAsyncTask);
+		AsyncTaskUtils.cancelTask(mLoadShopInfoByNameAsyncTask);
+		AsyncTaskUtils.cancelTask(mLoadAllShopInfoAsyncTask);
+		AsyncTaskUtils.cancelTask(mLoadMoreShopInfoAsyncTask);
 	}
 
 	@Override

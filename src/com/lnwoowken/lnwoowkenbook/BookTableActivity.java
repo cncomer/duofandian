@@ -15,19 +15,20 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -41,25 +42,23 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.service.PhotoManagerUtilsV2;
 import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
+import com.cncom.app.base.util.ShopInfoObject;
 import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
 import com.lnwoowken.lnwoowkenbook.model.PayInfo;
 import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
 import com.lnwoowken.lnwoowkenbook.model.TableInfo;
-import com.lnwoowken.lnwoowkenbook.model.TableStyle;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
 import com.lnwoowken.lnwoowkenbook.view.CalendarDialog;
 import com.lnwoowken.lnwoowkenbook.view.CalendarView;
 import com.lnwoowken.lnwoowkenbook.view.DeskListDialog;
@@ -70,7 +69,9 @@ import com.lnwoowken.lnwoowkenbook.view.TimeView.TableListWheelTextAdapter;
 import com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 import com.shwy.bestjoy.utils.DateUtils;
+import com.shwy.bestjoy.utils.Intents;
 import com.shwy.bestjoy.utils.NetworkUtils;
+import com.shwy.bestjoy.utils.NotifyRegistrant;
 import com.umpay.creditcard.android.UmpayActivity;
 
 public class BookTableActivity extends BaseActionbarActivity implements OnClickListener, OnTouchListener {
@@ -86,7 +87,6 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	private Matrix matrix = new Matrix();
 	private Matrix savedMatrix = new Matrix();
 	private DisplayMetrics dm;
-	private Bitmap bitmap;
 	/** 最小缩放比例 */
 	float minScaleR = 1.0f;
 	/** 最大缩放比例 */
@@ -138,19 +138,29 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	private DeskListAdapter mDeskListAdapter;
 	private String mSelectedDeskID;
 	private String mDabiaoPrice;
+	
+	private ShopInfoObject mShopInfoObject;
+	private Handler mHandler;
+	private Bitmap mShopImageBitmap;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		PhotoManagerUtilsV2.getInstance().requestToken(TAG);
 		display = getWindowManager().getDefaultDisplay();
-		bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.table_back);
 		setContentView(R.layout.activity_booktable);
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		intent = BookTableActivity.this.getIntent();
 		mShopId = intent.getExtras().getString("shop_id");
 		initialize();
-
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		NotifyRegistrant.getInstance().unRegister(mHandler);
+		PhotoManagerUtilsV2.getInstance().releaseToken(TAG);
 	}
 
 	/**
@@ -217,13 +227,30 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 //
 //		tableRelativeLayout.setLayoutParams(l1);
 //		tableImage.setLayoutParams(l2);
-		tableImage.setImageBitmap(bitmap);// 填充控件
 		tableImage.setOnTouchListener(this);// 设置触屏监听
+		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
+		PhotoManagerUtilsV2.getInstance().loadPhotoAsync(TAG, tableImage, mShopInfoObject.getShopPhotoId("02"), null, PhotoManagerUtilsV2.TaskType.SHOP_IMAGE);
 		dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);// 获取分辨率
 		// minZoom();
-		center();
-		tableImage.setImageMatrix(matrix);
+		mHandler = new Handler() {
+			@Override
+			public void handleMessage(Message msg) {
+				switch(msg.what) {
+				case NotifyRegistrant.EVENT_NOTIFY_MESSAGE_RECEIVED:
+					Bundle bundle = (Bundle) msg.obj;
+					String photoId = bundle.getString(Intents.EXTRA_PHOTOID);
+					if (photoId.equals(mShopInfoObject.getShopPhotoId("02"))) {
+						mShopImageBitmap = ((BitmapDrawable) tableImage.getDrawable()).getBitmap();
+						center();
+						tableImage.setImageMatrix(matrix);
+					}
+					break;
+				}
+				
+			}
+		};
+		NotifyRegistrant.getInstance().register(mHandler);
 	}
 
 	public TableInfo getTableInfoById() {
@@ -383,6 +410,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 				Toast.makeText(context, "请选择您要预定的时间", Toast.LENGTH_SHORT).show();
 			}
 		}
+		super.onClick(v);
 	}
 
 	private QueryAvilableTableSynckTAsk mQueryAvilableTableSynckTAsk;
@@ -755,8 +783,8 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	 */
 	private void minZoom() {
 		minScaleR = Math.min(
-				(float) dm.widthPixels / (float) bitmap.getWidth(),
-				(float) dm.heightPixels / (float) bitmap.getHeight());
+				(float) dm.widthPixels / (float) mShopImageBitmap.getWidth(),
+				(float) dm.heightPixels / (float) mShopImageBitmap.getHeight());
 		if (minScaleR < 1.0) {
 			matrix.postScale(minScaleR, minScaleR);
 		}
@@ -771,9 +799,12 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	 */
 	protected void center(boolean horizontal, boolean vertical) {
 
+		if (mShopImageBitmap == null) {
+			return;
+		}
 		Matrix m = new Matrix();
 		m.set(matrix);
-		RectF rect = new RectF(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		RectF rect = new RectF(0, 0, mShopImageBitmap.getWidth(), mShopImageBitmap.getHeight());
 		m.mapRect(rect);
 
 		float height = rect.height();

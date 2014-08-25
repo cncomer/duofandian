@@ -29,6 +29,7 @@ import com.shwy.bestjoy.utils.DateUtils;
 import com.shwy.bestjoy.utils.DebugUtils;
 import com.shwy.bestjoy.utils.DeviceStorageUtils;
 import com.shwy.bestjoy.utils.DevicesUtils;
+import com.shwy.bestjoy.utils.NotifyRegistrant;
 import com.shwy.bestjoy.utils.SecurityUtils.SecurityKeyValuesObject;
 import com.umeng.analytics.MobclickAgent;
 
@@ -68,7 +69,6 @@ public class MyApplication extends Application{
 		mPreferManager = PreferenceManager.getDefaultSharedPreferences(this);
 		
 		mImMgr = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-		
 		PhotoManagerUtilsV2.getInstance().setContext(this);
 		//用于屏幕适配
 		DisplayMetrics display = this.getResources().getDisplayMetrics();
@@ -147,6 +147,20 @@ public class MyApplication extends Application{
 			productRoot.mkdirs();
 		}
 		return productRoot;
+	}
+	
+	public File getCachedSubDir(String dirName) {
+		File dir = new File(getCacheDir(), dirName);
+		
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		return dir;
+	}
+	
+	public File getShopImageFile(String photoId) {
+		File file = new File(getCachedSubDir("shop"), photoId);
+		return file;
 	}
 	
 	@Override
