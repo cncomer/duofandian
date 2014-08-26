@@ -268,9 +268,10 @@ public class CommitActivity extends BaseActionbarActivity {
 				}
 				billObj.setBillNumber(orderNo);
 				billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
-				billObj.setTableName(mTableInfo.getTableName());
-				billObj.setCreateTime(DateUtils.TOPIC_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
-				billObj.setDate(DateUtils.TOPIC_DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
+				billObj.setShopName(mShopInfoObject.getShopName());
+				billObj.setTableName(parcelableData.getTableName());
+				billObj.setCreateTime(DateUtils.TOPIC_SUBJECT_DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
+				billObj.setDate(time);
 				billObj.setState(BillObject.STATE_UNPAY);
 				billObj.setTableStyle(mTableInfo.getTableStyle());
 				BillListManager.saveBill(billObj, getContentResolver());

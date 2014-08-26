@@ -36,6 +36,9 @@ public class BillListActivity extends Activity {
 	private Button btn_back;
 	private Button btn_home;
 	private Button btn_more;//--“更多”按钮
+	
+	private Button btn_all;
+	private Button btn_unpay;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +108,24 @@ public class BillListActivity extends Activity {
 				}
 			}
 		});
+		btn_all = (Button) findViewById(R.id.button_bill_all);
+		btn_unpay = (Button) findViewById(R.id.button_bill_unpay);
+		
+		btn_all.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				btn_all.setBackgroundResource(R.drawable.button_tab_maincolor);
+				btn_unpay.setBackgroundResource(R.drawable.button_tab);
+			}
+		});
+		btn_unpay.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				btn_all.setBackgroundResource(R.drawable.button_tab);
+				btn_unpay.setBackgroundResource(R.drawable.button_tab_maincolor);
+			}
+		});
+		
 		if (MyAccountManager.getInstance().hasLoginned()) {
 			mBillList = BillListManager.getBillListLocal(getContentResolver());
 			mBillListAdapter = new BillListAdapter(context, mBillList);

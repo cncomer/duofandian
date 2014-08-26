@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,11 +54,9 @@ public class BillListAdapter extends BaseAdapter {
 			groupHolder=new ViewHolder();
 			
 			groupHolder.textView_billnumber=(TextView) view.findViewById(R.id.textView_billnumber);
-			groupHolder.textView_tableStyle=(TextView) view.findViewById(R.id.textView_tableStyle);
 			groupHolder.textView_state=(TextView) view.findViewById(R.id.textView_state);
 			groupHolder.textView_createDate=(TextView) view.findViewById(R.id.textView_createDate);		
 			groupHolder.textView_shopName=(TextView) view.findViewById(R.id.textView_shopName);		
-			groupHolder.textView_date=(TextView) view.findViewById(R.id.textView_date);
 			groupHolder.textView_time=(TextView) view.findViewById(R.id.textView_time);
 			groupHolder.textView_tableName=(TextView) view.findViewById(R.id.textView_tableName);
 			groupHolder.btn_survey=(ImageButton) view.findViewById(R.id.imageButton_survey);
@@ -71,21 +70,17 @@ public class BillListAdapter extends BaseAdapter {
 		if (mBillList.get(position)!=null) {
 			BillObject b = mBillList.get(position);
 			groupHolder.textView_billnumber.setText(b.getBillNumber());
-			groupHolder.textView_tableStyle.setText(b.getTableStyle());
-			groupHolder.textView_state.setText(b.getState()+"");
-			groupHolder.textView_createDate.setText(b.getCreateTime());
+			groupHolder.textView_state.setText(getBillState(b.getState()));
 			groupHolder.textView_shopName.setText(b.getShopName());
-			groupHolder.textView_date.setText(b.getDate());
-			groupHolder.textView_time.setText(b.getTime()+"");
+			groupHolder.textView_time.setText(b.getDate());
 			groupHolder.textView_tableName.setText(b.getTableName());
+			groupHolder.textView_createDate.setText(b.getCreateTime());
 		} else {
 			String str = mContext.getResources().getString(R.string.no_data);
 			groupHolder.textView_billnumber.setText(str);
-			groupHolder.textView_tableStyle.setText(str);
 			groupHolder.textView_state.setText(str);
 			groupHolder.textView_createDate.setText(str);
 			groupHolder.textView_shopName.setText(str);
-			groupHolder.textView_date.setText(str);
 			groupHolder.textView_time.setText(str);
 			groupHolder.textView_tableName.setText(str);
 		}
@@ -106,13 +101,27 @@ public class BillListAdapter extends BaseAdapter {
 		return view;
 	}
 	
+	private String getBillState(int state) {
+		int res = R.string.bill_unpay;
+		switch (state) {
+		case BillObject.STATE_IDLE:
+			res = R.string.bill_unpay;
+			break;
+		case BillObject.STATE_UNPAY:
+			res = R.string.bill_unpay;
+			break;
+		case BillObject.STATE_SUCCESS:
+			res = R.string.bill_pay_sucess;
+			break;
+		}
+		return mContext.getString(res);
+	}
+
 	static class ViewHolder{
 		TextView textView_billnumber;
 		TextView textView_shopName;
-		TextView textView_date;
 		TextView textView_time;
 		TextView textView_tableName;
-		TextView textView_tableStyle;
 		TextView textView_state;
 		TextView textView_createDate;
 		ImageButton btn_survey;

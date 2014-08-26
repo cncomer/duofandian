@@ -290,6 +290,8 @@
   <string name="pay_success_tips">恭喜，您已完成支付并抢位成功</string>
   <string name="pay_cancel_tips">您已取消支付，如需抢位请重新提交订单信息</string>
   
+  <string name="bill_unpay">未支付</string>
+  <string name="bill_pay_sucess">支付成功</string>
   
   <string name="title_hot_hotel_tip">热门餐厅不等位!</string>
   <string name="msg_login_dialog_title_wait">正在登录...</string>

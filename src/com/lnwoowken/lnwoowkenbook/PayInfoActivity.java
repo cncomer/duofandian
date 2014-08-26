@@ -171,6 +171,9 @@ public class PayInfoActivity extends BaseActionbarActivity {
 				PayInfoActivity.this.finish();
 			}
 		} else if (str.equalsIgnoreCase("cancel")) {
+			mCountDownTime.onFinish();
+			mCountDownTime.cancel();
+			mCountDownTime = null;
 			Toast.makeText(context, context.getString(R.string.pay_cancel_tips), Toast.LENGTH_LONG).show();
 			saveBillDatabase(BillObject.STATE_UNPAY);
 		}
@@ -187,9 +190,10 @@ public class PayInfoActivity extends BaseActionbarActivity {
 		BillObject billObj = new BillObject();
 		billObj.setBillNumber(mOrderNumber);
 		billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
+		billObj.setShopName(mShopInfoObject.getShopName());
 		billObj.setTableName(mTableInfo.getTableName());
-		billObj.setCreateTime(DateUtils.TOPIC_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
-		billObj.setDate(DateUtils.TOPIC_DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
+		billObj.setCreateTime(DateUtils.TOPIC_SUBJECT_DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
+		billObj.setDate(time);
 		billObj.setState(state);
 		billObj.setTableStyle(mTableInfo.getTableStyle());
 		BillListManager.saveBill(billObj, getContentResolver());

@@ -240,10 +240,10 @@ public class BillObject {
 		values.put(DBHelper.BILL_SHOPNAME, shopName);
 		values.put(DBHelper.BILL_DATE, date);
 		values.put(DBHelper.BILL_TIME, time);
-		values.put(DBHelper.BILL_NUMBER, state);
-		values.put(DBHelper.BILL_NUMBER, tableName);
-		values.put(DBHelper.BILL_NUMBER, tableStyle);
-		values.put(DBHelper.BILL_NUMBER, createTime);
+		values.put(DBHelper.BILL_STATE, state);
+		values.put(DBHelper.BILL_TABLENAME, tableName);
+		values.put(DBHelper.BILL_TABLESTYLE, tableStyle);
+		values.put(DBHelper.BILL_CREATETIME, createTime);
 		values.put(DBHelper.BILL_NUMBER, billNumber);
 		
 		Uri uri = cr.insert(BjnoteContent.Bills.CONTENT_URI, values);
@@ -270,10 +270,10 @@ public class BillObject {
 		values.put(DBHelper.BILL_SHOPNAME, shopName);
 		values.put(DBHelper.BILL_DATE, date);
 		values.put(DBHelper.BILL_TIME, time);
-		values.put(DBHelper.BILL_NUMBER, state);
-		values.put(DBHelper.BILL_NUMBER, tableName);
-		values.put(DBHelper.BILL_NUMBER, tableStyle);
-		values.put(DBHelper.BILL_NUMBER, createTime);
+		values.put(DBHelper.BILL_STATE, state);
+		values.put(DBHelper.BILL_TABLENAME, tableName);
+		values.put(DBHelper.BILL_TABLESTYLE, tableStyle);
+		values.put(DBHelper.BILL_CREATETIME, createTime);
 		values.put(DBHelper.BILL_NUMBER, billNumber);
 		
 		int uri = cr.update(BjnoteContent.Bills.CONTENT_URI, values, BILL_SELECTION, new String[]{billNumber});

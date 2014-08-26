@@ -68,24 +68,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dip" >
                 <TextView
-                android:id="@+id/textView_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                
-                android:text="@string/no_data"
-                android:textColor="@color/textColor_gray"
-                android:textSize="20dip" />
-
-                
-
-                <TextView
                 android:id="@+id/textView_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dip"
+                
                 android:text="@string/no_data"
                 android:textColor="@color/textColor_gray"
-                android:textSize="20dip" />
+                android:textSize="16dip" />
             </LinearLayout>
 
             <LinearLayout
@@ -97,15 +86,6 @@
                     android:id="@+id/textView_tableName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/no_data"
-                    android:textColor="@color/textColor_gray"
-                    android:textSize="20dip" />
-
-                <TextView
-                    android:id="@+id/textView_tableStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dip"
                     android:text="@string/no_data"
                     android:textColor="@color/textColor_gray"
                     android:textSize="20dip" />
