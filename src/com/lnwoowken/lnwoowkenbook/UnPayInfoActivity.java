@@ -1,15 +1,12 @@
 package com.lnwoowken.lnwoowkenbook;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -35,19 +32,14 @@ import android.widget.Toast;
 import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
-import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
-import com.lnwoowken.lnwoowkenbook.model.TableInfo;
 import com.lnwoowken.lnwoowkenbook.tools.MyCount;
 import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
-import com.shwy.bestjoy.utils.DateUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
-import com.unionpay.UPPayAssistEx;
-import com.unionpay.uppay.PayActivity;
 
 public class UnPayInfoActivity extends BaseActionbarActivity {
 	private static final String TAG = "PayInfoActivity";

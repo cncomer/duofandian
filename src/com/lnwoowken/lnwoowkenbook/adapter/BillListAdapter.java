@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +78,10 @@ public class BillListAdapter extends BaseAdapter {
 			groupHolder.textView_time.setText(b.getDate());
 			groupHolder.textView_tableName.setText(b.getTableName());
 			groupHolder.textView_createDate.setText(b.getCreateTime());
-			if(b.getState() != BillObject.STATE_SUCCESS) groupHolder.btn_tuiding.setEnabled(false);
+			if(b.getState() != BillObject.STATE_SUCCESS) {
+				groupHolder.btn_tuiding.setEnabled(false);
+				groupHolder.btn_tuiding.setBackgroundColor(Color.GRAY);
+			}
 			groupHolder.btn_tuiding.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {

@@ -2,7 +2,6 @@
 
 import java.util.List;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -23,11 +22,12 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.lnwoowken.lnwoowkenbook.adapter.BillListAdapter;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
 
-public class BillListActivity extends Activity {
+public class BillListActivity extends BaseActionbarActivity {
 	private PopupWindow popupWindow;
 	private Context context = BillListActivity.this;
 	private ListView listBill;
@@ -41,7 +41,7 @@ public class BillListActivity extends Activity {
 	private Button btn_unpay;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_bill);	
 		initialize();
@@ -192,6 +192,11 @@ public class BillListActivity extends Activity {
 	public static void startActivity(Context context) {
 		Intent intent = new Intent(context, BillListActivity.class);
 		context.startActivity(intent);
+	}
+
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		return true;
 	}
 
 }

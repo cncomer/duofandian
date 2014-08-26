@@ -276,6 +276,8 @@ public class CommitActivity extends BaseActionbarActivity {
 				billObj.setDate(time);
 				billObj.setState(BillObject.STATE_UNPAY);
 				billObj.setTableStyle(mTableInfo.getTableStyle());
+				billObj.setDabiaoPrice(parcelableData.getTablePrice());
+				billObj.setServicePrice(parcelableData.getSprice());
 				BillListManager.saveBill(billObj, getContentResolver());
 				
 				commitPay();
