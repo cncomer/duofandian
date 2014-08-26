@@ -47,12 +47,12 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 	@SuppressWarnings({ "deprecation", "unused" })
 	private void initialize() {
 		shopImg = (ImageView) findViewById(R.id.imageView_shop_img);
-//		int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-//	//	int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
-//		int margin_int = com.lnwoowken.lnwoowkenbook.tools.Tools.dip2px(context, 20);
-//		LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(screenWidth, screenWidth*260/480);
-//		l2.setMargins(0, 0, 0, 0);
-//		shopImg.setLayoutParams(l2);
+		int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
+		int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
+		int margin_int = com.lnwoowken.lnwoowkenbook.tools.Tools.dip2px(context, 20);
+		LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(screenWidth, screenWidth*260/480);
+		l2.setMargins(0, 0, 0, 0);
+		shopImg.setLayoutParams(l2);
 		intent = RestuarantInfoActivity.this.getIntent();
 		mShopId = intent.getExtras().getString("shop_id");
 		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
