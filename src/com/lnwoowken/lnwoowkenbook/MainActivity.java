@@ -11,6 +11,7 @@ import com.cncom.app.base.ui.BaseSlidingFragmentActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.shwy.bestjoy.utils.DebugUtils;
 import com.umeng.message.PushAgent;
+import com.umeng.update.UmengUpdateAgent;
 /**
  * @author chenkai
  *
@@ -31,6 +32,9 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 		if (isFinishing()) {
 			return ;
 		}
+		
+		//友盟更新功能
+		UmengUpdateAgent.update(this);
 		
 		
 		if (savedInstanceState != null) {
