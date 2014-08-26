@@ -94,7 +94,7 @@ public class CommitActivity extends BaseActionbarActivity {
 		mTableInfo.setTableStyle(parcelableData.getTableName().substring(parcelableData.getTableName().lastIndexOf(" ") + 1));
 		mTableInfo.setPrice(parcelableData.getTablePrice());
 		mTableInfo.setSprice(parcelableData.getSprice());
-		
+		mTableInfo.setNote(parcelableData.getContent());
 		mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
 		
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
@@ -226,8 +226,10 @@ public class CommitActivity extends BaseActionbarActivity {
 			try {
 				JSONObject queryJsonObject = new JSONObject();
 				queryJsonObject.put("deskID", mTableInfo.getTableId());
+				queryJsonObject.put("note", mTableInfo.getNote());
 				queryJsonObject.put("price", mPriceTotal);
 				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
+				DebugUtils.logD(TAG, "CreateBillAsyncTask doInBackground() queryJsonObject=" + queryJsonObject.toString());
 				is = NetworkUtils.openContectionLocked(ServiceObject.getLiushuiNumberUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
 				DebugUtils.logD(TAG, "data = " + serviceResultObject.mJsonData);

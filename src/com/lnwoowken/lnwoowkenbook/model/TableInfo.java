@@ -24,6 +24,8 @@ public class TableInfo {
 	private String peopleNum;//--人数
 	private String tableid;//--桌子id
 	
+	private String note;//抢位备注
+	
 	public String getTableStyle() {
 		return style;
 	}
@@ -133,6 +135,12 @@ public class TableInfo {
 
 	public void setTableName(String name) {
 		this.name = name;
+	}
+	public String getNote() {
+		return note;
+	}
+	public String setNote(String note) {
+		return this.note = note;
 	}
 //
 //	public String getTotal() {
