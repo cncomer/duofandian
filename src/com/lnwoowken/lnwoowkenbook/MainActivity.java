@@ -35,6 +35,7 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 		
 		//友盟更新功能
 		UmengUpdateAgent.update(this);
+		UmengUpdateAgent.setUpdateOnlyWifi(false);
 		
 		
 		if (savedInstanceState != null) {
