@@ -72,6 +72,8 @@
     <string name="btn_regist">注册</string>
     <string name="title_bill_confirm">定单确认</string>
     <string name="title_bill_pay">定单支付</string>
+    <string name="title_bill_unpay">定单退定</string>
+    <string name="btn_confirm_unpay">确认退定</string>
     <string name="title_mybill">我的定单</string>
     <string name="title_user">会员中心</string>
      <string name="title_login_to_get_services">点击登录获取更多特权</string>
@@ -281,6 +283,7 @@
   <string name="vip_account">会员账户:</string>
   <string name="vip_account_countdown">VIP用户优惠服务费:</string>
   <string name="final_pay">最终支付:</string>
+  <string name="alredy_pay">已经支付:</string>
   <string name="heyue_tips">您是否同意上述合约中的所有条款？</string>
   <string name="sort">筛选</string>
   <string name="search">搜索</string>
@@ -292,6 +295,8 @@
   
   <string name="bill_unpay">未支付</string>
   <string name="bill_pay_sucess">支付成功</string>
+  <string name="bill_tuiding_sucess">已退定成功</string>
+  <string name="bill_tuiding">退定</string>
   
   <string name="title_hot_hotel_tip">热门餐厅不等位!</string>
   <string name="msg_login_dialog_title_wait">正在登录...</string>

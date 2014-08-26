@@ -182,6 +182,33 @@ public class PatternInfoUtils {
 		return result;
 	}
 	
+	public static TableInfoObject getTableInfoByName(ContentResolver cr, String tableName) {
+		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, TableInfoObject.TABLE_PROJECTION, TableInfoObject.TABLE_NAME_PROJECTION, new String[] {tableName}, null);
+		if (c != null) {
+			while (c.moveToNext()) {
+				return getTableObject(c);
+			}
+		}
+		
+		return new TableInfoObject();
+	}
+	
+	private static TableInfoObject getTableObject(Cursor c) {
+		TableInfoObject tableObj = new TableInfoObject();
+		tableObj.setShiduanId(c.getString(c.getColumnIndex(TableInfoObject.SHIDUAN_ID)));
+		tableObj.setDeskType(c.getString(c.getColumnIndex(TableInfoObject.DESK_TYPE)));
+		tableObj.setDeskName(c.getString(c.getColumnIndex(TableInfoObject.DESK_NAME)));
+		tableObj.setDate(c.getString(c.getColumnIndex(TableInfoObject.DATE)));
+		tableObj.setDeskStates(c.getString(c.getColumnIndex(TableInfoObject.DATE_STATES)));
+		tableObj.setShiduanTime(c.getString(c.getColumnIndex(TableInfoObject.SHIDUAN_TIME)));
+		tableObj.setShiduanName(c.getString(c.getColumnIndex(TableInfoObject.SHIDUAN_TIME)));
+		tableObj.setDeskId(c.getString(c.getColumnIndex(TableInfoObject.DESK_ID)));
+		tableObj.setDabiaoPrice(c.getString(c.getColumnIndex(TableInfoObject.DESK_DABIAO_PRICE)));
+		tableObj.setServicePrice(c.getString(c.getColumnIndex(TableInfoObject.DESK_SERVICE_PRICE)));
+		
+		return tableObj;
+	}
+
 	public static List<String> getCaixiListLocal(ContentResolver cr) throws JSONException {
 		List<String> result = new ArrayList<String>();
 		Cursor c = cr.query(BjnoteContent.Caixi.CONTENT_URI, new String[] {DBHelper.CAIXI_NAME}, null, null, null);

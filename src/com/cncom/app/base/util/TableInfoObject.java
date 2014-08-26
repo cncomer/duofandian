@@ -1,5 +1,6 @@
 package com.cncom.app.base.util;
 
+
 public class TableInfoObject {
 	//{"shiduan_id":"1","desk_type":"2人桌(1-2人)","desk_name":"A2","date":"2014/7/18 0:00:00","desk_status":"3","shiduan_time":"12:15","shiduan_name":"午市","DeskID":"1","dabiao_price":"190","service_price":"20"}
 	private String mShiduanId;
@@ -23,6 +24,21 @@ public class TableInfoObject {
 	public static final String DESK_ID = "DeskID";
 	public static final String DESK_DABIAO_PRICE = "dabiao_price";
 	public static final String DESK_SERVICE_PRICE = "service_price";
+
+	public static final String[] TABLE_PROJECTION = new String[] {
+		SHIDUAN_ID,
+		DESK_TYPE,
+		DESK_NAME,
+		DATE,
+		DATE_STATES,
+		SHIDUAN_TIME,
+		SHIDUAN_NAME,
+		DESK_ID,
+		DESK_DABIAO_PRICE,
+		DESK_SERVICE_PRICE,
+	};
+	
+	public static final String TABLE_NAME_PROJECTION = DESK_NAME + "=?";
 	
 	public String getShiduanId() {
 		return mShiduanId;

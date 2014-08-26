@@ -213,6 +213,13 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".UnPayInfoActivity"
+            android:launchMode="singleTop"
+            android:label="@string/title_bill_unpay"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".BookTableActivity"
             android:configChanges="keyboard|keyboardHidden"
             android:launchMode="singleTop"

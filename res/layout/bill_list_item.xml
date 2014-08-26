@@ -161,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/title_billtime"
                     android:textColor="@color/gray"
-                    android:textSize="15dip" />
+                    android:textSize="12dip" />
 
                 <TextView
                     android:id="@+id/textView_createDate"
@@ -169,8 +169,24 @@
                     android:layout_height="wrap_content"
                     android:text="@string/no_data"
                     android:textColor="@color/gray"
-                    android:textSize="15dip"
+                    android:textSize="12dip"
                     android:layout_marginLeft="5dip" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+		        <Button
+		            android:id="@+id/button_tuiding"
+		            android:layout_width="35dp"
+		            android:layout_height="wrap_content"
+		            android:background="@drawable/button_commit"
+		            android:textColor="@color/text_btn_commit_selector"
+		            android:textSize="12dip"
+		            android:layout_marginRight="20dp"
+		            android:text="@string/bill_tuiding"
+		            android:layout_marginBottom="10dip" />
             </LinearLayout>
         </LinearLayout>
 
@@ -178,7 +194,7 @@
             android:id="@+id/imageButton_delete"
             android:layout_width="25dip"
             android:layout_height="25dip"
-            android:layout_gravity="center_vertical"
+            android:layout_marginTop="40dp"
             android:background="@drawable/btn_delete" />
     </LinearLayout>
  </LinearLayout>

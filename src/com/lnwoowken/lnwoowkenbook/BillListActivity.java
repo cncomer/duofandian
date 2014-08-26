@@ -116,6 +116,12 @@ public class BillListActivity extends Activity {
 			public void onClick(View v) {
 				btn_all.setBackgroundResource(R.drawable.button_tab_maincolor);
 				btn_unpay.setBackgroundResource(R.drawable.button_tab);
+				if (MyAccountManager.getInstance().hasLoginned()) {
+					mBillList = BillListManager.getBillListLocal(getContentResolver());
+					if(mBillListAdapter != null) mBillListAdapter.notifyDataSetChanged();
+				} else {
+					Toast.makeText(context, "您还没有登录,请先登录", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		btn_unpay.setOnClickListener(new OnClickListener() {
@@ -123,6 +129,12 @@ public class BillListActivity extends Activity {
 			public void onClick(View v) {
 				btn_all.setBackgroundResource(R.drawable.button_tab);
 				btn_unpay.setBackgroundResource(R.drawable.button_tab_maincolor);
+				if (MyAccountManager.getInstance().hasLoginned()) {
+					mBillList = BillListManager.getUnpayBillListLocal(getContentResolver());
+					if(mBillListAdapter != null) mBillListAdapter.notifyDataSetChanged();
+				} else {
+					Toast.makeText(context, "您还没有登录,请先登录", Toast.LENGTH_SHORT).show();
+				}
 			}
 		});
 		

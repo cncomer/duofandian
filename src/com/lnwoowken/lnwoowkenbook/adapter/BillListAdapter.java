@@ -6,7 +6,7 @@ import java.util.List;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.lnwoowken.lnwoowkenbook.BillListManager;
 import com.lnwoowken.lnwoowkenbook.R;
 import com.lnwoowken.lnwoowkenbook.SurveyActivity;
+import com.lnwoowken.lnwoowkenbook.UnPayInfoActivity;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
 
 public class BillListAdapter extends BaseAdapter {
@@ -61,20 +62,33 @@ public class BillListAdapter extends BaseAdapter {
 			groupHolder.textView_tableName=(TextView) view.findViewById(R.id.textView_tableName);
 			groupHolder.btn_survey=(ImageButton) view.findViewById(R.id.imageButton_survey);
 			groupHolder.btn_delete = (ImageButton) view.findViewById(R.id.imageButton_delete);
+			groupHolder.btn_tuiding = (Button) view.findViewById(R.id.button_tuiding);
 
 			view.setTag(groupHolder);
 		} else {
 			view = lmap.get(position);
 			groupHolder=(ViewHolder)view.getTag();
-		} 
+		}
 		if (mBillList.get(position)!=null) {
-			BillObject b = mBillList.get(position);
+			final BillObject b = mBillList.get(position);
 			groupHolder.textView_billnumber.setText(b.getBillNumber());
 			groupHolder.textView_state.setText(getBillState(b.getState()));
 			groupHolder.textView_shopName.setText(b.getShopName());
 			groupHolder.textView_time.setText(b.getDate());
 			groupHolder.textView_tableName.setText(b.getTableName());
 			groupHolder.textView_createDate.setText(b.getCreateTime());
+			if(b.getState() != BillObject.STATE_SUCCESS) groupHolder.btn_tuiding.setEnabled(false);
+			groupHolder.btn_tuiding.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Bundle bundle = new Bundle();
+					bundle.putString("bill_number", b.getBillNumber());
+					Intent intent = new Intent();
+					intent.setClass(mContext, UnPayInfoActivity.class);
+					intent.putExtras(bundle);
+					mContext.startActivity(intent);
+				}
+			});
 		} else {
 			String str = mContext.getResources().getString(R.string.no_data);
 			groupHolder.textView_billnumber.setText(str);
@@ -113,6 +127,9 @@ public class BillListAdapter extends BaseAdapter {
 		case BillObject.STATE_SUCCESS:
 			res = R.string.bill_pay_sucess;
 			break;
+		case BillObject.STATE_TUIDING_SUCCESS:
+			res = R.string.bill_tuiding_sucess;
+			break;
 		}
 		return mContext.getString(res);
 	}
@@ -126,6 +143,7 @@ public class BillListAdapter extends BaseAdapter {
 		TextView textView_createDate;
 		ImageButton btn_survey;
 		ImageButton btn_delete;
+		Button btn_tuiding;
 	}
 	
 

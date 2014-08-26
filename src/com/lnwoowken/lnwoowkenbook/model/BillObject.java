@@ -29,6 +29,8 @@ public class BillObject {
 	private String tableStyle;// --桌型
 	private String createTime;// --订单生成时间
 	private String billNumber;// --订单号
+	private String dabiaoPrice;// --达标金额
+	private String servicePrice;// --服务金额
 	
 	/**正常状态*/
 	public static final int STATE_IDLE = 1;
@@ -36,6 +38,8 @@ public class BillObject {
 	public static final int STATE_UNPAY = STATE_IDLE + 1;
 	/**支付成功*/
 	public static final int STATE_SUCCESS = STATE_UNPAY + 1;
+	/**退定成功*/
+	public static final int STATE_TUIDING_SUCCESS = STATE_SUCCESS + 1;
 
 	public static final String BILL_ID = "_id";
 	public static final String BILL_UID = "uid";
@@ -55,6 +59,8 @@ public class BillObject {
 	public static final String BILL_TABLESTYLE = "tableStyle";
 	public static final String BILL_CREATETIME = "createTime";
 	public static final String BILL_NUMBER = "billnumber";
+	public static final String BILL_DABIAO_PRICE = "dabiaoprice";
+	public static final String BILL_SERVICE_PRICE = "serviceprice";
 
 	public static final String[] BILL_PROJECTION = new String[] {
 		DBHelper.BILL_ID,
@@ -75,9 +81,15 @@ public class BillObject {
 		DBHelper.BILL_TABLESTYLE,
 		DBHelper.BILL_CREATETIME,
 		DBHelper.BILL_NUMBER,
+		DBHelper.BILL_DABIAO_PRICE,
+		DBHelper.BILL_SERVICE_PRICE,
 	};
 
 	public static final String BILL_SELECTION = DBHelper.BILL_NUMBER + "=?";
+
+	public static final String BILL_UNPAY_SELECTION = DBHelper.BILL_STATE + "!=?";
+
+	public static final String BILL_NUMBER_SELECTION = DBHelper.BILL_NUMBER + "=?";
 	
 	public String getId() {
 		return id;
@@ -222,6 +234,22 @@ public class BillObject {
 	public void setBillNumber(String billNumber) {
 		this.billNumber = billNumber;
 	}
+
+	public String getDabiaoPrice() {
+		return dabiaoPrice;
+	}
+
+	public void setDabiaoPrice(String dabiaoPrice) {
+		this.dabiaoPrice = dabiaoPrice;
+	}
+
+	public String getServicePrice() {
+		return servicePrice;
+	}
+
+	public void setServicePrice(String servicePrice) {
+		this.servicePrice = servicePrice;
+	}
 	
 	public boolean saveDatabase(ContentResolver cr, ContentValues addtion) {
 		ContentValues values = new ContentValues();
@@ -245,6 +273,8 @@ public class BillObject {
 		values.put(DBHelper.BILL_TABLESTYLE, tableStyle);
 		values.put(DBHelper.BILL_CREATETIME, createTime);
 		values.put(DBHelper.BILL_NUMBER, billNumber);
+		values.put(DBHelper.BILL_DABIAO_PRICE, dabiaoPrice);
+		values.put(DBHelper.BILL_SERVICE_PRICE, servicePrice);
 		
 		Uri uri = cr.insert(BjnoteContent.Bills.CONTENT_URI, values);
 		if (uri != null) {
@@ -275,6 +305,8 @@ public class BillObject {
 		values.put(DBHelper.BILL_TABLESTYLE, tableStyle);
 		values.put(DBHelper.BILL_CREATETIME, createTime);
 		values.put(DBHelper.BILL_NUMBER, billNumber);
+		values.put(DBHelper.BILL_DABIAO_PRICE, dabiaoPrice);
+		values.put(DBHelper.BILL_SERVICE_PRICE, servicePrice);
 		
 		int uri = cr.update(BjnoteContent.Bills.CONTENT_URI, values, BILL_SELECTION, new String[]{billNumber});
 		if (uri != -1) {

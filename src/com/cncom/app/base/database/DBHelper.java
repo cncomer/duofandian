@@ -116,6 +116,8 @@ private static final String TAG = "DBHelper";
   public static final String BILL_TABLESTYLE = "tableStyle";
   public static final String BILL_CREATETIME = "createTime";
   public static final String BILL_NUMBER = "billnumber";
+  public static final String BILL_DABIAO_PRICE = "dabiaoprice";
+  public static final String BILL_SERVICE_PRICE = "serviceprice";
   //bill table end
   
   public DBHelper(Context context) {
@@ -272,7 +274,9 @@ private static final String TAG = "DBHelper";
 	            BILL_TABLENAME + " TEXT, " +
 	            BILL_TABLESTYLE + " TEXT, " +
 	            BILL_CREATETIME + " TEXT, " +
-	            BILL_NUMBER + " TEXT);");
+	            BILL_NUMBER + " TEXT, " +
+	            BILL_DABIAO_PRICE + " TEXT, " +
+	            BILL_SERVICE_PRICE + " TEXT);");
   }
   
   private void createScanHistory(SQLiteDatabase sqLiteDatabase) {
