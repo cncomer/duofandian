@@ -8,7 +8,6 @@ import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -51,9 +50,7 @@ public class CommitActivity extends BaseActionbarActivity {
 	private String tNumber;
 	private String orderNo;
 	private String payId;
-	private Context context = CommitActivity.this;
 	private boolean isAgree;
-	private Button btn_back;
 	private CheckBox checkBox_default;
 	private CheckBox checkBox_others;
 	private EditText editText_phoneNum;
@@ -88,6 +85,9 @@ public class CommitActivity extends BaseActionbarActivity {
 		mShopId = parcelableData.getShopId();
 		time = parcelableData.getTime();
 		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
+		
+		((TextView) findViewById(R.id.textView_attention)).setText(mShopInfoObject.mOrderConfirmTip);
+		
 		mTableInfo = new TableInfo();
 		mTableInfo.setTableId(parcelableData.getTableId());
 		mTableInfo.setTableName(parcelableData.getTableName().substring(0, parcelableData.getTableName().lastIndexOf(" ")));

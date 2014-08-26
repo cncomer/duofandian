@@ -149,6 +149,16 @@ public class ServiceObject {
 		sb.append("shopimg/").append(photoID).append(".jpg");
 		return sb.toString();
 	}
+	/**
+	 * 返回指定店铺的提示信息，如抢位告知、订单确认、支付提示等信息，形如http://manage.lnwoowken.com/mobile/common/gettip.ashx?para={shopid:12}
+	 * @param shopShowId
+	 * @return
+	 */
+	public static String getShopTipsUrl(String shopShowId) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("mobile/common/gettip.ashx?para=").appendUrlEncodedString("{shopid:").append(shopShowId).appendUrlEncodedString("}");
+		return sb.toString();
+	}
 	
 	public static class ServiceResultObject {
 		public int mStatusCode = 0;

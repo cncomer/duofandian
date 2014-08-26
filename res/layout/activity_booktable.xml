@@ -51,53 +51,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dip"
-                    android:text="抢位告知"
+                    android:text="@string/qiangwei_tip_title"
                     android:textColor="@color/Black"
-                    android:textSize="18dip" />
+                    android:textSize="18sp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dip" >
-
-                    <ImageView
-                        android:id="@+id/imageView_clock"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="25dip"
-                        android:background="@drawable/img_clock" />
-
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dip"
-                        android:text="会员专座免除排队等候时间,抢到即可前往就餐"
-                        android:textColor="@color/textColor"
-                        android:textSize="13dip" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dip" >
-
-                    <ImageView
-                        android:id="@+id/imageView_message"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="25dip"
-                        android:background="@drawable/img_message" />
-
-                    <TextView
+                 <TextView
                         android:id="@+id/textView_attention"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dip"
-                        android:text="会员到店时,可能需稍等片刻,待餐厅内有空桌时,服务员会优先带您入座。"
+                        android:layout_marginLeft="25dip"
+                        android:layout_marginTop="4dip"
+                        android:text="@string/no_data_supply"
                         android:textColor="@color/textColor"
-                        android:textSize="13dip" />
-                </LinearLayout>
+                        android:textSize="13sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -131,7 +97,7 @@
                         android:text="@string/selected_time_info"
                         android:textColor="@color/main_color"
                         android:layout_marginLeft="10dip"
-                        android:textSize="18dip" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -188,7 +154,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dip"
                     android:layout_marginRight="20dip"
-                    android:text="@string/note_content"
+                    android:hint="@string/note_content"
                     android:textColor="@color/textColor_gray"
                     android:background="@drawable/edit_content_bg"
                     android:ems="10" />

@@ -129,6 +129,8 @@ public class PayInfoActivity extends BaseActionbarActivity {
 				Log.d(TAG, isAgree+"");
 			}
 		});
+		
+		((TextView) findViewById(R.id.textView_attention)).setText(mShopInfoObject.mOrderPayTip);
 	}
 
 	@Override

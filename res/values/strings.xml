@@ -80,6 +80,7 @@
     <string name="score3">服务 8.9</string>
     <string name="login">登录</string>
     <string name="no_data">无</string>
+    <string name="no_data_supply">未提供</string>
     <string name="no_net">无网络,请先开启网络</string>
     <string name="app_name">夺饭点</string>
     <string name="action_settings">Settings</string>
@@ -273,6 +274,7 @@
   <string name="time_info">时间信息:</string>
   <string name="vip_seat">会员专座:</string>
   <string name="agree_protocal_tips">您还没有同意用户协议</string>
+  <string name="agree_protocal_title">同意用户协议</string>
   <string name="back_level">返回上一级</string>
   <string name="first_level">第一级</string>
   <string name="jifen_countdown">积分抵扣:</string>
@@ -312,4 +314,6 @@
    <string name="delete_tips">确定删除吗？</string>
    <string name="dialog_title">提示信息</string>
    
+   <string name="qiangwei_tip_title">抢位告知</string>
+   <string name="order_confirm_tip_title">重要说明</string>
 </resources>

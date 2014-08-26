@@ -17,6 +17,7 @@ import com.cncom.app.base.database.DBHelper;
 import com.shwy.bestjoy.utils.DebugUtils;
 
 public class PatternInfoUtils {
+	private static final String TAG = "PatternInfoUtils";
 	private static final String SELECTION_BY_SHOPID = DBHelper.SHOP_ID + "=?";
 
 	public static List<ShopInfoObject> getShopInfo(JSONArray shops) throws JSONException {
@@ -25,35 +26,7 @@ public class PatternInfoUtils {
 		//{"ShopName":"望湘园（测试1）","deskCount":"0","showid":"010005","HeadID":null,"HeadName":"望湘园","ShopID":"12"}
 		//{"Address":"上海市金山区长宁路1018号龙之梦购物中心5楼蓝中庭","Serverprice":"","HeadID":1,"ShopID":11,"ShopName":"望湘园（测试）","CaiXi":"1","ShuYuZhuZhi":"1","GuDingPhone":null,"Contacts":"柳智","contacts_phone":"18621951099","ShopAddrID":null,"shop_brief":"望湘园换短发","qiang_wei_img":"","shop_img":"","ren_jun":"0","pingfen":null,"youhui":"0","tuangou":"0","diancan":"0","maidan":"0","showid":"010004","detail":null}
 		for(int i = 0; i < shops.length(); i++) {
-			ShopInfoObject shopInfoObject = new ShopInfoObject();
-			JSONObject obj = shops.getJSONObject(i);
-			shopInfoObject.setShopAddress(obj.getString(ShopInfoObject.SHOP_ADDREES));
-			shopInfoObject.setShopServerprice(obj.getString(ShopInfoObject.SHOP_SERVERPRICE));
-			shopInfoObject.setShopHeadId(obj.getString(ShopInfoObject.SHOP_HEAD_ID));
-			shopInfoObject.setShopID(obj.getString(ShopInfoObject.SHOP_ID));
-			shopInfoObject.setShopName(obj.getString(ShopInfoObject.SHOP_NAME));
-			shopInfoObject.setShopCaiXi(obj.getString(ShopInfoObject.SHOP_CAIXI));
-			shopInfoObject.setShopShuYuZhuZhi(obj.getString(ShopInfoObject.SHOP_SHUYUZHUZHI));
-			shopInfoObject.setShopGuDingPhone(obj.getString(ShopInfoObject.SHOP_GUDINGPHONE));
-			shopInfoObject.setShopContacts(obj.getString(ShopInfoObject.SHOP_CONTACTS));
-			shopInfoObject.setShopContactsPhone(obj.getString(ShopInfoObject.SHOP_CONTACTS_PHONE));
-			shopInfoObject.setShopAddrID(obj.getString(ShopInfoObject.SHOP_ADDR_ID));
-			shopInfoObject.setShopBrief(obj.getString(ShopInfoObject.SHOP_BRIEF));
-			shopInfoObject.setShopQiangWeiImg(obj.getString(ShopInfoObject.SHOP_QIANG_WEI_IMG));
-			shopInfoObject.setShopImg(obj.getString(ShopInfoObject.SHOP_IMG));
-			shopInfoObject.setShopRenJun(obj.getString(ShopInfoObject.SHOP_RENJUN));
-			shopInfoObject.setShopPingFen(obj.getString(ShopInfoObject.SHOP_PINGFEN));
-			shopInfoObject.setShopYouHui(obj.getString(ShopInfoObject.SHOP_YOUHUI));
-			shopInfoObject.setShopTuanGou(obj.getString(ShopInfoObject.SHOP_TUANGOU));
-			shopInfoObject.setShopDianCan(obj.getString(ShopInfoObject.SHOP_DIANCAN));
-			shopInfoObject.setShopMaiDian(obj.getString(ShopInfoObject.SHOP_MAIDIAN));
-			shopInfoObject.setShopShowId(obj.getString(ShopInfoObject.SHOP_SHOW_ID));
-			//shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
-			shopInfoObject.setShopShen(obj.getString(ShopInfoObject.SHOP_SHEN));
-			shopInfoObject.setShopCity(obj.getString(ShopInfoObject.SHOP_CITY));
-			shopInfoObject.setShopQu(obj.getString(ShopInfoObject.SHOP_QU));
-			shopInfoObject.setShopDeskCount(obj.getString(ShopInfoObject.SHOP_DESK_COUNT));
-
+			ShopInfoObject shopInfoObject = getShopInfoObjectFromJsonObject(shops.getJSONObject(i));
 			result.add(shopInfoObject);
 		}
 		return result;
@@ -65,37 +38,8 @@ public class PatternInfoUtils {
 		//{"ShopName":"望湘园（测试1）","deskCount":"0","showid":"010005","HeadID":null,"HeadName":"望湘园","ShopID":"12"}
 		//{"Address":"上海市金山区长宁路1018号龙之梦购物中心5楼蓝中庭","Serverprice":"","HeadID":1,"ShopID":11,"ShopName":"望湘园（测试）","CaiXi":"1","ShuYuZhuZhi":"1","GuDingPhone":null,"Contacts":"柳智","contacts_phone":"18621951099","ShopAddrID":null,"shop_brief":"望湘园换短发","qiang_wei_img":"","shop_img":"","ren_jun":"0","pingfen":null,"youhui":"0","tuangou":"0","diancan":"0","maidan":"0","showid":"010004","detail":null}
 		for(int i = 0; i < shops.length(); i++) {
-			ShopInfoObject shopInfoObject = new ShopInfoObject();
-			JSONObject obj = shops.getJSONObject(i);
-			shopInfoObject.setShopAddress(obj.getString(ShopInfoObject.SHOP_ADDREES));
-			shopInfoObject.setShopServerprice(obj.getString(ShopInfoObject.SHOP_SERVERPRICE));
-			shopInfoObject.setShopHeadId(obj.getString(ShopInfoObject.SHOP_HEAD_ID));
-			shopInfoObject.setShopID(obj.getString(ShopInfoObject.SHOP_ID));
-			shopInfoObject.setShopName(obj.getString(ShopInfoObject.SHOP_NAME));
-			shopInfoObject.setShopCaiXi(obj.getString(ShopInfoObject.SHOP_CAIXI));
-			shopInfoObject.setShopShuYuZhuZhi(obj.getString(ShopInfoObject.SHOP_SHUYUZHUZHI));
-			shopInfoObject.setShopGuDingPhone(obj.getString(ShopInfoObject.SHOP_GUDINGPHONE));
-			shopInfoObject.setShopContacts(obj.getString(ShopInfoObject.SHOP_CONTACTS));
-			shopInfoObject.setShopContactsPhone(obj.getString(ShopInfoObject.SHOP_CONTACTS_PHONE));
-			shopInfoObject.setShopAddrID(obj.getString(ShopInfoObject.SHOP_ADDR_ID));
-			shopInfoObject.setShopBrief(obj.getString(ShopInfoObject.SHOP_BRIEF));
-			shopInfoObject.setShopQiangWeiImg(obj.getString(ShopInfoObject.SHOP_QIANG_WEI_IMG));
-			shopInfoObject.setShopImg(obj.getString(ShopInfoObject.SHOP_IMG));
-			shopInfoObject.setShopRenJun(obj.getString(ShopInfoObject.SHOP_RENJUN));
-			shopInfoObject.setShopPingFen(obj.getString(ShopInfoObject.SHOP_PINGFEN));
-			shopInfoObject.setShopYouHui(obj.getString(ShopInfoObject.SHOP_YOUHUI));
-			shopInfoObject.setShopTuanGou(obj.getString(ShopInfoObject.SHOP_TUANGOU));
-			shopInfoObject.setShopDianCan(obj.getString(ShopInfoObject.SHOP_DIANCAN));
-			shopInfoObject.setShopMaiDian(obj.getString(ShopInfoObject.SHOP_MAIDIAN));
-			shopInfoObject.setShopShowId(obj.getString(ShopInfoObject.SHOP_SHOW_ID));
-			//shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
-			shopInfoObject.setShopShen(obj.getString(ShopInfoObject.SHOP_SHEN));
-			shopInfoObject.setShopCity(obj.getString(ShopInfoObject.SHOP_CITY));
-			shopInfoObject.setShopQu(obj.getString(ShopInfoObject.SHOP_QU));
-			shopInfoObject.setShopDeskCount(obj.getString(ShopInfoObject.SHOP_DESK_COUNT));
-			
+			ShopInfoObject shopInfoObject = getShopInfoObjectFromJsonObject(shops.getJSONObject(i));
 			shopInfoObject.saveDatabase(cr, null);
-
 			result.add(shopInfoObject);
 		}
 		return result;
@@ -112,39 +56,95 @@ public class PatternInfoUtils {
 		Cursor c = cr.query(BjnoteContent.Shops.CONTENT_URI, ShopInfoObject.SHOP_PROJECTION, null, null, null);
 		if (c != null) {
 			while (c.moveToNext()) {
-				ShopInfoObject shopInfoObject = new ShopInfoObject();
-				shopInfoObject.setShopAddress(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ADDREES)));
-				shopInfoObject.setShopServerprice(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SERVERPRICE)));
-				shopInfoObject.setShopHeadId(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_HEAD_ID)));
-				shopInfoObject.setShopID(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ID)));
-				shopInfoObject.setShopName(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_NAME)));
-				shopInfoObject.setShopCaiXi(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CAIXI)));
-				shopInfoObject.setShopShuYuZhuZhi(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHUYUZHUZHI)));
-				shopInfoObject.setShopGuDingPhone(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_GUDINGPHONE)));
-				shopInfoObject.setShopContacts(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CONTACTS)));
-				shopInfoObject.setShopContactsPhone(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CONTACTS_PHONE)));
-				shopInfoObject.setShopAddrID(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ADDR_ID)));
-				shopInfoObject.setShopBrief(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_BRIEF)));
-				shopInfoObject.setShopQiangWeiImg(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QIANG_WEI_IMG)));
-				shopInfoObject.setShopImg(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_IMG)));
-				shopInfoObject.setShopRenJun(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_RENJUN)));
-				shopInfoObject.setShopPingFen(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_PINGFEN)));
-				shopInfoObject.setShopYouHui(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_YOUHUI)));
-				shopInfoObject.setShopTuanGou(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_TUANGOU)));
-				shopInfoObject.setShopDianCan(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DIANCAN)));
-				shopInfoObject.setShopMaiDian(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_MAIDIAN)));
-				shopInfoObject.setShopShowId(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHOW_ID)));
-				//shopInfoObject.setShopDetail(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DETAIL)));
-				shopInfoObject.setShopShen(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHEN)));
-				shopInfoObject.setShopCity(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CITY)));
-				shopInfoObject.setShopQu(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QU)));
-				shopInfoObject.setShopDeskCount(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DESK_COUNT)));
+				ShopInfoObject shopInfoObject = getShopInfoObjectFromCursor(c);
+				if (shopInfoObject != null && shopInfoObject.getShopID() != null) {
+					result.add(shopInfoObject);
+				}
 				
-				result.add(shopInfoObject);
 			}
 			c.close();
 		}
 		return result;
+	}
+	
+	public static ShopInfoObject getShopInfoObjectFromCursor(Cursor c) {
+		ShopInfoObject shopInfoObject = new ShopInfoObject();
+		shopInfoObject.setShopAddress(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ADDREES)));
+		shopInfoObject.setShopServerprice(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SERVERPRICE)));
+		shopInfoObject.setShopHeadId(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_HEAD_ID)));
+		shopInfoObject.setShopID(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ID)));
+		shopInfoObject.setShopName(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_NAME)));
+		shopInfoObject.setShopCaiXi(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CAIXI)));
+		shopInfoObject.setShopShuYuZhuZhi(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHUYUZHUZHI)));
+		shopInfoObject.setShopGuDingPhone(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_GUDINGPHONE)));
+		shopInfoObject.setShopContacts(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CONTACTS)));
+		shopInfoObject.setShopContactsPhone(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CONTACTS_PHONE)));
+		shopInfoObject.setShopAddrID(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ADDR_ID)));
+		shopInfoObject.setShopBrief(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_BRIEF)));
+		shopInfoObject.setShopQiangWeiImg(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QIANG_WEI_IMG)));
+		shopInfoObject.setShopImg(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_IMG)));
+		shopInfoObject.setShopRenJun(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_RENJUN)));
+		shopInfoObject.setShopPingFen(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_PINGFEN)));
+		shopInfoObject.setShopYouHui(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_YOUHUI)));
+		shopInfoObject.setShopTuanGou(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_TUANGOU)));
+		shopInfoObject.setShopDianCan(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DIANCAN)));
+		shopInfoObject.setShopMaiDian(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_MAIDIAN)));
+		shopInfoObject.setShopShowId(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHOW_ID)));
+		//shopInfoObject.setShopDetail(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DETAIL)));
+		shopInfoObject.setShopShen(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHEN)));
+		shopInfoObject.setShopCity(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CITY)));
+		shopInfoObject.setShopQu(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QU)));
+		shopInfoObject.setShopDeskCount(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DESK_COUNT)));
+		
+		shopInfoObject.mQiangweiTip = c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QIANGWEI_TIP));
+		shopInfoObject.mOrderConfirmTip = c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ORDER_CONFIRM_TIP));
+		shopInfoObject.mOrderPayTip = c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ORDER_PAY_TIP));
+		
+		return shopInfoObject;
+	}
+	
+	public static ShopInfoObject getShopInfoObjectFromJsonObject(JSONObject obj) throws JSONException {
+		if (obj == null) {
+			return null;
+		}
+		ShopInfoObject shopInfoObject = new ShopInfoObject();
+		shopInfoObject.setShopAddress(obj.getString(ShopInfoObject.SHOP_ADDREES));
+		shopInfoObject.setShopServerprice(obj.getString(ShopInfoObject.SHOP_SERVERPRICE));
+		shopInfoObject.setShopHeadId(obj.getString(ShopInfoObject.SHOP_HEAD_ID));
+		shopInfoObject.setShopID(obj.getString(ShopInfoObject.SHOP_ID));
+		shopInfoObject.setShopName(obj.getString(ShopInfoObject.SHOP_NAME));
+		shopInfoObject.setShopCaiXi(obj.getString(ShopInfoObject.SHOP_CAIXI));
+		shopInfoObject.setShopShuYuZhuZhi(obj.getString(ShopInfoObject.SHOP_SHUYUZHUZHI));
+		shopInfoObject.setShopGuDingPhone(obj.getString(ShopInfoObject.SHOP_GUDINGPHONE));
+		shopInfoObject.setShopContacts(obj.getString(ShopInfoObject.SHOP_CONTACTS));
+		shopInfoObject.setShopContactsPhone(obj.getString(ShopInfoObject.SHOP_CONTACTS_PHONE));
+		shopInfoObject.setShopAddrID(obj.getString(ShopInfoObject.SHOP_ADDR_ID));
+		shopInfoObject.setShopBrief(obj.getString(ShopInfoObject.SHOP_BRIEF));
+		shopInfoObject.setShopQiangWeiImg(obj.getString(ShopInfoObject.SHOP_QIANG_WEI_IMG));
+		shopInfoObject.setShopImg(obj.getString(ShopInfoObject.SHOP_IMG));
+		shopInfoObject.setShopRenJun(obj.getString(ShopInfoObject.SHOP_RENJUN));
+		shopInfoObject.setShopPingFen(obj.getString(ShopInfoObject.SHOP_PINGFEN));
+		shopInfoObject.setShopYouHui(obj.getString(ShopInfoObject.SHOP_YOUHUI));
+		shopInfoObject.setShopTuanGou(obj.getString(ShopInfoObject.SHOP_TUANGOU));
+		shopInfoObject.setShopDianCan(obj.getString(ShopInfoObject.SHOP_DIANCAN));
+		shopInfoObject.setShopMaiDian(obj.getString(ShopInfoObject.SHOP_MAIDIAN));
+		shopInfoObject.setShopShowId(obj.getString(ShopInfoObject.SHOP_SHOW_ID));
+		//shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
+		shopInfoObject.setShopShen(obj.getString(ShopInfoObject.SHOP_SHEN));
+		shopInfoObject.setShopCity(obj.getString(ShopInfoObject.SHOP_CITY));
+		shopInfoObject.setShopQu(obj.getString(ShopInfoObject.SHOP_QU));
+		shopInfoObject.setShopDeskCount(obj.getString(ShopInfoObject.SHOP_DESK_COUNT));
+		
+		
+		JSONObject tipJSONObject = obj.optJSONObject("tip");
+		if (tipJSONObject != null) {
+			DebugUtils.logD(TAG, "getShopInfoObjectFromJsonObject find tipJSONObject=" + tipJSONObject.toString());
+			shopInfoObject.mQiangweiTip = tipJSONObject.optString(ShopInfoObject.SHOP_QIANGWEI_TIP, "");
+			shopInfoObject.mOrderConfirmTip = tipJSONObject.optString(ShopInfoObject.SHOP_ORDER_CONFIRM_TIP, "");
+			shopInfoObject.mOrderPayTip = tipJSONObject.optString(ShopInfoObject.SHOP_ORDER_PAY_TIP, "");
+		}
+		return shopInfoObject;
+
 	}
 	
 	public static ShopInfoObject getShopInfoLocalById(ContentResolver cr, String shopId){
@@ -152,32 +152,7 @@ public class PatternInfoUtils {
 		Cursor c = cr.query(BjnoteContent.Shops.CONTENT_URI, ShopInfoObject.SHOP_PROJECTION, SELECTION_BY_SHOPID, new String[] {shopId}, null);
 		if (c != null) {
 			if (c.moveToNext()) {
-				shopInfoObject.setShopAddress(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ADDREES)));
-				shopInfoObject.setShopServerprice(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SERVERPRICE)));
-				shopInfoObject.setShopHeadId(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_HEAD_ID)));
-				shopInfoObject.setShopID(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ID)));
-				shopInfoObject.setShopName(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_NAME)));
-				shopInfoObject.setShopCaiXi(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CAIXI)));
-				shopInfoObject.setShopShuYuZhuZhi(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHUYUZHUZHI)));
-				shopInfoObject.setShopGuDingPhone(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_GUDINGPHONE)));
-				shopInfoObject.setShopContacts(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CONTACTS)));
-				shopInfoObject.setShopContactsPhone(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CONTACTS_PHONE)));
-				shopInfoObject.setShopAddrID(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ADDR_ID)));
-				shopInfoObject.setShopBrief(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_BRIEF)));
-				shopInfoObject.setShopQiangWeiImg(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QIANG_WEI_IMG)));
-				shopInfoObject.setShopImg(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_IMG)));
-				shopInfoObject.setShopRenJun(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_RENJUN)));
-				shopInfoObject.setShopPingFen(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_PINGFEN)));
-				shopInfoObject.setShopYouHui(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_YOUHUI)));
-				shopInfoObject.setShopTuanGou(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_TUANGOU)));
-				shopInfoObject.setShopDianCan(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DIANCAN)));
-				shopInfoObject.setShopMaiDian(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_MAIDIAN)));
-				shopInfoObject.setShopShowId(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHOW_ID)));
-				//shopInfoObject.setShopDetail(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DETAIL)));
-				shopInfoObject.setShopShen(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHEN)));
-				shopInfoObject.setShopCity(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CITY)));
-				shopInfoObject.setShopQu(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QU)));
-				shopInfoObject.setShopDeskCount(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DESK_COUNT)));
+				shopInfoObject = getShopInfoObjectFromCursor(c);
 			}
 			c.close();
 		}
