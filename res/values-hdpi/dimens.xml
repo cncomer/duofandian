@@ -16,4 +16,6 @@
 
  <dimen name="left_panel_item_layout_margin_top">20dp</dimen>
  <dimen name="left_panel_item_layout_margin_left">20dp</dimen>
+ 
+ <dimen name="member_info_item_max_gap">14dp</dimen>
 </resources>

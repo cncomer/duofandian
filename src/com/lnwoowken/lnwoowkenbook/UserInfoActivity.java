@@ -27,7 +27,6 @@ public class UserInfoActivity extends BaseActionbarActivity{
 	private TextView userName;
 	private TextView phoneNumber;
 	private TextView mMemberJifen, mMemberLevel;
-	private RelativeLayout r1, r2, r3, r4, r5, r6;
 	private AccountObject mAccountObject;
 
 	@Override
@@ -67,32 +66,6 @@ public class UserInfoActivity extends BaseActionbarActivity{
 	}
 
 	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		String text = "敬请期待！";
-		if (v.equals(r1)) {
-			Toast.makeText(UserInfoActivity.this, text, 1).show();
-			// Toast.makeText(UserInfoActivity.this, text,Toast.LENGTH_SHORT).show();
-		}
-		if (v.equals(r2)) {
-			Toast.makeText(UserInfoActivity.this, text, 1).show();
-		}
-		if (v.equals(r3)) {
-			Toast.makeText(UserInfoActivity.this, text, 1).show();
-		}
-		if (v.equals(r4)) {
-			Toast.makeText(UserInfoActivity.this, text, 1).show();
-		}
-		if (v.equals(r5)) {
-			Toast.makeText(UserInfoActivity.this, text, 1).show();
-		}
-		if (v.equals(r6)) {
-			Toast.makeText(UserInfoActivity.this, text, 1).show();
-		}
-		super.onClick(v);
-	}
-
-	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		// TODO Auto-generated method stub
 		//
@@ -108,19 +81,6 @@ public class UserInfoActivity extends BaseActionbarActivity{
 		
 		mMemberLevel = (TextView) findViewById(R.id.textView5);
 		mMemberJifen = (TextView) findViewById(R.id.textView7);
-		
-		r1 = (RelativeLayout) findViewById(R.id.r1);
-		r2 = (RelativeLayout) findViewById(R.id.r2);
-		r3 = (RelativeLayout) findViewById(R.id.r3);
-		r4 = (RelativeLayout) findViewById(R.id.r4);
-		r5 = (RelativeLayout) findViewById(R.id.r5);
-		r6 = (RelativeLayout) findViewById(R.id.r6);
-		r1.setOnClickListener(UserInfoActivity.this);
-		r2.setOnClickListener(UserInfoActivity.this);
-		r3.setOnClickListener(UserInfoActivity.this);
-		r4.setOnClickListener(UserInfoActivity.this);
-		r5.setOnClickListener(UserInfoActivity.this);
-		r6.setOnClickListener(UserInfoActivity.this);
 		
 		userName.setText(MyAccountManager.getInstance().getAccountName());
 		phoneNumber.setText(mAccountObject.mAccountTel);
@@ -159,8 +119,6 @@ public class UserInfoActivity extends BaseActionbarActivity{
 			super.onCancelled();
 			dismissDialog(DIALOG_PROGRESS);
 		}
-		
-		
 		 
 	 }
 

@@ -54,6 +54,7 @@
     <string name="attention_username">用户名:请输入手机号</string>
     <string name="attention_userpwd">密码:请输入密码</string>
     <string name="attention_empty_name_or_password">用户名和密码不能为空</string>
+    <string name="attention_empty_name">用户名不能为空</string>
     <string name="attention_empty_name_or_password_is_incorrect">请检查用户名密码是否正确</string>
     <string name="attention_pwd">密码:</string>
     <string name="ourfriend">夺饭点的伙伴</string>
@@ -158,6 +159,7 @@
     <string name="msg_local_intent_failed">抱歉，文件无法打开</string>
     <string name="button_ok">确定</string>
     <string name="button_cancel">取消</string>
+    <string name="button_modify">修改</string>
     <string name="msg_not_our_results">你离开此应用程序。搜索结果，您会看到的都没有涉及这个应用程序</string>
     <string name="history_clear_one_history_text">删除</string>
     <string name="history_clear_text">删除历史</string>
@@ -317,10 +319,15 @@
    <string name="member_level_0">普通会员</string>
    <string name="member_level_1">金卡会员</string>
    <string name="member_level_2">钻石会员</string>
-   
    <string name="delete_tips">确定删除吗？</string>
    <string name="dialog_title">提示信息</string>
-   
+    <string name="member_info_avator">头像</string>
+    <string name="member_info_name">昵称</string>
+    <string name="member_info_login_password">登录密码</string>
+    <string name="member_info_pay_password">支付密码</string>
+    <string name="member_info_tel">手机号</string>
+    <string name="member_info_modify_title">修改</string>
+    <string name="member_info_modify_name">修改昵称</string>
    <string name="qiangwei_tip_title">抢位告知</string>
    <string name="order_confirm_tip_title">重要说明</string>
 </resources>

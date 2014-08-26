@@ -1,308 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/top_bottom"
-    android:focusable="true"
-    android:focusableInTouchMode="true" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:meminfo="http://schemas.android.com/apk/res/com.lnwoowken.lnwoowkenbook"
+    android:id="@+id/scrollView1"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
-    <ScrollView
-        android:id="@+id/scrollView1"
+    <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <LinearLayout
+        <include layout="@layout/activity_user_center_top" />
+
+        <!-- avator item -->
+        <com.lnwoowken.lnwoowkenbook.view.MemberInfoItemLayout
+            android:id="@+id/member_info_avator"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@color/top_bottom"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content"
+            meminfo:__icon="@drawable/gray_right_arrow"
+            meminfo:__summery="@string/member_info_modify_title"
+            meminfo:__title="@string/member_info_avator" />
+        
+        <View android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@color/gray"/>
+        <!-- name item -->
+        <com.lnwoowken.lnwoowkenbook.view.MemberInfoItemLayout
+            android:id="@+id/member_info_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            meminfo:__icon="@drawable/gray_right_arrow"
+            meminfo:__summery="@string/member_info_modify_title"
+            meminfo:__title="@string/member_info_name" />
+        <View android:layout_width="fill_parent"
+            android:layout_height="@dimen/member_info_item_max_gap"
+            android:background="@color/gray"/>
+        <!-- login password item -->
+        <com.lnwoowken.lnwoowkenbook.view.MemberInfoItemLayout
+            android:id="@+id/member_info_login_password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            meminfo:__icon="@drawable/gray_right_arrow"
+            meminfo:__summery="@string/member_info_modify_title"
+            meminfo:__title="@string/member_info_login_password" />
+        
+        <View android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@color/gray"/>
+        <!-- pay password item -->
+        <com.lnwoowken.lnwoowkenbook.view.MemberInfoItemLayout
+            android:id="@+id/member_info_pay_password"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            meminfo:__icon="@drawable/gray_right_arrow"
+            meminfo:__summery="@string/member_info_modify_title"
+            meminfo:__title="@string/member_info_pay_password" />
 
-            <include layout="@layout/activity_user_center_top"/>
+        <View android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="@color/gray"/>
+        <!-- tel item -->
+        <com.lnwoowken.lnwoowkenbook.view.MemberInfoItemLayout
+            android:id="@+id/member_info_tel"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            meminfo:__icon="@drawable/gray_right_arrow"
+            meminfo:__summery="@string/member_info_modify_title"
+            meminfo:__title="@string/member_info_tel" />
+    </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/r1"
-                android:layout_width="fill_parent"
-                android:layout_height="60dip"
-                android:background="@drawable/boder_bottom"
-                android:gravity="center_vertical"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip" >
-
-                <ImageView
-                    android:id="@+id/imageView_account"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/img_account" />
-
-                <TextView
-                    android:id="@+id/textView_account"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="14dp"
-                    android:layout_toRightOf="@+id/imageView_account"
-                    android:text="@string/account_mngmt"
-                    android:textColor="@color/textColor_gray"
-                    android:textSize="18dip" />
-
-                <ImageButton
-                    android:id="@+id/imageButton_account"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    
-                    android:background="@drawable/btn_right_gray" />
-
-            </RelativeLayout>
-            
-            <RelativeLayout
-                android:id="@+id/r2"
-                android:layout_width="fill_parent"
-                android:layout_height="60dip"
-                android:background="@drawable/boder_bottom"
-                android:gravity="center_vertical"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip" >
-
-                <ImageView
-                    android:id="@+id/imageView_ourfriend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/img_ourfriend" />
-
-                <TextView
-                    android:id="@+id/textView_ourfriend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="14dp"
-                    android:layout_toRightOf="@+id/imageView_ourfriend"
-                    android:text="@string/ourfriend"
-                    android:textColor="@color/textColor_gray"
-                    android:textSize="18dip" />
-
-                <ImageButton
-                    android:id="@+id/imageButton_ourfriend"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    
-                    android:background="@drawable/btn_right_gray" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/r3"
-                android:layout_width="fill_parent"
-                android:layout_height="60dip"
-                android:background="@drawable/boder_bottom"
-                android:gravity="center_vertical"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip"
-                android:layout_marginTop="10dip" >
-
-                <ImageView
-                    android:id="@+id/imageView_mybill"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/img_mybill" />
-
-                <TextView
-                    android:id="@+id/textView_mybill"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="14dp"
-                    android:layout_toRightOf="@+id/imageView_mybill"
-                    android:text="@string/mybill"
-                    android:textColor="@color/textColor_gray"
-                    android:textSize="18dip" />
-
-                <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    
-                    android:background="@drawable/btn_right_gray" />
-
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/r4"
-                android:layout_width="fill_parent"
-                android:layout_height="60dip"
-                android:background="@drawable/boder_bottom"
-                android:gravity="center_vertical"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip" >
-
-                <ImageView
-                    android:id="@+id/imageView_mychoice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/img_mychoice" />
-
-                <TextView
-                    android:id="@+id/textView_mychoice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="14dp"
-                    android:layout_toRightOf="@+id/imageView_mychoice"
-                    android:text="@string/mychoice"
-                    android:textColor="@color/textColor_gray"
-                    android:textSize="18dip" />
-
-                <ImageButton
-                    android:id="@+id/imageButton_mychoice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    
-                    android:background="@drawable/btn_right_gray" />
-
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/r5"
-                android:layout_width="fill_parent"
-                android:layout_height="60dip"
-                android:background="@drawable/boder_bottom"
-                android:gravity="center_vertical"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip" >
-
-                <ImageView
-                    android:id="@+id/imageView_qrcode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/img_qrcode" />
-
-                <TextView
-                    android:id="@+id/textView_qrcode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="14dp"
-                    android:layout_toRightOf="@+id/imageView_qrcode"
-                    android:text="@string/qrcode"
-                    android:textColor="@color/textColor_gray"
-                    android:textSize="18dip" />
-
-                <ImageButton
-                    android:id="@+id/imageButton_qrcode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    
-                    android:background="@drawable/btn_right_gray" />
-
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/r6"
-                android:layout_width="fill_parent"
-                android:layout_height="60dip"
-                android:background="@drawable/boder_bottom"
-                android:gravity="center_vertical"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip"
-                android:layout_marginTop="10dip" >
-
-                <ImageView
-                    android:id="@+id/imageView_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/img_share" />
-
-                <TextView
-                    android:id="@+id/textView_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="14dp"
-                    android:layout_toRightOf="@+id/imageView_share"
-                    android:text="@string/share"
-                    android:textColor="@color/textColor_gray"
-                    android:textSize="18dip" />
-
-                <ImageButton
-                    android:id="@+id/imageButton_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    
-                    android:background="@drawable/btn_right_gray" />
-
-            </RelativeLayout>
-
-            <!-- <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" 
-                android:layout_marginTop="10dip"
-                android:paddingTop="10dip"
-                android:paddingBottom="10dip"
-                android:background="@color/White"
-                android:paddingLeft="20dip"
-                android:paddingRight="20dip"
-                android:gravity="center_vertical">
-
-                <RadioButton
-                    android:id="@+id/radioButton1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    
-                    android:layout_alignParentRight="true" />
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:text="支付方式:"
-                    android:textColor="@color/textColor"
-                    android:textSize="18dip" />
-
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/textView2"
-                    android:src="@drawable/ump_icon"
-                    android:layout_marginLeft="20dip" />
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/imageView1"
-                    android:layout_toLeftOf="@+id/radioButton1"
-                    android:text="U支付-无线收银台"
-                    android:textColor="@color/textColor"
-                    android:textSize="15dip"
-                    android:layout_marginLeft="20dip" />
-
-            </RelativeLayout> -->
-        </LinearLayout>
-    </ScrollView>
-
-</RelativeLayout>
+</ScrollView>
