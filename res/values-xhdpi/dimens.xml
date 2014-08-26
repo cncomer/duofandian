@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ <dimen name="member_info_item_max_gap">10dp</dimen>
+</resources>

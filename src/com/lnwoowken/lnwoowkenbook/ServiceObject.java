@@ -160,6 +160,13 @@ public class ServiceObject {
 		return sb.toString();
 	}
 	
+	public static String getUpdateUserNameUrl(String para, String jsonString) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("mobile/common/UpdateUserName.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
+		return sb.toString();
+	}
+	
 	public static class ServiceResultObject {
 		public int mStatusCode = 0;
 		public String mStatusMessage;

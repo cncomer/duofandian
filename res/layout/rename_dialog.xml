@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/wt"
+    android:orientation="vertical" >
+    <TextView android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/member_info_modify_name"/>
+
+    <EditText android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:singleLine="true"
+        android:id="@+id/name_input"/>
+    
+    <LinearLayout android:layout_width="match_parent"
+    	android:layout_height="60dp"
+    	android:background="@color/top_bottom"
+		android:gravity="center"
+    	android:orientation="horizontal">
+        <Button
+            android:id="@+id/button_modify"
+            android:layout_width="120dp"
+            android:layout_height="40dip"
+            android:background="@drawable/button_commit"
+            android:text="@string/button_modify"
+            android:textColor="@color/text_btn_commit_selector"
+            android:textSize="15sp" />
+        
+        <Button
+            android:id="@+id/button_cancel"
+            android:layout_width="120dp"
+            android:layout_height="40dip"
+            android:layout_marginLeft="20dip"
+            android:background="@drawable/button_commit"
+            android:text="@string/button_cancel"
+            android:textColor="@color/text_btn_commit_selector"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -16,4 +16,6 @@
      <dimen name="action_bar_title_text_size">18sp</dimen>
 
      <dimen name="dialog_desklist_height">200dp</dimen>
+     <dimen name="member_info_item_max_gap">20dp</dimen>
+     
 </resources>
