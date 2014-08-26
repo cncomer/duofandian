@@ -6,9 +6,7 @@ import android.net.Uri;
 
 import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.database.DBHelper;
-import com.lnwoowken.lnwoowkenbook.ServiceObject;
 import com.shwy.bestjoy.utils.DebugUtils;
-import com.shwy.bestjoy.utils.UrlEncodeStringBuilder;
 
 public class ShopInfoObject {
 	private static final String TAG = "ShopInfoObject";
@@ -39,7 +37,10 @@ public class ShopInfoObject {
 	private String shopQu;
 	private String shopDeskCount;
 	
-	private String maintenancePointUrl;
+	public String mQiangweiTip;
+	public String mOrderConfirmTip;
+	public String mOrderPayTip;
+	
 	public static final String[] SHOP_PROJECTION = new String[]{
 		DBHelper.ID,
 		DBHelper.SHOP_ADDREES,
@@ -68,6 +69,10 @@ public class ShopInfoObject {
 		DBHelper.SHOP_CITY,
 		DBHelper.SHOP_QU,
 		DBHelper.SHOP_DESK_COUNT,
+		
+		DBHelper.SHOP_QIANGWEI_TIP,
+		DBHelper.SHOP_ORDER_CONFIRM_TIP,
+		DBHelper.SHOP_ORDER_PAY_TIP,
 	};
 
 	/*public static final String MAINTENCE_PROJECTION_AID_SELECTION = DBHelper.MAINTENCE_POINT_AID + "=?";
@@ -100,6 +105,10 @@ public class ShopInfoObject {
 	  public static final String SHOP_CITY = "City";
 	  public static final String SHOP_QU = "Qu";
 	  public static final String SHOP_DESK_COUNT = "desk_count";
+	  
+	  public static final String SHOP_QIANGWEI_TIP = "TipOne";
+	  public static final String SHOP_ORDER_CONFIRM_TIP = "TipTwo";
+	  public static final String SHOP_ORDER_PAY_TIP = "TipThree";
 	
 
 	public String getShopAddress() {
@@ -321,6 +330,10 @@ public class ShopInfoObject {
 		values.put(DBHelper.SHOP_CITY, shopCity);
 		values.put(DBHelper.SHOP_QU, shopQu);
 		values.put(DBHelper.SHOP_DESK_COUNT, shopDeskCount);
+		
+		values.put(DBHelper.SHOP_QIANGWEI_TIP, mQiangweiTip);
+		values.put(DBHelper.SHOP_ORDER_CONFIRM_TIP, mOrderConfirmTip);
+		values.put(DBHelper.SHOP_ORDER_PAY_TIP, mOrderPayTip);
 		
 		Uri uri = cr.insert(BjnoteContent.Shops.CONTENT_URI, values);
 		if (uri != null) {

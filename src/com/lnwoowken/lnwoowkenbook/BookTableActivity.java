@@ -24,7 +24,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
@@ -33,7 +32,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -79,10 +77,6 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	private Button btn_chooseFood;
 	// private RequestTableStyleThread tableStyleThread;
 	private EditText edite_content;
-	private TextView textView;
-	private RelativeLayout tableRelativeLayout;
-	private String se;
-	private String tableStyleId;
 	public static final int RESULT_CODE_NOFOUND = 200;
 	private Matrix matrix = new Matrix();
 	private Matrix savedMatrix = new Matrix();
@@ -114,7 +108,6 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	private final int requestCode = 888;
 	private TableInfo tableInfo;
 	private ImageButton btn_selectSeat;
-	private Button btn_back;
 	public static int hour;
 	public static int minute;
 	private ImageButton btn_select_time;
@@ -124,7 +117,6 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	private TextView textView_selectTable;
 	private Button btn_commintButton;
 	private boolean isTimeChosen = false;
-	private Button btn_more;
 	private ImageView tableImage;
 	private boolean isTableChosen = false;
 	private int tableId = -1;
@@ -149,10 +141,9 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 		PhotoManagerUtilsV2.getInstance().requestToken(TAG);
 		display = getWindowManager().getDefaultDisplay();
 		setContentView(R.layout.activity_booktable);
-		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		StrictMode.setThreadPolicy(policy);
 		intent = BookTableActivity.this.getIntent();
 		mShopId = intent.getExtras().getString("shop_id");
+		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
 		initialize();
 	}
 	
@@ -166,32 +157,12 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	/**
 	 * 初始化一些控件
 	 */
-	@SuppressWarnings("deprecation")
 	private void initialize() {
 
-		textView = (TextView) findViewById(R.id.textView_attention);
-
+		((TextView) findViewById(R.id.textView_attention)).setText(mShopInfoObject.mQiangweiTip);
 		edite_content = (EditText) findViewById(R.id.editText_content);
-		edite_content.setOnFocusChangeListener(new OnFocusChangeListener() {
-
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					if (edite_content.getText().toString().contains("备注")) {
-						edite_content.setText("");
-					}
-				} else {
-
-				}
-			}
-		});
 		btn_chooseFood = (Button) findViewById(R.id.imageButton_pickfood);
-		btn_chooseFood.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
-			}
-		});
+		btn_chooseFood.setOnClickListener(this);
 
 		textView_bookTime = (TextView) findViewById(R.id.textView_book_time);
 		textView_selectTime = (TextView) findViewById(R.id.textView_selected_time);
@@ -207,28 +178,9 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 		choose_time.setOnClickListener(BookTableActivity.this);
 		choose_seat.setOnClickListener(BookTableActivity.this);
 		layout_shoptable = (RelativeLayout) findViewById(R.id.layout_shoptable);
-//		int screenWidth = getWindowManager().getDefaultDisplay().getWidth();
-//		int screenHeight = getWindowManager().getDefaultDisplay().getHeight();
-//
-//
 		tableImage = (ImageView) findViewById(R.id.imageView_table_info);
-//		int margin_int = com.lnwoowken.lnwoowkenbook.tools.Tools.dip2px(
-//				context, 20);
-//		RelativeLayout.LayoutParams l2 = new RelativeLayout.LayoutParams(
-//				screenWidth, screenWidth * 235 / 480);
-//
-//		l2.setMargins(0, 0, 0, 0);
-//
-//		RelativeLayout.LayoutParams l1 = new RelativeLayout.LayoutParams(
-//				screenWidth, screenWidth * 235 / 480);
-//
-//		l1.setMargins(0, Tools.dip2px(context, 50), 0, 0);
-		tableRelativeLayout = (RelativeLayout) findViewById(R.id.layout_shoptable);
-//
-//		tableRelativeLayout.setLayoutParams(l1);
-//		tableImage.setLayoutParams(l2);
 		tableImage.setOnTouchListener(this);// 设置触屏监听
-		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
+		
 		PhotoManagerUtilsV2.getInstance().loadPhotoAsync(TAG, tableImage, mShopInfoObject.getShopPhotoId("02"), null, PhotoManagerUtilsV2.TaskType.SHOP_IMAGE);
 		dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);// 获取分辨率
@@ -241,6 +193,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 					Bundle bundle = (Bundle) msg.obj;
 					String photoId = bundle.getString(Intents.EXTRA_PHOTOID);
 					if (photoId.equals(mShopInfoObject.getShopPhotoId("02"))) {
+						tableImage.setOnTouchListener(BookTableActivity.this);// 设置触屏监听
 						mShopImageBitmap = ((BitmapDrawable) tableImage.getDrawable()).getBitmap();
 						center();
 						tableImage.setImageMatrix(matrix);
@@ -409,6 +362,8 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 			} else {
 				Toast.makeText(context, "请选择您要预定的时间", Toast.LENGTH_SHORT).show();
 			}
+		} else if (btn_chooseFood == v) {
+			MyApplication.getInstance().showUnsupportMessage();
 		}
 		super.onClick(v);
 	}
