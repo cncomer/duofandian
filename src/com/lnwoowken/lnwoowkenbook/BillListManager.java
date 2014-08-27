@@ -13,7 +13,7 @@ public class BillListManager {
 	public static List<BillObject> getBillListLocal(ContentResolver cr) {
 		List<BillObject> billList = new ArrayList<BillObject>();
 
-		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, null, null, null);
+		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, null, null, BillObject.BILL_SORT);
 		if (c != null) {
 			while (c.moveToNext()) {
 				billList.add(getBillObject(c));
@@ -25,7 +25,7 @@ public class BillListManager {
 	public static List<BillObject> getUnpayBillListLocal(ContentResolver cr) {
 		List<BillObject> billList = new ArrayList<BillObject>();
 
-		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, BillObject.BILL_UNPAY_SELECTION, new String[] {String.valueOf(BillObject.STATE_SUCCESS)}, null);
+		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, BillObject.BILL_UNPAY_SELECTION, new String[] {String.valueOf(BillObject.STATE_SUCCESS)}, BillObject.BILL_SORT);
 		if (c != null) {
 			while (c.moveToNext()) {
 				billList.add(getBillObject(c));

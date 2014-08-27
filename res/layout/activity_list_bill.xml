@@ -3,49 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/top_bottom" >
-
-    <RelativeLayout
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="50dip"
-        android:background="@drawable/boder_bottom_grayback" >
-        <Button
-            android:id="@+id/button_back"
-            android:layout_width="30dip"
-            android:layout_height="30dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
-            android:background="@drawable/button_back" />
-
-        <TextView
-            android:id="@+id/textView_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="我的定单"
-            android:textColor="@color/main_color"
-            android:textSize="20dip" />
-        <Button
-            android:id="@+id/button_more"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/button_more_selector" />
-
-        <Button
-            android:id="@+id/button_home"
-            android:layout_width="30dip"
-            android:layout_height="30dip"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
-            android:layout_toLeftOf="@+id/button_more"
-            android:background="@drawable/button_home" />
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

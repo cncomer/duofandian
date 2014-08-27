@@ -86,10 +86,9 @@ public class BillObject {
 	};
 
 	public static final String BILL_SELECTION = DBHelper.BILL_NUMBER + "=?";
-
 	public static final String BILL_UNPAY_SELECTION = DBHelper.BILL_STATE + "!=?";
-
 	public static final String BILL_NUMBER_SELECTION = DBHelper.BILL_NUMBER + "=?";
+	public static final String BILL_SORT = DBHelper.BILL_CREATETIME + " DESC";
 	
 	public String getId() {
 		return id;

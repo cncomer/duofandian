@@ -121,7 +121,7 @@
         android:layout_height="wrap_content" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical" >
@@ -160,15 +160,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/title_billtime"
-                    android:textColor="@color/gray"
-                    android:textSize="12dip" />
+                    android:textColor="@color/textColor"
+                    android:textSize="12dp" />
 
                 <TextView
                     android:id="@+id/textView_createDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/no_data"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/textColor_gray"
                     android:textSize="12dip"
                     android:layout_marginLeft="5dip" />
 

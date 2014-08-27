@@ -240,7 +240,6 @@ public class PayInfoActivity extends BaseActionbarActivity {
 	private class RequestTablePayingState extends AsyncTask<String, Void, ServiceResultObject> {
 		@Override
 		protected ServiceResultObject doInBackground(String... params) {
-			//更新保修卡信息
 			ServiceResultObject serviceResultObject = new ServiceResultObject();
 			InputStream is = null;
 			try {
@@ -271,7 +270,13 @@ public class PayInfoActivity extends BaseActionbarActivity {
 		@Override
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
-			pay(tNumber);
+			if(result != null) {
+				if(result.isOpSuccessfully()) {					
+					pay(tNumber);
+				} else {					
+					MyApplication.getInstance().showMessage(result.mStatusMessage);
+				}
+			}
 			dismissProgressDialog();
 		}
 

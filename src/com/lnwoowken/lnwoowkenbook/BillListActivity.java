@@ -8,17 +8,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.cncom.app.base.account.MyAccountManager;
@@ -33,9 +30,6 @@ public class BillListActivity extends BaseActionbarActivity {
 	private ListView listBill;
 	private BillListAdapter mBillListAdapter;
 	private List<BillObject> mBillList;
-	private Button btn_back;
-	private Button btn_home;
-	private Button btn_more;//--“更多”按钮
 	
 	private Button btn_all;
 	private Button btn_unpay;
@@ -49,65 +43,6 @@ public class BillListActivity extends BaseActionbarActivity {
 	
 	private void initialize(){
 		listBill = (ListView) findViewById(R.id.listView_bill);
-		btn_back = (Button) findViewById(R.id.button_back);
-		btn_back.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				BillListActivity.this.finish();
-			}
-		});
-		btn_home = (Button) findViewById(R.id.button_home);
-		btn_more = (Button) findViewById(R.id.button_more);
-		btn_home.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				MainActivity.startIntentClearTop(context, null);
-				BillListActivity.this.finish();
-			}
-		});
-		btn_more.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (popupWindow == null || !popupWindow.isShowing()) {
-					View view = LayoutInflater.from(context).inflate(R.layout.popmenu, null);
-					RelativeLayout myBill = (RelativeLayout) view.findViewById(R.id.mybill);
-					RelativeLayout exitLogin = (RelativeLayout) view.findViewById(R.id.exit_login);
-					exitLogin.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							if (MyAccountManager.getInstance().hasLoginned()) {
-								showExitLoginDialog();
-							} else {
-								Intent intent = new Intent(context, LoginActivity.class);
-								startActivity(intent);
-							}
-							popupWindow.dismiss();
-							popupWindow = null;
-						}
-					});
-					myBill.setOnClickListener(new OnClickListener() {
-						@Override
-						public void onClick(View arg0) {
-							Intent intent = new Intent(context, BillListActivity.class);
-							startActivity(intent); 
-							popupWindow.dismiss();
-							popupWindow = null;
-						}
-					});
-					popupWindow = new PopupWindow(view, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-					popupWindow.showAsDropDown(v, 10, 10);
-					// 使其聚集
-					// popupWindow.setFocusable(true);
-					// 设置允许在外点击消失
-					// popupWindow.setOutsideTouchable(true);
-					// 刷新状态（必须刷新否则无效）
-					popupWindow.update();
-				} else {
-					popupWindow.dismiss();
-					popupWindow = null;
-				}
-			}
-		});
 		btn_all = (Button) findViewById(R.id.button_bill_all);
 		btn_unpay = (Button) findViewById(R.id.button_bill_unpay);
 		
@@ -117,8 +52,7 @@ public class BillListActivity extends BaseActionbarActivity {
 				btn_all.setBackgroundResource(R.drawable.button_tab_maincolor);
 				btn_unpay.setBackgroundResource(R.drawable.button_tab);
 				if (MyAccountManager.getInstance().hasLoginned()) {
-					mBillList = BillListManager.getBillListLocal(getContentResolver());
-					if(mBillListAdapter != null) mBillListAdapter.notifyDataSetChanged();
+					if(mBillListAdapter != null) mBillListAdapter.updateList(BillListManager.getBillListLocal(getContentResolver()));
 				} else {
 					Toast.makeText(context, "您还没有登录,请先登录", Toast.LENGTH_SHORT).show();
 				}
@@ -130,8 +64,7 @@ public class BillListActivity extends BaseActionbarActivity {
 				btn_all.setBackgroundResource(R.drawable.button_tab);
 				btn_unpay.setBackgroundResource(R.drawable.button_tab_maincolor);
 				if (MyAccountManager.getInstance().hasLoginned()) {
-					mBillList = BillListManager.getUnpayBillListLocal(getContentResolver());
-					if(mBillListAdapter != null) mBillListAdapter.notifyDataSetChanged();
+					if(mBillListAdapter != null) mBillListAdapter.updateList(BillListManager.getUnpayBillListLocal(getContentResolver()));
 				} else {
 					Toast.makeText(context, "您还没有登录,请先登录", Toast.LENGTH_SHORT).show();
 				}

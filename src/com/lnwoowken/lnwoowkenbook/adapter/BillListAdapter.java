@@ -32,6 +32,11 @@ public class BillListAdapter extends BaseAdapter {
 		this.mBillList = bill;
 	}
 	
+	public void updateList(List<BillObject> billList) {
+		this.mBillList = billList;
+		notifyDataSetChanged();
+	}
+	
 	@Override
 	public int getCount() {
 		return this.mBillList.size();
