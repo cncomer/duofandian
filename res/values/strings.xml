@@ -339,5 +339,7 @@
    <string name="text_password_input_renew_hint">"6-14位"</string>
   <string name="my_all_orders_title">所有定单</string>
   <string name="my_unpay_orders_title">尚未支付定单</string>
+  <string name="button_confirm_pay">确定支付</string>
+  
   
 </resources>

@@ -45,11 +45,10 @@ public class SingleModuleViewWithIconAndLabel extends ModuleView{
 		TextView mModule1TextView = (TextView) loduleLayout.findViewById(R.id.title);
 //		mModule1TextView.getPaint().setFakeBoldText(true);
 		mModule1TextView.setText(mModule1Info.mLabelResId);
-		
+		ImageView dotIconView = (ImageView) loduleLayout.findViewById(R.id.imageView_myBill_tips);
+		dotIconView.setVisibility(View.GONE);
 		if(mModule1Info.mIconResId == R.drawable.menu_my_order) {
 			if(MyAccountManager.getInstance().hasLoginned() && BillListManager.isShowNew()) {
-				ImageView dotIconView = (ImageView) loduleLayout.findViewById(R.id.imageView_myBill_tips);
-				
 				dotIconView.setImageResource(R.drawable.dot_tips);
 				dotIconView.setVisibility(View.VISIBLE);
 			}

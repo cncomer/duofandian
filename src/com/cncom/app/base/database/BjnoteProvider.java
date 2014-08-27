@@ -167,12 +167,12 @@ public class BjnoteProvider extends ContentProvider{
         	count = db.delete(table, buildSelection(match, uri, selection), selectionArgs);
         }
         if (count >0) {
-        	switch(match) {
-    		 case BILL:
-    		 case BILL_ID:
-    			BillListManager.setShowNew(true);
-    			 break;
-    		 }
+//        	switch(match) {
+//    		 case BILL:
+//    		 case BILL_ID:
+//    			BillListManager.setShowNew(true);
+//    			 break;
+//    		 }
         	notifyChange(match);
         }
 		return count;

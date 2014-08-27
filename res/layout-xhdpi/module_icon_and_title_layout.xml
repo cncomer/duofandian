@@ -13,13 +13,13 @@
             android:id="@+id/icon"
             android:duplicateParentState="true"
             android:scaleType="fitCenter"
+            android:src="@drawable/menu_my_order"
             style="@style/left_panel_menu_icon"/>
         <ImageView
             android:id="@+id/imageView_myBill_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dip"
-            android:visibility="gone"
+            android:layout_toRightOf="@+id/icon"
             android:background="@drawable/dot_tips" />
     </RelativeLayout>
 
