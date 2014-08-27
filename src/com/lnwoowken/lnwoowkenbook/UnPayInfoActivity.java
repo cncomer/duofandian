@@ -29,7 +29,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.ShopInfoObject;
@@ -149,7 +148,7 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 				mCountDownTime.cancel();
 				mCountDownTime = null;
 				Toast.makeText(context, context.getString(R.string.pay_success_tips), Toast.LENGTH_LONG).show();
-				saveBillDatabase(BillObject.STATE_SUCCESS);
+				BillListManager.updateBillStateByBillNumber(getContentResolver(), mBillNumber, BillObject.STATE_SUCCESS);
 				UnPayInfoActivity.this.finish();
 			}
 		} else if (str.equalsIgnoreCase("cancel")) {
@@ -157,16 +156,10 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 			mCountDownTime.cancel();
 			mCountDownTime = null;
 			Toast.makeText(context, context.getString(R.string.pay_cancel_tips), Toast.LENGTH_LONG).show();
-			saveBillDatabase(BillObject.STATE_UNPAY);
+			BillListManager.updateBillStateByBillNumber(getContentResolver(), mBillNumber, BillObject.STATE_UNPAY);
 		}
 	}
 
-	private void saveBillDatabase(int state) {
-		BillObject billObj = BillListManager.getBillObjectByBillNumber(getContentResolver(), mBillNumber);
-		billObj.setState(state);
-		
-		BillListManager.saveBill(billObj, getContentResolver());
-	}
 	@Override
 	protected boolean checkIntent(Intent intent) {
 		return true;
@@ -215,8 +208,9 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
 			if(result != null && result.isOpSuccessfully()) {
-				saveBillDatabase(BillObject.STATE_TUIDING_SUCCESS);
+				BillListManager.updateBillStateByBillNumber(getContentResolver(), mBillNumber, BillObject.STATE_TUIDING_SUCCESS);
 				MyApplication.getInstance().showMessage(result.mStatusMessage);
+				UnPayInfoActivity.this.finish();
 			}
 			dismissProgressDialog();
 		}

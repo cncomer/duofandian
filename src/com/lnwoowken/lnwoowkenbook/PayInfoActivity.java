@@ -3,7 +3,6 @@ package com.lnwoowken.lnwoowkenbook;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 
 import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
@@ -32,7 +31,6 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
@@ -44,7 +42,6 @@ import com.lnwoowken.lnwoowkenbook.model.TableInfo;
 import com.lnwoowken.lnwoowkenbook.tools.MyCount;
 import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
-import com.shwy.bestjoy.utils.DateUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
 import com.unionpay.UPPayAssistEx;
 import com.unionpay.uppay.PayActivity;
@@ -157,7 +154,6 @@ public class PayInfoActivity extends BaseActionbarActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// super.onActivityResult(requestCode, resultCode, data);
 		if (data == null) {
 			return;
 		}
@@ -168,7 +164,7 @@ public class PayInfoActivity extends BaseActionbarActivity {
 				mCountDownTime.cancel();
 				mCountDownTime = null;
 				Toast.makeText(context, context.getString(R.string.pay_success_tips), Toast.LENGTH_LONG).show();
-				saveBillDatabase(BillObject.STATE_SUCCESS);
+				BillListManager.updateBillStateByBillNumber(getContentResolver(), mOrderNumber, BillObject.STATE_SUCCESS);
 				PayInfoActivity.this.finish();
 			}
 		} else if (str.equalsIgnoreCase("cancel")) {
@@ -176,28 +172,8 @@ public class PayInfoActivity extends BaseActionbarActivity {
 			mCountDownTime.cancel();
 			mCountDownTime = null;
 			Toast.makeText(context, context.getString(R.string.pay_cancel_tips), Toast.LENGTH_LONG).show();
-			saveBillDatabase(BillObject.STATE_UNPAY);
+			BillListManager.updateBillStateByBillNumber(getContentResolver(), mOrderNumber, BillObject.STATE_UNPAY);
 		}
-//		if (str.equalsIgnoreCase(R_SUCCESS)) {
-//			showResultDialog(" 支付成功！ ");
-//		} else if (str.equalsIgnoreCase(R_FAIL)) {
-//			showResultDialog(" 支付失败！ ");
-//		} else if (str.equalsIgnoreCase(R_CANCEL)) {
-//			showResultDialog(" 你已取消了本次订单的支付！ ");
-//		}
-	}
-
-	private void saveBillDatabase(int state) {
-		BillObject billObj = new BillObject();
-		billObj.setBillNumber(mOrderNumber);
-		billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
-		billObj.setShopName(mShopInfoObject.getShopName());
-		billObj.setTableName(mTableInfo.getTableName());
-		billObj.setCreateTime(DateUtils.TOPIC_SUBJECT_DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
-		billObj.setDate(time);
-		billObj.setState(state);
-		billObj.setTableStyle(mTableInfo.getTableStyle());
-		BillListManager.saveBill(billObj, getContentResolver());
 	}
 
 	public static boolean retrieveApkFromAssets(Context context, String srcfileName, String desFileName) {

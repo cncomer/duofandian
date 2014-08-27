@@ -52,6 +52,7 @@ public class BillListActivity extends BaseActivity {
 		
 		mBillListCursorAdapter = new BillListCursorAdapter(mContext, null, true);
 		listBill.setAdapter(mBillListCursorAdapter);
+		mBillListCursorAdapter.changeCursor(BillListManager.getLocalAllBillCursor(getContentResolver()));
 		listBill.setDivider(null);
 		listBill.setOnItemClickListener(new OnItemClickListener() {
 			@Override

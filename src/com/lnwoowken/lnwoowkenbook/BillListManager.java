@@ -56,6 +56,13 @@ public class BillListManager {
 		return new BillObject();
 	}
 	
+	public static void updateBillStateByBillNumber(ContentResolver cr, String billNumber, int state) {
+		BillObject billObj = getBillObjectByBillNumber(cr, billNumber);
+		billObj.setState(state);
+		
+		saveBill(billObj, cr);
+	}
+	
 	public static BillObject getBillObject(Cursor c) {
 		BillObject billObj = new BillObject();
 		billObj.setUid(c.getString(c.getColumnIndex(BillObject.BILL_UID)));
