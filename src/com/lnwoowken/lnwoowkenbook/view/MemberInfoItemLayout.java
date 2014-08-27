@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
@@ -23,12 +24,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.cncom.app.base.account.AccountObject;
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.database.DBHelper;
 import com.cncom.app.base.util.DebugUtils;
 import com.lnwoowken.lnwoowkenbook.MyApplication;
 import com.lnwoowken.lnwoowkenbook.R;
 import com.lnwoowken.lnwoowkenbook.ServiceObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
+import com.lnwoowken.lnwoowkenbook.UpdatePasswordActivity;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
 
@@ -73,6 +77,7 @@ public class MemberInfoItemLayout extends LinearLayout{
 					showRenameDialog();
 					break;
 				case R.id.member_info_login_password:   //会员登录密码
+					UpdatePasswordActivity.startActivity(mContext, null);
 					break;
 				case R.id.member_info_pay_password:   //会员支付密码
 					break;
@@ -84,6 +89,12 @@ public class MemberInfoItemLayout extends LinearLayout{
 		
 	}
 	
+	public void setSummery(int resId) {
+		mSummeryView.setText(resId);
+	}
+	public void setSummery(CharSequence text) {
+		mSummeryView.setText(text);
+	}
 	
 	public void showRenameDialog() {
 		View view = LayoutInflater.from(mContext).inflate(R.layout.rename_dialog, null);
@@ -140,14 +151,22 @@ public class MemberInfoItemLayout extends LinearLayout{
 			InputStream is = null;
 			ServiceResultObject serviceObject = new ServiceResultObject();
 			try {
+				AccountObject accountObject = MyAccountManager.getInstance().getAccountObject();
 				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("UID", MyAccountManager.getInstance().getCurrentAccountUid());
+				queryJsonObject.put("UID", accountObject.mAccountUid);
 				queryJsonObject.put("UserName", params[0]);
 				
 				DebugUtils.logD(TAG, "UpdateAccountNameAsyncTask doInBackground() queryJsonObject=" + queryJsonObject.toString());
 				is = NetworkUtils.openContectionLocked(ServiceObject.getUpdateUserNameUrl("para", queryJsonObject.toString()), MyApplication.getInstance().getSecurityKeyValuesObject());
 				
 				serviceObject = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
+				if (serviceObject.isOpSuccessfully()) {
+					DebugUtils.logD(TAG, "UpdateAccountNameAsyncTask--updateName successfully. start save new name.");
+					accountObject.mAccountName = params[0];
+					ContentValues values = new ContentValues();
+					values.put(DBHelper.ACCOUNT_NAME, params[0]);
+					accountObject.updateAccount(mContext.getContentResolver(), values);
+				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

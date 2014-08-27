@@ -4,21 +4,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.cncom.app.base.account.AccountObject;
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.ui.BaseActionbarActivity;
+import com.lnwoowken.lnwoowkenbook.view.MemberInfoItemLayout;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 
 public class UserInfoActivity extends BaseActionbarActivity{
@@ -28,6 +27,8 @@ public class UserInfoActivity extends BaseActionbarActivity{
 	private TextView phoneNumber;
 	private TextView mMemberJifen, mMemberLevel;
 	private AccountObject mAccountObject;
+	private MemberInfoItemLayout mMemberTelInfoItemLayout;
+	private ContentObserver mContentObserver;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,25 @@ public class UserInfoActivity extends BaseActionbarActivity{
 		mAccountObject = MyAccountManager.getInstance().getAccountObject();
 		initialize();
 
+		mContentObserver = new ContentObserver(new Handler()) {
+			@Override
+			public void onChange(boolean selfChange) {
+				super.onChange(selfChange);
+				updateView();
+			}
+		};
+		getContentResolver().registerContentObserver(BjnoteContent.Accounts.CONTENT_URI, true, mContentObserver);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		getContentResolver().unregisterContentObserver(mContentObserver);
 	}
 	
 	@Override
@@ -81,13 +101,18 @@ public class UserInfoActivity extends BaseActionbarActivity{
 		
 		mMemberLevel = (TextView) findViewById(R.id.textView5);
 		mMemberJifen = (TextView) findViewById(R.id.textView7);
+		mMemberTelInfoItemLayout = (MemberInfoItemLayout) findViewById(R.id.member_info_tel);
 		
-		userName.setText(MyAccountManager.getInstance().getAccountName());
+		updateView();
+	}
+	
+	public void updateView() {
+		userName.setText(mAccountObject.mAccountName);
 		phoneNumber.setText(mAccountObject.mAccountTel);
 		
 		mMemberLevel.setText(MyAccountManager.getInstance().getMemberLevelResId());
 		mMemberJifen.setText(mAccountObject.mAccountJifen);
-		
+		mMemberTelInfoItemLayout.setSummery(mAccountObject.mAccountTel);
 	}
 	
 	 private DeleteAccountTask mDeleteAccountTask;

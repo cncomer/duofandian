@@ -4,6 +4,7 @@
     android:layout_height="122dp"
     android:paddingLeft="50dip"
     android:paddingRight="20dip"
+    android:background="@drawable/abs__item_background_holo_light"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
 
