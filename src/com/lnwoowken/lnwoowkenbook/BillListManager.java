@@ -115,4 +115,12 @@ public class BillListManager {
 		}
 		return false;
 	}
+	
+	public static boolean isShowNew(){
+		return MyApplication.getInstance().mPreferManager.getBoolean("bill_show_new", false);
+	}
+	
+	public static boolean setShowNew(boolean show) {
+		return MyApplication.getInstance().mPreferManager.edit().putBoolean("bill_show_new", show).commit();
+	}
 }

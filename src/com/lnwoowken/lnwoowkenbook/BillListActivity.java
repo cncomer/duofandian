@@ -24,6 +24,7 @@ public class BillListActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_list_bill);	
+		BillListManager.setShowNew(false);
 		initialize();
 	}
 	

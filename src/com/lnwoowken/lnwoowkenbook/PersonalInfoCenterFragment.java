@@ -3,8 +3,10 @@ package com.lnwoowken.lnwoowkenbook;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.ContentObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +18,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.module.ModuleSettings;
 import com.cncom.app.base.ui.BaseFragment;
+import com.cncom.app.base.util.DebugUtils;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 
 public class PersonalInfoCenterFragment extends BaseFragment implements View.OnClickListener{
@@ -28,20 +32,55 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 	private View mMemberTopLayout, mGuestTopLayout;
 	
 	private TextView mMemberName, mMemberLevel, mMemberTel;
-	
+	private ContentObserver mContentObserver;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setHasOptionsMenu(true);
+		
+//		mContentObserver = new ContentObserver(new Handler()) {
+//			@Override
+//			public void onChange(boolean selfChange) {
+//				super.onChange(selfChange);
+//				DebugUtils.logD(TAG, "onChange()--Menu[menu_my_order] has changed--showNewFlag=" + BillListManager.isShowNew());
+//				//订单发生变化了，我们要标记new状态
+//				View view = getActivity().findViewById(R.id.menu_my_order);
+//				if (view != null) {
+//					View newFlagView = view.findViewById(R.id.imageView_myBill_tips);
+//					if(BillListManager.isShowNew()) {
+//						newFlagView.setVisibility(View.VISIBLE);
+//					} else {
+//						newFlagView.setVisibility(View.GONE);
+//					}
+//				}
+//			}
+//		};
+//		
+//		getActivity().getContentResolver().registerContentObserver(BjnoteContent.Bills.CONTENT_URI, true, mContentObserver);
+		
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		updateViews();
+		updateViewNewInfo();
 		getActivity().invalidateOptionsMenu();
 		
+	}
+	
+	private void updateViewNewInfo() {
+		//订单发生变化了，我们要标记new状态
+		View view = getActivity().findViewById(R.id.menu_my_order);
+		if (view != null) {
+			View newFlagView = view.findViewById(R.id.imageView_myBill_tips);
+			if(BillListManager.isShowNew()) {
+				newFlagView.setVisibility(View.VISIBLE);
+			} else {
+				newFlagView.setVisibility(View.GONE);
+			}
+		}
 	}
 
 	@Override
@@ -52,6 +91,7 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+//		getActivity().getContentResolver().unregisterContentObserver(mContentObserver);
 	}
 
     @Override
@@ -93,6 +133,8 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 		return super.onOptionsItemSelected(item);
 	}
 
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

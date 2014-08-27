@@ -47,7 +47,7 @@ public class SingleModuleViewWithIconAndLabel extends ModuleView{
 		mModule1TextView.setText(mModule1Info.mLabelResId);
 		
 		if(mModule1Info.mIconResId == R.drawable.menu_my_order) {
-			if(MyAccountManager.getInstance().hasLoginned() && BillListManager.isExsited(MyApplication.getInstance().getContentResolver())) {
+			if(MyAccountManager.getInstance().hasLoginned() && BillListManager.isShowNew()) {
 				ImageView dotIconView = (ImageView) loduleLayout.findViewById(R.id.imageView_myBill_tips);
 				
 				dotIconView.setImageResource(R.drawable.dot_tips);

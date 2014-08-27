@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.text.TextUtils;
 
+import com.lnwoowken.lnwoowkenbook.BillListManager;
 import com.shwy.bestjoy.utils.DebugUtils;
 
 public class BjnoteProvider extends ContentProvider{
@@ -165,7 +166,15 @@ public class BjnoteProvider extends ContentProvider{
 			case SCAN_HISTORY_ID:
         	count = db.delete(table, buildSelection(match, uri, selection), selectionArgs);
         }
-        if (count >0) notifyChange(match);
+        if (count >0) {
+        	switch(match) {
+    		 case BILL:
+    		 case BILL_ID:
+    			BillListManager.setShowNew(true);
+    			 break;
+    		 }
+        	notifyChange(match);
+        }
 		return count;
 	}
 
@@ -214,6 +223,12 @@ public class BjnoteProvider extends ContentProvider{
       	 }
      	 long id = db.insert(table, null, values);
      	 if (id > 0) {
+     		 switch(match) {
+     		 case BILL:
+     		 case BILL_ID:
+     			BillListManager.setShowNew(true);
+     			 break;
+     		 }
      		notifyChange(match);
    		    return ContentUris.withAppendedId(uri, id);
      	 }
@@ -275,7 +290,15 @@ public class BjnoteProvider extends ContentProvider{
 			case SCAN_HISTORY_ID:
         	    count = db.update(table, values, buildSelection(match, uri, selection), selectionArgs);
         }
-        if (count >0) notifyChange(match);
+        if (count >0) {
+        	switch(match) {
+    		 case BILL:
+    		 case BILL_ID:
+    			BillListManager.setShowNew(true);
+    			 break;
+    		 }
+        	notifyChange(match);
+        }
 		return count;
 	}
 	
