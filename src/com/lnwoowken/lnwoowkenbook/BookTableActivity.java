@@ -324,7 +324,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 					boolean b = false;
 					Calendar c = Calendar.getInstance();
 					c.setTime(calendar.getSelectedStartDate());
-					if (isTableChosen) {
+					if (isTableChosen && mSelectedDeskID != null) {
 						TableInfoObject shopAvailableTableObj = null;
 						for(TableInfoObject obj : mShopAvailableTableList) {
 							if(mSelectedDeskID.equals(obj.getDeskId())) {
@@ -597,9 +597,12 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 					public void onClick(View v) {
 						tableStyle.dismiss();
 						mDeskType = TableListWheelTextAdapter.DESK_TYPE[style.getCurrentItem()];
-						StringBuilder str = new StringBuilder("你选择的日期是：" + DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()) + "\n桌型：" + mDeskType + "\n时段：" + mShiduanName  + "\n达标金额：");
+						isTimeChosen = true;
+						isTableChosen = false;
+						mSelectedDeskID = null;
+						/*StringBuilder str = new StringBuilder("你选择的日期是：" + DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()) + "\n桌型：" + mDeskType + "\n时段：" + mShiduanName  + "\n达标金额：");
 						if(!TextUtils.isEmpty(mDabiaoPrice)) str.append(mDabiaoPrice + "元"); else str.append("无"); 
-						showDialog(str.toString());
+						showDialog(str.toString());*/
 					}
 				});
 			}
