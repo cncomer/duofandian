@@ -1,38 +1,24 @@
 ﻿package com.lnwoowken.lnwoowkenbook;
 
-import java.util.List;
-
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.Toast;
+import com.cncom.app.base.ui.BaseActivity;
+import com.lnwoowken.lnwoowkenbook.adapter.BillListCursorAdapter;
 
-import com.cncom.app.base.account.MyAccountManager;
-import com.cncom.app.base.ui.BaseActionbarActivity;
-import com.lnwoowken.lnwoowkenbook.adapter.BillListAdapter;
-import com.lnwoowken.lnwoowkenbook.model.BillObject;
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-
-public class BillListActivity extends BaseActionbarActivity {
-	private PopupWindow popupWindow;
-	private Context context = BillListActivity.this;
+public class BillListActivity extends BaseActivity {
 	private ListView listBill;
-	private BillListAdapter mBillListAdapter;
-	private List<BillObject> mBillList;
 	
 	private Button btn_all;
 	private Button btn_unpay;
+	
+	private BillListCursorAdapter mBillListCursorAdapter;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -51,11 +37,7 @@ public class BillListActivity extends BaseActionbarActivity {
 			public void onClick(View v) {
 				btn_all.setBackgroundResource(R.drawable.button_tab_maincolor);
 				btn_unpay.setBackgroundResource(R.drawable.button_tab);
-				if (MyAccountManager.getInstance().hasLoginned()) {
-					if(mBillListAdapter != null) mBillListAdapter.updateList(BillListManager.getBillListLocal(getContentResolver()));
-				} else {
-					Toast.makeText(context, "您还没有登录,请先登录", Toast.LENGTH_SHORT).show();
-				}
+				if(mBillListCursorAdapter != null) mBillListCursorAdapter.changeCursor(BillListManager.getLocalAllBillCursor(getContentResolver()));
 			}
 		});
 		btn_unpay.setOnClickListener(new OnClickListener() {
@@ -63,64 +45,29 @@ public class BillListActivity extends BaseActionbarActivity {
 			public void onClick(View v) {
 				btn_all.setBackgroundResource(R.drawable.button_tab);
 				btn_unpay.setBackgroundResource(R.drawable.button_tab_maincolor);
-				if (MyAccountManager.getInstance().hasLoginned()) {
-					if(mBillListAdapter != null) mBillListAdapter.updateList(BillListManager.getUnpayBillListLocal(getContentResolver()));
-				} else {
-					Toast.makeText(context, "您还没有登录,请先登录", Toast.LENGTH_SHORT).show();
-				}
+				if(mBillListCursorAdapter != null) mBillListCursorAdapter.changeCursor(BillListManager.getLocalUnpayBillCursor(getContentResolver()));
 			}
 		});
 		
-		if (MyAccountManager.getInstance().hasLoginned()) {
-			mBillList = BillListManager.getBillListLocal(getContentResolver());
-			mBillListAdapter = new BillListAdapter(context, mBillList);
-			listBill.setAdapter(mBillListAdapter);
-			listBill.setDivider(null);
-			listBill.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				}
-			});
-		} else {
-			Toast.makeText(context, "您还没有登录,请先登录", Toast.LENGTH_SHORT).show();
-		}
+		mBillListCursorAdapter = new BillListCursorAdapter(mContext, null, true);
+		listBill.setAdapter(mBillListCursorAdapter);
+		listBill.setDivider(null);
+		listBill.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+			}
+		});
 	}
 	
 	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		if (popupWindow != null && popupWindow.isShowing()) {
-			popupWindow.dismiss();
-			popupWindow = null;
+	public void onDestroy() {
+		super.onDestroy();
+		if(mBillListCursorAdapter != null) {
+			mBillListCursorAdapter.changeCursor(null);
+			mBillListCursorAdapter = null;
 		}
-		return super.onTouchEvent(event);
 	}
 	
-	private void showExitLoginDialog() {
-		Dialog alertDialog = new AlertDialog.Builder(this)
-				.setTitle("提示")
-				.setMessage("您已经登录,是否要退出重新登录?")
-				.
-				// setIcon(R.drawable.welcome_logo).
-				setPositiveButton("确定", new DialogInterface.OnClickListener() {
-
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						Contant.USER = null;
-						Intent intent1 = new Intent();
-						intent1.setAction("login");
-						sendBroadcast(intent1);
-						Toast.makeText(context, "成功退出登录", Toast.LENGTH_SHORT)
-								.show();
-					}
-				})
-				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-					}
-				}).
-				create();
-		alertDialog.show();
-	}
 	
 	public static void startActivity(Context context) {
 		Intent intent = new Intent(context, BillListActivity.class);

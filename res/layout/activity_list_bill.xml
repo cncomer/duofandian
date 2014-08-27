@@ -1,121 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/top_bottom" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/top_bottom"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/center_line"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:background="#ADADAD" />
     <LinearLayout
+        android:layout_marginRight="20dp"
+    	android:layout_marginLeft="20dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="50dip" >
+
+        <Button
+            android:id="@+id/button_bill_unpay"
+            android:layout_width="0dip"
+            android:layout_weight="1.0"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_tab"
+            android:text="@string/my_unpay_orders_title"
+            android:textColor="@color/textColor"
+            android:textSize="18sp" />
+        <View
+            android:layout_width="1px"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="10dip"
+            android:background="#ADADAD" />
+
+        <Button
+            android:id="@+id/button_bill_all"
+             android:layout_width="0dip"
+            android:layout_weight="1.0"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dip"
+            android:background="@drawable/button_tab_maincolor"
+            android:text="@string/my_all_orders_title"
+            android:textColor="@color/textColor"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listView_bill"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/top"
-        android:orientation="vertical" >
+        android:layout_marginLeft="20dip"
+        android:layout_marginRight="20dip"
+        android:cacheColorHint="#00000000" >
+    </ListView>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dip" >
-            <LinearLayout
-                android:id="@+id/center_line"
-                android:layout_width="1px"
-                android:layout_height="fill_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="10dip"
-                android:layout_marginTop="10dip"
-                android:background="#ADADAD" >
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/center_line"
-                android:gravity="center" >
-                <Button
-                    android:id="@+id/button_bill_unpay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_tab"
-                    android:text="尚未支付定单"
-                    android:textColor="@color/textColor"
-                    android:textSize="18dip" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/center_line"
-                android:gravity="center" >
-                <Button
-                    android:id="@+id/button_bill_all"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="0dip"
-                    android:layout_marginRight="26dp"
-                    android:background="@drawable/button_tab_maincolor"
-                    android:text="所有定单"
-                    android:textColor="@color/textColor"
-                    android:textSize="18dip" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <ListView
-            android:id="@+id/listView_bill"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" 
-            android:cacheColorHint="#00000000"
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip">
-        </ListView>
-
-    </LinearLayout>
-
-    <!--
-    <LinearLayout
-        android:id="@+id/bottom"
-        android:layout_width="fill_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginTop="5dip"
-        android:background="@color/White" >
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@color/top_bottom"
-            android:orientation="horizontal" >
-
-            <Button
-                android:id="@+id/button_choose_table"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="10dip"
-                android:layout_marginLeft="30dip"
-                android:layout_marginRight="5dip"
-                android:layout_marginTop="10dip"
-                android:layout_weight="1"
-                android:background="@drawable/buttons"
-                android:text="马上预定"
-                android:textColor="@color/text_selector"
-                android:textSize="15dip" />
-
-            <Button
-                android:id="@+id/imageButton_pickfood"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_marginBottom="10dip"
-                android:layout_marginLeft="5dip"
-                android:layout_marginRight="30dip"
-                android:layout_marginTop="10dip"
-                android:layout_weight="1"
-                android:background="@drawable/buttons"
-                android:text="先看菜单"
-                android:textColor="@color/text_selector"
-                android:textSize="15dip" />
-        </LinearLayout>
-    </LinearLayout>
-    -->
-
-</RelativeLayout>
+</LinearLayout>

@@ -246,6 +246,7 @@ public class BjnoteProvider extends ContentProvider{
 			case SCAN_HISTORY_ID:
         	     result = db.query(table, projection, selection, selectionArgs, null, null, sortOrder);
          }
+         if (result != null) result.setNotificationUri(getContext().getContentResolver(), uri);
 		return result;
 	}
 

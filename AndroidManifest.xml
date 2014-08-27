@@ -102,6 +102,8 @@
         <activity
             android:name=".BillListActivity"
             android:launchMode="singleTask"
+            android:theme="@android:style/Theme.Light.NoTitleBar"
+            android:label="@string/mybill"
             android:screenOrientation="portrait" >
         </activity>
 

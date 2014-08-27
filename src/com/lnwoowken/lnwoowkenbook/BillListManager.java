@@ -34,6 +34,18 @@ public class BillListManager {
 		return billList;
 	}
 	
+	public static Cursor getLocalUnpayBillCursor(ContentResolver cr) {
+		return cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, BillObject.BILL_UNPAY_SELECTION, new String[] {String.valueOf(BillObject.STATE_SUCCESS)}, BillObject.BILL_SORT);
+	}
+	
+	public static Cursor getLocalAllBillCursor(ContentResolver cr) {
+		return cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, null, null, BillObject.BILL_SORT);
+	}
+	
+	public static BillObject getBillObjectFromCursor(Cursor c) {
+		return getBillObject(c);
+	}
+	
 	public static BillObject getBillObjectByBillNumber(ContentResolver cr, String billNumber) {
 		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, BillObject.BILL_NUMBER_SELECTION, new String[] {billNumber}, null);
 		if (c != null) {

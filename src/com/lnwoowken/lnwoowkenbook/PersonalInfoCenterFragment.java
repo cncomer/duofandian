@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -96,7 +97,6 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.left_panel, container, false);
-		view.findViewById(R.id.top_layout).setOnClickListener(this);
 		mMemberTopLayout = view.findViewById(R.id.member_top_layout);
 		mAvator = (ImageView) view.findViewById(R.id.avator);
 		mAvator.setOnClickListener(this);
@@ -130,13 +130,6 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
-		case R.id.top_layout:
-			if (MyAccountManager.getInstance().hasLoginned()) {
-				UserInfoActivity.startActivity(getActivity());
-			} else {
-				LoginActivity.startActivity(getActivity());
-			}
-			break;
 		case R.id.avator:
 			//登陆后，可以修改头像
 			if (MyAccountManager.getInstance().hasLoginned()) {
@@ -155,7 +148,12 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 			getActivity().startActivity(intent);
 			break;
 		case R.id.menu_my_order:
-			BillListActivity.startActivity(getActivity());
+			if (!MyAccountManager.getInstance().hasLoginned()) {
+				LoginActivity.startActivity(getActivity());
+				MyApplication.getInstance().showNeedLoginMessage();
+			} else {
+				BillListActivity.startActivity(getActivity());
+			}
 			break;
 		case R.id.menu_order_dishes:
 			default:

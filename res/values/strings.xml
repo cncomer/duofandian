@@ -249,7 +249,7 @@
 
     <string name="msg_gernal_network_error">"请检查您的网络是否通畅"</string>
     <string name="msg_unsupport_operation">暂未开放</string>
-    <string name="msg_need_login_operation">请先登录</string>
+    <string name="msg_need_login_operation">您还没有登录,请先登录</string>
     <string name="demo_account">演示账户</string>
     <string name="msg_login_save_success">账户初始化失败，请再次尝试...</string>
     <string name="get_yanzheng_code">获取验证码</string>
@@ -337,4 +337,7 @@
    <string name="text_password_input_new_hint">"6-14位"</string>
    <string name="text_password_input_renew_tip">"重复新密码:"</string>
    <string name="text_password_input_renew_hint">"6-14位"</string>
+  <string name="my_all_orders_title">所有定单</string>
+  <string name="my_unpay_orders_title">尚未支付定单</string>
+  
 </resources>
