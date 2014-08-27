@@ -72,7 +72,8 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 		mBillNumber = bundle.getString("bill_number");
 		mBillObject = BillListManager.getBillObjectByBillNumber(getContentResolver(), mBillNumber);
 		//mTableInfo = PatternInfoUtils.getTableInfoByName(getContentResolver(), mBillObject.getTableName());
-		price = (int) ((Integer.parseInt(TextUtils.isEmpty(mBillObject.getDabiaoPrice()) ? "0" : mBillObject.getDabiaoPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mBillObject.getServicePrice()) ? "0" : mBillObject.getServicePrice()));
+		//price = (int) ((Integer.parseInt(TextUtils.isEmpty(mBillObject.getDabiaoPrice()) ? "0" : mBillObject.getDabiaoPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mBillObject.getServicePrice()) ? "0" : mBillObject.getServicePrice()));
+		price = Integer.parseInt(TextUtils.isEmpty(mBillObject.getServicePrice()) ? "0" : mBillObject.getServicePrice());
 		if (tNumber!=null&&!tNumber.equals("")) {
 			if (mCountDownTime == null) {
 				mCountDownTime = new MyCount(30 * 1000, 1000, findViewById(R.id.bottom));
@@ -161,8 +162,7 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 	}
 
 	private void saveBillDatabase(int state) {
-		BillObject billObj = new BillObject();
-		billObj.setBillNumber(mBillNumber);
+		BillObject billObj = BillListManager.getBillObjectByBillNumber(getContentResolver(), mBillNumber);
 		billObj.setState(state);
 		
 		BillListManager.saveBill(billObj, getContentResolver());
@@ -189,7 +189,7 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 			try {
 				JSONObject queryJsonObject = new JSONObject();
 				queryJsonObject.put("orderNumber", mBillNumber);
-				queryJsonObject.put("orderAmount", MyAccountManager.getInstance().getCurrentAccountUid());
+				queryJsonObject.put("orderAmount", price * 100);
 
 				is = NetworkUtils.openContectionLocked(ServiceObject.getVoidOrderUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject= ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
@@ -214,7 +214,7 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 		@Override
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
-			if(result != null) {
+			if(result != null && result.isOpSuccessfully()) {
 				saveBillDatabase(BillObject.STATE_TUIDING_SUCCESS);
 				MyApplication.getInstance().showMessage(result.mStatusMessage);
 			}

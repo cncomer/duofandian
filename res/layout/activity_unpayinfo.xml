@@ -254,6 +254,7 @@
                     android:id="@+id/radioButton_upmp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingTop="10dip"
                     
                     android:layout_alignParentRight="true" />
 
