@@ -95,10 +95,12 @@ public class CommitActivity extends BaseActionbarActivity {
 		mTableInfo.setPrice(parcelableData.getTablePrice());
 		mTableInfo.setSprice(parcelableData.getSprice());
 		mTableInfo.setNote(parcelableData.getContent());
-		mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
+		//mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
+		mPriceTotal = Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice());
 		
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
-		textView_money_describ.setText(" (定金" + (int) (Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2)+"元+服务费" + mTableInfo.getSprice() + "元)");
+		//textView_money_describ.setText(" (定金" + (int) (Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2)+"元+服务费" + mTableInfo.getSprice() + "元)");
+		textView_money_describ.setText(" (定金0" +"元+服务费" + mTableInfo.getSprice() + "元)");
 		textView_shopId = (TextView) findViewById(R.id.textView_shopid);
 		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
 		textView_timeinfo = (TextView) findViewById(R.id.textView_timeinfo);
@@ -227,7 +229,7 @@ public class CommitActivity extends BaseActionbarActivity {
 				JSONObject queryJsonObject = new JSONObject();
 				queryJsonObject.put("deskID", mTableInfo.getTableId());
 				queryJsonObject.put("note", mTableInfo.getNote());
-				queryJsonObject.put("price", mPriceTotal);
+				queryJsonObject.put("price", mPriceTotal * 100);
 				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
 				DebugUtils.logD(TAG, "CreateBillAsyncTask doInBackground() queryJsonObject=" + queryJsonObject.toString());
 				is = NetworkUtils.openContectionLocked(ServiceObject.getLiushuiNumberUrl("para", queryJsonObject.toString()), null);

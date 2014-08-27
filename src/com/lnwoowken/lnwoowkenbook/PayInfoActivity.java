@@ -89,7 +89,8 @@ public class PayInfoActivity extends BaseActionbarActivity {
 		mTableInfo.setSprice(parcelableData.getSprice());
 		tNumber = getIntent().getExtras().getString("tNumber");
 		mOrderNumber = getIntent().getExtras().getString("orderNo");
-		price = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
+		//price = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
+		price = (int) Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice());
 		if (tNumber!=null&&!tNumber.equals("")) {
 			if (mCountDownTime == null) {
 				mCountDownTime = new MyCount(30 * 1000, 1000, findViewById(R.id.bottom));
