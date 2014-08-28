@@ -72,6 +72,8 @@ public class CommitActivity extends BaseActionbarActivity {
 	private RadioButton radioButton_agree;
 	private Dialog dialog;
 	
+	private int mDingJinPrice, mServicePrice;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -96,11 +98,11 @@ public class CommitActivity extends BaseActionbarActivity {
 //		mTableInfo.setSprice(parcelableData.getTablePrice());
 //		mTableInfo.setNote(parcelableData.getContent());
 		//mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
-		int dingJingPrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getDingJInPrice()) ? "0" : parcelableData.getDingJInPrice());
-		int servicePrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getSprice()) ? "0" : parcelableData.getSprice());
-		mPriceTotal = dingJingPrice + servicePrice;
+		mDingJinPrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getDingJInPrice()) ? "0" : parcelableData.getDingJInPrice());
+		mServicePrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getSprice()) ? "0" : parcelableData.getSprice());
+		mPriceTotal = mDingJinPrice + mServicePrice;
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
-		textView_money_describ.setText(" (定金" + dingJingPrice +"元+服务费" + servicePrice + "元)");
+		textView_money_describ.setText(" (定金" + mDingJinPrice +"元+服务费" + mServicePrice + "元)");
 		//textView_money_describ.setText(" (定金0" +"元+服务费" + mTableInfo.getSprice() + "元)");
 		textView_shopId = (TextView) findViewById(R.id.textView_shopid);
 		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
@@ -230,7 +232,8 @@ public class CommitActivity extends BaseActionbarActivity {
 				JSONObject queryJsonObject = new JSONObject();
 				queryJsonObject.put("deskID", parcelableData.getTableId());
 				queryJsonObject.put("note", parcelableData.getContent());
-				queryJsonObject.put("price", mPriceTotal * 100);
+				queryJsonObject.put("service_price", mServicePrice * 100);
+				queryJsonObject.put("zifu_price", mDingJinPrice * 100);
 				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
 				DebugUtils.logD(TAG, "CreateBillAsyncTask doInBackground() queryJsonObject=" + queryJsonObject.toString());
 				is = NetworkUtils.openContectionLocked(ServiceObject.getLiushuiNumberUrl("para", queryJsonObject.toString()), null);
@@ -280,8 +283,8 @@ public class CommitActivity extends BaseActionbarActivity {
 				billObj.setState(BillObject.STATE_UNPAY);
 				billObj.setTableType(parcelableData.getTableType());
 				billObj.setDabiaoPrice(parcelableData.getTablePrice());
-				billObj.setServicePrice(parcelableData.getSprice());
-				billObj.setDingJinPrice(parcelableData.getDingJInPrice());
+				billObj.setServicePrice(String.valueOf(mServicePrice));
+				billObj.setDingJinPrice(String.valueOf(mDingJinPrice));
 				BillListManager.saveBill(billObj, getContentResolver());
 				
 				commitPay();
