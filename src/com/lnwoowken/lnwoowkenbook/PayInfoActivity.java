@@ -57,6 +57,7 @@ public class PayInfoActivity extends BaseActionbarActivity {
 	private TableInfoObject parcelableData;
 	private ShopInfoObject mShopInfoObject;
 	private TableInfo mTableInfo;
+	private String mDeskID;
 	private Button btn_commit;
 	private String tNumber;
 	private String mOrderNumber;
@@ -78,8 +79,9 @@ public class PayInfoActivity extends BaseActionbarActivity {
 		tNumber = getIntent().getExtras().getString("tNumber");
 		mOrderNumber = getIntent().getExtras().getString("orderNo");
 		//price = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
-		price = (int) Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice());
-		if (tNumber!=null&&!tNumber.equals("")) {
+		price = getIntent().getExtras().getInt("pricePay");
+		mDeskID = getIntent().getExtras().getString("deskID");
+		if (!TextUtils.isEmpty(tNumber)) {
 			if (mCountDownTime == null) {
 				mCountDownTime = new MyCount(30 * 1000, 1000, findViewById(R.id.bottom));
 				mCountDownTime.start();
@@ -212,7 +214,7 @@ public class PayInfoActivity extends BaseActionbarActivity {
 			try {
 				JSONObject queryJsonObject = new JSONObject();
 				queryJsonObject.put("orderno", mOrderNumber);
-				queryJsonObject.put("deskid", mTableInfo.getTableId());
+				queryJsonObject.put("deskid", mDeskID);
 
 				is = NetworkUtils.openContectionLocked(ServiceObject.getInOrderingUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject= ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));

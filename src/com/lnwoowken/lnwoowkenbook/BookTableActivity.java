@@ -326,6 +326,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 						intent.setClass(context, CommitActivity.class);
 						Bundle bundle = new Bundle();
 						bundle.putParcelable("shopobject", shopAvailableTableObj);
+						bundle.putString("deskid", shopAvailableTableObj.getDeskId());
 						intent.putExtras(bundle);
 
 						startActivity(intent);

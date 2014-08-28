@@ -47,7 +47,7 @@ public class CommitActivity extends BaseActionbarActivity {
 	private static final String TAG = "CommitActivity";
 	private String tNumber;
 	private String orderNo;
-	private String payId;
+	private String deskid;
 	private boolean isAgree;
 	private CheckBox checkBox_default;
 	private CheckBox checkBox_others;
@@ -81,7 +81,8 @@ public class CommitActivity extends BaseActionbarActivity {
 	
 	private void initialize(){
 		Bundle bundle = getIntent().getExtras();  
-		parcelableData = bundle.getParcelable("shopobject");  
+		parcelableData = bundle.getParcelable("shopobject");
+		deskid = bundle.getString("deskid");
 		mShopId = parcelableData.getShopId();
 		time = parcelableData.getTime();
 		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
@@ -309,6 +310,8 @@ public class CommitActivity extends BaseActionbarActivity {
 		bundle.putParcelable("shopobject", parcelableData);
 		bundle.putString("tNumber", tNumber);
 		bundle.putString("orderNo", orderNo);
+		bundle.putInt("pricePay", mServicePrice + mDingJinPrice);
+		bundle.putString("deskID", deskid);
 		intent.putExtras(bundle);  
 		startActivity(intent);
 		CommitActivity.this.finish();
