@@ -263,20 +263,14 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 		if (v.equals(btn_select_time) || v.equals(choose_time)) {
 			dialog_calendar = new CalendarDialog(BookTableActivity.this,
 					R.style.MyDialog);
-
 			dialog_calendar.show();
-			calendar = (CalendarView) dialog_calendar
-					.findViewById(R.id.calendar);
-			Button btn = (Button) dialog_calendar
-					.findViewById(R.id.button_next);
-			title_date = (TextView) dialog_calendar
-					.findViewById(R.id.textView_title_date);
+			calendar = (CalendarView) dialog_calendar.findViewById(R.id.calendar);
+			Button btn = (Button) dialog_calendar.findViewById(R.id.button_next);
+			title_date = (TextView) dialog_calendar.findViewById(R.id.textView_title_date);
 			btn.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
 					dialog_calendar.dismiss();
-					//Toast.makeText(BookTableActivity.this, DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()), Toast.LENGTH_SHORT).show();
-					//queryAvilableTableSynckTAsk(DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()));
 
 					showTimeDialog();
 				}
@@ -287,10 +281,8 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 			String[] ya = calendar.getYearAndmonth().split("-");
 			title_date.setText(ya[0] + "年" + ya[1]);
 
-			btn_left = (ImageButton) dialog_calendar
-					.findViewById(R.id.calendarLeft);
-			btn_Right = (ImageButton) dialog_calendar
-					.findViewById(R.id.calendarRight);
+			btn_left = (ImageButton) dialog_calendar.findViewById(R.id.calendarLeft);
+			btn_Right = (ImageButton) dialog_calendar.findViewById(R.id.calendarRight);
 			btn_left.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -301,7 +293,6 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 				}
 			});
 			btn_Right.setOnClickListener(new OnClickListener() {
-
 				@Override
 				public void onClick(View v) {
 					// 点击下一月
@@ -312,10 +303,14 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 			});
 		} else if (v.equals(btn_selectSeat) || v.equals(choose_seat)) {
 			if (isTimeChosen) {
-				queryAvilableTableSynckTAsk();
+				//queryAvilableTableSynckTAsk();
+				if(mShopAvailableTableList != null && mShopAvailableTableList.size() > 0) {
+					showDeskList();
+				} else {
+					Toast.makeText(BookTableActivity.this, "请先选择您要预定的时间和桌型", Toast.LENGTH_LONG).show();
+				}
 			} else {
-				Toast.makeText(BookTableActivity.this, "请先选择时间",
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(BookTableActivity.this, "请先选择时间", Toast.LENGTH_LONG).show();
 			}
 		} else if (v.equals(btn_commintButton)) {
 			if (isTimeChosen) {
@@ -362,7 +357,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 					showLoginDialog();
 				}
 			} else {
-				Toast.makeText(context, "请选择您要预定的时间", Toast.LENGTH_SHORT).show();
+				Toast.makeText(context, "请选择您要预定的时间和桌型", Toast.LENGTH_SHORT).show();
 			}
 		} else if (btn_chooseFood == v) {
 			MyApplication.getInstance().showUnsupportMessage();
@@ -415,12 +410,12 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 		@Override
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
+			dismissProgressDialog();
 			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
 				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
 			} else {
-				showDeskList();
+				showDialog();
 			}
-			dismissProgressDialog();
 		}
 
 		@Override
@@ -602,16 +597,16 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 						isTimeChosen = true;
 						isTableChosen = false;
 						mSelectedDeskID = null;
-						/*StringBuilder str = new StringBuilder("你选择的日期是：" + DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()) + "\n桌型：" + mDeskType + "\n时段：" + mShiduanName  + "\n达标金额：");
-						if(!TextUtils.isEmpty(mDabiaoPrice)) str.append(mDabiaoPrice + "元"); else str.append("无"); 
-						showDialog(str.toString());*/
+						queryAvilableTableSynckTAsk();
 					}
 				});
 			}
 		});
 	}
 
-	private void showDialog(String str) {
+	private void showDialog() {
+		StringBuilder str = new StringBuilder("你选择的日期是：" + DateUtils.TOPIC_DATE_TIME_FORMAT.format(calendar.getSelectedStartDate()) + "\n桌型：" + mDeskType + "\n时段：" + mShiduanName  + "\n达标金额：");
+		if(mShopAvailableTableList.size() > 0 && mShopAvailableTableList.get(0).getDabiaoPrice() != null) str.append(mShopAvailableTableList.get(0).getDabiaoPrice() + "元"); else str.append("无"); 
 		final Dialog alertDialog = new Dialog(BookTableActivity.this, R.style.MyDialog);
 		alertDialog.setTitle("提示信息");
 		alertDialog.setContentView(R.layout.dialog_layout);

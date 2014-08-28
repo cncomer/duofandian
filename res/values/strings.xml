@@ -261,7 +261,7 @@
   <string name="menu_more">更多</string>
   <string name="menu_login">登录</string>
   <string name="button_start_use">开始使用</string>
-  <string name="shop_info_query_fail">未查到相关数据,可能该座位已经被抢占了，请返回重新选位</string>
+  <string name="shop_info_query_fail">该时段已过时或没有您所选择的桌型，换个时间或者桌型试试运气吧</string>
   <string name="select_book_time">请选择预定时间</string>
   <string name="book_time">预定时间为 </string>
   <string name="month">月</string>
