@@ -1,8 +1,12 @@
 package com.cncom.app.base.util;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class TableInfoObject {
+
+public class TableInfoObject implements Parcelable{
 	//{"shiduan_id":"1","desk_type":"2人桌(1-2人)","desk_name":"A2","date":"2014/7/18 0:00:00","desk_status":"3","shiduan_time":"12:15","shiduan_name":"午市","DeskID":"1","dabiao_price":"190","service_price":"20"}
+	/**解析桌子数据使用 begin*/
 	private String mShiduanId;
 	private String mDeskType;
 	private String mDeskName;
@@ -15,7 +19,7 @@ public class TableInfoObject {
 	private String mServicePrice;
 	/**定金*/
 	private String mDingJinPrice;
-	/**解析数据使用 begin*/
+	
 	public static final String SHIDUAN_ID = "shiduan_id";
 	public static final String DESK_TYPE = "desk_type";
 	public static final String DESK_NAME = "desk_name";
@@ -28,9 +32,40 @@ public class TableInfoObject {
 	/**定金金额*/
 	public static final String DESK_DINGJIN_PRICE = "zifu_price";
 	public static final String DESK_SERVICE_PRICE = "service_price";
-	/**解析数据使用 end*/
+	/**解析桌子数据使用 end*/
 	
 	public static final String TABLE_NAME_PROJECTION = DESK_NAME + "=?";
+	
+	//支付订单信息使用 begin
+	private String mShopId;
+	private String mUid;
+	 private String mTime; 
+	 private String mNote; //备注信息
+	//支付订单信息使用 end
+	public String getTime() {
+		return mTime;
+	}
+	public void setTime(String time) {
+		this.mTime = time;
+	}
+	public String getNote() {
+		return mNote;
+	}
+	public void setNote(String note) {
+		this.mNote = note;
+	}
+	public String getShopId() {
+		return mShopId;
+	}
+	public void setShopId(String shopId) {
+		this.mShopId = shopId;
+	}
+	public String getUid() {
+		return mUid;
+	}
+	public void setUid(String uid) {
+		this.mUid = uid;
+	}
 	
 	public String getShiduanId() {
 		return mShiduanId;
@@ -119,4 +154,58 @@ public class TableInfoObject {
 	public void setDingJinPrice(String dingJinPrice) {
 		this.mDingJinPrice = dingJinPrice;
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+	public TableInfoObject(){};
+	public TableInfoObject(Parcel in){  
+        //顺序要和writeToParcel写的顺序一样  
+		mShiduanId = in.readString();  
+		mDeskType = in.readString();  
+		mDeskName = in.readString();
+		mDate = in.readString();
+		mDeskStates = in.readString();
+		mShiduanTime = in.readString();
+		mShiduanName = in.readString();
+		mDeskId = in.readString();
+		mDabiaoPrice = in.readString();
+		mServicePrice = in.readString();
+		mDingJinPrice = in.readString();
+		mUid = in.readString();
+		mTime = in.readString();
+		mNote = in.readString();
+		mShopId = in.readString();
+    } 
+	
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(mShiduanId);  
+	    dest.writeString(mDeskType);
+	    dest.writeString(mDeskName);
+	    dest.writeString(mDate);
+	    dest.writeString(mDeskStates);
+	    dest.writeString(mShiduanTime);
+	    dest.writeString(mShiduanName);
+	    dest.writeString(mDeskId);
+	    dest.writeString(mDabiaoPrice);
+	    dest.writeString(mServicePrice);
+	    dest.writeString(mDingJinPrice);
+	    dest.writeString(mUid);
+	    dest.writeString(mTime);
+	    dest.writeString(mNote);
+	    dest.writeString(mShopId);
+	    
+	}
+	
+	public static final Parcelable.Creator<TableInfoObject> CREATOR = new Parcelable.Creator<TableInfoObject>() {
+        public TableInfoObject createFromParcel(Parcel in) {  
+            return new TableInfoObject(in);  
+        }  
+          
+        public TableInfoObject[] newArray(int size) {  
+            return new TableInfoObject[size];  
+        }  
+    };  
 }
