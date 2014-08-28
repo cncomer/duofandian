@@ -123,7 +123,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 		groupHolder.textView_state.setText(getBillState(groupHolder.billObject.getState()));
 		groupHolder.textView_shopName.setText(groupHolder.billObject.getShopName());
 		groupHolder.textView_time.setText(groupHolder.billObject.getDate());
-		groupHolder.textView_tableName.setText(groupHolder.billObject.getTableName());
+		groupHolder.textView_tableName.setText(groupHolder.billObject.getTableName() + " " + groupHolder.billObject.getTableType());
 		groupHolder.textView_createDate.setText(groupHolder.billObject.getCreateTime());
 		if(groupHolder.billObject.getState() != BillObject.STATE_SUCCESS) {
 			groupHolder.btn_tuiding.setEnabled(false);

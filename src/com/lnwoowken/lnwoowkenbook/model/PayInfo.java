@@ -18,9 +18,15 @@ public class PayInfo {
     private String tableName;
     private String tablePrice;
     private String content;
+    private String dingjinPrice;
+    private String tableType;
     
-    
-    
+    public String getTableType() {
+		return tableType;
+	}
+	public void setTableType(String tableType) {
+		this.tableType = tableType;
+	}
     
     public String getContent() {
 		return content;
@@ -112,6 +118,13 @@ public class PayInfo {
 	}
 	public void settNumber(String tNumber) {
 		this.tNumber = tNumber;
+	}
+	
+	public String getDingJinPrice() {
+		return dingjinPrice;
+	}
+	public void setDingJinPrice(String dingjinPrice) {
+		this.dingjinPrice = dingjinPrice;
 	}
 	
 }

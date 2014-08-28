@@ -26,11 +26,12 @@ public class BillObject {
 	private String time;// --预定时间
 	private int state;// --订单状态
 	private String tableName;// --桌名
-	private String tableStyle;// --桌型
+	private String tableType;// --桌型
 	private String createTime;// --订单生成时间
 	private String billNumber;// --订单号
 	private String dabiaoPrice;// --达标金额
 	private String servicePrice;// --服务金额
+	private String dingjinPrice;//定金金额
 	
 	/**正常状态*/
 	public static final int STATE_IDLE = 1;
@@ -61,6 +62,7 @@ public class BillObject {
 	public static final String BILL_NUMBER = "billnumber";
 	public static final String BILL_DABIAO_PRICE = "dabiaoprice";
 	public static final String BILL_SERVICE_PRICE = "serviceprice";
+	public static final String BILL_DINGJIN_PRICE = "zifu_price";
 
 	public static final String[] BILL_PROJECTION = new String[] {
 		DBHelper.BILL_ID,
@@ -83,6 +85,7 @@ public class BillObject {
 		DBHelper.BILL_NUMBER,
 		DBHelper.BILL_DABIAO_PRICE,
 		DBHelper.BILL_SERVICE_PRICE,
+		DBHelper.BILL_DINGJIN_PRICE,
 	};
 
 	public static final String BILL_SELECTION = DBHelper.BILL_NUMBER + "=?";
@@ -210,12 +213,12 @@ public class BillObject {
 		this.tableName = tableName;
 	}
 
-	public String getTableStyle() {
-		return tableStyle;
+	public String getTableType() {
+		return tableType;
 	}
 
-	public void setTableStyle(String tableStyle) {
-		this.tableStyle = tableStyle;
+	public void setTableType(String tableStyle) {
+		this.tableType = tableStyle;
 	}
 
 	public String getCreateTime() {
@@ -249,6 +252,13 @@ public class BillObject {
 	public void setServicePrice(String servicePrice) {
 		this.servicePrice = servicePrice;
 	}
+	public String getDingJinPrice() {
+		return dingjinPrice;
+	}
+
+	public void setDingJinPrice(String dingjinPrice) {
+		this.dingjinPrice = dingjinPrice;
+	}
 	
 	public boolean saveDatabase(ContentResolver cr, ContentValues addtion) {
 		ContentValues values = new ContentValues();
@@ -269,11 +279,13 @@ public class BillObject {
 		values.put(DBHelper.BILL_TIME, time);
 		values.put(DBHelper.BILL_STATE, state);
 		values.put(DBHelper.BILL_TABLENAME, tableName);
-		values.put(DBHelper.BILL_TABLESTYLE, tableStyle);
+		values.put(DBHelper.BILL_TABLESTYLE, tableType);
 		values.put(DBHelper.BILL_CREATETIME, createTime);
 		values.put(DBHelper.BILL_NUMBER, billNumber);
 		values.put(DBHelper.BILL_DABIAO_PRICE, dabiaoPrice);
 		values.put(DBHelper.BILL_SERVICE_PRICE, servicePrice);
+		values.put(DBHelper.BILL_DINGJIN_PRICE, dingjinPrice);
+		
 		
 		Uri uri = cr.insert(BjnoteContent.Bills.CONTENT_URI, values);
 		if (uri != null) {
@@ -301,11 +313,12 @@ public class BillObject {
 		values.put(DBHelper.BILL_TIME, time);
 		values.put(DBHelper.BILL_STATE, state);
 		values.put(DBHelper.BILL_TABLENAME, tableName);
-		values.put(DBHelper.BILL_TABLESTYLE, tableStyle);
+		values.put(DBHelper.BILL_TABLESTYLE, tableType);
 		values.put(DBHelper.BILL_CREATETIME, createTime);
 		values.put(DBHelper.BILL_NUMBER, billNumber);
 		values.put(DBHelper.BILL_DABIAO_PRICE, dabiaoPrice);
 		values.put(DBHelper.BILL_SERVICE_PRICE, servicePrice);
+		values.put(DBHelper.BILL_DINGJIN_PRICE, dingjinPrice);
 		
 		int uri = cr.update(BjnoteContent.Bills.CONTENT_URI, values, BILL_SELECTION, new String[]{billNumber});
 		if (uri != -1) {

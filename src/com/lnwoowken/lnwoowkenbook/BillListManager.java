@@ -79,7 +79,7 @@ public class BillListManager {
 		billObj.setTime(c.getString(c.getColumnIndex(BillObject.BILL_TIME)));
 		billObj.setState(c.getInt(c.getColumnIndex(BillObject.BILL_STATE)));
 		billObj.setTableName(c.getString(c.getColumnIndex(BillObject.BILL_TABLENAME)));
-		billObj.setTableStyle(c.getString(c.getColumnIndex(BillObject.BILL_TABLESTYLE)));
+		billObj.setTableType(c.getString(c.getColumnIndex(BillObject.BILL_TABLESTYLE)));
 		billObj.setCreateTime(c.getString(c.getColumnIndex(BillObject.BILL_CREATETIME)));
 		billObj.setBillNumber(c.getString(c.getColumnIndex(BillObject.BILL_NUMBER)));
 		billObj.setDabiaoPrice(c.getString(c.getColumnIndex(BillObject.BILL_DABIAO_PRICE)));

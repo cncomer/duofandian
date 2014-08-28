@@ -13,7 +13,9 @@ public class TableInfoObject {
 	private String mDeskId;
 	private String mDabiaoPrice;
 	private String mServicePrice;
-	
+	/**定金*/
+	private String mDingJinPrice;
+	/**解析数据使用 begin*/
 	public static final String SHIDUAN_ID = "shiduan_id";
 	public static final String DESK_TYPE = "desk_type";
 	public static final String DESK_NAME = "desk_name";
@@ -23,20 +25,10 @@ public class TableInfoObject {
 	public static final String SHIDUAN_NAME = "shiduan_name";
 	public static final String DESK_ID = "DeskID";
 	public static final String DESK_DABIAO_PRICE = "dabiao_price";
+	/**定金金额*/
+	public static final String DESK_DINGJIN_PRICE = "zifu_price";
 	public static final String DESK_SERVICE_PRICE = "service_price";
-
-	public static final String[] TABLE_PROJECTION = new String[] {
-		SHIDUAN_ID,
-		DESK_TYPE,
-		DESK_NAME,
-		DATE,
-		DATE_STATES,
-		SHIDUAN_TIME,
-		SHIDUAN_NAME,
-		DESK_ID,
-		DESK_DABIAO_PRICE,
-		DESK_SERVICE_PRICE,
-	};
+	/**解析数据使用 end*/
 	
 	public static final String TABLE_NAME_PROJECTION = DESK_NAME + "=?";
 	
@@ -118,5 +110,13 @@ public class TableInfoObject {
 	
 	public void setServicePrice(String mServicePrice) {
 		this.mServicePrice = mServicePrice;
+	}
+	
+	public String getDingJinPrice() {
+		return mDingJinPrice;
+	}
+	
+	public void setDingJinPrice(String dingJinPrice) {
+		this.mDingJinPrice = dingJinPrice;
 	}
 }

@@ -12,7 +12,7 @@ import com.shwy.bestjoy.utils.DebugUtils;
  */
 public final class DBHelper extends SQLiteOpenHelper {
 private static final String TAG = "DBHelper";
-  private static final int DB_VERSION = 2;
+  private static final int DB_VERSION = 3;
   private static final String DB_NAME = "cncom.db";
   public static final String ID = "_id";
   /**0为可见，1为删除，通常用来标记一条数据应该被删除，是不可见的，包含该字段的表查询需要增加deleted=0的条件*/
@@ -118,6 +118,7 @@ private static final String TAG = "DBHelper";
   public static final String BILL_NUMBER = "billnumber";
   public static final String BILL_DABIAO_PRICE = "dabiaoprice";
   public static final String BILL_SERVICE_PRICE = "serviceprice";
+  public static final String BILL_DINGJIN_PRICE = "zifu_price";
   //bill table end
   
   public DBHelper(Context context) {
@@ -276,6 +277,7 @@ private static final String TAG = "DBHelper";
 	            BILL_CREATETIME + " TEXT, " +
 	            BILL_NUMBER + " TEXT, " +
 	            BILL_DABIAO_PRICE + " TEXT, " +
+	            BILL_DINGJIN_PRICE + " TEXT, " +
 	            BILL_SERVICE_PRICE + " TEXT);");
   }
   
@@ -302,7 +304,7 @@ private static final String TAG = "DBHelper";
   @Override
   public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 	  DebugUtils.logD(TAG, "onUpgrade oldVersion " + oldVersion + " newVersion " + newVersion);
-	  if (oldVersion == 1) {
+	  if (oldVersion < 3) {
 		  sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_ACCOUNTS);
 		    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_SHOPS);
 		    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_BILL);

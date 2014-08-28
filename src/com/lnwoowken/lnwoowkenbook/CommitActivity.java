@@ -60,7 +60,7 @@ public class CommitActivity extends BaseActionbarActivity {
 	private int mPriceTotal;
 	private TextView textView_money_describ;
 	private ShopInfoObject mShopInfoObject;
-	private TableInfo mTableInfo;
+//	private TableInfo mTableInfo;
 	private TextView textView_shopId;
 	private TextView textView_shopName;
 	private TextView textView_timeinfo;
@@ -88,19 +88,20 @@ public class CommitActivity extends BaseActionbarActivity {
 		
 		((TextView) findViewById(R.id.textView_attention)).setText(mShopInfoObject.mOrderConfirmTip);
 		
-		mTableInfo = new TableInfo();
-		mTableInfo.setTableId(parcelableData.getTableId());
-		mTableInfo.setTableName(parcelableData.getTableName().substring(0, parcelableData.getTableName().lastIndexOf(" ")));
-		mTableInfo.setTableStyle(parcelableData.getTableName().substring(parcelableData.getTableName().lastIndexOf(" ") + 1));
-		mTableInfo.setPrice(parcelableData.getTablePrice());
-		mTableInfo.setSprice(parcelableData.getSprice());
-		mTableInfo.setNote(parcelableData.getContent());
+//		mTableInfo = new TableInfo();
+//		mTableInfo.setTableId(parcelableData.getTableId());
+//		mTableInfo.setTableName(parcelableData.getTableName());
+//		mTableInfo.setTableStyle(parcelableData.getTableType());
+//		mTableInfo.setPrice(parcelableData.getTablePrice());
+//		mTableInfo.setSprice(parcelableData.getTablePrice());
+//		mTableInfo.setNote(parcelableData.getContent());
 		//mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
-		mPriceTotal = Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice());
-		
+		int dingJingPrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getDingJInPrice()) ? "0" : parcelableData.getDingJInPrice());
+		int servicePrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getSprice()) ? "0" : parcelableData.getSprice());
+		mPriceTotal = dingJingPrice + servicePrice;
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
-		//textView_money_describ.setText(" (定金" + (int) (Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2)+"元+服务费" + mTableInfo.getSprice() + "元)");
-		textView_money_describ.setText(" (定金0" +"元+服务费" + mTableInfo.getSprice() + "元)");
+		textView_money_describ.setText(" (定金" + dingJingPrice +"元+服务费" + servicePrice + "元)");
+		//textView_money_describ.setText(" (定金0" +"元+服务费" + mTableInfo.getSprice() + "元)");
 		textView_shopId = (TextView) findViewById(R.id.textView_shopid);
 		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
 		textView_timeinfo = (TextView) findViewById(R.id.textView_timeinfo);
@@ -227,8 +228,8 @@ public class CommitActivity extends BaseActionbarActivity {
 			InputStream is = null;
 			try {
 				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("deskID", mTableInfo.getTableId());
-				queryJsonObject.put("note", mTableInfo.getNote());
+				queryJsonObject.put("deskID", parcelableData.getTableId());
+				queryJsonObject.put("note", parcelableData.getContent());
 				queryJsonObject.put("price", mPriceTotal * 100);
 				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
 				DebugUtils.logD(TAG, "CreateBillAsyncTask doInBackground() queryJsonObject=" + queryJsonObject.toString());
@@ -277,9 +278,10 @@ public class CommitActivity extends BaseActionbarActivity {
 				billObj.setCreateTime(DateUtils.TOPIC_SUBJECT_DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
 				billObj.setDate(time);
 				billObj.setState(BillObject.STATE_UNPAY);
-				billObj.setTableStyle(mTableInfo.getTableStyle());
+				billObj.setTableType(parcelableData.getTableType());
 				billObj.setDabiaoPrice(parcelableData.getTablePrice());
 				billObj.setServicePrice(parcelableData.getSprice());
+				billObj.setDingJinPrice(parcelableData.getDingJInPrice());
 				BillListManager.saveBill(billObj, getContentResolver());
 				
 				commitPay();

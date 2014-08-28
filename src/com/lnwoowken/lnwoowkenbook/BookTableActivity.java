@@ -335,7 +335,9 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 						PayInfo pay = new PayInfo();
 						pay.setShopId(mShopId);
 						pay.setTime(c.get(Calendar.MONTH) + 1 + this.getResources().getString(R.string.month) + c.get(Calendar.DAY_OF_MONTH) + this.getResources().getString(R.string.day) + " " + DateUtils.getInstance().getWeekDay(c) + " " + shopAvailableTableObj.getmShiduanTime());
-						pay.setTableName(shopAvailableTableObj.getDeskName() + "  " + mDeskType.substring(0, mDeskType.indexOf("(")));
+						pay.setTableName(shopAvailableTableObj.getDeskName());
+						pay.setTableType(mDeskType);
+						pay.setDingJinPrice(shopAvailableTableObj.getDingJinPrice());
 						pay.setTableId(shopAvailableTableObj.getDeskId());
 						pay.setTablePrice(mDabiaoPrice);
 						pay.setUid(MyAccountManager.getInstance().getCurrentAccountUid());

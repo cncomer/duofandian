@@ -19,6 +19,9 @@ public class PayInfoData  implements Parcelable{
 	private String sttid;
 	private String secid;
 	private String content;
+	
+	private String tableType;
+	private String dingJinPrice;
       
     public String getContent() {
 		return content;
@@ -49,6 +52,8 @@ public class PayInfoData  implements Parcelable{
         sttid = pay.getSttid();
         secid = pay.getSecid();
         content = pay.getContent();
+        tableType = pay.getTableType();
+        dingJinPrice = pay.getDingJinPrice();
     }  
       
     public PayInfoData(Parcel in){  
@@ -65,6 +70,8 @@ public class PayInfoData  implements Parcelable{
         sttid = in.readString();
         secid = in.readString();
         content = in.readString();
+        tableType = in.readString();
+        dingJinPrice = in.readString();
     } 
 
 	
@@ -88,6 +95,8 @@ public class PayInfoData  implements Parcelable{
         dest.writeString(sttid);
         dest.writeString(secid);
         dest.writeString(content);
+        dest.writeString(tableType);
+        dest.writeString(dingJinPrice);
     }  
       
     public static final Parcelable.Creator<PayInfoData> CREATOR = new Parcelable.Creator<PayInfoData>() {
@@ -100,7 +109,18 @@ public class PayInfoData  implements Parcelable{
         }  
     };  
   
-    
+    public String getTableType() {
+		return tableType;
+	}
+	public void setTableType(String tableType) {
+		this.tableType = tableType;
+	}
+	public String getDingJInPrice() {
+		return dingJinPrice;
+	}
+	public void setDingJInPrice(String dingJinPrice) {
+		this.dingJinPrice = dingJinPrice;
+	}
     
     public String getTableName() {
 		return tableName;
