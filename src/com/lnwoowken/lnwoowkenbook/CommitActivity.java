@@ -9,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
@@ -35,10 +34,9 @@ import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
+import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
-import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
-import com.lnwoowken.lnwoowkenbook.model.TableInfo;
 import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.lnwoowken.lnwoowkenbook.view.UserDialog;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
@@ -68,9 +66,11 @@ public class CommitActivity extends BaseActionbarActivity {
 	private TextView textView_money;
 	private TextView textView_agree;
 	private Button btn_commit;
-	private PayInfoData parcelableData;
+	private TableInfoObject parcelableData;
 	private RadioButton radioButton_agree;
 	private Dialog dialog;
+	
+	private int mDingJinPrice, mServicePrice;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class CommitActivity extends BaseActionbarActivity {
 	
 	private void initialize(){
 		Bundle bundle = getIntent().getExtras();  
-		parcelableData = bundle.getParcelable("PayInfo");  
+		parcelableData = bundle.getParcelable("shopobject");  
 		mShopId = parcelableData.getShopId();
 		time = parcelableData.getTime();
 		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
@@ -96,11 +96,11 @@ public class CommitActivity extends BaseActionbarActivity {
 //		mTableInfo.setSprice(parcelableData.getTablePrice());
 //		mTableInfo.setNote(parcelableData.getContent());
 		//mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
-		int dingJingPrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getDingJInPrice()) ? "0" : parcelableData.getDingJInPrice());
-		int servicePrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getSprice()) ? "0" : parcelableData.getSprice());
-		mPriceTotal = dingJingPrice + servicePrice;
+		mDingJinPrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getDingJinPrice()) ? "0" : parcelableData.getDingJinPrice());
+		mServicePrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getServicePrice()) ? "0" : parcelableData.getServicePrice());
+		mPriceTotal = mDingJinPrice + mServicePrice;
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
-		textView_money_describ.setText(" (定金" + dingJingPrice +"元+服务费" + servicePrice + "元)");
+		textView_money_describ.setText(" (定金" + mDingJinPrice +"元+服务费" + mServicePrice + "元)");
 		//textView_money_describ.setText(" (定金0" +"元+服务费" + mTableInfo.getSprice() + "元)");
 		textView_shopId = (TextView) findViewById(R.id.textView_shopid);
 		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
@@ -112,7 +112,7 @@ public class CommitActivity extends BaseActionbarActivity {
 		textView_shopId.setText(mShopInfoObject.getShopShowId());
 		textView_shopName.setText(mShopInfoObject.getShopName());
 		textView_timeinfo.setText(parcelableData.getTime());
-		textView_seat.setText(parcelableData.getTableName());
+		textView_seat.setText(parcelableData.getDeskName());
 		//应付金额： 服务费+订金（额定消费X20%）
 		textView_money.setText(mPriceTotal + "");
 		
@@ -228,9 +228,10 @@ public class CommitActivity extends BaseActionbarActivity {
 			InputStream is = null;
 			try {
 				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("deskID", parcelableData.getTableId());
-				queryJsonObject.put("note", parcelableData.getContent());
-				queryJsonObject.put("price", mPriceTotal * 100);
+				queryJsonObject.put("deskID", parcelableData.getDeskId());
+				queryJsonObject.put("note", parcelableData.getNote());
+				queryJsonObject.put("service_price", mServicePrice * 100);
+				queryJsonObject.put("zifu_price", mDingJinPrice * 100);
 				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
 				DebugUtils.logD(TAG, "CreateBillAsyncTask doInBackground() queryJsonObject=" + queryJsonObject.toString());
 				is = NetworkUtils.openContectionLocked(ServiceObject.getLiushuiNumberUrl("para", queryJsonObject.toString()), null);
@@ -274,14 +275,14 @@ public class CommitActivity extends BaseActionbarActivity {
 				billObj.setBillNumber(orderNo);
 				billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
 				billObj.setShopName(mShopInfoObject.getShopName());
-				billObj.setTableName(parcelableData.getTableName());
+				billObj.setTableName(parcelableData.getDeskName());
 				billObj.setCreateTime(DateUtils.TOPIC_SUBJECT_DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
 				billObj.setDate(time);
 				billObj.setState(BillObject.STATE_UNPAY);
-				billObj.setTableType(parcelableData.getTableType());
-				billObj.setDabiaoPrice(parcelableData.getTablePrice());
-				billObj.setServicePrice(parcelableData.getSprice());
-				billObj.setDingJinPrice(parcelableData.getDingJInPrice());
+				billObj.setTableType(parcelableData.getDeskType());
+				billObj.setDabiaoPrice(parcelableData.getDabiaoPrice());
+				billObj.setServicePrice(String.valueOf(mServicePrice));
+				billObj.setDingJinPrice(String.valueOf(mDingJinPrice));
 				BillListManager.saveBill(billObj, getContentResolver());
 				
 				commitPay();
@@ -305,7 +306,7 @@ public class CommitActivity extends BaseActionbarActivity {
 	public void commitPay() {
 		Intent intent = new Intent(CommitActivity.this, PayInfoActivity.class);
 		Bundle bundle = new Bundle();  
-		bundle.putParcelable("PayData", parcelableData);
+		bundle.putParcelable("shopobject", parcelableData);
 		bundle.putString("tNumber", tNumber);
 		bundle.putString("orderNo", orderNo);
 		intent.putExtras(bundle);  

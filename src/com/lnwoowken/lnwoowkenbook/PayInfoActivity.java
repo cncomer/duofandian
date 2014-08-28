@@ -35,8 +35,8 @@ import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
+import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
-import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
 import com.lnwoowken.lnwoowkenbook.model.TableInfo;
 import com.lnwoowken.lnwoowkenbook.tools.MyCount;
@@ -54,13 +54,10 @@ public class PayInfoActivity extends BaseActionbarActivity {
 	private int price;
 	private TextView textView_price, textView_needpay, textView_billnumber;
 	private String mShopId;
-	private String time;
-	private PayInfoData parcelableData;
+	private TableInfoObject parcelableData;
 	private ShopInfoObject mShopInfoObject;
 	private TableInfo mTableInfo;
-	private static final int requestCode = 888;
 	private Button btn_commit;
-	private Button btn_back;
 	private String tNumber;
 	private String mOrderNumber;
 	private RadioButton radioUpmp;
@@ -74,16 +71,10 @@ public class PayInfoActivity extends BaseActionbarActivity {
 
 	private void initialize() {
 		Bundle bundle = getIntent().getExtras();
-		parcelableData = bundle.getParcelable("PayData");
+		parcelableData = bundle.getParcelable("shopobject");
 		mShopId = parcelableData.getShopId();
-		time = parcelableData.getTime();
 		mShopInfoObject =  PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
-		mTableInfo = new TableInfo();
-		mTableInfo.setTableId(parcelableData.getTableId());
-		mTableInfo.setTableName(parcelableData.getTableName());
-		mTableInfo.setTableStyle(parcelableData.getTableName().substring(parcelableData.getTableName().lastIndexOf(" ") + 1));
-		mTableInfo.setPrice(parcelableData.getTablePrice());
-		mTableInfo.setSprice(parcelableData.getSprice());
+		
 		tNumber = getIntent().getExtras().getString("tNumber");
 		mOrderNumber = getIntent().getExtras().getString("orderNo");
 		//price = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));

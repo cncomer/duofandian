@@ -2,8 +2,9 @@
 
 package com.lnwoowken.lnwoowkenbook.model;
 /**
- * 桌子信息
+ * 桌子信息,请使用TableInfoObject代替
  * @author sean
+ * @hide
  *
  */
 public class TableInfo {

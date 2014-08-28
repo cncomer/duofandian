@@ -24,7 +24,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.FloatMath;
 import android.view.Display;
@@ -53,8 +52,6 @@ import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
-import com.lnwoowken.lnwoowkenbook.data.PayInfoData;
-import com.lnwoowken.lnwoowkenbook.model.PayInfo;
 import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
 import com.lnwoowken.lnwoowkenbook.model.TableInfo;
 import com.lnwoowken.lnwoowkenbook.view.CalendarDialog;
@@ -106,10 +103,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	private LinearLayout choose_time;
 	private LinearLayout choose_seat;
 	private final int requestCode = 888;
-	private TableInfo tableInfo;
 	private ImageButton btn_selectSeat;
-	public static int hour;
-	public static int minute;
 	private ImageButton btn_select_time;
 
 	private TextView textView_bookTime;
@@ -119,7 +113,6 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	private boolean isTimeChosen = false;
 	private ImageView tableImage;
 	private boolean isTableChosen = false;
-	private int tableId = -1;
 	private Intent intent;
 	private String mShopId;
 	private String mDeskType;
@@ -129,7 +122,6 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	private List<TableInfoObject> mShopAvailableTableList;
 	private DeskListAdapter mDeskListAdapter;
 	private String mSelectedDeskID;
-	private String mDabiaoPrice;
 	
 	private ShopInfoObject mShopInfoObject;
 	private Handler mHandler;
@@ -326,26 +318,14 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 								shopAvailableTableObj = obj;
 							}
 						}
-						mDabiaoPrice = shopAvailableTableObj.getDabiaoPrice();
-						PayInfo pay = new PayInfo();
-						pay.setShopId(mShopId);
-						pay.setTime(c.get(Calendar.MONTH) + 1 + this.getResources().getString(R.string.month) + c.get(Calendar.DAY_OF_MONTH) + this.getResources().getString(R.string.day) + " " + DateUtils.getInstance().getWeekDay(c) + " " + shopAvailableTableObj.getmShiduanTime());
-						pay.setTableName(shopAvailableTableObj.getDeskName());
-						pay.setTableType(mDeskType);
-						pay.setDingJinPrice(shopAvailableTableObj.getDingJinPrice());
-						pay.setTableId(shopAvailableTableObj.getDeskId());
-						pay.setTablePrice(mDabiaoPrice);
-						pay.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
-						//pay.setRprice(tempStyle.getPrice());
-						pay.setSprice(shopAvailableTableObj.getServicePrice());
-						//pay.setDtimeid(tableInfo.getAId());
-						//pay.setSttid(tableStyleId + "");
-						//pay.setSecid(se);
-						pay.setContent(edite_content.getText().toString());
+						shopAvailableTableObj.setTime(c.get(Calendar.MONTH) + 1 + this.getResources().getString(R.string.month) + c.get(Calendar.DAY_OF_MONTH) + this.getResources().getString(R.string.day) + " " + DateUtils.getInstance().getWeekDay(c) + " " + shopAvailableTableObj.getmShiduanTime());
+						shopAvailableTableObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
+						shopAvailableTableObj.setNote(edite_content.getText().toString());
+						shopAvailableTableObj.setShopId(mShopId);
 						Intent intent = new Intent();
 						intent.setClass(context, CommitActivity.class);
 						Bundle bundle = new Bundle();
-						bundle.putParcelable("PayInfo", new PayInfoData(pay));
+						bundle.putParcelable("shopobject", shopAvailableTableObj);
 						intent.putExtras(bundle);
 
 						startActivity(intent);
