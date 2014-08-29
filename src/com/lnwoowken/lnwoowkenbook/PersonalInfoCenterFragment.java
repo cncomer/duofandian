@@ -140,6 +140,7 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.left_panel, container, false);
 		mMemberTopLayout = view.findViewById(R.id.member_top_layout);
+		mMemberTopLayout.setOnClickListener(this);
 		mAvator = (ImageView) view.findViewById(R.id.avator);
 		mAvator.setOnClickListener(this);
 		
@@ -148,6 +149,7 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 		mMemberTel = (TextView) view.findViewById(R.id.memberTel);
 		
 		mGuestTopLayout = view.findViewById(R.id.guest_top_layout);
+		mGuestTopLayout.setOnClickListener(this);
 		
 		ModuleSettings.getInstance().installModule((ViewGroup) view.findViewById(R.id.menu_content), this);
 		return view;
