@@ -81,6 +81,8 @@ public class LoginOrUpdateAccountDialog extends Activity{
 						showStatusMessage(R.string.msg_login_download_accountinfo_wait);
 						if (result.mJsonData != null) {
 							AccountObject _accountObject = AccountParser.parseAccountData(result.mJsonData);
+							//登录成功后返回的数据中没有包含密码，所以这里我们认为添加登录时候用的密码
+							_accountObject.mAccountPwd = mPwd;
 							boolean saveAccountOk = MyAccountManager.getInstance().saveAccountObject(getContentResolver(), _accountObject);
 							if (!saveAccountOk) {
 								//登录成功了，但本地数据保存失败，通常不会走到这里
