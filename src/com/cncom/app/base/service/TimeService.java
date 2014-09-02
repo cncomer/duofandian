@@ -70,6 +70,16 @@ public class TimeService extends Service{
 		}
 		return true;
 	}
+	/**
+	 * 如果确定倒数完成了，调用该方法移除倒数对象
+	 * @param countdownObject
+	 * @return
+	 */
+	public boolean remove(CountdownObject countdownObject) {
+		synchronized(mCountdownMaps) {
+			return mCountdownMaps.remove(countdownObject._key) != null;
+		}
+	}
 	
 	public static TimeService getService() {
 		return mTimeService;
@@ -105,7 +115,7 @@ public class TimeService extends Service{
 		}
 		public synchronized void decrease() {
 			if (_countdown == 1) {
-				mCountdownMaps.remove(_key);
+				return;
 			}
 			_countdown-=1;
 			notifyCallback();
