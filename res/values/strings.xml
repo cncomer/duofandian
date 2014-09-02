@@ -348,5 +348,9 @@
   <string name="my_unpay_orders_title">尚未支付定单</string>
   <string name="button_confirm_pay">确定支付</string>
   
-  
+  <string name="msg_empty_cell">请输入手机号码</string>
+   <string name="msg_empty_niname">请输入昵称</string>
+   <string name="msg_empty_email">请输入正确的邮箱地址</string>
+   <string name="msg_password_not_equal">密码输入不一致</string>
+   <string name="msg_yanzhengma_not_correct">验证码不正确</string>
 </resources>

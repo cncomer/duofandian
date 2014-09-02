@@ -63,6 +63,7 @@ public class TimeService extends Service{
 				}
 			}
 			mCountdownMaps.put(countdownObject._key, countdownObject);
+			countdownObject._countdownCallback.start(countdownObject._countdown);
 			mCountdownMaps.notifyAll();
 		}
 	}
@@ -97,6 +98,7 @@ public class TimeService extends Service{
 	
 	public static interface CountdownCallback {
 		void countdown(int current);
+		void start(int start);
 	}
 	
 	public static class CountdownObject {
@@ -118,7 +120,9 @@ public class TimeService extends Service{
 				_countdownCallback.countdown(_countdown);
 			}
 		}
-		
+		public synchronized int getCurrent() {
+			return _countdown;
+		}
 		public synchronized void increase() {
 			_countdown+=1;
 			notifyCallback();

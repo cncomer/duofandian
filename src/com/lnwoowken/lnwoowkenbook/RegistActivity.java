@@ -6,132 +6,49 @@ package com.lnwoowken.lnwoowkenbook;
 
 
 
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Message;
-import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.cncom.app.base.account.AccountObject;
+import com.cncom.app.base.service.TimeService;
+import com.cncom.app.base.service.TimeService.CountdownObject;
 import com.cncom.app.base.ui.BaseActionbarActivity;
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.thread.RequestServerThread;
+import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
+import com.shwy.bestjoy.utils.AsyncTaskUtils;
+import com.shwy.bestjoy.utils.NetworkUtils;
 import com.shwy.bestjoy.utils.SecurityUtils;
 
-@SuppressLint("HandlerLeak")
-public class RegistActivity extends BaseActionbarActivity{
-	private long num;// = Tools.getRandomNum();
-	private long pwd;// = Tools.getRandomNum();
+public class RegistActivity extends BaseActionbarActivity implements TimeService.CountdownCallback{
+	private static final String TAG = "RegistActivity";
 	private Button btn_regist;
-	private Button btn_back;
-	private Button btn_home;//--返回主界面
-	private RequestServerThread mThread;
-	private RequestServerThread threadSMS;
 	private Button btn_getSMS;
 	
-	private boolean isRecieved = false;
 	private EditText editText_checkSMS;
-	private EditText name;
-//	private EditText phone;
+	private EditText cell;
 	private EditText email;
 	private EditText niname;
 	private EditText password;
 	private EditText editText_pwd_confirm;
 	private AccountObject mAccountObject;
-	private static final int TIME_COUNDOWN = 120000;
+	private static final int TIME_COUNDOWN = 120; //s
 	private String mYanZhengCodeFromServer;
-	
-	private Handler getSMShandler = new Handler(){
-
-		@Override
-		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
-			super.handleMessage(msg);
-			if (threadSMS!=null) {
-				Log.d("sms==============", "threadStart");
-				threadSMS.start();
-			}
-		}
-		
-	};
-	
-	
-	private Handler handler = new Handler(){
-
-		@Override
-		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
-			super.handleMessage(msg);
-			if (mThread!=null) {
-				Log.d("regist==============", "threadStart");
-				mThread.start();
-			}
-		}
-		
-	};
-	
-	private Handler resultHandler = new Handler(){
-
-		@Override
-		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
-			super.handleMessage(msg);
-			if (mThread.getResult().equals(Contant.NO_NET)||msg.arg1==1) {
-				Toast.makeText(mContext,  R.string.no_net, Toast.LENGTH_SHORT).show();
-			}
-			else {
-				String result = mThread.getResult();//Client.decodeBase64(mThread.getResult());
-				/*if (result.contains("id")) {
-					Toast.makeText(context, "注册成功", Toast.LENGTH_SHORT).show();
-					showDialog();
-				}
-				else {
-					Toast.makeText(context, "注册失败,原因:"+result, Toast.LENGTH_SHORT).show();
-					
-				}*/
-				try {
-					JSONObject jsonObject = new JSONObject(result);
-					mAccountObject.mStatusCode = Integer.parseInt(jsonObject.getString("StatusCode"));
-					mAccountObject.mStatusMessage = jsonObject.getString("StatusMessage");
-					if(mAccountObject.mStatusCode == 1) {
-						Toast.makeText(mContext, "注册成功", Toast.LENGTH_SHORT).show();
-						showDialog();
-					} else {
-						Toast.makeText(mContext, "注册失败,原因:" + mAccountObject.mStatusMessage, Toast.LENGTH_SHORT).show();
-					}
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-	};
 	
 	
 	private void initialize(){
@@ -139,87 +56,21 @@ public class RegistActivity extends BaseActionbarActivity{
 		btn_getSMS.setOnClickListener(RegistActivity.this);
 		btn_regist = (Button) findViewById(R.id.button_regist);
 		btn_regist.setOnClickListener(RegistActivity.this);
-		name = (EditText) findViewById(R.id.editText_name);
+		cell = (EditText) findViewById(R.id.editText_name);
 		email = (EditText) findViewById(R.id.editText_email);
 		niname = (EditText) findViewById(R.id.editText_niname);
 		password = (EditText) findViewById(R.id.editText_pwd);
 		editText_pwd_confirm = (EditText) findViewById(R.id.editText_pwd_confirm);
 		editText_checkSMS = (EditText) findViewById(R.id.editText_checkSMS);
-		name.setOnFocusChangeListener(new OnFocusChangeListener() {
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				// TODO Auto-generated method stub
-				if (hasFocus) {
-					if (name.getText().toString().contains("用户名")) {
-						name.setText("");
-					}
-				}else {
-					
-				}
-			}
-		});
-		editText_pwd_confirm.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					if (editText_pwd_confirm.getText().toString().contains("密码")) {
-						editText_pwd_confirm.setText("");
-						editText_pwd_confirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-					}
-				}else {
-					
-				}
-			}
-		});
-		password.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
-			@Override
-			public void onFocusChange(View v, boolean hasFocus) {
-				if (hasFocus) {
-					if (password.getText().toString().contains("密码")) {
-						password.setText("");
-						password.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-					}
-				}else {
-					
-				}
-			}
-		});
-	}
-	
-	//@SuppressWarnings("unused")
-	private Handler smsResultHandler = new Handler(){
-		@Override
-		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
-			super.handleMessage(msg);
-			String result = threadSMS.getResult();
-			Log.d("sms==============", result);
-			checkRecieved(result);
-			try {
-				JSONObject jsonObject = new JSONObject(result);
-				mYanZhengCodeFromServer = jsonObject.getString("Data");
-			} catch (JSONException e) {
-				e.printStackTrace();
-			} catch (Throwable ex) {
-				ex.printStackTrace();
-			}
+		
+		CountdownObject newCountdownObject = new CountdownObject(TAG, TIME_COUNDOWN, this);
+		CountdownObject exsitedCountdownObject = TimeService.getService().getCountdownObject(TAG);
+		if (exsitedCountdownObject != null &&  exsitedCountdownObject.getCurrent() > 1) {
+			TimeService.getService().commit(newCountdownObject, false);
 		}
 		
-	};
-	
-	
-	private boolean checkRecieved(String result){
-		Log.d("checkRecieved==============", result);
-		if (result.contains("1")) {
-			isRecieved = true;
-			if (!TextUtils.isEmpty(name.getText().toString().trim())) {
-				Toast.makeText(mContext, "短信已经发送号码为"+name.getText().toString()+"的手机", Toast.LENGTH_SHORT).show();
-			}
-		}
-		return isRecieved;
 	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -228,20 +79,6 @@ public class RegistActivity extends BaseActionbarActivity{
 		initialize();
 	}
 
-	private String getOpJson(){
-		
-		String start = "{";
-		String dot = ",";
-		String user = "\"User\":\""+name.getText().toString()+"\"";
-		String pwd = "\"Pwd\":\""+password.getText().toString()+"\"";
-		String phno = "\"Phno\":\""+name.getText().toString()+"\"";
-		String nameStr = "\"Name\":\""+""+"\"";
-		String emailStr = "\"Email\":\""+""+"\"";
-		String end = "}";
-		String jsonStr = start+user+dot+pwd+dot+phno+dot+nameStr+dot+emailStr+end;
-		return jsonStr;
-	}
-	
 	private boolean checkConfirm(){
 		if (editText_pwd_confirm.getText().toString().equals(password.getText().toString())) {
 			return true;
@@ -261,20 +98,28 @@ public class RegistActivity extends BaseActionbarActivity{
 	}
 	
 	private boolean checkInput() {
+		mAccountObject.mAccountTel = cell.getText().toString().trim();
+		if(TextUtils.isEmpty(mAccountObject.mAccountTel)) {
+			MyApplication.getInstance().showMessage(R.string.msg_empty_cell);
+			return false;
+		}
+		mAccountObject.mAccountEmail = email.getText().toString().trim();
+		if(TextUtils.isEmpty(mAccountObject.mAccountEmail) || !mAccountObject.mAccountEmail.contains("@")) {
+			MyApplication.getInstance().showMessage(R.string.msg_empty_email);
+			return false;
+		}
 		if(!checkConfirm()) {
-			Toast.makeText(mContext, "密码输入不一致", Toast.LENGTH_SHORT).show();
+			MyApplication.getInstance().showMessage(R.string.msg_password_not_equal);
+			return false;
+		}
+		mAccountObject.mAccountPwd = editText_pwd_confirm.getText().toString();
+		mAccountObject.mAccountName = niname.getText().toString();
+		if(TextUtils.isEmpty(mAccountObject.mAccountName)) {
+			MyApplication.getInstance().showMessage(R.string.msg_empty_niname);
 			return false;
 		}
 		if(!checkYanZhengCode()) {
-			Toast.makeText(mContext, "验证码不正确", Toast.LENGTH_SHORT).show();
-			return false;
-		}
-		if(TextUtils.isEmpty(email.getText().toString())) {
-			Toast.makeText(mContext, "请输入邮箱", Toast.LENGTH_SHORT).show();
-			return false;
-		}
-		if(TextUtils.isEmpty(niname.getText().toString())) {
-			Toast.makeText(mContext, "请输入昵称", Toast.LENGTH_SHORT).show();
+			MyApplication.getInstance().showMessage(R.string.msg_yanzhengma_not_correct);
 			return false;
 		}
 		return true;
@@ -283,27 +128,19 @@ public class RegistActivity extends BaseActionbarActivity{
 	public void onClick(View v) {
 		switch(v.getId()) {
 		case R.id.button_regist:
-			Log.d("regist==============", "onclick");			
 			if(checkInput()) {
-				//para={"cell":"18621951097","pwd":"wangkun","nickname":"kun","email":"369319633@qq.com"}
-				String str = "http://manage.lnwoowken.com/Mobile/common/register.ashx?para={\"cell\":\"" + name.getText().toString().trim() + "\",\"pwd\":\"" + password.getText().toString() + "\",\"nickname\":\"" + niname.getText().toString().trim() + "\",\"email\":\"" + email.getText().toString().trim() +"\"}";
-				int flag = Contant.FLAG_REGIST;
-				mThread = new RequestServerThread(str, resultHandler, mContext, flag);
-				Message msg = new Message();
-				handler.sendMessage(msg);
+				registerAsync();
 			}	
 			break;
 		case R.id.button_getSMS:
-			String phone = name.getText().toString().trim();
+			String phone = cell.getText().toString().trim();
 			if (!TextUtils.isEmpty(phone)) {
-				getSMS(phone);
-				Message msg = new Message();
-				getSMShandler.sendMessage(msg);
-				btn_getSMS.setEnabled(false);
-				btn_getSMS.setTextColor(Color.GRAY);
-				doTimeCountDown();
+				getYanzhengmaTask(phone);
+				CountdownObject newCountdownObject = new CountdownObject(TAG, TIME_COUNDOWN, this);
+				TimeService.getService().remove(newCountdownObject);
+				TimeService.getService().commit(newCountdownObject, true);
 			} else {
-				Toast.makeText(mContext, "用户名不能为空", Toast.LENGTH_SHORT).show();
+				MyApplication.getInstance().showMessage(R.string.msg_empty_cell);
 			}
 			break;
 			default:
@@ -312,44 +149,66 @@ public class RegistActivity extends BaseActionbarActivity{
 		
 		
 	}
-	private void doTimeCountDown() {
-		new TimeCount(TIME_COUNDOWN, 1000).start();
+	
+	private GetYanzhengmaTask mGetYanzhengmaTask;
+	private void getYanzhengmaTask(String cell) {
+		AsyncTaskUtils.cancelTask(mGetYanzhengmaTask);
+		mGetYanzhengmaTask = new GetYanzhengmaTask(cell);
+		mGetYanzhengmaTask.execute();
+		showDialog(DIALOG_PROGRESS);
 	}
-	class TimeCount extends CountDownTimer {
+	private class GetYanzhengmaTask extends AsyncTask<Void, Void, ServiceResultObject> {
 
-		public TimeCount(long millisInFuture, long countDownInterval) {
-			super(millisInFuture, countDownInterval);
-			btn_getSMS.setEnabled(false);
-			btn_getSMS.setTextColor(Color.GRAY);
+		private String _cell;
+		public GetYanzhengmaTask(String cell) {
+			_cell = cell;
+		}
+		@Override
+		protected ServiceResultObject doInBackground(Void... params) {
+			InputStream is = null;
+			ServiceResultObject serviceResultObject = new ServiceResultObject();
+			try {
+				JSONObject queryJSONObject = new JSONObject();
+				queryJSONObject.put("cell", _cell);
+				is = NetworkUtils.openContectionLocked(ServiceObject.getRegisterUrl("para", queryJSONObject.toString()), MyApplication.getInstance().getSecurityKeyValuesObject());
+				if (is != null) {
+					serviceResultObject = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
+					if (serviceResultObject.isOpSuccessfully()) {
+						mYanZhengCodeFromServer = serviceResultObject.mStrData;
+					}
+				}
+				
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (JSONException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (IOException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			}
+			return serviceResultObject;
 		}
 
 		@Override
-		public void onFinish() {
-			btn_getSMS.setText(mContext.getResources().getString(R.string.get_yanzheng_code));
-			btn_getSMS.setEnabled(true);
-			btn_getSMS.setTextColor(mContext.getResources().getColor(R.color.text_selector));
+		protected void onPostExecute(ServiceResultObject result) {
+			super.onPostExecute(result);
+			dismissDialog(DIALOG_PROGRESS);
+			MyApplication.getInstance().showMessage(result.mStatusMessage);
 		}
 
 		@Override
-		public void onTick(long millisUntilFinished) {
-			btn_getSMS.setText(mContext.getResources()
-					.getString(R.string.time_countdown, millisUntilFinished / 1000));
+		protected void onCancelled() {
+			super.onCancelled();
+			dismissDialog(DIALOG_PROGRESS);
 		}
+		
 	}
 	
-	private void getSMS(String phone){
-		/*num = Tools.getRandomNum();
-		pwd = Tools.getRandomNum();
-		String strCN = "编号为"+num+"的注册验证码为"+pwd+"感谢您使用夺饭点";
-		try {
-			strCN = URLEncoder.encode(strCN,"utf-8");
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		String smsStr = "http://" + Contant.SERVER_IP + "/Mobile/common/GetRandCode.ashx?para={\"cell\":\"" + phone + "\"}";
-		threadSMS = new RequestServerThread(smsStr, smsResultHandler, mContext, Contant.FLAG_GETSMS);
-	}
 	
 	private void showDialog() {
 		Dialog alertDialog = new AlertDialog.Builder(this)
@@ -378,6 +237,70 @@ public class RegistActivity extends BaseActionbarActivity{
 		alertDialog.show();
 	}
 	
+	private RegisterTask mRegisterTask;
+	private void registerAsync() {
+		AsyncTaskUtils.cancelTask(mRegisterTask);
+		mRegisterTask = new RegisterTask();
+		mRegisterTask.execute();
+		showDialog(DIALOG_PROGRESS);
+	}
+	private class RegisterTask extends AsyncTask<Void, Void, ServiceResultObject> {
+
+		@Override
+		protected ServiceResultObject doInBackground(Void... params) {
+			InputStream is = null;
+			ServiceResultObject serviceResultObject = new ServiceResultObject();
+			try {
+				//para={"cell":"18621951097","pwd":"wangkun","nickname":"kun","email":"369319633@qq.com"}
+				//String str = "http://manage.lnwoowken.com/Mobile/common/register.ashx?para={\"cell\":\"" + name.getText().toString().trim() + "\",\"pwd\":\"" + password.getText().toString() + "\",\"nickname\":\"" + niname.getText().toString().trim() + "\",\"email\":\"" + email.getText().toString().trim() +"\"}";
+				JSONObject queryJSONObject = new JSONObject();
+				queryJSONObject.put("cell", mAccountObject.mAccountTel);
+				queryJSONObject.put("pwd", mAccountObject.mAccountPwd);
+				queryJSONObject.put("nickname", mAccountObject.mAccountName);
+				queryJSONObject.put("email", mAccountObject.mAccountEmail);
+				is = NetworkUtils.openContectionLocked(ServiceObject.getRegisterUrl("para", queryJSONObject.toString()), MyApplication.getInstance().getSecurityKeyValuesObject());
+				if (is != null) {
+					serviceResultObject = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
+				}
+				
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (JSONException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (IOException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			}
+			return serviceResultObject;
+		}
+
+		@Override
+		protected void onPostExecute(ServiceResultObject result) {
+			super.onPostExecute(result);
+			dismissDialog(DIALOG_PROGRESS);
+			MyApplication.getInstance().showMessage(result.mStatusMessage);
+			if (result.isOpSuccessfully()) {
+				showDialog();
+			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+			dismissDialog(DIALOG_PROGRESS);
+		}
+		
+	}
+	
+	
+	
+	
+	
 	public static void startActivity(Context context) {
 		Intent intent = new Intent(context, RegistActivity.class);
 		context.startActivity(intent);
@@ -385,6 +308,24 @@ public class RegistActivity extends BaseActionbarActivity{
 	@Override
 	protected boolean checkIntent(Intent intent) {
 		return true;
+	}
+	@Override
+	public void countdown(int current) {
+		if (current > 1) {
+			btn_getSMS.setText(mContext.getResources().getString(R.string.time_countdown, current));
+		} else {
+			btn_getSMS.setText(mContext.getResources().getString(R.string.get_yanzheng_code));
+			btn_getSMS.setEnabled(true);
+			btn_getSMS.setTextColor(mContext.getResources().getColor(R.color.text_selector));
+		}
+	}
+	
+	@Override
+	public void start(int current) {
+		//开始倒数
+		btn_getSMS.setEnabled(false);
+		btn_getSMS.setTextColor(Color.GRAY);
+		btn_getSMS.setText(mContext.getResources().getString(R.string.time_countdown, current));
 	}
 
 }
