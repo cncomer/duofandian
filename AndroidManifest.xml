@@ -181,6 +181,13 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".FindPasswordActivity"
+            android:launchMode="singleTask"
+            android:label="@string/title_find_pwd"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".LoginActivity"
             android:label="@string/login"
             android:launchMode="singleTask"

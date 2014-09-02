@@ -69,8 +69,9 @@ public class LoginActivity extends BaseActionbarActivity {
 			}
 			break;
 		case R.id.button_getpwd:
+			FindPasswordActivity.startActivity(this);
 			//如果电话号码为空，提示用户先输入号码，在找回密码
-			if (TextUtils.isEmpty(editText_uid.getText().toString())) {
+			/*if (TextUtils.isEmpty(editText_uid.getText().toString())) {
 				MyApplication.getInstance().showMessage(R.string.msg_input_tel_when_find_password);
 			} else {
 				if (!ComConnectivityManager.getInstance().isConnected()) {
@@ -78,64 +79,10 @@ public class LoginActivity extends BaseActionbarActivity {
 				} else {
 					findPasswordAsync();
 				}
-			}
+			}*/
 			break;
 			default:
 				super.onClick(v);
-		}
-		
-	}
-	private FidnPasswordTask mFidnPasswordTask;
-	private void findPasswordAsync() {
-		AsyncTaskUtils.cancelTask(mFidnPasswordTask);
-		showDialog(DIALOG_PROGRESS);
-		mFidnPasswordTask = new FidnPasswordTask();
-		mFidnPasswordTask.execute();
-	}
-	private class FidnPasswordTask extends AsyncTask<Void, Void, ServiceResultObject> {
-
-		@Override
-		protected ServiceResultObject doInBackground(Void... params) {
-			ServiceResultObject result = new ServiceResultObject();
-			
-			InputStream is = null;
-			try {
-				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("cell", editText_uid.getText().toString().trim());
-				DebugUtils.logD(TAG, "FidnPasswordTask doInBackground() queryJsonObject = " + queryJsonObject.toString());
-				is = NetworkUtils.openContectionLocked(ServiceObject.getFindPasswordUrl("para", queryJsonObject.toString()), null);
-			    if (is != null) {
-			    	result = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
-			    }
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-				result.mStatusMessage = e.getMessage();
-			} catch (IOException e) {
-				e.printStackTrace();
-				result.mStatusMessage = MyApplication.getInstance().getGernalNetworkError();
-			} catch (JSONException e) {
-				e.printStackTrace();
-				result.mStatusMessage = e.getMessage();
-			} finally {
-				NetworkUtils.closeInputStream(is);
-			}
-			return result;
-		}
-		@Override
-		protected void onPostExecute(ServiceResultObject result) {
-			super.onPostExecute(result);
-			dismissDialog(DIALOG_PROGRESS);
-			if (result.isOpSuccessfully()) {
-				MyApplication.getInstance().showMessage(result.mStatusMessage);
-			} else {
-				DialogUtils.createSimpleConfirmAlertDialog(mContext, result.mStatusMessage, null);
-			}
-			
-		}
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-			dismissDialog(DIALOG_PROGRESS);
 		}
 		
 	}
