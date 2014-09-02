@@ -47,18 +47,15 @@ public class TimeService extends Service{
 	}
 	/**
 	 * 
-	 * @param key 需要倒数的对象描述
-	 * @param countdown 倒数值，如10，则从10开始倒数到1
-	 * @param forceOverride
+	 * @param countdownObject 倒数对象，如10，则从10开始倒数到1
 	 * @return
 	 */
-	public boolean commit(CountdownObject countdownObject, boolean forceOverride) {
-		DebugUtils.logD(TAG, "commit() key=" + countdownObject._key + ", countdown=" + countdownObject._countdown + ", forceOverride=" + forceOverride);
+	public void commit(CountdownObject countdownObject, boolean forceOverride) {
+		DebugUtils.logD(TAG, "commit() key=" + countdownObject._key + ", countdown=" + countdownObject._countdown);
 		synchronized(mCountdownMaps) {
 			if (mCountdownMaps.containsKey(countdownObject._key)) {
-				if (!forceOverride) {
-					DebugUtils.logD(TAG, "ignore commit, CountdownObject has exsited for key=" + countdownObject._key);
-					return false;
+				if (forceOverride) {
+					mCountdownMaps.remove(countdownObject._key);
 				} else {
 					//更新回调对象
 					countdownObject._countdown = mCountdownMaps.get(countdownObject._key)._countdown;
@@ -68,7 +65,6 @@ public class TimeService extends Service{
 			mCountdownMaps.put(countdownObject._key, countdownObject);
 			mCountdownMaps.notifyAll();
 		}
-		return true;
 	}
 	/**
 	 * 如果确定倒数完成了，调用该方法移除倒数对象
@@ -78,6 +74,16 @@ public class TimeService extends Service{
 	public boolean remove(CountdownObject countdownObject) {
 		synchronized(mCountdownMaps) {
 			return mCountdownMaps.remove(countdownObject._key) != null;
+		}
+	}
+	/**
+	 * 检索Countdown对象
+	 * @param key
+	 * @return
+	 */
+	public CountdownObject getCountdownObject(String key) {
+		synchronized(mCountdownMaps) {
+			return mCountdownMaps.get(key);
 		}
 	}
 	
@@ -100,6 +106,10 @@ public class TimeService extends Service{
 		public CountdownObject(String key, int countdown, CountdownCallback callback) {
 			_key = key;
 			_countdown = countdown;
+			_countdownCallback = callback;
+		}
+		
+		public void setCountdownCallback(CountdownCallback callback) {
 			_countdownCallback = callback;
 		}
 		
