@@ -198,6 +198,7 @@ public class FindPasswordActivity extends BaseActionbarActivity {
 			dismissDialog(DIALOG_PROGRESS);
 			if (result.isOpSuccessfully()) {
 				MyApplication.getInstance().showMessage(result.mStatusMessage);
+				FindPasswordActivity.this.finish();
 			} else {
 				DialogUtils.createSimpleConfirmAlertDialog(mContext, result.mStatusMessage, null);
 			}
