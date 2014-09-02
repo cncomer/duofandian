@@ -6,22 +6,18 @@ import android.content.Intent;
 import android.database.ContentObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.cncom.app.base.account.MyAccountManager;
-import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.module.ModuleSettings;
 import com.cncom.app.base.ui.BaseFragment;
-import com.cncom.app.base.util.DebugUtils;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 
 public class PersonalInfoCenterFragment extends BaseFragment implements View.OnClickListener{
@@ -149,6 +145,8 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 		mMemberTel = (TextView) view.findViewById(R.id.memberTel);
 		
 		mGuestTopLayout = view.findViewById(R.id.guest_top_layout);
+
+		mMemberTopLayout.setOnClickListener(this);
 		mGuestTopLayout.setOnClickListener(this);
 		
 		ModuleSettings.getInstance().installModule((ViewGroup) view.findViewById(R.id.menu_content), this);

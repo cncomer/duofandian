@@ -302,6 +302,14 @@
             android:label="@string/member_info_login_password"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         
+          <receiver android:name="com.cncom.app.base.service.TimeService$BootCompletedReceiver">
+            <intent-filter >
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.USER_PRESENT"/>
+            </intent-filter>
+        </receiver>
+         <service android:name="com.cncom.app.base.service.TimeService" />
+        
         <!-- 消息推送代码开始 -->
          <receiver
              android:name="com.umeng.message.NotificationProxyBroadcastReceiver"

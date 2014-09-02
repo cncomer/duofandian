@@ -1,5 +1,7 @@
 package com.lnwoowken.lnwoowkenbook;
 
+import com.cncom.app.base.service.TimeService;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ public class WelcomeActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome);
 		handler.sendEmptyMessageDelayed(WHAT_FINISH_ACTIVITY_DELAY, 500);
+		TimeService.startService(this);
 
 	}
 }
