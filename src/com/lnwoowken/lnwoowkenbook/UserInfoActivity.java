@@ -85,16 +85,6 @@ public class UserInfoActivity extends BaseActionbarActivity{
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		// TODO Auto-generated method stub
-		//
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			UserInfoActivity.this.finish();
-		}
-		return super.onKeyDown(keyCode, event);
-	}
-
 	private void initialize() {
 		userName = (TextView) findViewById(R.id.textView_username);
 		phoneNumber = (TextView) findViewById(R.id.textView_phone_data);

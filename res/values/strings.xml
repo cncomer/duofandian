@@ -332,6 +332,7 @@
     <string name="member_info_tel">手机号</string>
     <string name="member_info_modify_title">修改</string>
     <string name="member_info_modify_name">修改昵称</string>
+    <string name="hint_member_info_modify_name">请输入需要修改的昵称</string>
    <string name="qiangwei_tip_title">抢位告知</string>
    <string name="order_confirm_tip_title">重要说明</string>
    
