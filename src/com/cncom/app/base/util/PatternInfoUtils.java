@@ -172,7 +172,7 @@ public class PatternInfoUtils {
 			shopAvailableTableObject.setDate(obj.getString(TableInfoObject.DATE));
 			shopAvailableTableObject.setDeskStates(obj.getString(TableInfoObject.DATE_STATES));
 			shopAvailableTableObject.setShiduanTime(obj.getString(TableInfoObject.SHIDUAN_TIME));
-			shopAvailableTableObject.setShiduanName(obj.getString(TableInfoObject.SHIDUAN_TIME));
+			shopAvailableTableObject.setShiduanName(obj.getString(TableInfoObject.SHIDUAN_NAME));
 			shopAvailableTableObject.setDeskId(obj.getString(TableInfoObject.DESK_ID));
 			shopAvailableTableObject.setDabiaoPrice(obj.getString(TableInfoObject.DESK_DABIAO_PRICE));
 			shopAvailableTableObject.setServicePrice(obj.getString(TableInfoObject.DESK_SERVICE_PRICE));
