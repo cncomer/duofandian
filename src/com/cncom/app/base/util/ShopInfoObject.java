@@ -115,6 +115,13 @@ public class ShopInfoObject {
 		 sb.append(getShopShen()).append(getShopCity()).append(getShopQu()).append(getShopAddress());
 		 return sb.toString();
 	 }
+	 
+	 @Override
+	 public String toString() {
+		 StringBuilder sb = new StringBuilder();
+		 sb.append(TAG).append("[shopID=").append(shopID).append(", shopName=").append(shopName).append("]");
+		 return sb.toString();
+	 }
 
 	public String getShopAddress() {
 		return shopAddress;
