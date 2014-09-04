@@ -3,20 +3,17 @@
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cncom.app.base.service.PhotoManagerUtilsV2;
 import com.cncom.app.base.ui.BaseActionbarActivity;
+import com.cncom.app.base.util.DebugUtils;
 import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 
@@ -26,11 +23,8 @@ import com.cncom.app.base.util.ShopInfoObject;
  */
 public class RestuarantInfoActivity extends BaseActionbarActivity {
 	private static final String TAG = "RestuarantInfoActivity";
-	private Button btn_chooseFood;
 	private ShopInfoObject mShopInfoObject;
-	private Button btn_chooseTable;// --进入选桌界面的按钮
 	private Intent intent;
-	private String mShopId;
 	private ImageView shopImg;
 	private TextView textView_info, textView_shopName, textView_price,
 			textView_address, textView_phone;
@@ -39,6 +33,9 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (isFinishing()) {
+			return;
+		}
 		setContentView(R.layout.activity_restuarant_info);
 		PhotoManagerUtilsV2.getInstance().requestToken(TAG);
 		initialize();
@@ -53,45 +50,27 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 		LinearLayout.LayoutParams l2 = new LinearLayout.LayoutParams(screenWidth, screenWidth*260/480);
 		l2.setMargins(0, 0, 0, 0);
 		shopImg.setLayoutParams(l2);
-		intent = RestuarantInfoActivity.this.getIntent();
-		mShopId = intent.getExtras().getString("shop_id");
-		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
+		
 		PhotoManagerUtilsV2.getInstance().loadPhotoAsync(TAG, shopImg, mShopInfoObject.getShopPhotoId("01"), null, PhotoManagerUtilsV2.TaskType.SHOP_IMAGE);
 
 		textView_price = (TextView) findViewById(R.id.textView_price);
-		textView_info = (TextView) findViewById(R.id.textView_info);
 		textView_shopName = (TextView) findViewById(R.id.textView_storename);
 		
-		if (mShopInfoObject != null) {
-			textView_shopName.setText(mShopInfoObject.getShopName());
-			Log.d("mShopInfoObject.getShopName()-------------------", mShopInfoObject.getShopName() + "");
-			String price = textView_price.getText().toString() + mShopInfoObject.getShopServerprice();
-			textView_price.setText(price);
-			updateShotcutImage();
-		}
-		btn_chooseFood = (Button) findViewById(R.id.imageButton_pickfood);
-		btn_chooseFood.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Toast.makeText(context, "敬请期待", Toast.LENGTH_SHORT).show();
-			}
-		});
-		btn_chooseTable = (Button) findViewById(R.id.button_choose_table);
-		btn_chooseTable.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(RestuarantInfoActivity.this, BookTableActivity.class);
-				intent.putExtra("shop_id", mShopInfoObject.getShopID());
-				startActivity(intent);
-			}
-		});
+		textView_shopName.setText(mShopInfoObject.getShopName());
+		Log.d("mShopInfoObject.getShopName()-------------------", mShopInfoObject.getShopName() + "");
+		String price = textView_price.getText().toString() + mShopInfoObject.getShopServerprice();
+		textView_price.setText(price);
+		updateShotcutImage();
+
+		textView_info = (TextView) findViewById(R.id.textView_info);
 		textView_address = (TextView) findViewById(R.id.textView_location);
 		textView_phone = (TextView) findViewById(R.id.textView_phone);
-		if (mShopInfoObject != null) {
-			textView_address.setText(mShopInfoObject.getDetailAddress());
-			textView_phone.setText(mShopInfoObject.getShopContactsPhone());
-			textView_info.setText(mShopInfoObject.getShopBrief());
-		}
+		textView_address.setText(mShopInfoObject.getDetailAddress());
+		textView_phone.setText(mShopInfoObject.getShopContactsPhone());
+		textView_info.setText(mShopInfoObject.getShopBrief());
+		
+		findViewById(R.id.imageButton_pickfood).setOnClickListener(this);
+		findViewById(R.id.button_choose_table).setOnClickListener(this);
 	}
 
 	private void updateShotcutImage() {
@@ -119,6 +98,14 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
+		case R.id.imageButton_pickfood://提前点菜
+			MyApplication.getInstance().showUnsupportMessage();
+			break;
+		case R.id.button_choose_table:
+			Intent intent = new Intent(RestuarantInfoActivity.this, BookTableActivity.class);
+			intent.putExtra("shop_id", mShopInfoObject.getShopID());
+			startActivity(intent);
+			break;
 		default:
 			super.onClick(v);
 		}
@@ -126,6 +113,12 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 
 	@Override
 	protected boolean checkIntent(Intent intent) {
+		String shopId = intent.getExtras().getString("shop_id");
+		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), shopId);
+		if (mShopInfoObject == null || mShopInfoObject.getShopID() == null) {
+			DebugUtils.logD(TAG, "checkIntent failed mShopInfoObject=" + mShopInfoObject);
+			return false;
+		}
 		return true;
 	}
 }

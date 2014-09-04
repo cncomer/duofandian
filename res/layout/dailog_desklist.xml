@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialog_layout_desklist"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
+     android:layout_width="@dimen/qianwei_dialog_width"
+    android:layout_height="@dimen/qianwei_dialog_height"
     android:background="@color/White"
+    android:layout_gravity="center"
     android:orientation="vertical" >
     <ListView android:id="@+id/desklist"
         android:layout_width="fill_parent"

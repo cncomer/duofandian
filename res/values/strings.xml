@@ -108,7 +108,7 @@
     <string name="btn_commit_booktable">提交定单</string>
     <string name="btn_pick_food_str">提前点菜</string>
     <string name="selected_time_info">点击选择想要预定的日期</string>
-    <string name="selected_table_info">点击选择想要预定的座位</string>
+    <string name="selected_table_info">请选择您的专座</string>
     <string name="selected_person_number">请选择人数</string>
     <string name="can_select_time">可预定的时间:</string>
     <string name="btn_back_string">返回</string>
@@ -270,7 +270,7 @@
   <string name="button_start_use">开始使用</string>
   <string name="shop_info_query_fail">该时段已过时或没有您所选择的桌型，换个时间或者桌型试试运气吧</string>
   <string name="query_fail">无数据返回</string>
-  <string name="select_book_time">请选择预定时间</string>
+  <string name="select_book_time">请选抢位时段</string>
   <string name="book_time">预定时间为 </string>
   <string name="month">月</string>
   <string name="day">日</string>
@@ -336,7 +336,7 @@
     <string name="hint_member_info_modify_name">请输入需要修改的昵称</string>
    <string name="qiangwei_tip_title">抢位告知</string>
    <string name="order_confirm_tip_title">重要说明</string>
-   
+   <string name="table_selected_status_format">"您已选择 %1$s"</string>
    <string name="text_password_input_tip">"当前登录密码:"</string>
     <string name="msg_password_input_empty">"请输入你的当前密码"</string>
    <string name="text_password_input_new_tip">"新密码:"</string>
@@ -349,7 +349,7 @@
   <string name="my_all_orders_title">所有定单</string>
   <string name="my_unpay_orders_title">尚未支付定单</string>
   <string name="button_confirm_pay">确定支付</string>
-  
+  <string name="msg_pay_failed">确定支付</string>
   <string name="msg_empty_cell">请输入手机号码</string>
    <string name="msg_empty_niname">请输入昵称</string>
    <string name="msg_empty_email">请输入正确的邮箱地址</string>

@@ -57,8 +57,8 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/button_commit"
             android:textColor="@color/text_btn_commit_selector"
-            android:textSize="15dip"
-            android:text="下一步"
+            android:textSize="15sp"
+            android:text="@string/button_next"
             android:layout_marginBottom="10dip" />
 
         <TextView

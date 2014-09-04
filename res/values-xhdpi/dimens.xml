@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
  <dimen name="member_info_item_max_gap">10dp</dimen>
+ 
+ <dimen name="qianwei_dialog_height">325dp</dimen>
+ <dimen name="qianwei_dialog_width">330dp</dimen>
 </resources>

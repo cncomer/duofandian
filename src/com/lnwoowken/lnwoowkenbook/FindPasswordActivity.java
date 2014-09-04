@@ -247,4 +247,10 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 		}
 	}
 
+	@Override
+	public void start(int start) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

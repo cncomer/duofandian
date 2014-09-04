@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/dialog_layout_timer"
-    android:layout_width="250dip"
-    android:layout_height="wrap_content"
+    android:layout_width="@dimen/qianwei_dialog_width"
+    android:layout_height="@dimen/qianwei_dialog_height"
     android:background="@color/White"
+    android:layout_gravity="center"
     android:orientation="vertical" >
 
     <!--
@@ -26,32 +27,18 @@
             android:layout_height="wrap_content"
             android:text="@string/select_book_time"
             android:textColor="@color/textColor"
-            android:textSize="18dip" />
+            android:textSize="18sp" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0"
         android:layout_marginBottom="20dip"
         android:layout_marginTop="20dip"
         android:background="@color/White"
         android:gravity="center"
         android:orientation="horizontal" >
-
-        <!-- <com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView
-            android:id="@+id/hour"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-        </com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView>
-
-        <TextView
-            android:id="@+id/textView_"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=":"
-            android:layout_marginLeft="30dip"
-            android:textSize="40dip"
-            android:textColor="@color/main_color"/> -->
 
         <com.lnwoowken.lnwoowkenbook.view.TimeView.WheelView
             android:id="@+id/minute"
