@@ -110,6 +110,11 @@ public class ShopInfoObject {
 	  public static final String SHOP_ORDER_CONFIRM_TIP = "TipTwo";
 	  public static final String SHOP_ORDER_PAY_TIP = "TipThree";
 	
+	 public String getDetailAddress() {
+		 StringBuilder sb = new StringBuilder();
+		 sb.append(getShopShen()).append(getShopCity()).append(getShopQu()).append(getShopAddress());
+		 return sb.toString();
+	 }
 
 	public String getShopAddress() {
 		return shopAddress;

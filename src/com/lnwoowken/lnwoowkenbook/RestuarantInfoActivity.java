@@ -88,7 +88,7 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 		textView_address = (TextView) findViewById(R.id.textView_location);
 		textView_phone = (TextView) findViewById(R.id.textView_phone);
 		if (mShopInfoObject != null) {
-			textView_address.setText(mShopInfoObject.getShopAddress());
+			textView_address.setText(mShopInfoObject.getDetailAddress());
 			textView_phone.setText(mShopInfoObject.getShopContactsPhone());
 			textView_info.setText(mShopInfoObject.getShopBrief());
 		}
