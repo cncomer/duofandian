@@ -97,7 +97,7 @@ public class ServiceObject {
 	
 	public static String getXingzhengquUrl() {
 		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
-		sb.append("Mobile/common/GetShangQuanCaiXi.ashx");
+		sb.append("Mobile/common/GetRegion.ashx");
 		return sb.toString();
 	}
 	

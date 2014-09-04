@@ -312,6 +312,17 @@ public class PatternInfoUtils {
 		return result;
 	}
 	
+	public static ArrayList<String> getXingzhengquList(JSONArray pinpais) throws JSONException {
+		ArrayList<String> result = new ArrayList<String>();
+		if(pinpais == null) return result;
+		for(int i = 0; i < pinpais.length(); i++) {
+			JSONObject obj = pinpais.getJSONObject(i);
+			String str = obj.getString("City").trim();
+			if(!result.contains(str)) result.add(str);
+		}
+		return result;
+	}
+	
 	public static ArrayList<String> getCaixiList(JSONArray caixi) throws JSONException {
 		ArrayList<String> result = new ArrayList<String>();
 		if(caixi == null) return result;

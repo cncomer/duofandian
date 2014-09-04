@@ -127,7 +127,7 @@ public class TabHostActivity extends BaseActivity implements OnItemClickListener
 							loadInfoAsyncTask(CAIXI);
 						} else if (position == XINGZHENGQU) {
 							//行政区
-							//loadInfoAsyncTask(XINGZHENGQU);
+							loadInfoAsyncTask(XINGZHENGQU);
 						}
 						mCurrentLevel = LEVEL_SECOND;
 						btn_return.setText(R.string.back_level);
@@ -227,7 +227,7 @@ public class TabHostActivity extends BaseActivity implements OnItemClickListener
 						mTabAdapter.updateTabList(PatternInfoUtils.getCaixiList(result.mJsonArrayData));
 						break;
 					case XINGZHENGQU:
-						mTabAdapter.updateTabList(PatternInfoUtils.getPinpaiList(result.mJsonArrayData));
+						mTabAdapter.updateTabList(PatternInfoUtils.getXingzhengquList(result.mJsonArrayData));
 						break;
 				}
 			} catch (JSONException e) {
@@ -320,7 +320,7 @@ public class TabHostActivity extends BaseActivity implements OnItemClickListener
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
 			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
-				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
+				MyApplication.getInstance().showMessage(R.string.query_fail);
 			}
 			try {
 				mShopListAdapter.updateShopList(PatternInfoUtils.getShopInfo(result.mJsonArrayData));
