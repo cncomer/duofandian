@@ -60,12 +60,10 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 		mCountdownObject = TimeService.getService().getCountdownObject(TAG);
 		if(mCountdownObject != null) {
 			btn_getSMS.setEnabled(false);
-			btn_getSMS.setTextColor(Color.GRAY);
 			mCountdownObject.setCountdownCallback(this);
 		} else {
 			btn_getSMS.setText(mContext.getResources().getString(R.string.get_yanzheng_code));
 			btn_getSMS.setEnabled(true);
-			btn_getSMS.setTextColor(mContext.getResources().getColor(R.color.text_selector));
 		}
 	}
 	
@@ -81,7 +79,6 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 			String phone = editText_phone.getText().toString().trim();
 			if (!TextUtils.isEmpty(phone)) {
 				btn_getSMS.setEnabled(false);
-				btn_getSMS.setTextColor(Color.GRAY);
 				doTimeCountDown();
 				getRandCodeAsync();
 			} else {
@@ -247,7 +244,6 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 		if(current <= 1) {
 			btn_getSMS.setText(mContext.getResources().getString(R.string.get_yanzheng_code));
 			btn_getSMS.setEnabled(true);
-			btn_getSMS.setTextColor(mContext.getResources().getColor(R.color.text_selector));
 		}
 	}
 

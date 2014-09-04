@@ -86,10 +86,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="20dip"
-                android:background="@drawable/buttons"
+                android:background="@drawable/blue_buttons"
                 android:padding="5dip"
                 android:text="@string/get_yanzhengcode"
-                android:textColor="@color/text_selector"
+                android:textColor="@color/White"
                 android:textSize="18dip" />
         </LinearLayout>
 

@@ -324,7 +324,7 @@ public class RegistActivity extends BaseActionbarActivity implements TimeService
 	public void start(int current) {
 		//开始倒数
 		btn_getSMS.setEnabled(false);
-		btn_getSMS.setTextColor(Color.GRAY);
+		btn_getSMS.setTextColor(Color.WHITE);
 		btn_getSMS.setText(mContext.getResources().getString(R.string.time_countdown, current));
 	}
 
