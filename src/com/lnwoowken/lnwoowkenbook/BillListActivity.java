@@ -107,6 +107,7 @@ public class BillListActivity extends BaseActivity {
 			mBillListCursorAdapter.changeCursor(null);
 			mBillListCursorAdapter = null;
 		}
+		AsyncTaskUtils.cancelTask(mRefreshBillInfoAsyncTask);
 	}
 	
 	
@@ -165,6 +166,7 @@ public class BillListActivity extends BaseActivity {
 			}finally {
 				NetworkUtils.closeInputStream(is);
 			}
+			BillListManager.setShowNew(false);
 			return serviceResultObject;
 		}
 
