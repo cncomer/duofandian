@@ -91,7 +91,6 @@ public class BillListActivity extends BaseActivity {
 		mBillListCursorAdapter = new BillListCursorAdapter(mContext, BillListManager.getLocalAllBillCursor(getContentResolver()), true);
 		mListBill.setAdapter(mBillListCursorAdapter);
 		mBillListCursorAdapter.changeCursor(BillListManager.getLocalAllBillCursor(getContentResolver()));
-		mListBill.setDivider(null);
 		mListBill.setOnRefreshListener(new OnRefreshListener() {
 			@Override
 			public void onRefresh() {
