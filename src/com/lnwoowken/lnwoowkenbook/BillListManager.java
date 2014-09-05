@@ -29,6 +29,7 @@ public class BillListManager {
 	public static List<BillObject> getBillList(ContentResolver cr, JSONArray mJsonArrayData) throws JSONException{
 		List<BillObject> result = new ArrayList<BillObject>();
 		if(mJsonArrayData == null) return result;
+		deleteCachedData(cr);
 		for(int i = 0; i < mJsonArrayData.length(); i++) {
 			BillObject billObject = getBillFromJsonObject(mJsonArrayData.getJSONObject(i));
 			result.add(billObject);
@@ -142,6 +143,10 @@ public class BillListManager {
 		return cr.delete(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_SELECTION, new String[] {billNumber}) > 0;
 	}
 
+	public static int deleteCachedData(ContentResolver cr) {
+		return cr.delete(BjnoteContent.Bills.CONTENT_URI, null, null);
+	}
+
 	public static long isExsited(ContentResolver cr, String bid) {
 		long id = -1;
 		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, BillObject.BILL_SELECTION, new String[] {bid}, null);
@@ -171,5 +176,13 @@ public class BillListManager {
 	
 	public static boolean setShowNew(boolean show) {
 		return MyApplication.getInstance().mPreferManager.edit().putBoolean("bill_show_new", show).commit();
+	}
+	
+	public static boolean shouldRefreshBillFromServer() {
+		return MyApplication.getInstance().mPreferManager.getBoolean("bill_refresh", false);
+	}
+	
+	public static boolean setShouldRefreshBillFromServer(boolean refresh) {
+		return MyApplication.getInstance().mPreferManager.edit().putBoolean("bill_refresh", refresh).commit();
 	}
 }

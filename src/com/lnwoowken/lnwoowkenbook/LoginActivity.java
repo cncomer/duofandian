@@ -94,6 +94,9 @@ public class LoginActivity extends BaseActionbarActivity {
 			if (resultCode == Activity.RESULT_OK) {
 				// login successfully
 				MainActivity.startIntentClearTop(mContext, null);
+
+				//should refresh bill list
+				BillListManager.setShouldRefreshBillFromServer(true);
 			}
 		} else {
 			super.onActivityResult(requestCode, resultCode, data);

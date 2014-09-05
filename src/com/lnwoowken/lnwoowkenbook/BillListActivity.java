@@ -36,7 +36,6 @@ public class BillListActivity extends BaseActivity {
 	private BillListCursorAdapter mBillListCursorAdapter;
 	
 	private int mSelectedTextColor, mUnSelectedTextColor;
-	private boolean mFirstStart = true;
 	private static final int STATE_IDLE = 0;
 	private static final int STATE_FREASHING = STATE_IDLE + 1;
 	private static final int STATE_FREASH_COMPLETE = STATE_FREASHING + 1;
@@ -56,8 +55,8 @@ public class BillListActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (mFirstStart) {
-			mFirstStart = false;
+		if (BillListManager.shouldRefreshBillFromServer()) {
+			BillListManager.setShouldRefreshBillFromServer(false);
 			mListBill.prepareForRefresh();
 			mListBill.onRefresh();
 		}
