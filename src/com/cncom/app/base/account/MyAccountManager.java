@@ -3,6 +3,7 @@
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
 import com.lnwoowken.lnwoowkenbook.R;
@@ -25,6 +26,7 @@ public class MyAccountManager {
 		R.drawable.system_avator5,
 		R.drawable.system_avator6,
 	};
+	private Drawable mManAvatorBg, mWomanAvatorBg, mDefaultAvatorBg;
 	
 	private MyAccountManager() {}
 	
@@ -40,6 +42,9 @@ public class MyAccountManager {
 		mContentResolver = mContext.getContentResolver();
 		mAccountObject = null;
 		mSharedPreferences = mContext.getSharedPreferences(TAG, Context.MODE_PRIVATE);
+		mDefaultAvatorBg = mContext.getResources().getDrawable(com.actionbarsherlock.R.drawable.abs__item_background_holo_light);
+		mManAvatorBg = mContext.getResources().getDrawable(R.drawable.avator_man_bg);
+		mWomanAvatorBg = mContext.getResources().getDrawable(R.drawable.avator_woman_bg);
 		initAccountObject();
 	}
 	
@@ -130,8 +135,62 @@ public class MyAccountManager {
     	}
     }
     
+    public int getSystemAvatorBackgroudResId() {
+    	if (mAccountObject != null) {
+    		if (mAccountObject.getSystemAvatorIndex() == 0) {
+    			return com.actionbarsherlock.R.drawable.abs__item_background_holo_light;
+    		} else if (mAccountObject.getSystemAvatorIndex() % 2 == 0) {
+    			//取余数，如果是奇数则是女性头像，否则是男性头像
+    			return R.drawable.avator_man_bg;
+    		} else {
+    			return R.drawable.avator_woman_bg;
+    		}
+    	}
+    	return com.actionbarsherlock.R.drawable.abs__item_background_holo_light;
+    }
+    /**
+     * 由于我们定义的头像数组中包含了默认头像，索引为0，所以在实际使用中，如头像选取界面，Adapter的position+1才是对应的头像索引
+     * @param position
+     * @return
+     */
+    public int getSystemAvatorBackgroudResId(int position) {
+    	if (mAccountObject != null) {
+    		if (position % 2 == 0) {
+    			//取余数，如果是奇数则是女性头像，否则是男性头像
+    			return R.drawable.avator_man_bg_p;
+    		} else {
+    			return R.drawable.avator_woman_bg_p;
+    		}
+    	}
+    	return com.actionbarsherlock.R.drawable.abs__item_background_holo_light;
+    }
+    /**
+     * 返回系统头像的背景，单女双男，0为默认头像背景
+     * @return
+     */
+    public Drawable getSystemAvatorBackgroudDrawable() {
+    	if (mAccountObject != null) {
+    		if (mAccountObject.getSystemAvatorIndex() == 0) {
+    			return mDefaultAvatorBg;
+    		} else if (mAccountObject.getSystemAvatorIndex() % 2 == 0) {
+    			//取余数，如果是奇数则是女性头像，否则是男性头像
+    			return mManAvatorBg;
+    		} else {
+    			return mWomanAvatorBg;
+    		}
+    	}
+    	return mDefaultAvatorBg;
+    }
+    
     public boolean hasSystemAvator() {
     	return mAccountObject != null && mAccountObject.isSystemAvator();
+    }
+    
+    public int getSystemAvatorIndex() {
+    	if (mAccountObject != null && mAccountObject.isSystemAvator()) {
+    		return mAccountObject.getSystemAvatorIndex();
+    	}
+    	return -1;
     }
     
     /**

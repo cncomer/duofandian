@@ -8,7 +8,8 @@ import android.database.ContentObserver;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
@@ -29,6 +30,7 @@ public class UserInfoActivity extends BaseActionbarActivity{
 	private AccountObject mAccountObject;
 	private MemberInfoItemLayout mMemberTelInfoItemLayout;
 	private ContentObserver mContentObserver;
+	private ImageView mAvator;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,9 @@ public class UserInfoActivity extends BaseActionbarActivity{
 	}
 
 	private void initialize() {
+		mAvator = (ImageView) findViewById(R.id.imageView_photo);
+		mAvator.setOnClickListener(this);
+		
 		userName = (TextView) findViewById(R.id.textView_username);
 		phoneNumber = (TextView) findViewById(R.id.textView_phone_data);
 		
@@ -97,12 +102,29 @@ public class UserInfoActivity extends BaseActionbarActivity{
 	}
 	
 	public void updateView() {
+		mAvator.setImageResource(MyAccountManager.getInstance().getAccountSystemAvatorResId());
+		mAvator.setBackgroundResource(MyAccountManager.getInstance().getSystemAvatorBackgroudResId());
+		
 		userName.setText(mAccountObject.mAccountName);
 		phoneNumber.setText(mAccountObject.mAccountTel);
 		
 		mMemberLevel.setText(MyAccountManager.getInstance().getMemberLevelResId());
 		mMemberJifen.setText(mAccountObject.mAccountJifen);
 		mMemberTelInfoItemLayout.setSummery(mAccountObject.mAccountTel);
+	}
+	
+	@Override
+	public void onClick(View v) {
+		switch(v.getId()) {
+		case R.id.imageView_photo:
+			//登陆后，可以修改头像
+			if (MyAccountManager.getInstance().hasSystemAvator()) {
+				UpdateAvatorActivity.startActivity(mContext, MyAccountManager.getInstance().getSystemAvatorIndex());
+			}
+			break;
+			default:
+				super.onClick(v);
+		}
 	}
 	
 	 private DeleteAccountTask mDeleteAccountTask;

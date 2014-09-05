@@ -155,10 +155,6 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 	
 	public void updateViews() {
 		if (MyAccountManager.getInstance().hasLoginned()) {
-			if (MyAccountManager.getInstance().hasSystemAvator()) {
-				mAvator.setImageResource(MyAccountManager.getInstance().getAccountSystemAvatorResId());
-			}
-			
 			mMemberTopLayout.setVisibility(View.VISIBLE);
 			mGuestTopLayout.setVisibility(View.GONE);
 			
@@ -171,6 +167,9 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 			mGuestTopLayout.setVisibility(View.VISIBLE);
 			getActivity().setTitle("");
 		}
+		
+		mAvator.setImageResource(MyAccountManager.getInstance().getAccountSystemAvatorResId());
+		mAvator.setBackgroundResource(MyAccountManager.getInstance().getSystemAvatorBackgroudResId());
 	}
 
 	@Override
@@ -178,8 +177,8 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 		switch(v.getId()) {
 		case R.id.avator:
 			//登陆后，可以修改头像
-			if (MyAccountManager.getInstance().hasLoginned()) {
-				
+			if (MyAccountManager.getInstance().hasSystemAvator()) {
+				UpdateAvatorActivity.startActivity(getActivity(), MyAccountManager.getInstance().getSystemAvatorIndex());
 			}
 			break;
 		case R.id.guest_top_layout:
