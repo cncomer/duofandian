@@ -74,7 +74,9 @@ public class MemberInfoItemLayout extends LinearLayout{
 			public void onClick(View v) {
 				switch(v.getId()) {
 				case R.id.member_info_avator:   //会员头像
-					UpdateAvatorActivity.startActivity(mContext);
+					if (MyAccountManager.getInstance().hasSystemAvator()) {
+						UpdateAvatorActivity.startActivity(mContext, MyAccountManager.getInstance().getSystemAvatorIndex());
+					}
 					break;
 				case R.id.member_info_name:   //会员昵称
 					showRenameDialog();

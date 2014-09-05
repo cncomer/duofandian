@@ -194,6 +194,13 @@ public class ServiceObject {
 		.append(para).append("=").appendUrlEncodedString(jsonString);
 		return sb.toString();
 	}
+	/**更新头像，JSONObject对象需要有uid和img*/
+	public static String getUpdateUserAvatorUrl(String para, String jsonString) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("mobile/common/changeimgmethod.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
+		return sb.toString();
+	}
 	
 	public static String getRegisterUrl(String para, String jsonString) {
 		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);

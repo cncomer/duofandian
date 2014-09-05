@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:background="@color/wt"
         android:orientation="vertical" >
 
         <GridView android:id="@+id/gridview"
             android:layout_width="fill_parent"
-            android:layout_height="0dip"
-            android:layout_weight="1.0"
+            android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:verticalSpacing="4dip"
+            android:listSelector="@null"
+            android:layout_margin="30dip"
+            android:gravity="center"
+            android:horizontalSpacing="37dip"
+            android:verticalSpacing="18dip"
             android:numColumns="2">
             
         </GridView>
-        
+        <View android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"/>
         <LinearLayout 
             android:layout_width="match_parent"
-	    	android:layout_height="50dp"
+	    	android:layout_height="wrap_content"
 			android:gravity="center"
-			android:paddingLeft="10dip"
-			android:paddingRight="10dip"
+			android:paddingLeft="15dip"
+			android:paddingRight="15dip"
+			android:paddingBottom="14dip"
+			android:paddingTop="14dip"
 			android:background="@color/top_bottom"
 	    	android:orientation="horizontal">
 	        <Button
 	            android:id="@+id/button_modify"
 	            android:layout_width="0dip"
 	            android:layout_weight="1.0"
-	            android:layout_height="30dip"
+	            android:layout_height="40dip"
 	            android:background="@drawable/buttons"
 	            android:text="@string/button_modify"
 	            android:textColor="@color/text_selector"
@@ -36,8 +43,8 @@
 	            android:id="@+id/button_cancel"
 	            android:layout_width="0dip"
 	            android:layout_weight="1.0"
-	            android:layout_height="30dip"
-	            android:layout_marginLeft="10dip"
+	            android:layout_height="40dip"
+	            android:layout_marginLeft="9dip"
 	            android:background="@drawable/buttons"
 	            android:text="@string/button_cancel"
 	            android:textColor="@color/text_selector"
