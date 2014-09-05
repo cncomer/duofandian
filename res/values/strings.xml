@@ -327,6 +327,7 @@
    <string name="delete_tips">确定删除吗？</string>
    <string name="dialog_title">提示信息</string>
     <string name="member_info_avator">头像</string>
+    <string name="title_member_info_avator">自选头像</string>
     <string name="member_info_name">昵称</string>
     <string name="member_info_login_password">登录密码</string>
     <string name="member_info_pay_password">支付密码</string>
@@ -355,4 +356,9 @@
    <string name="msg_empty_email">请输入正确的邮箱地址</string>
    <string name="msg_password_not_equal">密码输入不一致</string>
    <string name="msg_yanzhengma_not_correct">验证码不正确</string>
+   <string name="msg_empty_yanzhengma">请输入验证码</string>
+   
+   <string name="input_must">必填</string>
+   <string name="tip_cell_is_bounded">你已经绑定了手机号码:</string>
+   <string name="tip_cell_update_desc">亲爱的夺饭点手机App用户，我们暂时不支持解绑手机号功能，请拨打我们的客户电话:400-xxx-xxx</string>
 </resources>

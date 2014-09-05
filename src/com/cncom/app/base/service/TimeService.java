@@ -27,6 +27,7 @@ public class TimeService extends Service{
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		DebugUtils.logD(TAG, "onCreate()");
 		mTimeService = this;
 		mHandler = new Handler();
 		//start background thread.
@@ -45,6 +46,19 @@ public class TimeService extends Service{
 		mCountdownThread = new CountdownThread();
 		mCountdownThread.start();
 	}
+	
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		return Service.START_STICKY;
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		DebugUtils.logD(TAG, "onDestroy()");
+	}
+
+
 	/**
 	 * 
 	 * @param countdownObject 倒数对象，如10，则从10开始倒数到1
@@ -129,6 +143,10 @@ public class TimeService extends Service{
 		}
 		public synchronized void decrease() {
 			if (_countdown == 1) {
+				synchronized(mCountdownMaps) {
+					mCountdownMaps.remove(_key);
+					DebugUtils.logD(TAG, "CountdownObject key=" + _key + " has finished and removed.");
+				}
 				return;
 			}
 			_countdown-=1;

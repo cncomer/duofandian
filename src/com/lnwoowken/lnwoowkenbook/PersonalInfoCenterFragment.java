@@ -155,6 +155,10 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 	
 	public void updateViews() {
 		if (MyAccountManager.getInstance().hasLoginned()) {
+			if (MyAccountManager.getInstance().hasSystemAvator()) {
+				mAvator.setImageResource(MyAccountManager.getInstance().getAccountSystemAvatorResId());
+			}
+			
 			mMemberTopLayout.setVisibility(View.VISIBLE);
 			mGuestTopLayout.setVisibility(View.GONE);
 			

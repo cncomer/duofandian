@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.lnwoowken.lnwoowkenbook"
-    android:versionCode="5"
-    android:versionName="1.04" >
+    android:versionCode="7"
+    android:versionName="1.07" >
 	<uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -71,6 +71,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:process="com.lnwoowken.lnwoowkenbook"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
 
         <!--
@@ -151,6 +152,7 @@
         <activity
             android:name="com.lnwoowken.lnwoowkenbook.SurveyActivity"
             android:launchMode="singleTask"
+            android:label="@string/yijian"
             android:screenOrientation="portrait" >
            
         </activity>  
@@ -301,6 +303,20 @@
             android:screenOrientation="portrait"
             android:label="@string/member_info_login_password"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!-- 会员修改电话号码界面 -->
+        <activity
+            android:name="com.lnwoowken.lnwoowkenbook.UpdateCellActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/member_info_tel"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!-- 会员修改头像界面 -->
+        <activity
+            android:name="com.lnwoowken.lnwoowkenbook.UpdateAvatorActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/title_member_info_avator"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         
           <receiver android:name="com.cncom.app.base.service.TimeService$BootCompletedReceiver">
             <intent-filter >
@@ -308,7 +324,8 @@
                 <action android:name="android.intent.action.USER_PRESENT"/>
             </intent-filter>
         </receiver>
-         <service android:name="com.cncom.app.base.service.TimeService" />
+         <service android:name="com.cncom.app.base.service.TimeService" 
+             android:exported="true"/>
         
         <!-- 消息推送代码开始 -->
          <receiver

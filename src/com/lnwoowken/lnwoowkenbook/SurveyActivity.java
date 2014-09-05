@@ -3,6 +3,24 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.cncom.app.base.ui.BaseActivity;
 import com.lnwoowken.lnwoowkenbook.adapter.SurveyListAdapter;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
 import com.lnwoowken.lnwoowkenbook.model.Location;
@@ -11,38 +29,18 @@ import com.lnwoowken.lnwoowkenbook.model.Paddings;
 import com.lnwoowken.lnwoowkenbook.model.Screen;
 import com.lnwoowken.lnwoowkenbook.model.Size;
 import com.lnwoowken.lnwoowkenbook.model.Survey;
-import com.lnwoowken.lnwoowkenbook.model.SurveyAnswer;
 import com.lnwoowken.lnwoowkenbook.model.SurveyQuestion;
 import com.lnwoowken.lnwoowkenbook.network.Client;
 import com.lnwoowken.lnwoowkenbook.network.JsonParser;
 import com.lnwoowken.lnwoowkenbook.tools.Tools;
 import com.lnwoowken.lnwoowkenbook.tools.ViewSettor;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 @SuppressLint("HandlerLeak")
-public class SurveyActivity extends Activity {
+public class SurveyActivity extends BaseActivity {
 
 	private ListView listViewSurvey;
 	private SurveyListAdapter adapter;
 	private List<SurveyQuestion> questions;
-	private Context context = SurveyActivity.this;
 	private Survey survey = new Survey();
 	private Button btn_commit;
 	private Intent intent;
@@ -88,7 +86,7 @@ public class SurveyActivity extends Activity {
 			super.handleMessage(msg);
 			// textView.setText("server端返回的数据是：\n" + s);
 
-			adapter = new SurveyListAdapter(context, survey);
+			adapter = new SurveyListAdapter(mContext, survey);
 			listViewSurvey.setAdapter(adapter);
 
 		}
@@ -96,7 +94,7 @@ public class SurveyActivity extends Activity {
 	};
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
@@ -104,27 +102,23 @@ public class SurveyActivity extends Activity {
 		// --屏幕参数
 		Screen screen = ViewSettor.getScreen(SurveyActivity.this);
 		// --外边距
-		Margins margin = new Margins(Tools.dip2px(context, 10), Tools.dip2px(
-				context, 10), Tools.dip2px(context, 10), Tools.dip2px(context,
+		Margins margin = new Margins(Tools.dip2px(mContext, 10), Tools.dip2px(
+				mContext, 10), Tools.dip2px(mContext, 10), Tools.dip2px(mContext,
 				10));
 		title = (TextView) findViewById(R.id.tv);
-		top = (RelativeLayout) findViewById(R.id.top);
 		bottom = (LinearLayout) findViewById(R.id.bottom);
 
 		ViewSettor settor = new ViewSettor();
 		// --内边距
-		Paddings bottom_padding = new Paddings(Tools.dip2px(context, 10),
-				Tools.dip2px(context, 10), Tools.dip2px(context, 10),
-				Tools.dip2px(context, 10));
+		Paddings bottom_padding = new Paddings(Tools.dip2px(mContext, 10),
+				Tools.dip2px(mContext, 10), Tools.dip2px(mContext, 10),
+				Tools.dip2px(mContext, 10));
 		Paddings noPadding = new Paddings(0, 0, 0, 0);
 		// --title的文字内边距
-		Paddings textPadding = new Paddings(Tools.dip2px(context, 10),
+		Paddings textPadding = new Paddings(Tools.dip2px(mContext, 10),
 
-		Tools.dip2px(context, 10), Tools.dip2px(context, 10), Tools.dip2px(
-				context, 10));
-		// --设置顶部工具（导航）栏 一般无特殊情况可直接按照这里的方法调用，参数与此处相同即可
-		settor.setTop(top, noPadding, new Size(
-				ViewGroup.LayoutParams.MATCH_PARENT, Tools.dip2px(context, 60)));
+		Tools.dip2px(mContext, 10), Tools.dip2px(mContext, 10), Tools.dip2px(
+				mContext, 10));
 		// --设置底部工具（导航）栏 一般无特殊情况可直接按照这里的方法调用，参数与此处相同即可
 		ViewSettor.setBottom(bottom, bottom_padding, new Size(
 				ViewGroup.LayoutParams.MATCH_PARENT,
@@ -313,7 +307,7 @@ public class SurveyActivity extends Activity {
 			super.handleMessage(msg);
 			// textView.setText("server端返回的数据是：\n" + s);
 
-			Toast.makeText(context, "服务器数据错误,提交失败", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, "服务器数据错误,提交失败", Toast.LENGTH_SHORT).show();
 
 		}
 
@@ -327,10 +321,15 @@ public class SurveyActivity extends Activity {
 			super.handleMessage(msg);
 			// textView.setText("server端返回的数据是：\n" + s);
 
-			Toast.makeText(context, "提交成功!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, "提交成功!", Toast.LENGTH_SHORT).show();
 			SurveyActivity.this.finish();
 
 		}
 
 	};
+
+	@Override
+	protected boolean checkIntent(Intent intent) {
+		return true;
+	}
 }

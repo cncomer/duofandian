@@ -32,6 +32,7 @@ import com.cncom.app.base.service.TimeService.CountdownObject;
 import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
+import com.shwy.bestjoy.utils.DebugUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
 import com.shwy.bestjoy.utils.SecurityUtils;
 
@@ -86,17 +87,6 @@ public class RegistActivity extends BaseActionbarActivity implements TimeService
 		return false;
 	}
 	
-	private boolean checkYanZhengCode(){
-		boolean b = false;
-		String str = editText_checkSMS.getText().toString();
-		if (mYanZhengCodeFromServer != null && mYanZhengCodeFromServer.equals(SecurityUtils.MD5.md5(str))) {
-			b = true;
-		} else {
-			b = false;
-		}
-		return b;
-	}
-	
 	private boolean checkInput() {
 		mAccountObject.mAccountTel = cell.getText().toString().trim();
 		if(TextUtils.isEmpty(mAccountObject.mAccountTel)) {
@@ -118,7 +108,12 @@ public class RegistActivity extends BaseActionbarActivity implements TimeService
 			MyApplication.getInstance().showMessage(R.string.msg_empty_niname);
 			return false;
 		}
-		if(!checkYanZhengCode()) {
+		String yanzhengma = editText_checkSMS.getText().toString().trim();
+		if (TextUtils.isEmpty(yanzhengma)) {
+			MyApplication.getInstance().showMessage(R.string.msg_empty_yanzhengma);
+			return false;
+		} else if (!SecurityUtils.MD5.md5(yanzhengma).equals(mYanZhengCodeFromServer)) {
+			DebugUtils.logD(TAG, "yanzhengma=" + SecurityUtils.MD5.md5(yanzhengma));
 			MyApplication.getInstance().showMessage(R.string.msg_yanzhengma_not_correct);
 			return false;
 		}
@@ -170,11 +165,12 @@ public class RegistActivity extends BaseActionbarActivity implements TimeService
 			try {
 				JSONObject queryJSONObject = new JSONObject();
 				queryJSONObject.put("cell", _cell);
-				is = NetworkUtils.openContectionLocked(ServiceObject.getRegisterUrl("para", queryJSONObject.toString()), MyApplication.getInstance().getSecurityKeyValuesObject());
+				is = NetworkUtils.openContectionLocked(ServiceObject.getYanzhengCodeUrl("para", queryJSONObject.toString()), MyApplication.getInstance().getSecurityKeyValuesObject());
 				if (is != null) {
 					serviceResultObject = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
 					if (serviceResultObject.isOpSuccessfully()) {
 						mYanZhengCodeFromServer = serviceResultObject.mStrData;
+						DebugUtils.logD(TAG, "GetYanzhengmaTask mYanZhengCodeFromServer=" + mYanZhengCodeFromServer);
 					}
 				}
 				
@@ -317,6 +313,8 @@ public class RegistActivity extends BaseActionbarActivity implements TimeService
 			btn_getSMS.setText(mContext.getResources().getString(R.string.get_yanzheng_code));
 			btn_getSMS.setEnabled(true);
 			btn_getSMS.setTextColor(mContext.getResources().getColor(R.color.text_selector));
+			
+			mYanZhengCodeFromServer = "";
 		}
 	}
 	

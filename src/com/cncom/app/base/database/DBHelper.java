@@ -12,7 +12,7 @@ import com.shwy.bestjoy.utils.DebugUtils;
  */
 public final class DBHelper extends SQLiteOpenHelper {
 private static final String TAG = "DBHelper";
-  private static final int DB_VERSION = 3;
+  private static final int DB_VERSION = 5;
   private static final String DB_NAME = "cncom.db";
   public static final String ID = "_id";
   /**0为可见，1为删除，通常用来标记一条数据应该被删除，是不可见的，包含该字段的表查询需要增加deleted=0的条件*/
@@ -33,6 +33,8 @@ private static final String TAG = "DBHelper";
   public static final String ACCOUNT_YUQITIME = "yuqitimes";
   public static final String ACCOUNT_PINJIA = "pinjia";
   public static final String ACCOUNT_LEVEL = "level";
+  
+  public static final String ACCOUNT_AVATOR = "avator";
 
   public static final String ACCOUNT_HAS_PHOTO = "hasPhoto";
   
@@ -201,8 +203,11 @@ private static final String TAG = "DBHelper";
 	            ACCOUNT_YUQITIME + " TEXT, " +
 	            ACCOUNT_PINJIA + " TEXT, " +
 	            ACCOUNT_LEVEL + " TEXT, " +
+	            ACCOUNT_AVATOR + " TEXT NOT NULL DEFAULT 0, " +
 	            DATE + " TEXT" +
 	            ");");
+	  
+	  createTriggerForAccountTable(sqLiteDatabase);
   }
   
   private void createShopInfoTable(SQLiteDatabase sqLiteDatabase) {
@@ -292,6 +297,17 @@ private static final String TAG = "DBHelper";
 	            DETAILS_COL + " TEXT);");
   }
   
+  private void createTriggerForAccountTable(SQLiteDatabase sqLiteDatabase) {
+	  String sql = "CREATE TRIGGER insert_account" + " BEFORE INSERT " + " ON " + TABLE_NAME_ACCOUNTS + 
+			  " BEGIN UPDATE " + TABLE_NAME_ACCOUNTS + " SET isDefault = 0 WHERE uid != new.uid and isDefault = 1; END;";
+	  sqLiteDatabase.execSQL(sql);
+	  
+	  sql = "CREATE TRIGGER update_default_account" + " BEFORE UPDATE OF isDefault " + " ON " + TABLE_NAME_ACCOUNTS + 
+			  " BEGIN UPDATE " + TABLE_NAME_ACCOUNTS + " SET isDefault = 0 WHERE uid != old.uid and isDefault = 1; END;";
+	  sqLiteDatabase.execSQL(sql);
+	  
+  }
+  
   private void addTextColumn(SQLiteDatabase sqLiteDatabase, String table, String column) {
 	    String alterForTitleSql = "ALTER TABLE " + table +" ADD " + column + " TEXT";
 		sqLiteDatabase.execSQL(alterForTitleSql);
@@ -304,10 +320,12 @@ private static final String TAG = "DBHelper";
   @Override
   public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 	  DebugUtils.logD(TAG, "onUpgrade oldVersion " + oldVersion + " newVersion " + newVersion);
-	  if (oldVersion < 3) {
+	  if (oldVersion < 5) {
 		  sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_ACCOUNTS);
 		    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_SHOPS);
 		    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_BILL);
+		    sqLiteDatabase.execSQL("DROP TRIGGER IF EXISTS " + "insert_account");
+		    sqLiteDatabase.execSQL("DROP TRIGGER IF EXISTS " + "update_default_account");
 		    onCreate(sqLiteDatabase);
 		    return;
 	  }

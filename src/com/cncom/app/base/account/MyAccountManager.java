@@ -16,6 +16,16 @@ public class MyAccountManager {
 	private ContentResolver mContentResolver;
 	private static MyAccountManager mInstance = new MyAccountManager();
 	
+	public static final int[] SYSTEM_AVATOR_ARRAY = new int[]{
+		R.drawable.photo_defult,
+		R.drawable.system_avator1,
+		R.drawable.system_avator2,
+		R.drawable.system_avator3,
+		R.drawable.system_avator4,
+		R.drawable.system_avator5,
+		R.drawable.system_avator6,
+	};
+	
 	private MyAccountManager() {}
 	
 	public static MyAccountManager getInstance() {
@@ -112,6 +122,18 @@ public class MyAccountManager {
     	return false;
     	
     }
+    public int getAccountSystemAvatorResId() {
+    	if (mAccountObject == null) {
+    		return SYSTEM_AVATOR_ARRAY[0];
+    	} else {
+    		return SYSTEM_AVATOR_ARRAY[mAccountObject.getSystemAvatorIndex()];
+    	}
+    }
+    
+    public boolean hasSystemAvator() {
+    	return mAccountObject != null && mAccountObject.isSystemAvator();
+    }
+    
     /**
      * 重新更新账户对象
      */

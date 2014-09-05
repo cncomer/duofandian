@@ -5,39 +5,10 @@
     android:background="@color/White"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="60dip"
-        android:background="@color/top_bottom" >
-
-        <ImageButton
-            android:id="@+id/imageButton_back"
-            android:layout_width="30dip"
-            android:layout_height="30dip"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dip"
-            android:background="@drawable/button_back" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="满意度调查表"
-            android:textColor="@color/main_color"
-            android:textSize="24dip" />
-
-       
-    </RelativeLayout>
-
     <TextView
         android:id="@+id/tv"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/top"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"

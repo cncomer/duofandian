@@ -33,6 +33,7 @@ public class AccountObject implements InfoInterface{
 		DBHelper.ACCOUNT_YUQITIME,
 		DBHelper.ACCOUNT_PINJIA,
 		DBHelper.ACCOUNT_LEVEL,
+		DBHelper.ACCOUNT_AVATOR,    //12
 	};
 
 	private static final String[] PROJECTION_UID = new String[]{
@@ -53,6 +54,7 @@ public class AccountObject implements InfoInterface{
 	private static final int KEY_YUQITIME = 9;
 	private static final int KEY_PINJIA = 10;
 	private static final int KEY_LEVEL = 11;
+	private static final int KEY_AVATOR = 12;
 	
 	private static final String WHERE_DEFAULT = DBHelper.ACCOUNT_DEFAULT + "=1";
 	private static final String WHERE_UID = DBHelper.ACCOUNT_UID + "=?";
@@ -69,6 +71,10 @@ public class AccountObject implements InfoInterface{
 	public String mAccountYuqiTimes;
 	public String mAccountPinjia;
 	public String mAccountLevel;
+	/**头像，如果是数字，那么表示使用系统自带的头像，否则是绝对路径*/
+	public String mAccountAvator = DEFAULT_AVATOR_INDEX;
+	
+	public static final String DEFAULT_AVATOR_INDEX = "0";
 	
 
 	public int mStatusCode;
@@ -77,22 +83,16 @@ public class AccountObject implements InfoInterface{
 	public boolean isLogined() {
 		return mStatusCode != 0;
 	}
+	/**
+	 * 只要不是以http这样的绝对路径开头，我们都认为是使用的系统自带的头像
+	 * @return
+	 */
+	public boolean isSystemAvator() {
+		return !mAccountAvator.startsWith("http");
+	}
 	
-	public AccountObject clone() {
-		AccountObject newAccountObject = new AccountObject();
-		newAccountObject.mAccountId = mAccountId;
-		newAccountObject.mAccountUid = mAccountUid;
-		newAccountObject.mAccountName = mAccountName;
-		newAccountObject.mAccountTel = mAccountTel;
-		newAccountObject.mAccountPwd = mAccountPwd;
-		newAccountObject.mAccountEmail = mAccountEmail;
-		newAccountObject.mAccountJifen = mAccountJifen;
-		newAccountObject.mAccountUser = mAccountUser;
-		newAccountObject.mAccountTotal = mAccountTotal;
-		newAccountObject.mAccountYuqiTimes = mAccountYuqiTimes;
-		newAccountObject.mAccountPinjia = mAccountPinjia;
-		newAccountObject.mAccountLevel = mAccountLevel;
-		return newAccountObject;
+	public int getSystemAvatorIndex() {
+		return Integer.valueOf(mAccountAvator);
 	}
 	
 	public static int deleteAccount(ContentResolver cr, long uid) {
@@ -135,6 +135,7 @@ public class AccountObject implements InfoInterface{
 				account.mAccountYuqiTimes = c.getString(KEY_YUQITIME);
 				account.mAccountPinjia = c.getString(KEY_PINJIA);
 				account.mAccountLevel = c.getString(KEY_LEVEL);
+				account.mAccountAvator = c.getString(KEY_AVATOR);
 			}
 		    c.close();
 		}
@@ -169,6 +170,7 @@ public class AccountObject implements InfoInterface{
 		values.put(DBHelper.ACCOUNT_YUQITIME, mAccountYuqiTimes);
 		values.put(DBHelper.ACCOUNT_PINJIA, mAccountPinjia);
 		values.put(DBHelper.ACCOUNT_LEVEL, mAccountLevel);
+		values.put(DBHelper.ACCOUNT_AVATOR, mAccountAvator);
 		values.put(DBHelper.DATE, new Date().getTime());
 		if (id > 0) {
 			int update = cr.update(BjnoteContent.Accounts.CONTENT_URI, values, WHERE_UID, new String[]{String.valueOf(mAccountUid)});

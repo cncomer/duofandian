@@ -18,7 +18,7 @@ import com.umeng.update.UmengUpdateAgent;
  */
 public class MainActivity extends BaseSlidingFragmentActivity implements 
 	SlidingMenu.OnOpenedListener, SlidingMenu.OnClosedListener{
-	private static final String TAG = "MainActivity2";
+	private static final String TAG = "MainActivity";
 	private MainActivityContentFragment mContent;
 	private PersonalInfoCenterFragment mMenu;
 	private Bundle mBundles;
@@ -194,7 +194,7 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 	protected boolean checkIntent(Intent intent) {
 		mBundles = intent.getExtras();
 		if (mBundles == null) {
-			DebugUtils.logD(TAG, "checkIntent failed, due to mBundles is null");
+			DebugUtils.logD(TAG, "checkIntent mBundles is null");
 		}
 		return true;
 	}

@@ -30,6 +30,7 @@ import com.cncom.app.base.util.DialogUtils;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
+import com.shwy.bestjoy.utils.SecurityUtils;
 import com.shwy.bestjoy.utils.SecurityUtils.MD5;
 
 public class FindPasswordActivity extends BaseActionbarActivity implements CountdownCallback {
@@ -40,7 +41,6 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 	private EditText email;
 	private static final int TIME_COUNDOWN = 120;
 	private String mYanZhengCodeFromServer;
-	private CountdownObject mCountdownObject;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,13 +57,10 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 		editText_checkSMS = (EditText) findViewById(R.id.editText_checkSMS);
 		findViewById(R.id.button_commit).setOnClickListener(FindPasswordActivity.this);
 		
-		mCountdownObject = TimeService.getService().getCountdownObject(TAG);
-		if(mCountdownObject != null) {
-			btn_getSMS.setEnabled(false);
-			mCountdownObject.setCountdownCallback(this);
-		} else {
-			btn_getSMS.setText(mContext.getResources().getString(R.string.get_yanzheng_code));
-			btn_getSMS.setEnabled(true);
+		CountdownObject newCountdownObject = new CountdownObject(TAG, TIME_COUNDOWN, this);
+		CountdownObject exsitedCountdownObject = TimeService.getService().getCountdownObject(TAG);
+		if (exsitedCountdownObject != null &&  exsitedCountdownObject.getCurrent() > 1) {
+			TimeService.getService().commit(newCountdownObject, false);
 		}
 	}
 	
@@ -78,8 +75,9 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 		case R.id.button_getSMS:
 			String phone = editText_phone.getText().toString().trim();
 			if (!TextUtils.isEmpty(phone)) {
-				btn_getSMS.setEnabled(false);
-				doTimeCountDown();
+				CountdownObject newCountdownObject = new CountdownObject(TAG, TIME_COUNDOWN, this);
+				TimeService.getService().remove(newCountdownObject);
+				TimeService.getService().commit(newCountdownObject, true);
 				getRandCodeAsync();
 			} else {
 				MyApplication.getInstance().showMessage(R.string.input_regist_tel);
@@ -88,12 +86,6 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 			default:
 				super.onClick(v);
 		}
-	}
-	
-	private void doTimeCountDown() {
-		if(mCountdownObject != null ) TimeService.getService().remove(mCountdownObject);
-		mCountdownObject = new CountdownObject(TAG, TIME_COUNDOWN, this);
-		TimeService.getService().commit(mCountdownObject, false);
 	}
 	
 	private boolean checkInput() {
@@ -113,8 +105,13 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 			MyApplication.getInstance().showMessage(R.string.input_yanzhengcode);
 			return false;
 		}
-		if(TextUtils.isEmpty(mYanZhengCodeFromServer) || !mYanZhengCodeFromServer.equals(MD5.md5(editText_checkSMS.getText().toString().trim()))) {
-			MyApplication.getInstance().showMessage(R.string.input_yanzhengcode_error);
+		
+		String yanzhengma = editText_checkSMS.getText().toString().trim();
+		if (TextUtils.isEmpty(yanzhengma)) {
+			MyApplication.getInstance().showMessage(R.string.msg_empty_yanzhengma);
+			return false;
+		} else if (!SecurityUtils.MD5.md5(yanzhengma).equals(mYanZhengCodeFromServer)) {
+			MyApplication.getInstance().showMessage(R.string.msg_yanzhengma_not_correct);
 			return false;
 		}
 		return true;
@@ -240,17 +237,22 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 
 	@Override
 	public void countdown(int current) {
-		btn_getSMS.setText(mContext.getResources().getString(R.string.time_countdown, current));
-		if(current <= 1) {
+		if (current > 1) {
+			btn_getSMS.setText(mContext.getResources().getString(R.string.time_countdown, current));
+		} else {
 			btn_getSMS.setText(mContext.getResources().getString(R.string.get_yanzheng_code));
 			btn_getSMS.setEnabled(true);
+			mYanZhengCodeFromServer = "";
 		}
 	}
 
 	@Override
-	public void start(int start) {
-		// TODO Auto-generated method stub
-		
+	public void start(int current) {
+		//开始倒数
+		btn_getSMS.setEnabled(false);
+		btn_getSMS.setTextColor(Color.GRAY);
+		btn_getSMS.setText(mContext.getResources().getString(R.string.time_countdown, current));
+
 	}
 
 }

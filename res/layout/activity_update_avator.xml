@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/wt"
+        android:orientation="vertical" >
+
+        <GridView android:id="@+id/gridview"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1.0"
+            android:scrollbars="none"
+            android:verticalSpacing="4dip"
+            android:numColumns="2">
+            
+        </GridView>
+        
+        <LinearLayout 
+            android:layout_width="match_parent"
+	    	android:layout_height="50dp"
+			android:gravity="center"
+			android:paddingLeft="10dip"
+			android:paddingRight="10dip"
+			android:background="@color/top_bottom"
+	    	android:orientation="horizontal">
+	        <Button
+	            android:id="@+id/button_modify"
+	            android:layout_width="0dip"
+	            android:layout_weight="1.0"
+	            android:layout_height="30dip"
+	            android:background="@drawable/buttons"
+	            android:text="@string/button_modify"
+	            android:textColor="@color/text_selector"
+	            android:textSize="17sp" />
+	        <Button
+	            android:id="@+id/button_cancel"
+	            android:layout_width="0dip"
+	            android:layout_weight="1.0"
+	            android:layout_height="30dip"
+	            android:layout_marginLeft="10dip"
+	            android:background="@drawable/buttons"
+	            android:text="@string/button_cancel"
+	            android:textColor="@color/text_selector"
+	            android:textSize="17sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -31,6 +31,8 @@ import com.cncom.app.base.util.DebugUtils;
 import com.lnwoowken.lnwoowkenbook.MyApplication;
 import com.lnwoowken.lnwoowkenbook.R;
 import com.lnwoowken.lnwoowkenbook.ServiceObject;
+import com.lnwoowken.lnwoowkenbook.UpdateAvatorActivity;
+import com.lnwoowken.lnwoowkenbook.UpdateCellActivity;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.UpdatePasswordActivity;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
@@ -72,6 +74,7 @@ public class MemberInfoItemLayout extends LinearLayout{
 			public void onClick(View v) {
 				switch(v.getId()) {
 				case R.id.member_info_avator:   //会员头像
+					UpdateAvatorActivity.startActivity(mContext);
 					break;
 				case R.id.member_info_name:   //会员昵称
 					showRenameDialog();
@@ -82,6 +85,7 @@ public class MemberInfoItemLayout extends LinearLayout{
 				case R.id.member_info_pay_password:   //会员支付密码
 					break;
 				case R.id.member_info_tel:   //会员电话
+					UpdateCellActivity.startActivity(mContext);
 					break;
 				}
 			}

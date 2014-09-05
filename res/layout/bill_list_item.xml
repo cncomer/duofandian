@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="20dip"
-    android:background="@color/White"
     android:orientation="vertical"
     android:paddingBottom="10dip"
     android:paddingLeft="20dip"
@@ -36,7 +35,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dip"
-        android:background="@drawable/boder_bottom_xuxian_gray"
         android:paddingBottom="10dip" >
 
         <LinearLayout
@@ -106,7 +104,9 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
-
+	<View android:layout_height="1dip"
+        android:layout_width="fill_parent"
+        android:background="@drawable/ump_orderdetail_divideline"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dip"
             android:background="@drawable/button_commit"
-            android:padding="8dip"
+            android:padding="4dip"
             android:text="@string/button_confirm_pay"
             android:textColor="@color/text_btn_commit_selector"
             android:textSize="20sp" />
@@ -150,8 +150,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dip"
-            android:layout_marginTop="10dip"
+            android:layout_marginBottom="4dip"
+            android:layout_marginTop="4dip"
             android:gravity="bottom"
             android:orientation="horizontal" >
 
@@ -179,7 +179,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:background="@drawable/button_commit"
-                android:padding="8dip"
+                android:padding="4dip"
                 android:text="@string/bill_tuiding"
                 android:textColor="@color/text_btn_commit_selector"
                 android:textSize="20sp" />

@@ -158,11 +158,13 @@ public class BillListCursorAdapter extends CursorAdapter {
 		
 		if (mDataType == DATA_TYPE_ALL) {
 			groupHolder.btn_survey.setImageDrawable(mUnvisitedTypeDrawable);
+			groupHolder.btn_survey.setEnabled(true);
 			groupHolder.btn_confirm_pay.setVisibility(View.GONE);
 			groupHolder.order_status_layout.setVisibility(View.VISIBLE);
 			groupHolder.btn_tuiding.setVisibility(View.VISIBLE);
 		} else if (mDataType == DATA_TYPE_UNPAY) {
 			groupHolder.btn_survey.setImageDrawable(mVisitedTypeDrawable);
+			groupHolder.btn_survey.setEnabled(false);
 			groupHolder.btn_confirm_pay.setVisibility(View.VISIBLE);
 			groupHolder.order_status_layout.setVisibility(View.GONE);
 			groupHolder.btn_tuiding.setVisibility(View.INVISIBLE);

@@ -4,6 +4,8 @@
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
 import com.shwy.bestjoy.utils.InfoInterfaceImpl;
 /**
  * 这个类用来解析登陆返回的json数据，生成AccountObject账户对象。<br/>
@@ -52,6 +54,10 @@ public class AccountParser extends InfoInterfaceImpl{
 		accountObject.mAccountPinjia = jsonObject.getString("user_pinjia");
 		accountObject.mAccountLevel = jsonObject.getString("user_level");
 		accountObject.mAccountUid = jsonObject.getLong("ID");
+		accountObject.mAccountAvator = jsonObject.optString("img", AccountObject.DEFAULT_AVATOR_INDEX);
+		if (TextUtils.isEmpty(accountObject.mAccountAvator)) {
+			accountObject.mAccountAvator = AccountObject.DEFAULT_AVATOR_INDEX;
+		}
 	}
 	
 	public static AccountObject parseAccountData(JSONObject jsonObject) throws JSONException {
