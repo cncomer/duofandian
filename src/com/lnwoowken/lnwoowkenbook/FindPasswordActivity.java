@@ -250,7 +250,6 @@ public class FindPasswordActivity extends BaseActionbarActivity implements Count
 	public void start(int current) {
 		//开始倒数
 		btn_getSMS.setEnabled(false);
-		btn_getSMS.setTextColor(Color.GRAY);
 		btn_getSMS.setText(mContext.getResources().getString(R.string.time_countdown, current));
 
 	}
