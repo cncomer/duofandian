@@ -3,6 +3,10 @@ package com.lnwoowken.lnwoowkenbook;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentResolver;
 import android.database.Cursor;
 
@@ -20,6 +24,18 @@ public class BillListManager {
 			}
 		}
 		return billList;
+	}
+	
+	public static List<BillObject> getBillList(ContentResolver cr, JSONArray mJsonArrayData) throws JSONException{
+		List<BillObject> result = new ArrayList<BillObject>();
+		if(mJsonArrayData == null) return result;
+		for(int i = 0; i < mJsonArrayData.length(); i++) {
+			BillObject billObject = getBillFromJsonObject(mJsonArrayData.getJSONObject(i));
+			result.add(billObject);
+			
+			saveBill(billObject, cr);
+		}
+		return result;
 	}
 	
 	public static List<BillObject> getUnpayBillListLocal(ContentResolver cr) {
@@ -84,6 +100,32 @@ public class BillListManager {
 		billObj.setBillNumber(c.getString(c.getColumnIndex(BillObject.BILL_NUMBER)));
 		billObj.setDabiaoPrice(c.getString(c.getColumnIndex(BillObject.BILL_DABIAO_PRICE)));
 		billObj.setServicePrice(c.getString(c.getColumnIndex(BillObject.BILL_SERVICE_PRICE)));
+		
+		return billObj;
+	}
+	
+	public static BillObject getBillFromJsonObject(JSONObject obj) throws JSONException {
+		BillObject billObj = new BillObject();
+		//billObj.setUid(obj.getString(BillObject.BILL_UID));
+		//billObj.setSid(obj.getString(BillObject.BILL_SID));
+		//billObj.setTid(obj.getString(BillObject.BILL_TID));
+		//billObj.setPeopleNum(obj.getString(BillObject.BILL_PEOPLENUM));
+		//billObj.setRcode(obj.getString(BillObject.BILL_RCODE));
+		//billObj.setMac(obj.getString(BillObject.BILL_MAC));
+		//billObj.setIp(obj.getString(BillObject.BILL_IP));
+		//billObj.setPhone(obj.getString(BillObject.BILL_PHONE));
+		//billObj.setVersion(obj.getString(BillObject.BILL_VERSION));
+		billObj.setShopName(obj.getString(BillObject.BILL_SHOPNAME));
+		billObj.setDate(obj.getString(BillObject.BILL_DATE));
+		billObj.setTime(obj.getString(BillObject.BILL_TIME));
+		billObj.setState(obj.getInt(BillObject.BILL_STATE));
+		billObj.setTableName(obj.getString(BillObject.BILL_TABLENAME));
+		billObj.setTableType(obj.getString(BillObject.BILL_TABLESTYLE));
+		billObj.setCreateTime(obj.getString(BillObject.BILL_CREATETIME));
+		billObj.setBillNumber(obj.getString(BillObject.BILL_NUMBER));
+		//billObj.setDabiaoPrice(obj.getString(BillObject.BILL_DABIAO_PRICE));
+		billObj.setServicePrice(obj.getString(BillObject.BILL_SERVICE_PRICE));
+		billObj.setServicePrice(obj.getString(BillObject.BILL_DINGJIN_PRICE));
 		
 		return billObj;
 	}

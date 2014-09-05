@@ -45,7 +45,7 @@
             android:textSize="18sp" />
     </LinearLayout>
 
-    <ListView
+    <com.costum.android.widget.PullAndLoadListView
         android:id="@+id/listView_bill"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -54,7 +54,6 @@
         android:dividerHeight="6dip"
         android:divider="@drawable/back_bottom"
         android:background="@color/wt"
-        android:cacheColorHint="#00000000" >
-    </ListView>
+        android:cacheColorHint="#00000000" />
 
 </LinearLayout>
