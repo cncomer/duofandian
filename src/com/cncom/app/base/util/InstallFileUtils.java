@@ -73,4 +73,27 @@ public class InstallFileUtils {
 		  DebugUtils.logD(TAG, "install " + src.getAbsolutePath() + " success? " + success);
 		 return success;
 	  }
+	
+	
+	public static boolean saveFile(InputStream src, File out) {
+		 boolean success = true;
+		  FileOutputStream fos = null;
+		  try {
+			  fos = new FileOutputStream(out);
+			  byte[] buffer = new byte[8192];
+			  int count = 0;
+			  while ((count = src.read(buffer)) > 0) {
+				  fos.write(buffer, 0, count);
+			  }
+			  fos.flush();
+			  DebugUtils.logD(TAG, "start to save File " + out.getAbsolutePath());
+		  } catch (IOException e) {
+				e.printStackTrace();
+				success = false;
+		  } finally {
+			  NetworkUtils.closeOutStream(fos);
+		  }
+		  DebugUtils.logD(TAG, "saveFile to " + out.getAbsolutePath() + " success? " + success);
+		 return success;
+	  }
 }

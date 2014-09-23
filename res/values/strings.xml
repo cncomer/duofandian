@@ -361,4 +361,5 @@
    <string name="input_must">必填</string>
    <string name="tip_cell_is_bounded">你已经绑定了手机号码:</string>
    <string name="tip_cell_update_desc">"亲爱的夺饭点手机App用户，我们暂时不支持解绑手机号功能，请拨打我们的客户电话:400-572-572"</string>
+    <string name="msg_no_existed_photo_in_service">抱歉，服务器上是没有找到对应的图片</string>
 </resources>

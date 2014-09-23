@@ -1,7 +1,18 @@
 package com.lnwoowken.lnwoowkenbook;
 
-import android.graphics.Bitmap;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.client.ClientProtocolException;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
@@ -16,29 +27,29 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.cncom.app.base.service.PhotoManagerUtilsV2;
+import com.cncom.app.base.service.PhotoManagerUtilsV2.TaskType;
 import com.cncom.app.base.ui.BaseFragment;
-import com.cncom.app.base.util.BitmapUtils;
 import com.cncom.app.base.util.DebugUtils;
-import com.lnwoowken.lnwoowkenbook.adapter.MyGalleryAdapter;
+import com.cncom.app.base.util.InstallFileUtils;
+import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.animition.MyAnimition;
 import com.lnwoowken.lnwoowkenbook.animition.Mycamera;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
+import com.shwy.bestjoy.utils.AsyncTaskUtils;
+import com.shwy.bestjoy.utils.NetworkUtils;
 
 public class MainActivityContentFragment extends BaseFragment implements View.OnClickListener{
 	private static final String TAG = "MainActivityContentFragment";
 	private Handler mHandler;
-	private MyGalleryAdapter mMyGalleryAdapter;
 	private TextView mGalleryTitle;
 	private LinearLayout mDotsLayout;
 	private ViewPager mAdsViewPager;
 	private boolean mAdsViewPagerIsScrolling = false;
-	private Bitmap[] mAdsBitmaps;
 	private ImageView[] mDotsViews = null;
 	private ImageView[] mAdsPagerViews = null;
 	private Drawable[] mDotDrawableArray;
-	private int[] mAddsDrawableId = { R.drawable.pic_1, R.drawable.pic_2,
-			R.drawable.pic_3, R.drawable.pic_4, R.drawable.pic_5, };
-	private String[] mImageTitle = new String[] { "码头人家", "江户鱼米", "望湘园", "星怡会", "侬好蛙" };
+	private String[] mImageTitle = new String[] { "望湘园", "侬好蛙", "望湘园", "星怡会", "码头人家" };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -47,12 +58,17 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 			mCurrentPagerIndex = savedInstanceState.getInt("adsIndex", 0);
 			DebugUtils.logD(TAG, "onCreate savedInstanceState adsIndex=" + mCurrentPagerIndex);
 		}
+		PhotoManagerUtilsV2.getInstance().requestToken(TAG);
 		mHandler = new Handler();
 	}
 	@Override
 	public void onResume() {
 		super.onResume();
-		mHandler.postDelayed(mChangeAdsRunnable, DEFAULT_DELAY);
+		mHandler.removeCallbacks(mChangeAdsRunnable);
+		if (mAdsViewPager.getAdapter() != null && mAdsViewPager.getAdapter().getCount() > 0) {
+			mHandler.postDelayed(mChangeAdsRunnable, DEFAULT_DELAY);
+		}
+		
 	}
 
 	@Override
@@ -64,6 +80,9 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		AsyncTaskUtils.cancelTask(mLoadAdsTask);
+	    AsyncTaskUtils.cancelTask(mLoadLocalAdsTask);
+	    PhotoManagerUtilsV2.getInstance().releaseToken(TAG);
 	}
 
 	@Override
@@ -91,14 +110,12 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 		
 		view.findViewById(R.id.imageView_bottom).setOnClickListener(this);
 		
+//		mAdsFrameLayout = (FrameLayout) view.findViewById(R.id.relativeLayout_pictures);
+		
 		mGalleryTitle = (TextView) view.findViewById(R.id.textView_imgtitle);
-		mGalleryTitle.setText(mImageTitle[0]);//设置为第一幅的标题
+		mGalleryTitle.setText("");//设置为第一幅的标题
 		mDotsLayout = (LinearLayout) view.findViewById(R.id.dots);
 		mAdsViewPager = (ViewPager) view.findViewById(R.id.adsViewPager);
-		initViewPagers(mAddsDrawableId.length);
-		initDots(mAddsDrawableId.length);
-		mAdsViewPager.setAdapter(new AdsViewPagerAdapter());
-		
 		mAdsViewPager.setOnPageChangeListener(new OnPageChangeListener() {
 			@Override
 			public void onPageSelected(int position) {
@@ -106,7 +123,8 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 					mDotsViews[mCurrentPagerIndex].setImageDrawable(mDotDrawableArray[0]);
 					mDotsViews[position].setImageDrawable(mDotDrawableArray[1]);
 					mCurrentPagerIndex = position;
-					mGalleryTitle.setText(mImageTitle[mCurrentPagerIndex]);
+					AdsViewPagerAdapter adapter = (AdsViewPagerAdapter) mAdsViewPager.getAdapter();
+					mGalleryTitle.setText(adapter.getItem(position)._name);
 				}
 			}
 			
@@ -122,29 +140,13 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 			}
 		});
 		
+		loadLocalAdsAync();
+		loadAdsAsync();
 		
 	}
 	
-	private void initViewPagers(int count) {
-		initAdsBitmap(count);
-		mAdsPagerViews = new ImageView[count];
-		LayoutInflater flater = getActivity().getLayoutInflater();
-		for (int j = 0; j < count; j++) {
-			mAdsPagerViews[j] = (ImageView) flater.inflate(R.layout.ads, null, false);
-			mAdsPagerViews[j].setImageBitmap(mAdsBitmaps[j]);
-		}
-	}
-	private void initAdsBitmap(int count) {
-		if (mAdsBitmaps == null) {
-			mAdsBitmaps = new Bitmap[count];
-		} else {
-			for(Bitmap bitmap:mAdsBitmaps) {
-				bitmap.recycle();
-			}
-		}
-		mAdsBitmaps = BitmapUtils.getSuitedBitmaps(getActivity(), mAddsDrawableId, 800, 1024);
-	}
 	private void initDots(int count){
+		mDotsLayout.removeAllViews();
 		LayoutInflater flater = getActivity().getLayoutInflater();
 		if (mDotDrawableArray == null) {
 			mDotDrawableArray = new Drawable[2];
@@ -163,6 +165,13 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 		}
 	}
 	
+	private void initViewPagers(int count) {
+		mAdsPagerViews = new ImageView[count];
+		LayoutInflater flater = getActivity().getLayoutInflater();
+		for (int j = 0; j < count; j++) {
+			mAdsPagerViews[j] = (ImageView) flater.inflate(R.layout.ads, null, false);
+		}
+	 }
 	private static long DEFAULT_DELAY = 5000;
 	private int mCurrentPagerIndex = 0;
 	private ChangeAdsRunnable mChangeAdsRunnable = new ChangeAdsRunnable();
@@ -213,11 +222,18 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 	
 	class AdsViewPagerAdapter extends PagerAdapter{
 
+		List<AdsObject> mAdsList;
+		private AdsViewPagerAdapter(List<AdsObject> data) {
+			mAdsList = data;
+		}
 		@Override
 		public int getCount() {
-			return mAdsPagerViews.length;
+			return mAdsList.size();
 		}
 
+		public AdsObject getItem(int position) {
+			return mAdsList.get(position);
+		}
 		@Override
 		public boolean isViewFromObject(View view, Object object) {
 			return view == object;
@@ -225,6 +241,8 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 		
 		private View getView(ViewGroup container, int position) {
 			container.addView(mAdsPagerViews[position]);
+			AdsObject adsObject = getItem(position);
+			PhotoManagerUtilsV2.getInstance().loadPhotoAsync(TAG, mAdsPagerViews[position], adsObject._path, null, TaskType.INDEX_IMAGE);
 			return mAdsPagerViews[position];
 		}
 		
@@ -239,6 +257,166 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 		}
 		
 	}
+	private static final String ADS_FILE_NAME = "ads.xml";
+	private List<AdsObject> mAdsObjectList = new ArrayList<AdsObject>();
+	private class AdsObject {
+		private String _path, _name;
+		private int _index;
+	}
+	private LoadAdsTask mLoadAdsTask;
+    private void loadAdsAsync() {
+    	AsyncTaskUtils.cancelTask(mLoadAdsTask);
+    	mLoadAdsTask = new LoadAdsTask();
+    	mLoadAdsTask.execute();
+    }
+    
+    private LoadLocalAdsTask mLoadLocalAdsTask;
+    private void loadLocalAdsAync() {
+    	AsyncTaskUtils.cancelTask(mLoadLocalAdsTask);
+    	mLoadLocalAdsTask = new LoadLocalAdsTask();
+    	mLoadLocalAdsTask.execute();
+    }
+    
+    /**
+     * {"StatusCode":"1","Data":[{"ShopID":null,"ImgAddr":"../comphoto/2014-09-23/90d3c9b8b285da5010ebfc87d9dbc079.jpg","imgindex":"2"},
+     * @author chenkai
+     *
+     */
+    private class LoadAdsTask extends AsyncTask<Void, Void, ServiceResultObject> {
+
+		@Override
+		protected ServiceResultObject doInBackground(Void... params) {
+			InputStream is = null;
+			ServiceResultObject serviceResultObject = new ServiceResultObject();
+			try {
+				is = NetworkUtils.openContectionLocked(ServiceObject.getIndexPageAdsUrl(), MyApplication.getInstance().getSecurityKeyValuesObject());
+				if (is != null) {
+					//将数据缓存成文件
+					boolean saved = InstallFileUtils.saveFile(is, MyApplication.getInstance().getAppFiles(ADS_FILE_NAME));
+					if (saved) {
+						String content = NetworkUtils.getContentFromInput(new FileInputStream(MyApplication.getInstance().getAppFiles(ADS_FILE_NAME)));
+						serviceResultObject = ServiceResultObject.parseJsonArray(content);
+						
+						if (serviceResultObject.isOpSuccessfully()) {
+							mAdsObjectList.clear();
+							
+							if (serviceResultObject.mJsonArrayData != null) {
+								int len = serviceResultObject.mJsonArrayData.length();
+								JSONObject jsonObject = null;
+								AdsObject adsObjet = null;
+								for(int index = 0; index < len; index++) {
+									jsonObject = serviceResultObject.mJsonArrayData.getJSONObject(index);
+									adsObjet = new AdsObject();
+									adsObjet._path = jsonObject.optString("ImgAddr", "").replace("../", "");
+									adsObjet._name = mImageTitle[index];
+									adsObjet._index = Integer.valueOf(jsonObject.getString("imgindex"))-1;
+									mAdsObjectList.add(adsObjet);
+								}
+							}
+							
+						}
+					}
+				}
+				
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (IOException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			} catch (JSONException e) {
+				e.printStackTrace();
+				serviceResultObject.mStatusMessage = e.getMessage();
+			}
+			return serviceResultObject;
+		}
+
+		@Override
+		protected void onPostExecute(ServiceResultObject result) {
+			super.onPostExecute(result);
+			if (result.isOpSuccessfully()) {
+				initDots(mAdsObjectList.size());
+				initViewPagers(mAdsObjectList.size());
+				mAdsViewPager.setAdapter(new AdsViewPagerAdapter(mAdsObjectList));
+				mCurrentPagerIndex = 0;
+				mHandler.removeCallbacks(mChangeAdsRunnable);
+				if (mAdsViewPager.getAdapter().getCount() > 0) {
+					mGalleryTitle.setText(mAdsObjectList.get(mCurrentPagerIndex)._name);//设置为第一幅的标题
+					mHandler.postDelayed(mChangeAdsRunnable, DEFAULT_DELAY);
+				}
+			}
+		}
+
+		@Override
+		protected void onCancelled() {
+			super.onCancelled();
+		}
+    }
+		
+		
+		private class LoadLocalAdsTask extends AsyncTask<Void, Void, ServiceResultObject> {
+
+			@Override
+			protected ServiceResultObject doInBackground(Void... params) {
+				ServiceResultObject serviceResultObject = new ServiceResultObject();
+				try {
+					//读取缓存数据文件
+					File adsFile = MyApplication.getInstance().getAppFiles(ADS_FILE_NAME);
+					if (adsFile.exists()) {
+						String content = NetworkUtils.getContentFromInput(new FileInputStream(adsFile));
+						serviceResultObject = ServiceResultObject.parseJsonArray(content);
+						
+						if (serviceResultObject.isOpSuccessfully()) {
+							mAdsObjectList.clear();
+							
+							if (serviceResultObject.mJsonArrayData != null) {
+								int len = serviceResultObject.mJsonArrayData.length();
+								JSONObject jsonObject = null;
+								AdsObject adsObjet = null;
+								for(int index = 0; index < len; index++) {
+									jsonObject = serviceResultObject.mJsonArrayData.getJSONObject(index);
+									adsObjet = new AdsObject();
+									adsObjet._path = jsonObject.optString("ImgAddr", "").replace("../", "");
+									adsObjet._name = mImageTitle[index];
+									mAdsObjectList.add(adsObjet);
+								}
+							}
+							
+					    }
+					}
+					 
+				} catch (IOException e) {
+					e.printStackTrace();
+					serviceResultObject.mStatusMessage = e.getMessage();
+				} catch (JSONException e) {
+					e.printStackTrace();
+					serviceResultObject.mStatusMessage = e.getMessage();
+				}
+				return serviceResultObject;
+			}
+
+			@Override
+			protected void onPostExecute(ServiceResultObject result) {
+				super.onPostExecute(result);
+				if (result.isOpSuccessfully()) {
+					initDots(mAdsObjectList.size());
+					initViewPagers(mAdsObjectList.size());
+					mAdsViewPager.setAdapter(new AdsViewPagerAdapter(mAdsObjectList));
+					mCurrentPagerIndex = 0;
+					mHandler.removeCallbacks(mChangeAdsRunnable);
+					if (mAdsViewPager.getAdapter().getCount() > 0) {
+						mHandler.postDelayed(mChangeAdsRunnable, DEFAULT_DELAY);
+						mGalleryTitle.setText(mAdsObjectList.get(mCurrentPagerIndex)._name);//设置为第一幅的标题
+					}
+				}
+			}
+
+			@Override
+			protected void onCancelled() {
+				super.onCancelled();
+			}
+		}
+    	
 	
 	
 }

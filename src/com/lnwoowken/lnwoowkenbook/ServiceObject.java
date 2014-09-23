@@ -171,6 +171,16 @@ public class ServiceObject {
 		return sb.toString();
 	}
 	/**
+	 * 如http://manage.lnwoowken.com/comphoto/2014-09-23/e8b9a06af2513f748d191f9feda7bf8b.jpg
+	 * @param photoID comphoto/2014-09-23/e8b9a06af2513f748d191f9feda7bf8b.jpg
+	 * @return
+	 */
+	public static String getIndexPageImage(String photoID) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append(photoID);
+		return sb.toString();
+	}
+	/**
 	 * 返回指定店铺的提示信息，如抢位告知、订单确认、支付提示等信息，形如http://manage.lnwoowken.com/mobile/common/gettip.ashx?para={shopid:12}
 	 * @param shopShowId
 	 * @return
@@ -206,6 +216,12 @@ public class ServiceObject {
 		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
 		sb.append("mobile/common/register.ashx?")
 		.append(para).append("=").appendUrlEncodedString(jsonString);
+		return sb.toString();
+	}
+	
+	public static String getIndexPageAdsUrl() {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/GetCompanyImg.ashx?");
 		return sb.toString();
 	}
 	

@@ -163,6 +163,11 @@ public class MyApplication extends Application{
 		return file;
 	}
 	
+	public File getIndexPageImageFile(String photoId) {
+		File file = new File(getCachedSubDir("indexpage"), photoId);
+		return file;
+	}
+	
 	@Override
 	public void onTerminate() {
 		super.onTerminate();
