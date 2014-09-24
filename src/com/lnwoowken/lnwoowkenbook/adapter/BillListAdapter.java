@@ -127,9 +127,6 @@ public class BillListAdapter extends BaseAdapter {
 	private String getBillState(int state) {
 		int res = R.string.bill_unpay;
 		switch (state) {
-		case BillObject.STATE_IDLE:
-			res = R.string.bill_unpay;
-			break;
 		case BillObject.STATE_UNPAY:
 			res = R.string.bill_unpay;
 			break;

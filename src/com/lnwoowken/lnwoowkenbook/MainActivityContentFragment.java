@@ -49,7 +49,6 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 	private ImageView[] mDotsViews = null;
 	private ImageView[] mAdsPagerViews = null;
 	private Drawable[] mDotDrawableArray;
-	private String[] mImageTitle = new String[] { "望湘园", "侬好蛙", "望湘园", "星怡会", "码头人家" };
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -261,7 +260,6 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 	private List<AdsObject> mAdsObjectList = new ArrayList<AdsObject>();
 	private class AdsObject {
 		private String _path, _name;
-		private int _index;
 	}
 	private LoadAdsTask mLoadAdsTask;
     private void loadAdsAsync() {
@@ -278,7 +276,7 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
     }
     
     /**
-     * {"StatusCode":"1","Data":[{"ShopID":null,"ImgAddr":"../comphoto/2014-09-23/90d3c9b8b285da5010ebfc87d9dbc079.jpg","imgindex":"2"},
+     * {"StatusCode":"1","Data":[{"ShopID":null,"ImgAddr":"../comphoto/2014-09-23/90d3c9b8b285da5010ebfc87d9dbc079.jpg","imgindex":"2","comname":"侬好蛙"},
      * @author chenkai
      *
      */
@@ -308,8 +306,7 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 									jsonObject = serviceResultObject.mJsonArrayData.getJSONObject(index);
 									adsObjet = new AdsObject();
 									adsObjet._path = jsonObject.optString("ImgAddr", "").replace("../", "");
-									adsObjet._name = mImageTitle[index];
-									adsObjet._index = Integer.valueOf(jsonObject.getString("imgindex"))-1;
+									adsObjet._name = jsonObject.optString("comname", "");
 									mAdsObjectList.add(adsObjet);
 								}
 							}
@@ -377,7 +374,7 @@ public class MainActivityContentFragment extends BaseFragment implements View.On
 									jsonObject = serviceResultObject.mJsonArrayData.getJSONObject(index);
 									adsObjet = new AdsObject();
 									adsObjet._path = jsonObject.optString("ImgAddr", "").replace("../", "");
-									adsObjet._name = mImageTitle[index];
+									adsObjet._name = jsonObject.optString("comname", "");
 									mAdsObjectList.add(adsObjet);
 								}
 							}

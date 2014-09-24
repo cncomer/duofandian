@@ -41,6 +41,8 @@ public class BillListActivity extends BaseActivity {
 	private static final int STATE_FREASH_COMPLETE = STATE_FREASHING + 1;
 	private static final int STATE_FREASH_CANCEL = STATE_FREASH_COMPLETE + 1;
 	private int mLoadState = STATE_IDLE;
+	/**订单类型，默认是查看全部订单*/
+    private int mOrderType = BillListCursorAdapter.DATA_TYPE_ALL;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,8 @@ public class BillListActivity extends BaseActivity {
 		mSelectedTextColor = this.getResources().getColor(R.color.main_color);
 		mUnSelectedTextColor = this.getResources().getColor(R.color.textColor);
 		initialize();
+		//默认显示的是全部订单TAB
+		setOrderTypeTab(BillListCursorAdapter.DATA_TYPE_ALL);
 	}
 	
 	@Override
@@ -62,6 +66,27 @@ public class BillListActivity extends BaseActivity {
 		}
 	}
 	
+	/**
+	 * 设置订单类型对应的Tab
+	 */
+	private void setOrderTypeTab(int type) {
+		mOrderType = type;
+		if (mOrderType == BillListCursorAdapter.DATA_TYPE_ALL) {
+			btn_all.setBackgroundResource(R.drawable.button_tab_maincolor);
+			btn_all.setTextColor(mSelectedTextColor);
+			btn_unpay.setBackgroundResource(R.drawable.button_tab);
+			btn_unpay.setTextColor(mUnSelectedTextColor);
+		} else if (mOrderType == BillListCursorAdapter.DATA_TYPE_UNPAY) {
+			btn_all.setBackgroundResource(R.drawable.button_tab);
+			btn_all.setTextColor(mUnSelectedTextColor);
+			btn_unpay.setBackgroundResource(R.drawable.button_tab_maincolor);
+			btn_unpay.setTextColor(mSelectedTextColor);
+		}
+		if(mBillListCursorAdapter != null) {
+			mBillListCursorAdapter.setOrderType(mOrderType);
+		}
+	}
+	
 	private void initialize(){
 		mListBill = (PullAndLoadListView) findViewById(R.id.listView_bill);
 		btn_all = (Button) findViewById(R.id.button_bill_all);
@@ -70,21 +95,13 @@ public class BillListActivity extends BaseActivity {
 		btn_all.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				btn_all.setBackgroundResource(R.drawable.button_tab_maincolor);
-				btn_all.setTextColor(mSelectedTextColor);
-				btn_unpay.setBackgroundResource(R.drawable.button_tab);
-				btn_unpay.setTextColor(mUnSelectedTextColor);
-				if(mBillListCursorAdapter != null) mBillListCursorAdapter.changeCursor(BillListManager.getLocalAllBillCursor(getContentResolver()), BillListCursorAdapter.DATA_TYPE_ALL);
+				setOrderTypeTab(BillListCursorAdapter.DATA_TYPE_ALL);
 			}
 		});
 		btn_unpay.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				btn_all.setBackgroundResource(R.drawable.button_tab);
-				btn_all.setTextColor(mUnSelectedTextColor);
-				btn_unpay.setBackgroundResource(R.drawable.button_tab_maincolor);
-				btn_unpay.setTextColor(mSelectedTextColor);
-				if(mBillListCursorAdapter != null) mBillListCursorAdapter.changeCursor(BillListManager.getLocalUnpayBillCursor(getContentResolver()), BillListCursorAdapter.DATA_TYPE_UNPAY);
+				setOrderTypeTab(BillListCursorAdapter.DATA_TYPE_UNPAY);
 			}
 		});
 		
@@ -174,12 +191,15 @@ public class BillListActivity extends BaseActivity {
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
 
-			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
-				if (result.isOpSuccessfully()) {
-					MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
-				}
+//			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
+//				if (result.isOpSuccessfully()) {
+//					MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
+//				}
+//			}
+			if(mBillListCursorAdapter != null) {
+				mBillListCursorAdapter.requeryLocalData();
+				
 			}
-			if(mBillListCursorAdapter != null) mBillListCursorAdapter.changeCursor(BillListManager.getLocalAllBillCursor(getContentResolver()), BillListCursorAdapter.DATA_TYPE_ALL);
 			mListBill.onRefreshComplete();
 			mLoadState = STATE_FREASH_COMPLETE;
 			DebugUtils.logD(TAG, "onPostExecute onRefreshComplete");
@@ -193,4 +213,9 @@ public class BillListActivity extends BaseActivity {
 		}
 	}
 	//refresh data end
+
+	@Override
+	public void onClick(View v) {
+		
+	}
 }

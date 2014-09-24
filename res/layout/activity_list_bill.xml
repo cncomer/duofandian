@@ -48,6 +48,7 @@
     <com.costum.android.widget.PullAndLoadListView
         android:id="@+id/listView_bill"
         android:layout_width="fill_parent"
+        android:scrollbars="none"
         android:layout_height="fill_parent"
         android:layout_marginLeft="20dip"
         android:layout_marginRight="20dip"

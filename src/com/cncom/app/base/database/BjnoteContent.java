@@ -1,6 +1,8 @@
 ﻿package com.cncom.app.base.database;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 
 import com.lnwoowken.lnwoowkenbook.MyApplication;
@@ -63,4 +65,28 @@ public class BjnoteContent {
     		cr.query(CONTENT_URI, null, null, null, null);
     	}
     }
+    
+    public static long existed(ContentResolver cr, Uri uri, String where, String[] selectionArgs) {
+    	long id = -1;
+		Cursor c = cr.query(uri, ID_PROJECTION, where, selectionArgs, null);
+		if (c != null) {
+			if (c.moveToNext()) {
+				id = c.getLong(0);
+			}
+			c.close();
+		}
+		return id;
+	}
+	
+	public static int update(ContentResolver cr, Uri uri, ContentValues values, String where, String[] selectionArgs) {
+		return cr.update(uri, values, where, selectionArgs);
+	}
+	
+	public static Uri insert(ContentResolver cr, Uri uri, ContentValues values) {
+		return cr.insert(uri, values);
+	}
+	
+	public static int delete(ContentResolver cr, Uri uri,  String where, String[] selectionArgs) {
+		return cr.delete(uri, where, selectionArgs);
+	}
 }

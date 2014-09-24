@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.content.ContentResolver;
 import android.database.Cursor;
 
+import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.database.BjnoteContent;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
 
@@ -64,13 +65,15 @@ public class BillListManager {
 	}
 	
 	public static BillObject getBillObjectByBillNumber(ContentResolver cr, String billNumber) {
+		BillObject billObject = null;
 		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, BillObject.BILL_NUMBER_SELECTION, new String[] {billNumber}, null);
 		if (c != null) {
-			while (c.moveToNext()) {
-				return getBillObject(c);
+			if (c.moveToNext()) {
+				billObject =  getBillObject(c);
 			}
+			c.close();
 		}
-		return new BillObject();
+		return billObject;
 	}
 	
 	public static void updateBillStateByBillNumber(ContentResolver cr, String billNumber, int state) {
@@ -102,6 +105,8 @@ public class BillListManager {
 		billObj.setDabiaoPrice(c.getString(c.getColumnIndex(BillObject.BILL_DABIAO_PRICE)));
 		billObj.setServicePrice(c.getString(c.getColumnIndex(BillObject.BILL_SERVICE_PRICE)));
 		
+		billObj.setVisited(c.getInt(c.getColumnIndex(BillObject.BILL_VISITED)));
+		
 		return billObj;
 	}
 	
@@ -116,6 +121,9 @@ public class BillListManager {
 		//billObj.setIp(obj.getString(BillObject.BILL_IP));
 		//billObj.setPhone(obj.getString(BillObject.BILL_PHONE));
 		//billObj.setVersion(obj.getString(BillObject.BILL_VERSION));
+		billObj.setSid(obj.getString("ShopID"));
+		billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
+		
 		billObj.setShopName(obj.getString(BillObject.BILL_SHOPNAME));
 		billObj.setDate(obj.getString(BillObject.BILL_DATE));
 		billObj.setTime(obj.getString(BillObject.BILL_TIME));
@@ -127,6 +135,8 @@ public class BillListManager {
 		//billObj.setDabiaoPrice(obj.getString(BillObject.BILL_DABIAO_PRICE));
 		billObj.setServicePrice(obj.getString(BillObject.BILL_SERVICE_PRICE));
 		billObj.setServicePrice(obj.getString(BillObject.BILL_DINGJIN_PRICE));
+		
+		billObj.setVisited(Integer.valueOf(obj.optString(BillObject.BILL_VISITED, "0")));
 		
 		return billObj;
 	}

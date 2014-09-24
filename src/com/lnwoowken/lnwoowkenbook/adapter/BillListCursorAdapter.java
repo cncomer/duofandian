@@ -1,9 +1,12 @@
 package com.lnwoowken.lnwoowkenbook.adapter;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -29,7 +32,8 @@ import com.shwy.bestjoy.utils.DateUtils;
 
 public class BillListCursorAdapter extends CursorAdapter {
 	private Context mContext;
-	private int mDataType = DATA_TYPE_ALL;
+	private ContentResolver mContentResolver;
+	private int mDataType = -1;
 	public static final int DATA_TYPE_ALL = 0;
 	public static final int DATA_TYPE_UNPAY = 1;
 	
@@ -37,21 +41,31 @@ public class BillListCursorAdapter extends CursorAdapter {
 	public BillListCursorAdapter(Context context, Cursor c, boolean autoRequery) {
 		super(context, c, autoRequery);
 		mContext = context;
+		mContentResolver = mContext.getContentResolver();
 		mUnvisitedTypeDrawable = context.getResources().getDrawable(R.drawable.btn_normal);
 		mVisitedTypeDrawable = context.getResources().getDrawable(R.drawable.btn_visited);
 	}
 	
-	public void changeCursor(Cursor c, int type) {
-		mDataType = type;
-		super.changeCursor(c);
+	public void setOrderType(int orderType) {
+		if (mDataType != orderType) {
+			mDataType = orderType;
+			requeryLocalData();
+			
+		}
+		
 	}
-
+	/**根据当前的订单类型重新查询本地的数据*/
+	public void requeryLocalData() {
+		if (mDataType == DATA_TYPE_ALL) {
+			changeCursor(BillListManager.getLocalAllBillCursor(mContentResolver));
+		} else if (mDataType == DATA_TYPE_UNPAY) {
+			changeCursor(BillListManager.getLocalUnpayBillCursor(mContentResolver));
+		}
+	}
+	
 	private String getBillState(int state) {
 		int res = R.string.bill_unpay;
 		switch (state) {
-		case BillObject.STATE_IDLE:
-			res = R.string.bill_unpay;
-			break;
 		case BillObject.STATE_UNPAY:
 			res = R.string.bill_unpay;
 			break;
@@ -114,7 +128,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 		view.setTag(groupHolder);
 		return view;
 	}
-
+	
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		final ViewHolder groupHolder = (ViewHolder) view.getTag();
@@ -125,10 +139,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 		groupHolder.textView_time.setText(groupHolder.billObject.getDate());
 		groupHolder.textView_tableName.setText(groupHolder.billObject.getTableName() + " " + groupHolder.billObject.getTableType());
 		groupHolder.textView_createDate.setText(groupHolder.billObject.getCreateTime());
-		if(groupHolder.billObject.getState() != BillObject.STATE_SUCCESS) {
-			groupHolder.btn_tuiding.setEnabled(false);
-			groupHolder.btn_tuiding.setBackgroundColor(Color.GRAY);
-		}
+		
 		groupHolder.btn_tuiding.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -143,9 +154,8 @@ public class BillListCursorAdapter extends CursorAdapter {
 		groupHolder.btn_survey.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				Intent intent = new Intent(mContext,SurveyActivity.class);
-				intent.putExtra("rid", groupHolder.billObject.getId());
-				mContext.startActivity(intent);
+				//前往显示满意度调查
+				SurveyActivity.startActivity(mContext, groupHolder.billObject.getBillNumber());
 			}
 		});
 		groupHolder.btn_delete.setOnClickListener(new OnClickListener() {
@@ -155,30 +165,57 @@ public class BillListCursorAdapter extends CursorAdapter {
 			}
 		});
 		
-		
 		if (mDataType == DATA_TYPE_ALL) {
-			groupHolder.btn_survey.setImageDrawable(mUnvisitedTypeDrawable);
-			groupHolder.btn_survey.setEnabled(true);
 			groupHolder.btn_confirm_pay.setVisibility(View.GONE);
 			groupHolder.order_status_layout.setVisibility(View.VISIBLE);
 			groupHolder.btn_tuiding.setVisibility(View.VISIBLE);
+			
+			//已经做过点评，或则未支付的，我们灰化点评按钮
+			if (groupHolder.billObject.hasVisited() || groupHolder.billObject.getState() == BillObject.STATE_UNPAY) {
+				
+				groupHolder.btn_survey.setImageDrawable(mVisitedTypeDrawable);
+				groupHolder.btn_survey.setEnabled(false);
+			} else {
+				groupHolder.btn_survey.setImageDrawable(mUnvisitedTypeDrawable);
+				groupHolder.btn_survey.setEnabled(true);
+			}
+			
+			
+			if (groupHolder.billObject.getState() == BillObject.STATE_TUIDING_SUCCESS || groupHolder.billObject.getState() == BillObject.STATE_UNPAY) {
+				//已经退订成功的或则未支付的，我们不显示退订按钮
+				groupHolder.btn_tuiding.setVisibility(View.INVISIBLE);
+			} else {
+				//已支付订单，用餐前两小时退订按钮将灰化
+				Date date;
+				try {
+					date = DateUtils.DATE_TIME_FORMAT.parse(groupHolder.billObject.getDate());
+					long createTime = date.getTime();
+					long currentTime = System.currentTimeMillis();
+					groupHolder.btn_tuiding.setEnabled(Math.abs(currentTime - createTime) < 12 * OVER_TIME);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+			}
 		} else if (mDataType == DATA_TYPE_UNPAY) {
 			groupHolder.btn_survey.setImageDrawable(mVisitedTypeDrawable);
 			groupHolder.btn_survey.setEnabled(false);
 			groupHolder.btn_confirm_pay.setVisibility(View.VISIBLE);
 			groupHolder.order_status_layout.setVisibility(View.GONE);
 			groupHolder.btn_tuiding.setVisibility(View.INVISIBLE);
+			
+			//未支付订单10分钟内确认支付按钮将灰化
 			Date date;
 			try {
-				date = DateUtils.TOPIC_SUBJECT_DATE_TIME_FORMAT.parse(groupHolder.billObject.getCreateTime());
+				date = DateUtils.DATE_TIME_FORMAT.parse(groupHolder.billObject.getCreateTime());
 				long createTime = date.getTime();
-				long currentTime = SystemClock.elapsedRealtime();
+				long currentTime = System.currentTimeMillis();
 				groupHolder.btn_confirm_pay.setEnabled(Math.abs(currentTime - createTime) < OVER_TIME);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 			
 		}
+		
 	}
 	private static final long OVER_TIME = 1000*60*10;//10分钟
 	static class ViewHolder{

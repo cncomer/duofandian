@@ -76,8 +76,6 @@ public class UpdatePasswordActivity extends BaseActivity{
 			}
 			updateAccounNameAsync(oldPassword, newPassword);
 			break;
-		default:
-			super.onClick(v);
 		}
 	}
 	

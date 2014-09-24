@@ -153,7 +153,6 @@ public class TabHostActivity extends BaseActivity implements OnItemClickListener
 			mCurrentLevel = LEVEL_FIRST;
 			btn_return.setText(R.string.first_level);
 		}
-		super.onClick(v);
 	}
 	
 	private LoadInfoAsyncTask mLoadInfoAsyncTask;

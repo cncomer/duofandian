@@ -12,8 +12,8 @@ public class BillObject {
 	private static final String TAG = "BillObject";
 	
 	private String id;
-	private String uid;
-	private String sid;
+	private String uid;   //账户id
+	private String sid;  //ShopId
 	private String tid;
 	private String peopleNum;
 	private String rcode;
@@ -33,13 +33,13 @@ public class BillObject {
 	private String servicePrice;// --服务金额
 	private String dingjinPrice;//定金金额
 	
-	/**正常状态*/
-	public static final int STATE_IDLE = 1;
-	/**未支付*/
-	public static final int STATE_UNPAY = STATE_IDLE + 1;
-	/**支付成功*/
+	private int mVisited = 0;  //满意度调查是否已经评价过了
+	
+	/**未支付 0*/
+	public static final int STATE_UNPAY = 0;
+	/**支付成功 1*/
 	public static final int STATE_SUCCESS = STATE_UNPAY + 1;
-	/**退定成功*/
+	/**退定成功 2*/
 	public static final int STATE_TUIDING_SUCCESS = STATE_SUCCESS + 1;
 
 	public static final String BILL_ID = "_id";
@@ -63,6 +63,8 @@ public class BillObject {
 	public static final String BILL_DABIAO_PRICE = "dabiaoprice";
 	public static final String BILL_SERVICE_PRICE = "serviceprice";
 	public static final String BILL_DINGJIN_PRICE = "zifu_price";
+	
+	public static final String BILL_VISITED = "visited";
 
 	public static final String[] BILL_PROJECTION = new String[] {
 		DBHelper.BILL_ID,
@@ -86,6 +88,7 @@ public class BillObject {
 		DBHelper.BILL_DABIAO_PRICE,
 		DBHelper.BILL_SERVICE_PRICE,
 		DBHelper.BILL_DINGJIN_PRICE,
+		DBHelper.BILL_VISITED,
 	};
 
 	public static final String BILL_SELECTION = DBHelper.BILL_NUMBER + "=?";
@@ -260,6 +263,14 @@ public class BillObject {
 		this.dingjinPrice = dingjinPrice;
 	}
 	
+	public boolean hasVisited() {
+		return mVisited == 1;
+	}
+	
+	public void setVisited(int visited) {
+		mVisited = visited;
+	}
+	
 	public boolean saveDatabase(ContentResolver cr, ContentValues addtion) {
 		ContentValues values = new ContentValues();
 		if (addtion != null) {
@@ -285,6 +296,9 @@ public class BillObject {
 		values.put(DBHelper.BILL_DABIAO_PRICE, dabiaoPrice);
 		values.put(DBHelper.BILL_SERVICE_PRICE, servicePrice);
 		values.put(DBHelper.BILL_DINGJIN_PRICE, dingjinPrice);
+		
+		values.put(DBHelper.BILL_VISITED, mVisited);
+		
 		
 		
 		Uri uri = cr.insert(BjnoteContent.Bills.CONTENT_URI, values);
@@ -319,6 +333,8 @@ public class BillObject {
 		values.put(DBHelper.BILL_DABIAO_PRICE, dabiaoPrice);
 		values.put(DBHelper.BILL_SERVICE_PRICE, servicePrice);
 		values.put(DBHelper.BILL_DINGJIN_PRICE, dingjinPrice);
+		
+		values.put(DBHelper.BILL_VISITED, mVisited);
 		
 		int uri = cr.update(BjnoteContent.Bills.CONTENT_URI, values, BILL_SELECTION, new String[]{billNumber});
 		if (uri != -1) {

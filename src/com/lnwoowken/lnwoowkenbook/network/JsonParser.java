@@ -74,55 +74,6 @@ public class JsonParser {
 	}
 	
 	/**
-	 * 解析服务器发来的问卷调查的json数据
-	 * 
-	 * @param jsonData
-	 *            json格式的字符串
-	 */
-	@SuppressLint("NewApi")
-	public static List<SurveyQuestion> parseSurveyQuestionJson(String jsonData) {
-		List<SurveyQuestion> tempList = new ArrayList<SurveyQuestion>();
-		//if (checkError(jsonData)) {
-
-	//	}
-	//	else {
-			if (jsonData.startsWith("\"") && jsonData.endsWith("\"")) {
-				jsonData = jsonData.substring(1, jsonData.length() - 1);
-				jsonData = jsonData.replace("\\\"", "\"");
-			}
-			if (jsonData.startsWith("[") && jsonData.endsWith("]")) {
-
-				JSONArray arr;
-				try {
-					arr = new JSONArray(jsonData);
-					for (int i = 0; i < arr.length(); i++) {
-						JSONObject temp = (JSONObject) arr.get(i);
-						int id = Integer.parseInt(temp.getString("Id"));
-						String text = temp.getString("Text");
-						int sid = Integer.parseInt(temp.getString("Sid"));
-						// String name = temp.getString("version");
-						SurveyQuestion question = new SurveyQuestion(id, text, sid);
-						
-						tempList.add(question);
-
-						// Log.d("___________", tempList.get(i).getId()+"");
-
-					}
-				} catch (JSONException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-			} else {
-
-				
-			}
-		//}
-
-		return tempList;
-	}
-	
-	/**
 	 * 解析服务器发来的版本号
 	 * 
 	 * @param jsonData

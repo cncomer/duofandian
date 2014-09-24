@@ -6,44 +6,51 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView_question"
+        android:id="@+id/question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
-        android:textSize="15dip"
-        android:textColor="@color/textColor"
+        android:textSize="15sp"
+        android:layout_marginTop="15dip"
         android:layout_marginLeft="10dip"
-        android:layout_marginTop="5dip" />
+        android:textColor="@color/textColor" />
 
     <RadioGroup
         android:id="@+id/radioGroup1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="5dip" >
-
-        <RadioButton
-            android:id="@+id/radio0"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="RadioButton"
-            android:textColor="@color/textColor_gray"
-            android:layout_weight="1" />
+        android:layout_marginTop="15dip"
+        android:layout_marginRight="6dip"
+        android:layout_marginLeft="16dip" >
 
         <RadioButton
             android:id="@+id/radio1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton"
-            android:layout_weight="1" 
-            android:textColor="@color/textColor_gray" />
+            android:checked="true"
+            android:button="@drawable/radio_selector"
+            android:text="@string/survey_answer1"
+            android:textColor="@color/textColor_gray"
+            android:layout_weight="1" />
 
         <RadioButton
             android:id="@+id/radio2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="RadioButton"
+            android:layout_marginLeft="4dip"
+            android:button="@drawable/radio_selector"
+            android:text="@string/survey_answer2"
+            android:layout_weight="1" 
+            android:textColor="@color/textColor_gray" />
+
+        <RadioButton
+            android:id="@+id/radio3"
+            android:layout_marginLeft="4dip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radio_selector"
+            android:text="@string/survey_answer3"
             android:layout_weight="1"
 			android:textColor="@color/textColor_gray" />
     </RadioGroup>

@@ -224,6 +224,23 @@ public class ServiceObject {
 		sb.append("Mobile/common/GetCompanyImg.ashx?");
 		return sb.toString();
 	}
+	/**
+	 * 获取满意度调查问卷
+	 * http://manage.lnwoowken.com/Mobile/common/GetQuestion.ashx?shopid=36
+	 * @return
+	 */
+	public static String getSurveyQuestionsUrl(String shopId) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/GetQuestion.ashx?shopid=").append(shopId);
+		return sb.toString();
+	}
+	
+	public static String getCommitSurveyQuestionsUrl(String para, String jsonString) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/submitQuestion.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
+		return sb.toString();
+	}
 	
 	public static class ServiceResultObject {
 		public int mStatusCode = 0;

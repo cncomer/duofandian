@@ -65,10 +65,9 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 			mHomeBtn = (ImageView) super.findViewById(R.id.cncom_button_home);
 			mBackBtn = (ImageView) super.findViewById(R.id.cncom_button_back);
 			mTitleView.setText(getTitle());
-			mHomeBtn.setOnClickListener(BaseActivity.this);
-			mBackBtn.setOnClickListener(BaseActivity.this);
+			mHomeBtn.setOnClickListener(mTitleBarOnClickListener);
+			mBackBtn.setOnClickListener(mTitleBarOnClickListener);
 		}
-		
 		
 	}
 	@Override
@@ -264,16 +263,18 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
     	   return mProgressDialog;
        }
 	
-	@Override
-	public void onClick(View view) {
-		switch(view.getId()) {
-		case R.id.cncom_button_home:
-			 MainActivity.startIntentClearTop(mContext, null);
-			break;
-		case R.id.cncom_button_back:
-			finish();
-			break;
-		}
-	}
+       private View.OnClickListener mTitleBarOnClickListener = new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				switch(view.getId()) {
+				case R.id.cncom_button_home:
+					 MainActivity.startIntentClearTop(mContext, null);
+					break;
+				case R.id.cncom_button_back:
+					finish();
+					break;
+				}
+			}
+       };
        
 }

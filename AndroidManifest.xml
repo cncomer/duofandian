@@ -152,7 +152,7 @@
         <activity
             android:name="com.lnwoowken.lnwoowkenbook.SurveyActivity"
             android:launchMode="singleTask"
-            android:label="@string/yijian"
+            android:label="@string/title_survey"
             android:screenOrientation="portrait" >
            
         </activity>  
