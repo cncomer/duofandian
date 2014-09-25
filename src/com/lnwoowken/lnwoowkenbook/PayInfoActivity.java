@@ -50,38 +50,27 @@ public class PayInfoActivity extends BaseActionbarActivity {
 	private static final String TAG = "PayInfoActivity";
 	private boolean isAgree;
 	private MyCount mCountDownTime;
-	private Context context = PayInfoActivity.this;
-	private int price;
 	private TextView textView_price, textView_needpay, textView_billnumber;
-	private String mShopId;
 	private TableInfoObject parcelableData;
 	private ShopInfoObject mShopInfoObject;
-	private TableInfo mTableInfo;
-	private String mDeskID;
 	private Button btn_commit;
-	private String tNumber;
-	private String mOrderNumber;
 	private RadioButton radioUpmp;
 	private Dialog dialog;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (isFinishing()) {
+			return;
+		}
 		setContentView(R.layout.activity_payinfo);
 		initialize();
 	}
 
 	private void initialize() {
-		Bundle bundle = getIntent().getExtras();
-		parcelableData = bundle.getParcelable("shopobject");
-		mShopId = parcelableData.getShopId();
-		mShopInfoObject =  PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
 		
-		tNumber = getIntent().getExtras().getString("tNumber");
-		mOrderNumber = getIntent().getExtras().getString("orderNo");
-		//price = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
-		price = getIntent().getExtras().getInt("pricePay");
-		mDeskID = getIntent().getExtras().getString("deskID");
-		if (!TextUtils.isEmpty(tNumber)) {
+		mShopInfoObject =  PatternInfoUtils.getShopInfoLocalById(getContentResolver(), parcelableData.getShopId());
+		
+		if (!TextUtils.isEmpty(parcelableData.getOrderNo())) {
 			if (mCountDownTime == null) {
 				mCountDownTime = new MyCount(30 * 1000, 1000, findViewById(R.id.bottom));
 				mCountDownTime.start();
@@ -90,21 +79,21 @@ public class PayInfoActivity extends BaseActionbarActivity {
 		textView_price = (TextView) findViewById(R.id.textView_price);
 		textView_needpay = (TextView) findViewById(R.id.textView_needpay);
 		textView_billnumber = (TextView) findViewById(R.id.textView_billnumber);
-		textView_price.setText(price + getString(R.string.yuan));
-		textView_needpay.setText(price + getString(R.string.yuan));
-		textView_billnumber.setText(mOrderNumber);
+		textView_price.setText(parcelableData.getTotalPrice() + getString(R.string.yuan));
+		textView_needpay.setText(parcelableData.getTotalPrice() + getString(R.string.yuan));
+		textView_billnumber.setText(parcelableData.getOrderNo());
 		btn_commit = (Button) findViewById(R.id.button_commit);
 		btn_commit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if (isAgree) {
-					if (!TextUtils.isEmpty(tNumber)) {
+					if (!TextUtils.isEmpty(parcelableData.getOrderNo())) {
 						requestTablePayingState();
 					} else {
-						Toast.makeText(context, "未获得支付流水号", Toast.LENGTH_SHORT).show();
+						Toast.makeText(mContext, "未获得支付流水号", Toast.LENGTH_SHORT).show();
 					}
 				} else {
-					Toast.makeText(context, "您还没有选择支付方式", Toast.LENGTH_SHORT).show();
+					Toast.makeText(mContext, "您还没有选择支付方式", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
@@ -156,16 +145,16 @@ public class PayInfoActivity extends BaseActionbarActivity {
 			if (mCountDownTime!=null) {
 				mCountDownTime.cancel();
 				mCountDownTime = null;
-				Toast.makeText(context, context.getString(R.string.pay_success_tips), Toast.LENGTH_LONG).show();
-				BillListManager.updateBillStateByBillNumber(getContentResolver(), mOrderNumber, BillObject.STATE_SUCCESS);
+				Toast.makeText(mContext, mContext.getString(R.string.pay_success_tips), Toast.LENGTH_LONG).show();
+				BillListManager.updateBillStateByBillNumber(getContentResolver(), parcelableData.getOrderNo(), BillObject.STATE_SUCCESS);
 				PayInfoActivity.this.finish();
 			}
 		} else if (str.equalsIgnoreCase("cancel")) {
 			mCountDownTime.onFinish();
 			mCountDownTime.cancel();
 			mCountDownTime = null;
-			Toast.makeText(context, context.getString(R.string.pay_cancel_tips), Toast.LENGTH_LONG).show();
-			BillListManager.updateBillStateByBillNumber(getContentResolver(), mOrderNumber, BillObject.STATE_UNPAY);
+			Toast.makeText(mContext, mContext.getString(R.string.pay_cancel_tips), Toast.LENGTH_LONG).show();
+			BillListManager.updateBillStateByBillNumber(getContentResolver(), parcelableData.getOrderNo(), BillObject.STATE_UNPAY);
 		}
 	}
 
@@ -195,7 +184,18 @@ public class PayInfoActivity extends BaseActionbarActivity {
 
 	@Override
 	protected boolean checkIntent(Intent intent) {
-		return true;
+		Bundle bundle = intent.getExtras();
+		parcelableData = bundle.getParcelable("shopobject");
+		DebugUtils.logD(TAG, "checkIntent parcelableData = " + parcelableData);
+		return parcelableData != null;
+	}
+	
+	public static void startActivity(Context context, Bundle bundle) {
+		Intent intent = new Intent(context, PayInfoActivity.class);
+		if (bundle != null) {
+			intent.putExtras(bundle);  
+		}
+		context.startActivity(intent);
 	}
 
 	private RequestTablePayingState mRequestTablePayingState;
@@ -213,8 +213,8 @@ public class PayInfoActivity extends BaseActionbarActivity {
 			InputStream is = null;
 			try {
 				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("orderno", mOrderNumber);
-				queryJsonObject.put("deskid", mDeskID);
+				queryJsonObject.put("orderno", parcelableData.getOrderNo());
+				queryJsonObject.put("deskid", parcelableData.getDeskId());
 
 				is = NetworkUtils.openContectionLocked(ServiceObject.getInOrderingUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject= ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
@@ -241,7 +241,7 @@ public class PayInfoActivity extends BaseActionbarActivity {
 			super.onPostExecute(result);
 			if(result != null) {
 				if(result.isOpSuccessfully()) {					
-					pay(tNumber);
+					pay(parcelableData.getTn());
 				} else {					
 					MyApplication.getInstance().showMessage(result.mStatusMessage);
 				}

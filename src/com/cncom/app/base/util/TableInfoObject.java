@@ -1,7 +1,18 @@
 package com.cncom.app.base.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
+
+import com.lnwoowken.lnwoowkenbook.MyApplication;
+import com.lnwoowken.lnwoowkenbook.R;
+import com.shwy.bestjoy.utils.DateUtils;
 
 
 public class TableInfoObject implements Parcelable{
@@ -16,9 +27,9 @@ public class TableInfoObject implements Parcelable{
 	private String mShiduanName;
 	private String mDeskId;
 	private String mDabiaoPrice;
-	private String mServicePrice;
+	private String mServicePrice = "0";
 	/**定金*/
-	private String mDingJinPrice;
+	private String mDingJinPrice = "0";
 	
 	public static final String SHIDUAN_ID = "shiduan_id";
 	public static final String DESK_TYPE = "desk_type";
@@ -35,18 +46,59 @@ public class TableInfoObject implements Parcelable{
 	/**解析桌子数据使用 end*/
 	
 	public static final String TABLE_NAME_PROJECTION = DESK_NAME + "=?";
+	/**MM月dd日 E HH时mm分*/
+	public static DateFormat BILL_ORDER_DATE_FORMAT = new SimpleDateFormat("MM月dd日 E HH时mm分", Locale.getDefault());
 	
 	//支付订单信息使用 begin
 	private String mShopId;
 	private String mUid;
-	 private String mTime; 
+//	 private String mTime; 
 	 private String mNote; //备注信息
+	 /**交易流水号*/
+	 private String mTn;
+	 /**订单号*/
+	 private String mOrderNo;
 	//支付订单信息使用 end
-	public String getTime() {
-		return mTime;
-	}
-	public void setTime(String time) {
-		this.mTime = time;
+	 /**交易流水号*/
+	 public String getTn() {
+			return mTn;
+		}
+		public void setTn(String tn) {
+			mTn = tn;
+		}
+		/**订单号*/
+		public String getOrderNo() {
+			return mOrderNo;
+		}
+		public void setOrderNo(String orderNo) {
+			mOrderNo = orderNo;
+		}
+	 
+//	public String getTime() {
+//		return mTime;
+//	}
+//	public void setTime(String time) {
+//		this.mTime = time;
+//	}
+	/**
+	 * 返回预定时间
+	 * @return
+	 */
+	public Date getOrderDate() {
+		//"date":"2014/9/26 0:00:00","time":"19:15"
+		int find = mDate.indexOf(" ");
+		StringBuilder sb = new StringBuilder();
+		if (find > 0) {
+			sb.append(mDate.substring(0, find));
+			sb.append(" ").append(mShiduanTime);
+		}
+		Date date = new Date();
+		try {
+			date = DateUtils.DATE_TIME_FORMAT.parse(sb.toString());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
 	}
 	public String getNote() {
 		return mNote;
@@ -140,7 +192,7 @@ public class TableInfoObject implements Parcelable{
 	}
 
 	public String getServicePrice() {
-		return mServicePrice;
+		return TextUtils.isEmpty(mServicePrice) ? "0" : mServicePrice;
 	}
 	
 	public void setServicePrice(String mServicePrice) {
@@ -148,11 +200,31 @@ public class TableInfoObject implements Parcelable{
 	}
 	
 	public String getDingJinPrice() {
-		return mDingJinPrice;
+		return TextUtils.isEmpty(mDingJinPrice) ? "0" : mDingJinPrice;
 	}
 	
 	public void setDingJinPrice(String dingJinPrice) {
 		this.mDingJinPrice = dingJinPrice;
+	}
+	/**
+	 * 得到定金和服务费的总和
+	 * @return
+	 */
+	public int getTotalPrice() {
+		int dingJinPrice = Integer.valueOf(getDingJinPrice()); 
+		int servicePrice = Integer.valueOf(getServicePrice()); 
+		return dingJinPrice + servicePrice;
+	}
+	/**
+	 * 得到需要支付的金额，如%1$s元(定金%2$s元+服务费%3$s元)
+	 * @return
+	 */
+	public String getBillPay() {
+		int dingJinPrice = Integer.valueOf(getDingJinPrice()); 
+		int servicePrice = Integer.valueOf(getServicePrice()); 
+		int totalPrice = dingJinPrice + servicePrice;
+		return MyApplication.getInstance().getString(R.string.bill_pay_format, totalPrice, dingJinPrice, servicePrice);
+		
 	}
 
 	@Override
@@ -174,9 +246,12 @@ public class TableInfoObject implements Parcelable{
 		mServicePrice = in.readString();
 		mDingJinPrice = in.readString();
 		mUid = in.readString();
-		mTime = in.readString();
+//		mTime = in.readString();
 		mNote = in.readString();
 		mShopId = in.readString();
+		
+		mTn = in.readString();
+		mOrderNo = in.readString();
     } 
 	
 	@Override
@@ -193,9 +268,11 @@ public class TableInfoObject implements Parcelable{
 	    dest.writeString(mServicePrice);
 	    dest.writeString(mDingJinPrice);
 	    dest.writeString(mUid);
-	    dest.writeString(mTime);
+//	    dest.writeString(mTime);
 	    dest.writeString(mNote);
 	    dest.writeString(mShopId);
+	    dest.writeString(mTn);
+	    dest.writeString(mOrderNo);
 	    
 	}
 	

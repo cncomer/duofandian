@@ -1,57 +1,56 @@
 ﻿package com.lnwoowken.lnwoowkenbook;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.apache.http.client.ClientProtocolException;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 
 import com.cncom.app.base.account.MyAccountManager;
-import com.cncom.app.base.ui.BaseActivity;
-import com.cncom.app.base.util.DebugUtils;
-import com.costum.android.widget.PullAndLoadListView;
-import com.costum.android.widget.PullToRefreshListView.OnRefreshListener;
+import com.cncom.app.base.ui.PullToRefreshListPageActivity;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.adapter.BillListCursorAdapter;
-import com.shwy.bestjoy.utils.AsyncTaskUtils;
+import com.lnwoowken.lnwoowkenbook.model.BillObject;
+import com.shwy.bestjoy.utils.AdapterWrapper;
+import com.shwy.bestjoy.utils.InfoInterface;
 import com.shwy.bestjoy.utils.NetworkUtils;
+import com.shwy.bestjoy.utils.PageInfo;
+import com.shwy.bestjoy.utils.Query;
 
-public class BillListActivity extends BaseActivity {
+public class BillListActivity extends PullToRefreshListPageActivity {
 	private static final String TAG = "BillListActivity";
 	
-	private PullAndLoadListView mListBill;
 	private Button btn_all;
 	private Button btn_unpay;
 	
 	private BillListCursorAdapter mBillListCursorAdapter;
 	
 	private int mSelectedTextColor, mUnSelectedTextColor;
-	private static final int STATE_IDLE = 0;
-	private static final int STATE_FREASHING = STATE_IDLE + 1;
-	private static final int STATE_FREASH_COMPLETE = STATE_FREASHING + 1;
-	private static final int STATE_FREASH_CANCEL = STATE_FREASH_COMPLETE + 1;
-	private int mLoadState = STATE_IDLE;
 	/**订单类型，默认是查看全部订单*/
     private int mOrderType = BillListCursorAdapter.DATA_TYPE_ALL;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_list_bill);	
 		BillListManager.setShowNew(false);
 		mSelectedTextColor = this.getResources().getColor(R.color.main_color);
 		mUnSelectedTextColor = this.getResources().getColor(R.color.textColor);
-		initialize();
+		btn_all = (Button) findViewById(R.id.button_bill_all);
+		btn_all.setOnClickListener(this);
+		
+		btn_unpay = (Button) findViewById(R.id.button_bill_unpay);
+		btn_unpay.setOnClickListener(this);
 		//默认显示的是全部订单TAB
 		setOrderTypeTab(BillListCursorAdapter.DATA_TYPE_ALL);
 	}
@@ -59,11 +58,15 @@ public class BillListActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
+	}
+	
+	@Override
+	protected boolean isNeedForceRefreshOnResume() {
 		if (BillListManager.shouldRefreshBillFromServer()) {
 			BillListManager.setShouldRefreshBillFromServer(false);
-			mListBill.prepareForRefresh();
-			mListBill.onRefresh();
+			return true;
 		}
+		return false;
 	}
 	
 	/**
@@ -87,36 +90,6 @@ public class BillListActivity extends BaseActivity {
 		}
 	}
 	
-	private void initialize(){
-		mListBill = (PullAndLoadListView) findViewById(R.id.listView_bill);
-		btn_all = (Button) findViewById(R.id.button_bill_all);
-		btn_unpay = (Button) findViewById(R.id.button_bill_unpay);
-		
-		btn_all.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setOrderTypeTab(BillListCursorAdapter.DATA_TYPE_ALL);
-			}
-		});
-		btn_unpay.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				setOrderTypeTab(BillListCursorAdapter.DATA_TYPE_UNPAY);
-			}
-		});
-		
-		mBillListCursorAdapter = new BillListCursorAdapter(mContext, BillListManager.getLocalAllBillCursor(getContentResolver()), true);
-		mListBill.setAdapter(mBillListCursorAdapter);
-		mBillListCursorAdapter.changeCursor(BillListManager.getLocalAllBillCursor(getContentResolver()));
-		mListBill.setOnRefreshListener(new OnRefreshListener() {
-			@Override
-			public void onRefresh() {
-                // Do work to refresh the list here.
-                GetDataTask();
-			}
-		});
-	}
-	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -124,7 +97,6 @@ public class BillListActivity extends BaseActivity {
 			mBillListCursorAdapter.changeCursor(null);
 			mBillListCursorAdapter = null;
 		}
-		AsyncTaskUtils.cancelTask(mRefreshBillInfoAsyncTask);
 	}
 	
 	
@@ -138,84 +110,85 @@ public class BillListActivity extends BaseActivity {
 		return true;
 	}
 	
-
-	//refresh data begin
-	private RefreshBillInfoAsyncTask mRefreshBillInfoAsyncTask;
-	private void GetDataTask(String... param) {
-		mLoadState = STATE_FREASHING;
-		AsyncTaskUtils.cancelTask(mRefreshBillInfoAsyncTask);
-		mRefreshBillInfoAsyncTask = new RefreshBillInfoAsyncTask();
-		mRefreshBillInfoAsyncTask.execute(param);
-	}
-
-	private class RefreshBillInfoAsyncTask extends AsyncTask<String, Void, ServiceResultObject> {
-		@Override
-		protected ServiceResultObject doInBackground(String... params) {
-			ServiceResultObject serviceResultObject = new ServiceResultObject();
-			InputStream is = null;
-
-			try {
-				JSONObject queryJsonObject = new JSONObject();
-				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
-				is = NetworkUtils.openContectionLocked(ServiceObject.getAllBillInfoUrl("para", queryJsonObject.toString()), null);
-				serviceResultObject = ServiceResultObject.parseJsonArray(NetworkUtils.getContentFromInput(is));
-				BillListManager.getBillList(getContentResolver(), serviceResultObject.mJsonArrayData);
-
-				DebugUtils.logD(TAG, "mListBill = " + mListBill);
-				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
-				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
-				if (serviceResultObject.isOpSuccessfully()) {
-					String data = serviceResultObject.mStrData;
-					DebugUtils.logD(TAG, "Data = " + data);
-				}
-			} catch (JSONException e) {
-				DebugUtils.logD(TAG, "JSONException = " + e);
-				e.printStackTrace();
-			} catch (ClientProtocolException e) {
-				e.printStackTrace();
-				serviceResultObject.mStatusMessage = MyApplication.getInstance().getGernalNetworkError();
-			} catch(SocketException e) {
-				e.printStackTrace();
-				serviceResultObject.mStatusMessage = MyApplication.getInstance().getGernalNetworkError();
-			} catch (IOException e) {
-				e.printStackTrace();
-				serviceResultObject.mStatusMessage = MyApplication.getInstance().getGernalNetworkError();
-			}finally {
-				NetworkUtils.closeInputStream(is);
-			}
-			BillListManager.setShowNew(false);
-			return serviceResultObject;
-		}
-
-		@Override
-		protected void onPostExecute(ServiceResultObject result) {
-			super.onPostExecute(result);
-
-//			if(result.mJsonArrayData == null || result.mJsonArrayData.length() == 0) {
-//				if (result.isOpSuccessfully()) {
-//					MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
-//				}
-//			}
-			if(mBillListCursorAdapter != null) {
-				mBillListCursorAdapter.requeryLocalData();
-				
-			}
-			mListBill.onRefreshComplete();
-			mLoadState = STATE_FREASH_COMPLETE;
-			DebugUtils.logD(TAG, "onPostExecute onRefreshComplete");
-		}
-
-		@Override
-		protected void onCancelled() {
-			super.onCancelled();
-			mListBill.onRefreshComplete();
-			mLoadState = STATE_FREASH_CANCEL;
-		}
-	}
-	//refresh data end
-
 	@Override
 	public void onClick(View v) {
+		switch(v.getId()){
+		case R.id.button_bill_all:
+			setOrderTypeTab(BillListCursorAdapter.DATA_TYPE_ALL);
+			break;
+		case R.id.button_bill_unpay:
+			setOrderTypeTab(BillListCursorAdapter.DATA_TYPE_UNPAY);
+			break;
+		}
+	}
+
+	@Override
+	protected AdapterWrapper<? extends BaseAdapter> getAdapterWrapper() {
+		mBillListCursorAdapter = new BillListCursorAdapter(mContext, null, true);
+		return new AdapterWrapper<CursorAdapter>(mBillListCursorAdapter);
+	}
+
+	@Override
+	protected Cursor loadLocal(ContentResolver contentResolver) {
+		return mBillListCursorAdapter.requeryLocalCursor();
+	}
+
+	@Override
+	protected int savedIntoDatabase(ContentResolver cr, List<? extends InfoInterface> infoObjects) {
+		int insertOrUpdateCount = 0;
+		if (infoObjects != null) {
+			for(InfoInterface object:infoObjects) {
+				if (object.saveInDatebase(cr, null)) {
+					insertOrUpdateCount++;
+				}
+			}
+		}
+		return insertOrUpdateCount;
+	}
+
+	@Override
+	protected List<? extends InfoInterface> getServiceInfoList(InputStream is, PageInfo pageInfo) {
+		ServiceResultObject serviceResultObject = ServiceResultObject.parseJsonArray(NetworkUtils.getContentFromInput(is));
+		List<BillObject> list = new ArrayList<BillObject>();
+		if (serviceResultObject.isOpSuccessfully()) {
+			for(int i = 0; i < serviceResultObject.mJsonArrayData.length(); i++) {
+				try {
+					BillObject billObject = BillListManager.getBillFromJsonObject(serviceResultObject.mJsonArrayData.getJSONObject(i));
+					list.add(billObject);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				
+			}
+		}
+		return list;
+	}
+
+	@Override
+	protected Query getQuery() {
+		JSONObject queryJsonObject = new JSONObject();
+		try {
+			queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		Query query =  new Query();
+		query.qServiceUrl = ServiceObject.getAllBillInfoUrl("para", queryJsonObject.toString());
+		return query;
+	}
+
+	@Override
+	protected void onRefreshStart() {
 		
+	}
+
+	@Override
+	protected void onRefreshEnd() {
+		BillListManager.setShowNew(false);
+	}
+
+	@Override
+	protected int getContentLayout() {
+		return R.layout.pull_to_refresh_page_activity;
 	}
 }

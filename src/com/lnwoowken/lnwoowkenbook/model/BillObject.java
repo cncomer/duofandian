@@ -1,14 +1,20 @@
 ﻿package com.lnwoowken.lnwoowkenbook.model;
 
+import java.text.ParseException;
+import java.util.Date;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 
 import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.database.DBHelper;
+import com.shwy.bestjoy.utils.DateUtils;
 import com.shwy.bestjoy.utils.DebugUtils;
+import com.shwy.bestjoy.utils.InfoInterface;
 
-public class BillObject {
+public class BillObject implements InfoInterface{
 	private static final String TAG = "BillObject";
 	
 	private String id;
@@ -271,6 +277,27 @@ public class BillObject {
 		mVisited = visited;
 	}
 	
+	/**
+	 * 返回预定时间
+	 * @return
+	 */
+	public Date getOrderDate() {
+		//"date":"2014/9/26 0:00:00","time":"19:15"
+		int find = date.indexOf(" ");
+		StringBuilder sb = new StringBuilder();
+		if (find > 0) {
+			sb.append(date.substring(0, find));
+			sb.append(" ").append(time);
+		}
+		Date date = new Date();
+		try {
+			date = DateUtils.DATE_TIME_FORMAT.parse(sb.toString());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return date;
+	}
+	
 	public boolean saveDatabase(ContentResolver cr, ContentValues addtion) {
 		ContentValues values = new ContentValues();
 		if (addtion != null) {
@@ -344,5 +371,26 @@ public class BillObject {
 			DebugUtils.logD(TAG, "saveInDatebase failly update");
 		}
 		return false;
+	}
+
+	@Override
+	public boolean saveInDatebase(ContentResolver cr, ContentValues addtion) {
+		if (isExsited(cr, billNumber) > 0) {
+			return updateDatabase(cr);
+		} else {
+			return saveDatabase(cr, addtion);
+		}
+	}
+	
+	public static long isExsited(ContentResolver cr, String billNumber) {
+		long id = -1;
+		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, BillObject.BILL_SELECTION, new String[] {billNumber}, null);
+		if (c != null) {
+			if (c.moveToNext()) {
+				id = c.getLong(0);
+			}
+			c.close();
+		}
+		return id;
 	}
 }

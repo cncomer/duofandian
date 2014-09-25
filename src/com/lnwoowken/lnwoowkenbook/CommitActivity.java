@@ -45,16 +45,11 @@ import com.shwy.bestjoy.utils.NetworkUtils;
 
 public class CommitActivity extends BaseActionbarActivity {
 	private static final String TAG = "CommitActivity";
-	private String tNumber;
-	private String orderNo;
-	private String deskid;
 	private boolean isAgree;
 	private CheckBox checkBox_default;
 	private CheckBox checkBox_others;
 	private EditText editText_phoneNum;
 	private EditText editText_name;
-	private String mShopId;
-	private String time;
 	private int mPriceTotal;
 	private TextView textView_money_describ;
 	private ShopInfoObject mShopInfoObject;
@@ -64,13 +59,10 @@ public class CommitActivity extends BaseActionbarActivity {
 	private TextView textView_timeinfo;
 	private TextView textView_seat;
 	private TextView textView_money;
-	private TextView textView_agree;
 	private Button btn_commit;
 	private TableInfoObject parcelableData;
 	private RadioButton radioButton_agree;
 	private Dialog dialog;
-	
-	private int mDingJinPrice, mServicePrice;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,10 +74,7 @@ public class CommitActivity extends BaseActionbarActivity {
 	private void initialize(){
 		Bundle bundle = getIntent().getExtras();  
 		parcelableData = bundle.getParcelable("shopobject");
-		deskid = bundle.getString("deskid");
-		mShopId = parcelableData.getShopId();
-		time = parcelableData.getTime();
-		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), mShopId);
+		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), parcelableData.getShopId());
 		
 		((TextView) findViewById(R.id.textView_attention)).setText(mShopInfoObject.mOrderConfirmTip);
 		
@@ -97,69 +86,59 @@ public class CommitActivity extends BaseActionbarActivity {
 //		mTableInfo.setSprice(parcelableData.getTablePrice());
 //		mTableInfo.setNote(parcelableData.getContent());
 		//mPriceTotal = (int) ((Integer.parseInt(TextUtils.isEmpty(mTableInfo.getPrice()) ? "0" : mTableInfo.getPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mTableInfo.getSprice()) ? "0" : mTableInfo.getSprice()));
-		mDingJinPrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getDingJinPrice()) ? "0" : parcelableData.getDingJinPrice());
-		mServicePrice = Integer.parseInt(TextUtils.isEmpty(parcelableData.getServicePrice()) ? "0" : parcelableData.getServicePrice());
-		mPriceTotal = mDingJinPrice + mServicePrice;
 		textView_money_describ = (TextView) findViewById(R.id.textView_money_describ);
-		textView_money_describ.setText(" (定金" + mDingJinPrice +"元+服务费" + mServicePrice + "元)");
+		textView_money_describ.setText(parcelableData.getBillPay());
 		//textView_money_describ.setText(" (定金0" +"元+服务费" + mTableInfo.getSprice() + "元)");
 		textView_shopId = (TextView) findViewById(R.id.textView_shopid);
 		textView_shopName = (TextView) findViewById(R.id.textView_shopname);
 		textView_timeinfo = (TextView) findViewById(R.id.textView_timeinfo);
 		textView_seat = (TextView) findViewById(R.id.textView_seat);
 		textView_money = (TextView) findViewById(R.id.textView_money);
-		textView_agree = (TextView) findViewById(R.id.textView_agree);
 		Log.d("CommitActivity___shop.getName()", mShopInfoObject.getShopName());
 		textView_shopId.setText(mShopInfoObject.getShopShowId());
 		textView_shopName.setText(mShopInfoObject.getShopName());
-		textView_timeinfo.setText(parcelableData.getTime());
+		textView_timeinfo.setText(TableInfoObject.BILL_ORDER_DATE_FORMAT.format(parcelableData.getOrderDate()));
 		textView_seat.setText(parcelableData.getDeskName());
 		//应付金额： 服务费+订金（额定消费X20%）
 		textView_money.setText(mPriceTotal + "");
 		
 		radioButton_agree = (RadioButton) findViewById(R.id.radioButton_agree);
-		textView_agree.setOnClickListener(new OnClickListener() {
+		
+		radioButton_agree.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				showProtocolDialog();
 			}
 		});
-		radioButton_agree.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				if (radioButton_agree.isChecked()) {
-				}
-			}
-		});
-		editText_name = (EditText) findViewById(R.id.editText_name);
-		editText_phoneNum = (EditText) findViewById(R.id.editText_phone_number);
-		checkBox_default = (CheckBox) findViewById(R.id.checkBox_default);
-		checkBox_default.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (checkBox_default.isChecked()) {
-					checkBox_others.setChecked(false);
-					editText_name.setEnabled(false);
-					editText_phoneNum.setEnabled(false);
-				}
-			}
-		});
-		
-		checkBox_others = (CheckBox) findViewById(R.id.checkBox_for_other);
-		checkBox_others.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				if (checkBox_others.isChecked()) {
-					checkBox_default.setChecked(false);
-					editText_name.setEnabled(true);
-					editText_phoneNum.setEnabled(true);
-				} else {
-					editText_name.setEnabled(false);
-					editText_phoneNum.setEnabled(false);
-				}
-			}
-		});
-		checkBox_default.setChecked(true);
+//		editText_name = (EditText) findViewById(R.id.editText_name);
+//		editText_phoneNum = (EditText) findViewById(R.id.editText_phone_number);
+//		checkBox_default = (CheckBox) findViewById(R.id.checkBox_default);
+//		checkBox_default.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//			@Override
+//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//				if (checkBox_default.isChecked()) {
+//					checkBox_others.setChecked(false);
+//					editText_name.setEnabled(false);
+//					editText_phoneNum.setEnabled(false);
+//				}
+//			}
+//		});
+//		
+//		checkBox_others = (CheckBox) findViewById(R.id.checkBox_for_other);
+//		checkBox_others.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//			@Override
+//			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//				if (checkBox_others.isChecked()) {
+//					checkBox_default.setChecked(false);
+//					editText_name.setEnabled(true);
+//					editText_phoneNum.setEnabled(true);
+//				} else {
+//					editText_name.setEnabled(false);
+//					editText_phoneNum.setEnabled(false);
+//				}
+//			}
+//		});
+//		checkBox_default.setChecked(true);
 		btn_commit = (Button) findViewById(R.id.button_commit);
 		btn_commit.setOnClickListener(new OnClickListener() {
 			@Override
@@ -231,15 +210,39 @@ public class CommitActivity extends BaseActionbarActivity {
 				JSONObject queryJsonObject = new JSONObject();
 				queryJsonObject.put("deskID", parcelableData.getDeskId());
 				queryJsonObject.put("note", parcelableData.getNote());
-				queryJsonObject.put("service_price", mServicePrice * 100);
-				queryJsonObject.put("zifu_price", mDingJinPrice * 100);
+				queryJsonObject.put("service_price", Integer.valueOf(parcelableData.getServicePrice()) * 100);
+				queryJsonObject.put("zifu_price", Integer.valueOf(parcelableData.getDingJinPrice()) * 100);
 				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
 				DebugUtils.logD(TAG, "CreateBillAsyncTask doInBackground() queryJsonObject=" + queryJsonObject.toString());
 				is = NetworkUtils.openContectionLocked(ServiceObject.getLiushuiNumberUrl("para", queryJsonObject.toString()), null);
 				serviceResultObject = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
-				DebugUtils.logD(TAG, "data = " + serviceResultObject.mJsonData);
-				DebugUtils.logD(TAG, "StatusCode = " + serviceResultObject.mStatusCode);
-				DebugUtils.logD(TAG, "StatusMessage = " + serviceResultObject.mStatusMessage);
+				
+				if (serviceResultObject.isOpSuccessfully()) {
+					//订单生成成功
+					BillObject billObj = new BillObject();
+					String orderNo = serviceResultObject.mJsonData.getString("orderno"); //订单号
+					String tNumber = serviceResultObject.mJsonData.getString("tn"); //流水号暂时不使用
+					String createTime = serviceResultObject.mJsonData.optString("createTime", "");//订单号生成时间
+					//设置交易流水号和订单号
+					parcelableData.setTn(tNumber);
+					parcelableData.setOrderNo(orderNo);
+					
+					billObj.setBillNumber(orderNo);
+					billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
+					billObj.setSid(mShopInfoObject.getShopID());
+					billObj.setShopName(mShopInfoObject.getShopName());
+					billObj.setTableName(parcelableData.getDeskName());
+					billObj.setCreateTime(TextUtils.isEmpty(createTime)?DateUtils.DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())):createTime);
+					billObj.setDate(parcelableData.getDate());
+					billObj.setTime(parcelableData.getmShiduanTime());
+					billObj.setState(BillObject.STATE_UNPAY);
+					billObj.setTableType(parcelableData.getDeskType());
+					billObj.setDabiaoPrice(parcelableData.getDabiaoPrice());
+					billObj.setServicePrice(parcelableData.getServicePrice());
+					billObj.setDingJinPrice(parcelableData.getDingJinPrice());
+					BillListManager.saveBill(billObj, getContentResolver());
+				}
+				
 			} catch (JSONException e) {
 				e.printStackTrace();
 				serviceResultObject.mStatusMessage = e.getMessage();
@@ -259,36 +262,12 @@ public class CommitActivity extends BaseActionbarActivity {
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
 			dismissProgressDialog();
-			if(result.mStatusCode == 0 || TextUtils.isEmpty(result.mJsonData.toString())) {
-				MyApplication.getInstance().showMessage(R.string.shop_info_query_fail);
-			} else {
-				BillObject billObj = new BillObject();
-				try {
-					orderNo = result.mJsonData.getString("orderno");
-					tNumber = result.mJsonData.getString("tn");
-				} catch (JSONException e) {
-					e.printStackTrace();
-					return;
-				} catch (Exception e) {
-					e.printStackTrace();
-					return;
-				}
-				billObj.setBillNumber(orderNo);
-				billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
-				billObj.setSid(mShopInfoObject.getShopID());
-				billObj.setShopName(mShopInfoObject.getShopName());
-				billObj.setTableName(parcelableData.getDeskName());
-				billObj.setCreateTime(DateUtils.DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())));
-				billObj.setDate(time);
-				billObj.setState(BillObject.STATE_UNPAY);
-				billObj.setTableType(parcelableData.getDeskType());
-				billObj.setDabiaoPrice(parcelableData.getDabiaoPrice());
-				billObj.setServicePrice(String.valueOf(mServicePrice));
-				billObj.setDingJinPrice(String.valueOf(mDingJinPrice));
-				BillListManager.saveBill(billObj, getContentResolver());
-				
+			if(result.isOpSuccessfully()) {
 				commitPay();
+			} else {
+				MyApplication.getInstance().showMessage(result.mStatusMessage);
 			}
+				
 		}
 
 		@Override
@@ -306,16 +285,10 @@ public class CommitActivity extends BaseActionbarActivity {
 	}
 	
 	public void commitPay() {
-		Intent intent = new Intent(CommitActivity.this, PayInfoActivity.class);
 		Bundle bundle = new Bundle();  
 		bundle.putParcelable("shopobject", parcelableData);
-		bundle.putString("tNumber", tNumber);
-		bundle.putString("orderNo", orderNo);
-		bundle.putInt("pricePay", mServicePrice + mDingJinPrice);
-		bundle.putString("deskID", deskid);
-		intent.putExtras(bundle);  
-		startActivity(intent);
-		CommitActivity.this.finish();
+		PayInfoActivity.startActivity(mContext, bundle);
+		finish();
 	}
 
 	private void showProgressDialog(){

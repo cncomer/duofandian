@@ -242,6 +242,13 @@ public class ServiceObject {
 		return sb.toString();
 	}
 	
+	public static String buildPageQuery(String url, int pageIndex, int pageSize) {
+		  StringBuilder sb = new StringBuilder(url).append('&');
+		  sb.append("pageindex=").append(pageIndex).append('&');
+		  sb.append("pagesize=").append(pageSize);
+  	  return sb.toString();
+	  }
+	
 	public static class ServiceResultObject {
 		public int mStatusCode = 0;
 		public String mStatusMessage;

@@ -1,8 +1,6 @@
 package com.lnwoowken.lnwoowkenbook.adapter;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.app.Dialog;
@@ -10,10 +8,8 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +19,7 @@ import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.BillListManager;
 import com.lnwoowken.lnwoowkenbook.R;
 import com.lnwoowken.lnwoowkenbook.SurveyActivity;
@@ -61,6 +58,15 @@ public class BillListCursorAdapter extends CursorAdapter {
 		} else if (mDataType == DATA_TYPE_UNPAY) {
 			changeCursor(BillListManager.getLocalUnpayBillCursor(mContentResolver));
 		}
+	}
+	
+	public Cursor requeryLocalCursor() {
+		if (mDataType == DATA_TYPE_ALL) {
+			return BillListManager.getLocalAllBillCursor(mContentResolver);
+		} else if (mDataType == DATA_TYPE_UNPAY) {
+			return BillListManager.getLocalUnpayBillCursor(mContentResolver);
+		}
+		return null;
 	}
 	
 	private String getBillState(int state) {
@@ -136,7 +142,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 		groupHolder.textView_billnumber.setText(groupHolder.billObject.getBillNumber());
 		groupHolder.textView_state.setText(getBillState(groupHolder.billObject.getState()));
 		groupHolder.textView_shopName.setText(groupHolder.billObject.getShopName());
-		groupHolder.textView_time.setText(groupHolder.billObject.getDate());
+		groupHolder.textView_time.setText(TableInfoObject.BILL_ORDER_DATE_FORMAT.format(groupHolder.billObject.getOrderDate()));
 		groupHolder.textView_tableName.setText(groupHolder.billObject.getTableName() + " " + groupHolder.billObject.getTableType());
 		groupHolder.textView_createDate.setText(groupHolder.billObject.getCreateTime());
 		
@@ -186,15 +192,9 @@ public class BillListCursorAdapter extends CursorAdapter {
 				groupHolder.btn_tuiding.setVisibility(View.INVISIBLE);
 			} else {
 				//已支付订单，用餐前两小时退订按钮将灰化
-				Date date;
-				try {
-					date = DateUtils.DATE_TIME_FORMAT.parse(groupHolder.billObject.getDate());
-					long createTime = date.getTime();
-					long currentTime = System.currentTimeMillis();
-					groupHolder.btn_tuiding.setEnabled(Math.abs(currentTime - createTime) < 12 * OVER_TIME);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+				long createTime = groupHolder.billObject.getOrderDate().getTime();
+				long currentTime = System.currentTimeMillis();
+				groupHolder.btn_tuiding.setEnabled(Math.abs(currentTime - createTime) < 12 * OVER_TIME);
 			}
 		} else if (mDataType == DATA_TYPE_UNPAY) {
 			groupHolder.btn_survey.setImageDrawable(mVisitedTypeDrawable);

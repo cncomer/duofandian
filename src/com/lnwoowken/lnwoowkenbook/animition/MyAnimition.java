@@ -1,15 +1,14 @@
 ﻿package com.lnwoowken.lnwoowkenbook.animition;
 
-import com.lnwoowken.lnwoowkenbook.LoginActivity;
-import com.lnwoowken.lnwoowkenbook.RestaurantListActivity;
-import com.lnwoowken.lnwoowkenbook.UserInfoActivity;
-import com.lnwoowken.lnwoowkenbook.model.Contant;
-
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
+
+import com.cncom.app.base.account.MyAccountManager;
+import com.lnwoowken.lnwoowkenbook.LoginActivity;
+import com.lnwoowken.lnwoowkenbook.RestaurantListActivity;
+import com.lnwoowken.lnwoowkenbook.UserInfoActivity;
 
 public class MyAnimition implements AnimationListener {
 	private int flag;
@@ -29,17 +28,11 @@ public class MyAnimition implements AnimationListener {
 			context.startActivity(intent);
 			break;
 		case 2:
-//			Intent intent1 = new Intent(context, RegistActivity.class);
-//			context.startActivity(intent1);
-			if (Contant.ISLOGIN) {
-				Intent intent1 = new Intent(context, UserInfoActivity.class);
-				context.startActivity(intent1);
+			if (!MyAccountManager.getInstance().hasLoginned()) {
+				LoginActivity.startActivity(context);
+			} else {
+				UserInfoActivity.startActivity(context);
 			}
-			else {
-				Intent intent1 = new Intent(context, LoginActivity.class);
-				context.startActivity(intent1);
-			}
-			
 			break;
 		
 		default:

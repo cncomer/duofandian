@@ -224,34 +224,24 @@
 	                    android:textColor="@color/textColor"
 	                    android:textSize="10sp" />
 	                
-	                <LinearLayout
-	                    android:layout_width="fill_parent"
-	                    android:layout_height="wrap_content"
-	                    android:paddingTop="20dip"
-	                    android:background="@color/WhiteText"
-	                    android:gravity="right"
-	                    android:orientation="horizontal" >
-	                    <RadioButton
-	                        android:id="@+id/radioButton_agree"
-	                        android:layout_width="20dip"
-	                        android:layout_height="20dip"
-	                        android:button="@null"
-	                        android:checked="true"
-	                        android:background="@drawable/radio_selector" />
-	                    <TextView
-	                        android:id="@+id/textView_agree"
-	                        android:layout_width="wrap_content"
-	                        android:layout_height="wrap_content"
-	                        android:layout_marginRight="10dp"
-	                        android:text="@string/agree_protocal_title"
-	                        android:textColor="@color/textColor"
-	                        android:textSize="15sp" />
-	                </LinearLayout>
                 </LinearLayout>
+                
+            <RadioButton
+	              android:id="@+id/radioButton_agree"
+	              android:layout_width="wrap_content"
+	              android:layout_gravity="right"
+	              android:layout_height="wrap_content"
+	              android:layout_marginRight="10dip"
+	              android:layout_marginTop="10dip"
+	              android:button="@drawable/radio_selector"
+	              android:text="@string/agree_protocal_title"
+	              android:textColor="@color/textColor"
+	              android:checked="false" />
 
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="40dip"
+                android:orientation="horizontal"
                 android:visibility="gone" >
 
                 <LinearLayout

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="360dip"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:layout_gravity="center"
@@ -214,32 +214,19 @@
                     android:textColor="@color/textColor"
                     android:textSize="10sp" />
 
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/WhiteText"
-                    android:gravity="right"
-                    android:orientation="horizontal"
-                    android:paddingTop="10dip" >
-
-                    <RadioButton
-                        android:id="@+id/radioButton_agree"
-                        android:layout_width="20dip"
-                        android:layout_height="20dip"
-                        android:background="@drawable/radio_selector"
-                        android:button="@null"
-                        android:checked="true" />
-
-                    <TextView
-                        android:id="@+id/textView_agree"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="@string/agree_protocal_title"
-                        android:textColor="@color/textColor"
-                        android:textSize="15sp" />
-                </LinearLayout>
             </LinearLayout>
+            
+             <RadioButton
+	              android:id="@+id/radioButton_agree"
+	              android:layout_width="wrap_content"
+	              android:layout_gravity="right"
+	              android:layout_height="wrap_content"
+	              android:layout_marginRight="10dip"
+	              android:layout_marginTop="10dip"
+	              android:button="@drawable/radio_selector"
+	              android:text="@string/agree_protocal_title"
+	              android:textColor="@color/textColor"
+	              android:checked="false" />
 
             <LinearLayout
                 android:layout_width="fill_parent"

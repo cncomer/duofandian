@@ -252,7 +252,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 					TableInfoObject shopAvailableTableObj = mShopAvailableTableList.get(mSelectedDeskPosition);
 					Calendar c = Calendar.getInstance();
 					c.setTime(calendar.getSelectedStartDate());
-					shopAvailableTableObj.setTime(c.get(Calendar.MONTH) + 1 + this.getResources().getString(R.string.month) + c.get(Calendar.DAY_OF_MONTH) + this.getResources().getString(R.string.day) + " " + DateUtils.getInstance().getWeekDay(c) + " " + shopAvailableTableObj.getmShiduanTime());
+//					shopAvailableTableObj.setTime(c.get(Calendar.MONTH) + 1 + this.getResources().getString(R.string.month) + c.get(Calendar.DAY_OF_MONTH) + this.getResources().getString(R.string.day) + " " + DateUtils.getInstance().getWeekDay(c) + " " + shopAvailableTableObj.getmShiduanTime());
 					shopAvailableTableObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
 					shopAvailableTableObj.setNote(mNoteInput.getText().toString());
 					shopAvailableTableObj.setShopId(mShopInfoObject.getShopID());
@@ -260,7 +260,6 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 					intent.setClass(context, CommitActivity.class);
 					Bundle bundle = new Bundle();
 					bundle.putParcelable("shopobject", shopAvailableTableObj);
-					bundle.putString("deskid", shopAvailableTableObj.getDeskId());
 					intent.putExtras(bundle);
 
 					startActivity(intent);
@@ -536,8 +535,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 			if (igonre > 0) {
 				deskType = deskType.substring(0, igonre);
 			}
-			shopAvailableTableObj.setTime(c.get(Calendar.MONTH) + 1 + this.getResources().getString(R.string.month) + c.get(Calendar.DAY_OF_MONTH) + this.getResources().getString(R.string.day) + " " + shopAvailableTableObj.getShiduanName() + " " + deskType + " " + shopAvailableTableObj.getDeskName());
-			mSelectTableView.setText(getString(R.string.table_selected_status_format, shopAvailableTableObj.getTime()));
+			mSelectTableView.setText(getString(R.string.table_selected_status_format, TableInfoObject.BILL_ORDER_DATE_FORMAT.format(shopAvailableTableObj.getOrderDate()) + " " + shopAvailableTableObj.getShiduanName() + " " + deskType + " " + shopAvailableTableObj.getDeskName()));
 		}
 		
 		
