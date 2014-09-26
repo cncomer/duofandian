@@ -114,7 +114,7 @@ public class RestuarantInfoActivity extends BaseActionbarActivity {
 	@Override
 	protected boolean checkIntent(Intent intent) {
 		String shopId = intent.getExtras().getString("shop_id");
-		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), shopId);
+		mShopInfoObject = ShopInfoObject.getShopInfoObjectByShopId(getContentResolver(), shopId);
 		if (mShopInfoObject == null || mShopInfoObject.getShopID() == null) {
 			DebugUtils.logD(TAG, "checkIntent failed mShopInfoObject=" + mShopInfoObject);
 			return false;

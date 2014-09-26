@@ -12,6 +12,8 @@
     <color name="AlfaClear">#00000000</color>
     <color name="White">#ffffffff</color>
     <color name="Black">#ff000000</color>
+    <color name="black">#ff000000</color>
+     <color name="dark_slate_gray">#2F4F4F</color>
     <color name="slggzfcolor">#ff7e7e7e</color>
     <color name="smalllistchilddetail">#ff59595B</color>
     <color name="main_color">#00B7EE</color>

@@ -168,15 +168,6 @@ public class Tools {
         return str;  
     }  
     
-    public static StoreInfo findShopById(int id) {
-		for (int i = 0; i < Contant.SHOP_LIST.size(); i++) {
-			if (Contant.SHOP_LIST.get(i).getId() == id) {
-				return Contant.SHOP_LIST.get(i);
-			}
-		}
-		return null;
-	}
-    
     public static String getCurrentTime(){
     	SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");       
 		String date = sDateFormat.format(new java.util.Date());

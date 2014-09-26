@@ -33,12 +33,10 @@ import android.widget.Toast;
 
 import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
-import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
-import com.lnwoowken.lnwoowkenbook.model.TableInfo;
 import com.lnwoowken.lnwoowkenbook.tools.MyCount;
 import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
@@ -68,7 +66,7 @@ public class PayInfoActivity extends BaseActionbarActivity {
 
 	private void initialize() {
 		
-		mShopInfoObject =  PatternInfoUtils.getShopInfoLocalById(getContentResolver(), parcelableData.getShopId());
+		mShopInfoObject =  ShopInfoObject.getShopInfoObjectByShopId(getContentResolver(), parcelableData.getShopId());
 		
 		if (!TextUtils.isEmpty(parcelableData.getOrderNo())) {
 			if (mCountDownTime == null) {

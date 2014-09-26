@@ -130,7 +130,6 @@ public class BillListCursorAdapter extends CursorAdapter {
 		groupHolder.btn_confirm_pay = (Button) view.findViewById(R.id.button_confirm_pay);
 		groupHolder.order_status_layout = view.findViewById(R.id.order_status_layout);
 		
-		groupHolder.billObject = BillListManager.getBillObject(cursor);
 		view.setTag(groupHolder);
 		return view;
 	}
@@ -138,6 +137,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 	@Override
 	public void bindView(View view, Context context, Cursor cursor) {
 		final ViewHolder groupHolder = (ViewHolder) view.getTag();
+		groupHolder.billObject = BillListManager.getBillObject(cursor);
 		
 		groupHolder.textView_billnumber.setText(groupHolder.billObject.getBillNumber());
 		groupHolder.textView_state.setText(getBillState(groupHolder.billObject.getState()));

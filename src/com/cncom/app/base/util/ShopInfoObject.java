@@ -1,14 +1,43 @@
 package com.cncom.app.base.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.net.Uri;
 
 import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.database.DBHelper;
 import com.shwy.bestjoy.utils.DebugUtils;
-
-public class ShopInfoObject {
+import com.shwy.bestjoy.utils.InfoInterface;
+/**
+ * 
+ * {"Address":"上海市黄浦区中山南路505弄2号楼6层",
+ * "Serverprice":"0",
+ * "HeadID":28,
+ * "ShopID":48,
+ * "ShopName":"码头人家（Test)",
+ * "CaiXi":"3",
+ * "ShuYuZhuZhi":"1",
+ * "GuDingPhone":null,
+ * "Contacts":"司双前",
+ * "contacts_phone":"400-8809488",
+ * "Contacts_Telephone":"",
+ * "ShopAddrID":null,
+ * "shop_brief":"耳边传来金嗓子周璇的靡靡之音，眼前的则是旧时上海的石库门里弄，一进门就可以看见一辆黄包车和一张八仙桌",
+ * "qiang_wei_img":"","shop_img":"","ren_jun":"90","pingfen":null,"youhui":"","tuangou":"","diancan":"","maidan":"",
+ * "showid":"280002","Shen":"上海","City":"宝山区","Qu":"大华地区","desk_count":23,
+ * "tip":{"TipOne":"会员专座免除排队等候时间，抢到即可前往就餐。","TipTwo":"请会员在预订的时间准时到达，夺饭点为您保留座位10分钟。","TipThree":"抢位成功后，会员提前2小时退订或拨打电话XXX-XX-XXX退订，则您的服务费预定金直接退入您夺饭点账户，期待您下次消费。"}}
+ * @author chenkai
+ *
+ */
+public class ShopInfoObject implements InfoInterface{
 	private static final String TAG = "ShopInfoObject";
 	private String shopAddress;
 	private String shopServerprice;
@@ -109,6 +138,9 @@ public class ShopInfoObject {
 	  public static final String SHOP_QIANGWEI_TIP = "TipOne";
 	  public static final String SHOP_ORDER_CONFIRM_TIP = "TipTwo";
 	  public static final String SHOP_ORDER_PAY_TIP = "TipThree";
+	  
+	  
+	  public static String SHOP_ID_SELECTION = DBHelper.SHOP_ID + "=?";
 	
 	 public String getDetailAddress() {
 		 StringBuilder sb = new StringBuilder();
@@ -311,7 +343,109 @@ public class ShopInfoObject {
 		return sb.toString();
 	}
 	
-	public boolean saveDatabase(ContentResolver cr, ContentValues addtion) {
+	public static List<ShopInfoObject> getShopInfo(JSONArray shops) throws JSONException {
+		List<ShopInfoObject> result = new ArrayList<ShopInfoObject>();
+		if(shops == null) return result;
+		//{"ShopName":"望湘园（测试1）","deskCount":"0","showid":"010005","HeadID":null,"HeadName":"望湘园","ShopID":"12"}
+		//{"Address":"上海市金山区长宁路1018号龙之梦购物中心5楼蓝中庭","Serverprice":"","HeadID":1,"ShopID":11,"ShopName":"望湘园（测试）","CaiXi":"1","ShuYuZhuZhi":"1","GuDingPhone":null,"Contacts":"柳智","contacts_phone":"18621951099","ShopAddrID":null,"shop_brief":"望湘园换短发","qiang_wei_img":"","shop_img":"","ren_jun":"0","pingfen":null,"youhui":"0","tuangou":"0","diancan":"0","maidan":"0","showid":"010004","detail":null}
+		for(int i = 0; i < shops.length(); i++) {
+			ShopInfoObject shopInfoObject = getShopInfoObjectFromJsonObject(shops.getJSONObject(i));
+			result.add(shopInfoObject);
+		}
+		return result;
+	}
+	
+	public static ShopInfoObject getShopInfoObjectFromJsonObject(JSONObject obj) throws JSONException {
+		ShopInfoObject shopInfoObject = new ShopInfoObject();
+		shopInfoObject.setShopAddress(obj.getString(ShopInfoObject.SHOP_ADDREES));
+		shopInfoObject.setShopServerprice(obj.getString(ShopInfoObject.SHOP_SERVERPRICE));
+		shopInfoObject.setShopHeadId(obj.getString(ShopInfoObject.SHOP_HEAD_ID));
+		shopInfoObject.setShopID(obj.getString(ShopInfoObject.SHOP_ID));
+		shopInfoObject.setShopName(obj.getString(ShopInfoObject.SHOP_NAME));
+		shopInfoObject.setShopCaiXi(obj.getString(ShopInfoObject.SHOP_CAIXI));
+		shopInfoObject.setShopShuYuZhuZhi(obj.getString(ShopInfoObject.SHOP_SHUYUZHUZHI));
+		shopInfoObject.setShopGuDingPhone(obj.getString(ShopInfoObject.SHOP_GUDINGPHONE));
+		shopInfoObject.setShopContacts(obj.getString(ShopInfoObject.SHOP_CONTACTS));
+		shopInfoObject.setShopContactsPhone(obj.getString(ShopInfoObject.SHOP_CONTACTS_PHONE));
+		shopInfoObject.setShopAddrID(obj.getString(ShopInfoObject.SHOP_ADDR_ID));
+		shopInfoObject.setShopBrief(obj.getString(ShopInfoObject.SHOP_BRIEF));
+		shopInfoObject.setShopQiangWeiImg(obj.getString(ShopInfoObject.SHOP_QIANG_WEI_IMG));
+		shopInfoObject.setShopImg(obj.getString(ShopInfoObject.SHOP_IMG));
+		shopInfoObject.setShopRenJun(obj.getString(ShopInfoObject.SHOP_RENJUN));
+		shopInfoObject.setShopPingFen(obj.getString(ShopInfoObject.SHOP_PINGFEN));
+		shopInfoObject.setShopYouHui(obj.getString(ShopInfoObject.SHOP_YOUHUI));
+		shopInfoObject.setShopTuanGou(obj.getString(ShopInfoObject.SHOP_TUANGOU));
+		shopInfoObject.setShopDianCan(obj.getString(ShopInfoObject.SHOP_DIANCAN));
+		shopInfoObject.setShopMaiDian(obj.getString(ShopInfoObject.SHOP_MAIDIAN));
+		shopInfoObject.setShopShowId(obj.getString(ShopInfoObject.SHOP_SHOW_ID));
+		//shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
+		shopInfoObject.setShopShen(obj.getString(ShopInfoObject.SHOP_SHEN));
+		shopInfoObject.setShopCity(obj.getString(ShopInfoObject.SHOP_CITY));
+		shopInfoObject.setShopQu(obj.getString(ShopInfoObject.SHOP_QU));
+		shopInfoObject.setShopDeskCount(obj.getString(ShopInfoObject.SHOP_DESK_COUNT));
+		
+		JSONObject tipJSONObject = obj.optJSONObject("tip");
+		if (tipJSONObject != null) {
+			DebugUtils.logD(TAG, "getShopInfoObjectFromJsonObject find tipJSONObject=" + tipJSONObject.toString());
+			shopInfoObject.mQiangweiTip = tipJSONObject.optString(ShopInfoObject.SHOP_QIANGWEI_TIP, "");
+			shopInfoObject.mOrderConfirmTip = tipJSONObject.optString(ShopInfoObject.SHOP_ORDER_CONFIRM_TIP, "");
+			shopInfoObject.mOrderPayTip = tipJSONObject.optString(ShopInfoObject.SHOP_ORDER_PAY_TIP, "");
+		}
+		return shopInfoObject;
+	}
+	
+	public static ShopInfoObject getShopInfoObjectByShopId(ContentResolver cr, String shopId) {
+		ShopInfoObject shopInfoObject = null;
+		Cursor c = cr.query(BjnoteContent.Shops.CONTENT_URI, SHOP_PROJECTION, SHOP_ID_SELECTION, new String[]{shopId}, null);
+		if (c != null) {
+			if (c.moveToNext()) {
+				shopInfoObject = getShopInfoObject(c);
+				c.close();
+			}
+		}
+		
+		return shopInfoObject;
+
+	}
+	
+	public static ShopInfoObject getShopInfoObject(Cursor c) {
+		ShopInfoObject shopInfoObject = new ShopInfoObject();
+		
+		shopInfoObject.setShopAddress(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ADDREES)));
+		shopInfoObject.setShopServerprice(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SERVERPRICE)));
+		shopInfoObject.setShopHeadId(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_HEAD_ID)));
+		shopInfoObject.setShopID(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ID)));
+		shopInfoObject.setShopName(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_NAME)));
+		shopInfoObject.setShopCaiXi(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CAIXI)));
+		shopInfoObject.setShopShuYuZhuZhi(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHUYUZHUZHI)));
+		shopInfoObject.setShopGuDingPhone(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_GUDINGPHONE)));
+		shopInfoObject.setShopContacts(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CONTACTS)));
+		shopInfoObject.setShopContactsPhone(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CONTACTS_PHONE)));
+		shopInfoObject.setShopAddrID(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ADDR_ID)));
+		shopInfoObject.setShopBrief(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_BRIEF)));
+		shopInfoObject.setShopQiangWeiImg(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QIANG_WEI_IMG)));
+		shopInfoObject.setShopImg(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_IMG)));
+		shopInfoObject.setShopRenJun(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_RENJUN)));
+		shopInfoObject.setShopPingFen(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_PINGFEN)));
+		shopInfoObject.setShopYouHui(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_YOUHUI)));
+		shopInfoObject.setShopTuanGou(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_TUANGOU)));
+		shopInfoObject.setShopDianCan(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DIANCAN)));
+		shopInfoObject.setShopMaiDian(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_MAIDIAN)));
+		shopInfoObject.setShopShowId(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHOW_ID)));
+		//shopInfoObject.setShopDetail(obj.getString(ShopInfoObject.SHOP_DETAIL));
+		shopInfoObject.setShopShen(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_SHEN)));
+		shopInfoObject.setShopCity(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_CITY)));
+		shopInfoObject.setShopQu(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QU)));
+		shopInfoObject.setShopDeskCount(c.getString(c.getColumnIndex(ShopInfoObject.SHOP_DESK_COUNT)));
+		
+		shopInfoObject.mQiangweiTip = c.getString(c.getColumnIndex(ShopInfoObject.SHOP_QIANGWEI_TIP));
+		shopInfoObject.mOrderConfirmTip = c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ORDER_CONFIRM_TIP));
+		shopInfoObject.mOrderPayTip = c.getString(c.getColumnIndex(ShopInfoObject.SHOP_ORDER_PAY_TIP));
+		return shopInfoObject;
+	}
+	
+	@Override
+	public boolean saveInDatebase(ContentResolver cr, ContentValues addtion) {
 		ContentValues values = new ContentValues();
 		if (addtion != null) {
 			values.putAll(addtion);

@@ -330,10 +330,10 @@ public class BillObject implements InfoInterface{
 		
 		Uri uri = cr.insert(BjnoteContent.Bills.CONTENT_URI, values);
 		if (uri != null) {
-			DebugUtils.logD(TAG, "saveInDatebase insert");
+			DebugUtils.logD(TAG, "saveInDatebase insert billnumber " + billNumber);
 			return true;
 		} else {
-			DebugUtils.logD(TAG, "saveInDatebase failly insert");
+			DebugUtils.logD(TAG, "saveInDatebase failly insert " + billNumber);
 		}
 		return false;
 	}
@@ -363,12 +363,12 @@ public class BillObject implements InfoInterface{
 		
 		values.put(DBHelper.BILL_VISITED, mVisited);
 		
-		int uri = cr.update(BjnoteContent.Bills.CONTENT_URI, values, BILL_SELECTION, new String[]{billNumber});
-		if (uri != -1) {
-			DebugUtils.logD(TAG, "saveInDatebase update");
+		int updated = cr.update(BjnoteContent.Bills.CONTENT_URI, values, BILL_SELECTION, new String[]{billNumber});
+		if (updated != -1) {
+			DebugUtils.logD(TAG, "saveInDatebase update billNumber " + billNumber + ", #updated "+ updated);
 			return true;
 		} else {
-			DebugUtils.logD(TAG, "saveInDatebase failly update");
+			DebugUtils.logD(TAG, "saveInDatebase failly update billNumber " + billNumber);
 		}
 		return false;
 	}

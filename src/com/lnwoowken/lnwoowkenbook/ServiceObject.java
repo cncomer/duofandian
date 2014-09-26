@@ -49,6 +49,12 @@ public class ServiceObject {
 	
 	//add by chenkai, 20140726, 将发送短信抽离出来，以便修改 end
 	
+	public static String getAllShopInfoUrl() {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("Mobile/common/getAllShopInfo.ashx?");
+		return sb.toString();
+	}
+	
 	public static String getAllShopInfoUrl(String para, String jsonString) {
 		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
 		sb.append("Mobile/common/getAllShopInfo.ashx?")

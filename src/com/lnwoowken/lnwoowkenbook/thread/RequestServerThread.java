@@ -4,12 +4,6 @@
  */
 package com.lnwoowken.lnwoowkenbook.thread;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -19,10 +13,7 @@ import android.util.Log;
 import com.lnwoowken.lnwoowkenbook.adapter.AllStoreListAdapter;
 import com.lnwoowken.lnwoowkenbook.lnwoowkeninterface.RequestServerInterface;
 import com.lnwoowken.lnwoowkenbook.model.Contant;
-import com.lnwoowken.lnwoowkenbook.model.StoreInfo;
 import com.lnwoowken.lnwoowkenbook.network.Client;
-import com.lnwoowken.lnwoowkenbook.network.JsonParser;
-import com.lnwoowken.lnwoowkenbook.tools.Tools;
 
 public class RequestServerThread extends Thread implements
 		RequestServerInterface {
@@ -85,104 +76,6 @@ public class RequestServerThread extends Thread implements
 		this.handler.sendMessage(msg);
 	}
 
-	/**
-	 * 通过id获取指定餐厅信息
-	 * 
-	 * @author sean
-	 */
-	@Override
-	public void getShopInfoById() {
-		// TODO Auto-generated method stub
-		if (Contant.SHOP_LIST != null) {
-			String time = Tools.getCurrentTime();
-			
-			for (int i = 0; i < Contant.SHOPID_LIST.size(); i++) {
-				String resultJson;
-				String opJson = Contant.SHOPID_LIST.get(i).getId()+"";
-				StoreInfo tempShop = new StoreInfo();
-				tempShop.setId(Contant.SHOPID_LIST.get(i).getId());
-				//opJson = Client.encodeBase64(opJson);
-				// String url =
-				// "http://"+Contant.SERVER_IP+":"+Contant.SERVER_PORT+"/javadill/shop?id=s7&op="+opJson;
-				// Log.d("url______________", url);
-				String str ="http://"+Contant.SERVER_IP+":"+Contant.SERVER_PORT+"/Mobile/GetShopDetailByID.ashx?shopid="+opJson; 
-//						
-//						Tools.getRequestStr(Contant.SERVER_IP,
-//						Contant.SERVER_PORT + "", "shop?id=", "s7", "&op="
-//								+ opJson);
-
-				
-				
-				resultJson = Client
-						.executeHttpGetAndCheckNet(str, this.context);
-				if (resultJson==null) {
-					Message msg = new Message();
-					msg.arg1 = 1;
-					this.handler.sendMessage(msg);
-					return;
-				}
-				if (resultJson.equals(Contant.NO_NET)) {
-					Message msg = new Message();
-					msg.arg1 = 1;
-					this.handler.sendMessage(msg);
-					return;
-				} else {
-					//resultJson = Client.decodeBase64(resultJson);
-
-					if (resultJson != null) {
-
-						JsonParser.parseShopInfoJson(resultJson,
-								tempShop);
-
-					}
-					
-					/**
-					 * 获取今日还剩多少桌
-					 */
-					/*Contant.SHOP_LIST.add(tempShop);
-					String resultJson_tableNum;
-					String opJson_tableNum = "{\"sid\":\""
-							+ Contant.SHOP_LIST.get(i).getId() + "\",\"rt\":\""
-							+ time + "\"}";
-					opJson_tableNum = Client.encodeBase64(opJson_tableNum);
-					String str_tableNum = Tools.getRequestStr(Contant.SERVER_IP,
-							Contant.SERVER_PORT + "", "shopTable?id=", "st8",
-							"&op=" + opJson_tableNum);
-
-					resultJson_tableNum = Client
-							.executeHttpGetAndCheckNet(str_tableNum, this.context);
-
-					resultJson_tableNum = Client.decodeBase64(resultJson_tableNum);
-
-					if (resultJson_tableNum != null) {
-						JsonParser.parseTableNumberOfShop(resultJson_tableNum,
-								Contant.SHOP_LIST.get(i));
-						Log.d("tableNumber=============", resultJson_tableNum);
-						// JsonParser.parseShopInfoJson(resultJson,Contant.SHOP_LIST.get(i));
-
-					}*/
-					
-					
-					Message msg1 = new Message();
-					this.listDataChanged_handler.sendMessage(msg1);
-					try {
-						this.sleep(200);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					//adapter.notifyDataSetChanged();
-					
-				}
-				
-				
-
-
-			}
-			Message msg = new Message();
-			this.handler.sendMessage(msg);
-		}
-	}
 
 	/**
 	 * 注册用户
@@ -263,9 +156,6 @@ public class RequestServerThread extends Thread implements
 		case Contant.FLAG_LOGIN:
 			login();
 			break;
-		case 6:
-			getTables();
-			break;
 		case 7:
 			getVersion();
 			break;
@@ -274,33 +164,6 @@ public class RequestServerThread extends Thread implements
 		}
 	}
 
-	private void getTables() {
-		if (Contant.SHOP_LIST != null) {
-			String time = Tools.getCurrentTime();
-			for (int i = 0; i < Contant.SHOP_LIST.size(); i++) {
-				String resultJson;
-				String opJson = "{\"sid\":\""
-						+ Contant.SHOP_LIST.get(i).getId() + "\",\"rt\":\""
-						+ time + "\"}";
-				opJson = Client.encodeBase64(opJson);
-				String str = Tools.getRequestStr(Contant.SERVER_IP,
-						Contant.SERVER_PORT + "", "shopTable?id=", "st5",
-						"&op=" + opJson);
-				resultJson = Client.executeHttpGetAndCheckNet(str, this.context);
-				resultJson = Client.decodeBase64(resultJson);
-
-				if (resultJson != null) {
-
-					Log.d("tableNumber=============", resultJson);
-					// JsonParser.parseShopInfoJson(resultJson,Contant.SHOP_LIST.get(i));
-
-				}
-
-			}
-			Message msg = new Message();
-			this.handler.sendMessage(msg);
-		}
-	}
 
 	private String getVersion(){ 
 		String resultJson = null; 
@@ -344,6 +207,11 @@ public class RequestServerThread extends Thread implements
 //			// JsonParser.parseShopInfoJson(resultJson,Contant.SHOP_LIST.get(i));
 //
 //		}
+	}
+
+	@Override
+	public void getShopInfoById() {
+		
 	}
 	
 	

@@ -322,7 +322,7 @@ public class TabHostActivity extends BaseActivity implements OnItemClickListener
 				MyApplication.getInstance().showMessage(R.string.query_fail);
 			}
 			try {
-				mShopListAdapter.updateShopList(PatternInfoUtils.getShopInfo(result.mJsonArrayData));
+				mShopListAdapter.updateShopList(ShopInfoObject.getShopInfo(result.mJsonArrayData));
 			} catch (JSONException e) {
 			}
 			dismissProgressDialog();

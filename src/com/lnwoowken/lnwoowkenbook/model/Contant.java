@@ -24,8 +24,6 @@ public class Contant {
 	public static String SERVER_IP = "manage.lnwoowken.com";//--服务器地址
 	public static int SERVER_PORT =  80;//--服务器端口
 	public static String JSON_STR;//--json字符串
-	public static List<StoreInfo> SHOP_LIST = new ArrayList<StoreInfo>();//
-	public static List<StoreInfo> SHOPID_LIST;//
 	public static int ANIMITION_START_RESTUARANTLISTACITVITY = 1;
 	public static int ANIMITION_START_REGISTACITVITY = 2;
 	public static String NO_NET = "NONET";

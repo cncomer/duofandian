@@ -73,6 +73,7 @@
             ptr:ptrHeaderSubTextColor="@color/blk"
             ptr:ptrHeaderTextColor="@color/blk"
             ptr:ptrListViewExtrasEnabled="false"
+            android:layout_marginBottom="10dip"
             ptr:ptrMode="disabled" />
 
         <TextView

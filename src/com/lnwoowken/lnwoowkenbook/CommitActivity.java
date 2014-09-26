@@ -22,8 +22,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -32,7 +30,6 @@ import android.widget.TextView;
 import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
-import com.cncom.app.base.util.PatternInfoUtils;
 import com.cncom.app.base.util.ShopInfoObject;
 import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
@@ -74,7 +71,7 @@ public class CommitActivity extends BaseActionbarActivity {
 	private void initialize(){
 		Bundle bundle = getIntent().getExtras();  
 		parcelableData = bundle.getParcelable("shopobject");
-		mShopInfoObject = PatternInfoUtils.getShopInfoLocalById(getContentResolver(), parcelableData.getShopId());
+		mShopInfoObject = ShopInfoObject.getShopInfoObjectByShopId(getContentResolver(), parcelableData.getShopId());
 		
 		((TextView) findViewById(R.id.textView_attention)).setText(mShopInfoObject.mOrderConfirmTip);
 		

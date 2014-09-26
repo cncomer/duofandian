@@ -172,7 +172,6 @@
             android:name=".RestaurantListActivity"
             android:launchMode="singleTask"
             android:label="@string/title_city_shanghai"
-            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -200,7 +199,6 @@
             android:name=".RestuarantInfoActivity"
             android:launchMode="singleTop"
             android:label="@string/title_shop_info"
-            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:screenOrientation="portrait" >
         </activity>
         <activity
