@@ -1,0 +1,15 @@
+<resources>
+
+    <style name="left_panel_menu_title">
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/wt</item>
+        <item name="android:layout_marginLeft">20dp</item>
+    </style>
+    
+    <style name="left_panel_menu_icon">
+        <item name="android:layout_width">18dp</item>
+        <item name="android:layout_height">18dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_marginLeft">20dp</item>
+    </style>
+</resources>

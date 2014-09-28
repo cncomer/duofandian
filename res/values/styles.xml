@@ -56,6 +56,8 @@
     <style name="AppActionBar.BlueTitleBar">
         <item name="titleTextStyle">@style/ActionBarBlueTitle</item>
         <item name="android:titleTextStyle">@style/ActionBarBlueTitle</item>
+         <!-- item name="height">@dimen/actionbar_height</item -->
+         <!-- item name="android:height">@dimen/actionbar_height</item -->
     </style>
     <style name="AppActionBar.BlueTitleBar.GrayBar">
         <item name="background">@color/top_bottom</item>

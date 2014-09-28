@@ -4,4 +4,5 @@
  
  <dimen name="qianwei_dialog_height">325dp</dimen>
  <dimen name="qianwei_dialog_width">330dp</dimen>
+ 
 </resources>
