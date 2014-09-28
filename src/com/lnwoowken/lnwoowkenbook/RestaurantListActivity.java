@@ -283,6 +283,9 @@ public class RestaurantListActivity extends PullToRefreshListPageActivity {
 
 	@Override
 	protected void onRefreshStart() {
+	}
+	
+	protected void onRefreshLoadEnd() {
 		if (ComConnectivityManager.getInstance().isConnected()) {
 			BjnoteContent.delete(getContentResolver(), BjnoteContent.Shops.CONTENT_URI, null, null);
 		}

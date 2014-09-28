@@ -149,7 +149,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 		mShopImgLayout = (RelativeLayout) findViewById(R.id.layout_shoptable);
 		tableImage = (ImageView) findViewById(R.id.imageView_table_info);
 		
-		PhotoManagerUtilsV2.getInstance().loadPhotoAsync(TAG, tableImage, mShopInfoObject.getShopPhotoId("02"), null, PhotoManagerUtilsV2.TaskType.SHOP_IMAGE);
+		
 		dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);// 获取分辨率
 		// minZoom();
@@ -158,9 +158,12 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 			public void handleMessage(Message msg) {
 				switch(msg.what) {
 				case NotifyRegistrant.EVENT_NOTIFY_MESSAGE_RECEIVED:
+					
 					Bundle bundle = (Bundle) msg.obj;
-					String photoId = bundle.getString(Intents.EXTRA_PHOTOID);
-					if (photoId.equals(mShopInfoObject.getShopPhotoId("02"))) {
+	            	boolean status = bundle.getBoolean(PhotoManagerUtilsV2.EXTRA_DOWNLOAD_STATUS);
+	            	String photoid = bundle.getString(Intents.EXTRA_PHOTOID);
+					
+					if (photoid.equals(mShopInfoObject.getShopPhotoId("02"))) {
 						tableImage.setOnTouchListener(BookTableActivity.this);// 设置触屏监听
 						mShopImageBitmap = ((BitmapDrawable) tableImage.getDrawable()).getBitmap();
 						center();
@@ -172,6 +175,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 			}
 		};
 		NotifyRegistrant.getInstance().register(mHandler);
+		PhotoManagerUtilsV2.getInstance().loadPhotoAsync(TAG, tableImage, mShopInfoObject.getShopPhotoId("02"), null, PhotoManagerUtilsV2.TaskType.SHOP_IMAGE);
 	}
 
 	/**

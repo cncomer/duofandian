@@ -82,6 +82,10 @@ public abstract class PullToRefreshListPageActivity extends BaseActivity impleme
 	protected abstract List<? extends InfoInterface> getServiceInfoList(InputStream is, PageInfo pageInfo);
 	protected abstract Query getQuery();
 	protected abstract void onRefreshStart();
+	/**刷新数据完成，此时我们可以做一些本地数据的操作，比如清空本地数据。*/
+	protected void onRefreshLoadEnd() {
+		
+	}
 	protected abstract void onRefreshEnd();
 	protected abstract int getContentLayout();
 	protected ListView getListView() {
@@ -394,7 +398,9 @@ public abstract class PullToRefreshListPageActivity extends BaseActivity impleme
 					List<? extends InfoInterface> serviceInfoList = getServiceInfoList(is, mPageInfo);
 					int newCount = serviceInfoList.size();
 					DebugUtils.logD(TAG, "find new date #count = " + newCount + " totalSize = " + mPageInfo.mTotalCount);
-					
+					if (mPageInfo.mPageIndex == PageInfo.DEFAULT_PAGEINDEX) {
+						onRefreshLoadEnd();
+					}
 					if (newCount == 0) {
 						DebugUtils.logD(TAG, "no more date");
 						isNeedRequestAgain = false;
