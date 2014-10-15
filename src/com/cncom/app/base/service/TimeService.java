@@ -13,6 +13,7 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Process;
 
+import com.cncom.app.base.update.UpdateService;
 import com.shwy.bestjoy.utils.DebugUtils;
 
 public class TimeService extends Service{
@@ -204,6 +205,13 @@ public class TimeService extends Service{
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			startService(context);
+			DebugUtils.logD("BootCompletedReceiver", "onReceive intent " + intent);
+			String action = intent.getAction();
+			if (Intent.ACTION_BOOT_COMPLETED.equals(action)) {
+				UpdateService.startUpdateServiceOnBootCompleted(context);
+			} else if ("android.intent.action.USER_PRESENT".equals(action)) {
+				UpdateService.startUpdateServiceOnUserPresent(context);
+			}
 		}
 		
 	}

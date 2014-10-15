@@ -35,7 +35,7 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 	private int mCurrentPictureRequest;
 	protected Context mContext;
 	
-	private ImageView mHomeBtn, mBackBtn;
+	protected ImageView mHomeBtn, mBackBtn;
 	private TextView mTitleView;
 	private LinearLayout mTitleBar;
 	private FrameLayout mTitleLayout;
@@ -44,12 +44,13 @@ public abstract class BaseActivity extends Activity implements View.OnClickListe
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		DebugUtils.logD(TAG, "onCreate()");
+		mContext = this;
 		if (!checkIntent(getIntent())) {
 			finish();
 			DebugUtils.logD(TAG, "checkIntent() failed, finish this activiy");
 			return;
 		}
-		mContext = this;
+		
 		//统计应用启动数据
 		PushAgent.getInstance(mContext).onAppStart();
 		

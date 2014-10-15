@@ -315,6 +315,36 @@
             android:screenOrientation="portrait"
             android:label="@string/title_member_info_avator"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name="com.lnwoowken.lnwoowkenbook.AboutActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/button_about_me"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
+        <activity
+            android:name="com.lnwoowken.lnwoowkenbook.FeedbackActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/yijian"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        
+         <!-- 设置界面 -->
+        <activity
+            android:name="com.lnwoowken.lnwoowkenbook.SettingsActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/settings"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        
+        <!-- 设置界面 -->
+        <service android:name="com.cncom.app.base.update.UpdateService" />
+        <activity
+            android:name="com.cncom.app.base.update.UpdateActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:label="@string/settings"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         
           <receiver android:name="com.cncom.app.base.service.TimeService$BootCompletedReceiver">
             <intent-filter >

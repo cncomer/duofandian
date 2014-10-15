@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 
 import com.actionbarsherlock.view.MenuItem;
+import com.cncom.app.base.service.TimeService;
 import com.cncom.app.base.ui.BaseSlidingFragmentActivity;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.shwy.bestjoy.utils.DebugUtils;
@@ -105,6 +106,8 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 		//启动推送功能
 		PushAgent mPushAgent = PushAgent.getInstance(mContext);
 		mPushAgent.enable();
+		
+		TimeService.startService(this);
 		
 	}
 	

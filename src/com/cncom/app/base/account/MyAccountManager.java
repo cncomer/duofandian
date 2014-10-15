@@ -95,6 +95,9 @@ public class MyAccountManager {
 	public String getCurrentAccountUid() {
 		return mAccountObject != null ? String.valueOf(mAccountObject.mAccountUid) : null; 
 	}
+	public long getCurrentAccountId() {
+		return mAccountObject != null ? mAccountObject.mAccountUid : -1; 
+	}
 	public String getCurrentAccountName() {
 		return mAccountObject != null ? String.valueOf(mAccountObject.mAccountName) : null; 
 	}

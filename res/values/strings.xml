@@ -378,4 +378,44 @@
       <string name="msg_refreshing_for_receive">正在更新数据</string>
       <string name="msg_empty_list">(空)</string>
       <string name="load_more_text">载入更多...</string>
+      
+      <string name="button_update">版本更新</string>
+       <string name="button_about_me">关于我们</string>
+       <string name="button_clear_cache">清除缓存</string>
+       <string name="button_feedback">意见反馈</string>
+       
+       <string name="app_updating">正在更新，请稍候...</string>
+	<string name="app_update_title">发现新版本</string>
+	<string name="app_update_tip">某些更新必须安装，这取决于更新等级，请阅读更新内容:\n</string>
+	<string name="button_update_ok">更新</string>
+	<string name="button_update_no">不更新</string>
+	<string name="button_update_finish">下载完成，是否开始安装</string>
+	<string name="button_exit">退出</string>
+	<string name="button_exit_confirm">确定退出系统吗？</string>
+	<string name="app_update_error">更新过程中发生了错误，最可能是网络问题，请检查后重试</string>
+	<string name="app_update_cancel">更新操作被取消了</string>
+	<string name="app_update_warn">下载过程中，请稍等...</string>
+	<string name="app_update_not_install">上次下载的更新还未完成安装，建议安装，如果放弃，将不再进行本次更新提示，除非有更新的版本</string>
+	<string name="app_update_not_install_once">上次下载的更新还未完成安装，并且该更新必须安装，否则程序将退出。</string>
+       <string name="format_current_version">Build Version %s</string>
+       <string name="app_update_error">更新过程中发生了错误，最可能是网络问题，请检查后重试</string>
+	<string name="app_update_cancel">更新操作被取消了</string>
+	<string name="app_update_not_install">上次下载的更新还未完成安装，建议安装，如果放弃，将不再进行本次更新提示，除非有更新的版本</string>
+	<string name="app_update_not_install_once">上次下载的更新还未完成安装，并且该更新必须安装，否则程序将退出。</string>
+       <string name="app_flash_label">载入中...</string>
+       <string name="format_latest_version">"可用更新%s"</string>
+         <string name="msg_app_releasenote">"更新说明:"</string>
+          <string name="msg_app_release_time">"更新时间:%s"</string>
+           <string name="msg_app_release_size">"软件大小:%s"</string>
+         <string name="button_install">安装</string>
+         <string name="status_downloading">正在下载(%d%%)....</string>
+          <string name="dialog_msg_download_unfinish_on_exit">下载未完成，是否取消并退出?</string>
+          <string name="dialog_msg_download_unfinish">下载未完成，是否取消?</string>
+          <string name="format_current_sw_version">"版本 %s"</string>
+          <string name="msg_app_has_latest">"已是最新版本"</string>
+          
+          <string name="hint_feedback">"感谢您关注夺饭点，希望你多提意见和建议"</string>
+          <string name="hint_your_contact">"你的联系方式:"</string>
+          <string name="hint_email">"您的Email"</string>
+          <string name="content_about_me">"      上海潜存信息科技有限公司致力于打造线上“中国好餐饮”移动平台——“夺饭点”，将线上消费者与线下餐饮商家完美对接。中国餐饮文化源远流长，在餐饮历史的长河中沉淀出各大热门美食品牌，这些品牌最终受到了消费者的热烈追捧，延绵不绝的排队等候是商家最欣慰的反馈。“夺饭点”在思考如何满足消费者追求更高层次美食的同时，也考虑能否为商户做些“细水流长”的深度服务？\n\n      “夺饭点”会员体验模式开创了移动餐饮消费的新思路。公司秉承“接地气”的作风，未来将逐步为餐饮两端提供更为高端、更具人性化、更为廉价的餐饮延伸配套 IT产品。"</string>
 </resources>

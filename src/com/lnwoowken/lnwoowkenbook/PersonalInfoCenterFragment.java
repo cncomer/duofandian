@@ -200,6 +200,9 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 				BillListActivity.startActivity(getActivity());
 			}
 			break;
+		case R.id.menu_settings:
+			SettingsActivity.startActivity(getActivity());
+			break;
 		case R.id.menu_order_dishes:
 			default:
 				MyApplication.getInstance().showUnsupportMessage();

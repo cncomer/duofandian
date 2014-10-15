@@ -96,7 +96,7 @@
                         android:id="@+id/memberTel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="54dip"
+                        android:layout_marginLeft="8dip"
                         android:text="@string/no_data"
                         android:textColor="#ffffffff"
                         android:textSize="12sp" />

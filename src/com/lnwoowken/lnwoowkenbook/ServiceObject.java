@@ -255,6 +255,25 @@ public class ServiceObject {
   	  return sb.toString();
 	  }
 	
+	public static String getUpdateCheckUrl(String para, String jsonString) {
+		UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(ServiceObject.SERVICE_URL);
+		sb.append("mobile/common/getVersion.ashx?")
+		.append(para).append("=").appendUrlEncodedString(jsonString);
+		return sb.toString();
+	}
+	
+	/**
+	   * 意见反馈url
+	   * @param para
+	   * @param jsonString
+	   * @return
+	   */
+	  public static String getFeedbackUrl(String para, String jsonString) {
+		  UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(SERVICE_URL);
+		  sb.append("Mobile/common/AddSuggestion.ashx?").append(para).append("=").appendUrlEncodedString(jsonString);
+		  return sb.toString();
+	  }
+	
 	public static class ServiceResultObject {
 		public int mStatusCode = 0;
 		public String mStatusMessage;

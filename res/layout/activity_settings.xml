@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/top_bottom"
+    android:orientation="vertical" >
+    
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/wt"
+        android:orientation="vertical">
+        
+        <LinearLayout android:id="@+id/button_update"
+	        android:layout_width="fill_parent"
+		    android:layout_height="50dip"
+		    android:orientation="horizontal"
+		    android:background="@drawable/abs__item_background_holo_light"
+		    android:gravity="center_vertical"
+		    android:clickable="true">
+	        <TextView 
+	            android:layout_height="wrap_content"
+	            android:layout_width="wrap_content"
+	            android:textColor="@color/blk"
+	            android:textSize="16sp"
+	            android:text="@string/button_update"
+	            android:paddingLeft="20dip"/>
+
+	        <TextView
+	            android:id="@+id/desc_update"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1.0"
+	            android:gravity="right"
+	            android:text="@string/msg_app_has_latest"
+	            android:textColor="@color/blk"
+	            android:textSize="16sp"
+	            android:paddingRight="20dip" />
+
+	  	</LinearLayout>
+        
+	    <TextView android:id="@+id/button_about_me"
+	        android:layout_width="fill_parent"
+	        android:layout_height="50dip"
+	        android:textColor="@color/blk"
+	        android:textSize="16sp"
+	        android:paddingLeft="20dip"
+	        android:gravity="center_vertical"
+	        android:background="@drawable/abs__item_background_holo_light"
+	        android:text="@string/button_about_me"/>
+	    
+	    <TextView android:id="@+id/button_clear_cache"
+	        android:layout_width="fill_parent"
+	        android:layout_height="50dip"
+	        android:textColor="@color/blk"
+	        android:textSize="16sp"
+	        android:paddingLeft="20dip"
+	        android:gravity="center_vertical"
+	        android:background="@drawable/abs__item_background_holo_light"
+	        android:text="@string/button_clear_cache"/>
+    </LinearLayout>
+    
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/wt"
+        android:layout_marginTop="10dip"
+        android:orientation="vertical">
+        <TextView android:id="@+id/button_feedback"
+	        android:layout_width="fill_parent"
+	        android:layout_height="50dip"
+	        android:textColor="@color/blk"
+	        android:textSize="16sp"
+	        android:paddingLeft="20dip"
+	        android:gravity="center_vertical"
+	        android:background="@drawable/abs__item_background_holo_light"
+	        android:text="@string/button_feedback"/>
+    </LinearLayout>
+    <View android:layout_height="0dip"
+        android:layout_weight="1.0"
+        android:layout_width="fill_parent"/>
+    <TextView 
+        android:gravity="center"
+        android:id="@+id/app_version_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dip"
+        android:textColor="@color/dark_gray"
+        android:textSize="12sp"
+        android:text="@string/format_current_version"/>
+
+</LinearLayout>
