@@ -86,7 +86,10 @@ public class ServiceAppInfo implements Parcelable{
 		mPreferences = MyApplication.getInstance().getSharedPreferences(mToken, Context.MODE_PRIVATE);
 		read();
 	}
-	
+	/**
+	 * {"StatusCode":"1","Data":{"version":1,"date":"2014-10-15","importance":0,"size":"9.45m","apk":"","note":"备注","versionCodeName":"版本的名称","forceUpdate":false},"StatusMessage":"返回版本信息"}
+	 * @return
+	 */
 	public boolean getServiceAppInfoLocked() {
 		InputStream is = null;
 		try {
@@ -94,7 +97,7 @@ public class ServiceAppInfo implements Parcelable{
 			if (is != null) {
 				String content = NetworkUtils.getContentFromInput(is);
 				if (!TextUtils.isEmpty(content)) {
-					JSONObject json = new JSONObject(content);
+					JSONObject json = new JSONObject(content).getJSONObject("Data");
 					mVersionCode = json.getInt(KEY_VERSION_CODE);
 					mReleaseDate = json.getString(KEY_DATE);
 					mImportance = json.getInt(KEY_IMPORTANCE);
