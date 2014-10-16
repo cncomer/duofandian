@@ -2,6 +2,7 @@
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
@@ -12,6 +13,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -19,6 +22,7 @@ import android.widget.CursorAdapter;
 
 import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.ui.PullToRefreshListPageActivity;
+import com.cncom.app.base.util.DebugUtils;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.adapter.BillListCursorAdapter;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
@@ -39,6 +43,11 @@ public class BillListActivity extends PullToRefreshListPageActivity {
 	private int mSelectedTextColor, mUnSelectedTextColor;
 	/**订单类型，默认是查看全部订单*/
     private int mOrderType = BillListCursorAdapter.DATA_TYPE_ALL;
+    
+    private Handler mHandler;
+    /**刷新界面，以便按钮能够适时灰化*/
+    private static final int WHAT_UPDATE_TIME = 10;
+    private static final int UPDATE_TIME_DELAY = 60 * 1000;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,17 +62,49 @@ public class BillListActivity extends PullToRefreshListPageActivity {
 		btn_unpay.setOnClickListener(this);
 		//默认显示的是全部订单TAB
 		setOrderTypeTab(BillListCursorAdapter.DATA_TYPE_ALL);
+		
+		
+		mHandler = new Handler() {
+
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				switch(msg.what) {
+				case WHAT_UPDATE_TIME:
+					if(mBillListCursorAdapter != null && mBillListCursorAdapter.getCount() > 0) {
+						DebugUtils.logD(TAG, "mBillListCursorAdapter.notifyDataSetChanged() " + new Date().getTime());
+						mBillListCursorAdapter.notifyDataSetChanged();
+					}
+					mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_TIME, UPDATE_TIME_DELAY);	
+					break;
+				}
+			}
+			
+		};
+		mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_TIME, UPDATE_TIME_DELAY);		
+		
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
+		mHandler.removeMessages(WHAT_UPDATE_TIME);
+		mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_TIME, UPDATE_TIME_DELAY);	
+	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		mHandler.removeMessages(WHAT_UPDATE_TIME);	
 	}
 	
 	@Override
 	protected boolean isNeedForceRefreshOnResume() {
 		if (BillListManager.shouldRefreshBillFromServer()) {
 			BillListManager.setShouldRefreshBillFromServer(false);
+			return true;
+		}
+		if (BillListManager.isShowNew()) {
 			return true;
 		}
 		return false;

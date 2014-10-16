@@ -222,8 +222,8 @@ public class TableInfoObject implements Parcelable{
 	public String getBillPay() {
 		int dingJinPrice = Integer.valueOf(getDingJinPrice()); 
 		int servicePrice = Integer.valueOf(getServicePrice()); 
-		int totalPrice = dingJinPrice + servicePrice;
-		return MyApplication.getInstance().getString(R.string.bill_pay_format, totalPrice, dingJinPrice, servicePrice);
+//		int totalPrice = dingJinPrice + servicePrice;
+		return MyApplication.getInstance().getString(R.string.bill_pay_format, dingJinPrice, servicePrice);
 		
 	}
 

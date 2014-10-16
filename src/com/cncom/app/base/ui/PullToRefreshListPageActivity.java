@@ -221,8 +221,13 @@ public abstract class PullToRefreshListPageActivity extends BaseActivity impleme
 		PushAgent.getInstance(mContext).onAppStart();
 		PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
 		mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
-		loadLocalDataAsync();
 		
+	}
+	
+	@Override
+	public void onStart() {
+		super.onStart();
+		loadLocalDataAsync();
 	}
 	@Override
 	public void onResume() {

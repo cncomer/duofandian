@@ -2,6 +2,7 @@ package com.lnwoowken.lnwoowkenbook;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.Date;
 
 import org.apache.http.client.ClientProtocolException;
@@ -47,7 +48,6 @@ public class CommitActivity extends BaseActionbarActivity {
 	private CheckBox checkBox_others;
 	private EditText editText_phoneNum;
 	private EditText editText_name;
-	private int mPriceTotal;
 	private TextView textView_money_describ;
 	private ShopInfoObject mShopInfoObject;
 //	private TableInfo mTableInfo;
@@ -97,7 +97,7 @@ public class CommitActivity extends BaseActionbarActivity {
 		textView_timeinfo.setText(TableInfoObject.BILL_ORDER_DATE_FORMAT.format(parcelableData.getOrderDate()));
 		textView_seat.setText(parcelableData.getDeskName());
 		//应付金额： 服务费+订金（额定消费X20%）
-		textView_money.setText(mPriceTotal + "");
+		textView_money.setText(String.valueOf(parcelableData.getTotalPrice()));
 		
 		radioButton_agree = (RadioButton) findViewById(R.id.radioButton_agree);
 		
@@ -229,7 +229,11 @@ public class CommitActivity extends BaseActionbarActivity {
 					billObj.setSid(mShopInfoObject.getShopID());
 					billObj.setShopName(mShopInfoObject.getShopName());
 					billObj.setTableName(parcelableData.getDeskName());
-					billObj.setCreateTime(TextUtils.isEmpty(createTime)?DateUtils.DATE_TIME_FORMAT.format(new Date(System.currentTimeMillis())):createTime);
+					try {
+						billObj.setCreateTime(TextUtils.isEmpty(createTime)?new Date().getTime():DateUtils.DATE_FULL_TIME_FORMAT.parse(createTime).getTime());
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
 					billObj.setDate(parcelableData.getDate());
 					billObj.setTime(parcelableData.getmShiduanTime());
 					billObj.setState(BillObject.STATE_UNPAY);

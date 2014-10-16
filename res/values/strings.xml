@@ -370,7 +370,7 @@
     <string name="survey_answer2">一般</string>
     <string name="survey_answer3">需要改进</string>
     
-    <string name="bill_pay_format">" %1$s元(定金 %2$s元+服务费 %3$s元)"</string>
+    <string name="bill_pay_format">" 元(定金 %1$s元+服务费 %2$s元)"</string>
     
      <string name="msg_nonew_for_receive">数据已是最新</string>
       <string name="msg_nomore_for_receive">服务器上没有更多数据了</string>

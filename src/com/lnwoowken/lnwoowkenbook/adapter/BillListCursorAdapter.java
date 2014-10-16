@@ -47,7 +47,6 @@ public class BillListCursorAdapter extends CursorAdapter {
 		if (mDataType != orderType) {
 			mDataType = orderType;
 			requeryLocalData();
-			
 		}
 		
 	}
@@ -144,7 +143,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 		groupHolder.textView_shopName.setText(groupHolder.billObject.getShopName());
 		groupHolder.textView_time.setText(TableInfoObject.BILL_ORDER_DATE_FORMAT.format(groupHolder.billObject.getOrderDate()));
 		groupHolder.textView_tableName.setText(groupHolder.billObject.getTableName() + " " + groupHolder.billObject.getTableType());
-		groupHolder.textView_createDate.setText(groupHolder.billObject.getCreateTime());
+		groupHolder.textView_createDate.setText(DateUtils.DATE_FULL_TIME_FORMAT.format(new Date(groupHolder.billObject.getCreateTime())));
 		
 		groupHolder.btn_tuiding.setOnClickListener(new OnClickListener() {
 			@Override
@@ -193,7 +192,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 			} else {
 				//已支付订单，用餐前两小时退订按钮将灰化
 				long createTime = groupHolder.billObject.getOrderDate().getTime();
-				long currentTime = System.currentTimeMillis();
+				long currentTime = new Date().getTime();
 				groupHolder.btn_tuiding.setEnabled(Math.abs(currentTime - createTime) < 12 * OVER_TIME);
 			}
 		} else if (mDataType == DATA_TYPE_UNPAY) {
@@ -204,15 +203,9 @@ public class BillListCursorAdapter extends CursorAdapter {
 			groupHolder.btn_tuiding.setVisibility(View.INVISIBLE);
 			
 			//未支付订单10分钟内确认支付按钮将灰化
-			Date date;
-			try {
-				date = DateUtils.DATE_TIME_FORMAT.parse(groupHolder.billObject.getCreateTime());
-				long createTime = date.getTime();
-				long currentTime = System.currentTimeMillis();
-				groupHolder.btn_confirm_pay.setEnabled(Math.abs(currentTime - createTime) < OVER_TIME);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+			long createTime = groupHolder.billObject.getCreateTime();
+			long currentTime = new Date().getTime();
+			groupHolder.btn_confirm_pay.setEnabled(Math.abs(currentTime - createTime) < OVER_TIME);
 			
 		}
 		

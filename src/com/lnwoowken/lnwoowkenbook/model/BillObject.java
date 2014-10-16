@@ -33,7 +33,7 @@ public class BillObject implements InfoInterface{
 	private int state;// --订单状态
 	private String tableName;// --桌名
 	private String tableType;// --桌型
-	private String createTime;// --订单生成时间
+	private long createTime;// --订单生成时间
 	private String billNumber;// --订单号
 	private String dabiaoPrice;// --达标金额
 	private String servicePrice;// --服务金额
@@ -230,11 +230,11 @@ public class BillObject implements InfoInterface{
 		this.tableType = tableStyle;
 	}
 
-	public String getCreateTime() {
+	public long getCreateTime() {
 		return createTime;
 	}
 
-	public void setCreateTime(String createTime) {
+	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
 

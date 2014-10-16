@@ -1,5 +1,6 @@
 package com.lnwoowken.lnwoowkenbook;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import android.database.Cursor;
 import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.database.BjnoteContent;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
+import com.shwy.bestjoy.utils.DateUtils;
 
 public class BillListManager {
 	public static List<BillObject> getBillListLocal(ContentResolver cr) {
@@ -100,7 +102,7 @@ public class BillListManager {
 		billObj.setState(c.getInt(c.getColumnIndex(BillObject.BILL_STATE)));
 		billObj.setTableName(c.getString(c.getColumnIndex(BillObject.BILL_TABLENAME)));
 		billObj.setTableType(c.getString(c.getColumnIndex(BillObject.BILL_TABLESTYLE)));
-		billObj.setCreateTime(c.getString(c.getColumnIndex(BillObject.BILL_CREATETIME)));
+		billObj.setCreateTime(c.getLong(c.getColumnIndex(BillObject.BILL_CREATETIME)));
 		billObj.setBillNumber(c.getString(c.getColumnIndex(BillObject.BILL_NUMBER)));
 		billObj.setDabiaoPrice(c.getString(c.getColumnIndex(BillObject.BILL_DABIAO_PRICE)));
 		billObj.setServicePrice(c.getString(c.getColumnIndex(BillObject.BILL_SERVICE_PRICE)));
@@ -130,7 +132,11 @@ public class BillListManager {
 		billObj.setState(obj.getInt(BillObject.BILL_STATE));
 		billObj.setTableName(obj.getString(BillObject.BILL_TABLENAME));
 		billObj.setTableType(obj.getString(BillObject.BILL_TABLESTYLE));
-		billObj.setCreateTime(obj.getString(BillObject.BILL_CREATETIME));
+		try {
+			billObj.setCreateTime(DateUtils.DATE_FULL_TIME_FORMAT.parse(obj.getString(BillObject.BILL_CREATETIME)).getTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		billObj.setBillNumber(obj.getString(BillObject.BILL_NUMBER));
 		//billObj.setDabiaoPrice(obj.getString(BillObject.BILL_DABIAO_PRICE));
 		billObj.setServicePrice(obj.getString(BillObject.BILL_SERVICE_PRICE));
