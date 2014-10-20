@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="@string/pay_price"
+                    android:text="@string/unpay_price"
                     android:textColor="@color/textColor"
                     android:textSize="16dip" />
             </RelativeLayout>
@@ -195,7 +195,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="@string/alredy_pay"
+                    android:text="@string/need_unpay"
                     android:textColor="@color/textColor"
                     android:textSize="16dip" />
 
@@ -234,7 +234,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dip"
                     android:lineSpacingExtra="10dip"
-                    android:text="@string/pay_warning"
+                    android:text="@string/unpay_warning"
                     android:textColor="@color/textColor"
                     android:textSize="12sp" />
             </LinearLayout>

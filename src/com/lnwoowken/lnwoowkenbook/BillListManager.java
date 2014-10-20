@@ -106,6 +106,7 @@ public class BillListManager {
 		billObj.setBillNumber(c.getString(c.getColumnIndex(BillObject.BILL_NUMBER)));
 		billObj.setDabiaoPrice(c.getString(c.getColumnIndex(BillObject.BILL_DABIAO_PRICE)));
 		billObj.setServicePrice(c.getString(c.getColumnIndex(BillObject.BILL_SERVICE_PRICE)));
+		billObj.setDingJinPrice(c.getString(c.getColumnIndex(BillObject.BILL_DINGJIN_PRICE)));
 		
 		billObj.setVisited(c.getInt(c.getColumnIndex(BillObject.BILL_VISITED)));
 		

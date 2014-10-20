@@ -17,7 +17,6 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,11 +30,8 @@ import android.widget.Toast;
 
 import com.cncom.app.base.ui.BaseActionbarActivity;
 import com.cncom.app.base.util.DebugUtils;
-import com.cncom.app.base.util.ShopInfoObject;
-import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
-import com.lnwoowken.lnwoowkenbook.tools.MyCount;
 import com.lnwoowken.lnwoowkenbook.view.ProgressDialog;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
@@ -43,19 +39,11 @@ import com.shwy.bestjoy.utils.NetworkUtils;
 public class UnPayInfoActivity extends BaseActionbarActivity {
 	private static final String TAG = "PayInfoActivity";
 	private boolean isAgree;
-	private MyCount mCountDownTime;
 	private Context context = UnPayInfoActivity.this;
 	private int price;
 	private TextView textView_price, textView_needpay, textView_billnumber;
-	private String mShopId;
-	private String time;
-	private ShopInfoObject mShopInfoObject;
-	private static final int requestCode = 888;
 	private Button btn_commit;
-	private Button btn_back;
-	private String tNumber;
 	private BillObject mBillObject;
-	private TableInfoObject mTableInfo;
 	private String mBillNumber;
 	private RadioButton radioUpmp;
 	private Dialog dialog;
@@ -70,15 +58,8 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 		Bundle bundle = getIntent().getExtras();
 		mBillNumber = bundle.getString("bill_number");
 		mBillObject = BillListManager.getBillObjectByBillNumber(getContentResolver(), mBillNumber);
-		//mTableInfo = PatternInfoUtils.getTableInfoByName(getContentResolver(), mBillObject.getTableName());
-		//price = (int) ((Integer.parseInt(TextUtils.isEmpty(mBillObject.getDabiaoPrice()) ? "0" : mBillObject.getDabiaoPrice()) * 0.2) + Integer.parseInt(TextUtils.isEmpty(mBillObject.getServicePrice()) ? "0" : mBillObject.getServicePrice()));
-		price = Integer.parseInt(TextUtils.isEmpty(mBillObject.getServicePrice()) ? "0" : mBillObject.getServicePrice());
-		if (tNumber!=null&&!tNumber.equals("")) {
-			if (mCountDownTime == null) {
-				mCountDownTime = new MyCount(30 * 1000, 1000, findViewById(R.id.bottom));
-				mCountDownTime.start();
-			}
-		}
+		//退定总金额为服务费+定金
+		price = Integer.parseInt(TextUtils.isEmpty(mBillObject.getServicePrice()) ? "0" : mBillObject.getServicePrice()) + Integer.parseInt(TextUtils.isEmpty(mBillObject.getDingJinPrice()) ? "0" : mBillObject.getDingJinPrice());
 		textView_price = (TextView) findViewById(R.id.textView_price);
 		textView_needpay = (TextView) findViewById(R.id.textView_needpay);
 		textView_billnumber = (TextView) findViewById(R.id.textView_billnumber);
@@ -109,7 +90,6 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 //					final Dialog dialog = new MyDialog(BookTableActivity.this, R.style.MyDialog);
 //					dialog.show();
 				}
-				Log.d(TAG, isAgree+"");
 			}
 		});
 	}
@@ -132,32 +112,6 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 		} catch (Exception e) {
 			return false;
 		}
-
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		// super.onActivityResult(requestCode, resultCode, data);
-		if (data == null) {
-			return;
-		}
-		String str = data.getExtras().getString("pay_result");
-		Log.d(TAG, str);
-		if (str.equalsIgnoreCase("success")) {
-			if (mCountDownTime!=null) {
-				mCountDownTime.cancel();
-				mCountDownTime = null;
-				Toast.makeText(context, context.getString(R.string.pay_success_tips), Toast.LENGTH_LONG).show();
-				BillListManager.updateBillStateByBillNumber(getContentResolver(), mBillNumber, BillObject.STATE_SUCCESS);
-				UnPayInfoActivity.this.finish();
-			}
-		} else if (str.equalsIgnoreCase("cancel")) {
-			mCountDownTime.onFinish();
-			mCountDownTime.cancel();
-			mCountDownTime = null;
-			Toast.makeText(context, context.getString(R.string.pay_cancel_tips), Toast.LENGTH_LONG).show();
-			BillListManager.updateBillStateByBillNumber(getContentResolver(), mBillNumber, BillObject.STATE_UNPAY);
-		}
 	}
 
 	@Override
@@ -176,7 +130,6 @@ public class UnPayInfoActivity extends BaseActionbarActivity {
 	private class RequestUnPayingAsyncTask extends AsyncTask<String, Void, ServiceResultObject> {
 		@Override
 		protected ServiceResultObject doInBackground(String... params) {
-			//更新保修卡信息
 			ServiceResultObject serviceResultObject = new ServiceResultObject();
 			InputStream is = null;
 			try {

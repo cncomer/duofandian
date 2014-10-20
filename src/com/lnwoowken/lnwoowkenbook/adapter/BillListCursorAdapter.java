@@ -176,7 +176,8 @@ public class BillListCursorAdapter extends CursorAdapter {
 			groupHolder.btn_tuiding.setVisibility(View.VISIBLE);
 			
 			//已经做过点评，或则未支付的，我们灰化点评按钮
-			if (groupHolder.billObject.hasVisited() || groupHolder.billObject.getState() == BillObject.STATE_UNPAY) {
+			//未到用餐时间也不能进行点评
+			if (groupHolder.billObject.hasVisited() || groupHolder.billObject.getState() == BillObject.STATE_UNPAY || groupHolder.billObject.getOrderDate().getTime() > new Date().getTime()) {
 				
 				groupHolder.btn_survey.setImageDrawable(mVisitedTypeDrawable);
 				groupHolder.btn_survey.setEnabled(false);
@@ -193,7 +194,8 @@ public class BillListCursorAdapter extends CursorAdapter {
 				//已支付订单，用餐前两小时退订按钮将灰化
 				long createTime = groupHolder.billObject.getOrderDate().getTime();
 				long currentTime = new Date().getTime();
-				groupHolder.btn_tuiding.setEnabled(Math.abs(currentTime - createTime) < 12 * OVER_TIME);
+				//暂不支持过期退款
+				groupHolder.btn_tuiding.setEnabled(createTime - currentTime > 12 * OVER_TIME);
 			}
 		} else if (mDataType == DATA_TYPE_UNPAY) {
 			groupHolder.btn_survey.setImageDrawable(mVisitedTypeDrawable);
