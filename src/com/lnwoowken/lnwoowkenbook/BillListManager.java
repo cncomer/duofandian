@@ -62,6 +62,10 @@ public class BillListManager {
 		return cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, null, null, BillObject.BILL_SORT);
 	}
 	
+	public static Cursor getLocalBillsCursor(ContentResolver cr, String selection, String[] selectArgs) {
+		return cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, selection, selectArgs, BillObject.BILL_SORT);
+	}
+	
 	public static BillObject getBillObjectFromCursor(Cursor c) {
 		return getBillObject(c);
 	}

@@ -25,6 +25,7 @@ import com.cncom.app.base.service.PhotoManagerUtilsV2;
 import com.cncom.app.base.util.BeepAndVibrate;
 import com.cncom.app.base.util.BitmapUtils;
 import com.shwy.bestjoy.utils.ComConnectivityManager;
+import com.shwy.bestjoy.utils.ComPreferencesManager;
 import com.shwy.bestjoy.utils.DateUtils;
 import com.shwy.bestjoy.utils.DebugUtils;
 import com.shwy.bestjoy.utils.DeviceStorageUtils;
@@ -67,6 +68,7 @@ public class MyApplication extends Application{
 		MyAccountManager.getInstance().setContext(this);
 		
 		mPreferManager = PreferenceManager.getDefaultSharedPreferences(this);
+		ComPreferencesManager.getInstance().setContext(this);
 		
 		mImMgr = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
 		PhotoManagerUtilsV2.getInstance().setContext(this);

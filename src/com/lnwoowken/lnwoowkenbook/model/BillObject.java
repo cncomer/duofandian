@@ -46,7 +46,9 @@ public class BillObject implements InfoInterface{
 	/**支付成功 1*/
 	public static final int STATE_SUCCESS = STATE_UNPAY + 1;
 	/**退定成功 2*/
-	public static final int STATE_TUIDING_SUCCESS = STATE_SUCCESS + 1;
+	public static final int STATE_TUIDING_SUCCESS = STATE_UNPAY + 2;
+	/**全部 3*/
+	public static final int STATE_ALL = STATE_UNPAY+3;
 
 	public static final String BILL_ID = "_id";
 	public static final String BILL_UID = "uid";

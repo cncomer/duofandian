@@ -86,6 +86,11 @@ public abstract class BaseActionbarActivity extends SherlockFragmentActivity imp
 		
 		
 	}
+	protected void showHome(boolean show) {
+		initTitleBar();
+		mHomeBtn.setVisibility(show?View.VISIBLE:View.INVISIBLE);
+		
+	}
 	@Override
 	public void setContentView(int layoutResId) {
 		if (showActinBar() && mHasActionBar) {

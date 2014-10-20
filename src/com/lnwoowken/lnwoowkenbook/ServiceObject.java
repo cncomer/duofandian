@@ -273,6 +273,17 @@ public class ServiceObject {
 		  sb.append("Mobile/common/AddSuggestion.ashx?").append(para).append("=").appendUrlEncodedString(jsonString);
 		  return sb.toString();
 	  }
+	  /**
+	   * 删除订单
+	   * @param para
+	   * @param jsonString
+	   * @return
+	   */
+	  public static String getDeleteBillUrl(String para, String jsonString) {
+		  UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(SERVICE_URL);
+		  sb.append("Mobile/common/deleteorder.ashx?").append(para).append("=").appendUrlEncodedString(jsonString);
+		  return sb.toString();
+	  }
 	
 	public static class ServiceResultObject {
 		public int mStatusCode = 0;

@@ -203,6 +203,14 @@ public class PersonalInfoCenterFragment extends BaseFragment implements View.OnC
 		case R.id.menu_settings:
 			SettingsActivity.startActivity(getActivity());
 			break;
+		case R.id.menu_my_account:
+			if (MyAccountManager.getInstance().hasLoginned()) {
+				AccountManagerActivity.startActivity(getActivity());
+			} else {
+				MyApplication.getInstance().showNeedLoginMessage();
+			}
+			
+			break;
 		case R.id.menu_order_dishes:
 			default:
 				MyApplication.getInstance().showUnsupportMessage();

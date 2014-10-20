@@ -337,6 +337,13 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         
         <!-- 设置界面 -->
+        <activity
+            android:name="com.lnwoowken.lnwoowkenbook.AccountManagerActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/account_mngmt"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        
         <service android:name="com.cncom.app.base.update.UpdateService" />
         <activity
             android:name="com.cncom.app.base.update.UpdateActivity"

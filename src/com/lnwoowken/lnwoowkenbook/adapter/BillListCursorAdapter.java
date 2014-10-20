@@ -1,10 +1,7 @@
 package com.lnwoowken.lnwoowkenbook.adapter;
 
-import java.text.ParseException;
 import java.util.Date;
 
-import android.app.Dialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -29,43 +26,26 @@ import com.shwy.bestjoy.utils.DateUtils;
 
 public class BillListCursorAdapter extends CursorAdapter {
 	private Context mContext;
-	private ContentResolver mContentResolver;
 	private int mDataType = -1;
-	public static final int DATA_TYPE_ALL = 0;
-	public static final int DATA_TYPE_UNPAY = 1;
+	private View.OnClickListener mOnClickListener;
 	
 	private Drawable mUnvisitedTypeDrawable, mVisitedTypeDrawable;
 	public BillListCursorAdapter(Context context, Cursor c, boolean autoRequery) {
 		super(context, c, autoRequery);
 		mContext = context;
-		mContentResolver = mContext.getContentResolver();
 		mUnvisitedTypeDrawable = context.getResources().getDrawable(R.drawable.btn_normal);
 		mVisitedTypeDrawable = context.getResources().getDrawable(R.drawable.btn_visited);
+	}
+	
+	public void setOnClickListener(View.OnClickListener listener) {
+		mOnClickListener = listener;
 	}
 	
 	public void setOrderType(int orderType) {
 		if (mDataType != orderType) {
 			mDataType = orderType;
-			requeryLocalData();
 		}
 		
-	}
-	/**根据当前的订单类型重新查询本地的数据*/
-	public void requeryLocalData() {
-		if (mDataType == DATA_TYPE_ALL) {
-			changeCursor(BillListManager.getLocalAllBillCursor(mContentResolver));
-		} else if (mDataType == DATA_TYPE_UNPAY) {
-			changeCursor(BillListManager.getLocalUnpayBillCursor(mContentResolver));
-		}
-	}
-	
-	public Cursor requeryLocalCursor() {
-		if (mDataType == DATA_TYPE_ALL) {
-			return BillListManager.getLocalAllBillCursor(mContentResolver);
-		} else if (mDataType == DATA_TYPE_UNPAY) {
-			return BillListManager.getLocalUnpayBillCursor(mContentResolver);
-		}
-		return null;
 	}
 	
 	private String getBillState(int state) {
@@ -83,34 +63,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 		}
 		return mContext.getString(res);
 	}
-
-	private void showDialog(String str, final String billNumber) {
-		final Dialog alertDialog = new Dialog(mContext, R.style.MyDialog);
-		alertDialog.setTitle(R.string.dialog_title);
-		alertDialog.setContentView(R.layout.dialog_layout);
-		TextView title = (TextView) alertDialog.findViewById(R.id.title);
-		TextView context = (TextView) alertDialog.findViewById(R.id.message);
-		Button buttonOk = (Button) alertDialog.findViewById(R.id.button_ok);
-		Button buttonCancel = (Button) alertDialog.findViewById(R.id.button_back);
-		title.setText(R.string.dialog_title);
-		context.setText(str);
-		alertDialog.setCanceledOnTouchOutside(false);
-		buttonOk.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				BillListManager.deleteBillByNumber(mContext.getContentResolver(), billNumber);
-				alertDialog.dismiss();
-			}
-		});
-		buttonCancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				alertDialog.dismiss();
-			}
-		});
-		alertDialog.show();
-	}
-
+	
 	@Override
 	public View newView(Context context, Cursor cursor, ViewGroup parent) {
 		View view = LayoutInflater.from(mContext).inflate(R.layout.bill_list_item, null);
@@ -163,14 +116,17 @@ public class BillListCursorAdapter extends CursorAdapter {
 				SurveyActivity.startActivity(mContext, groupHolder.billObject.getBillNumber());
 			}
 		});
-		groupHolder.btn_delete.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				showDialog(mContext.getString(R.string.delete_tips), groupHolder.billObject.getBillNumber());
-			}
-		});
+		//这里我们給删除按钮也设置TAG,在OnClickListener中使用
+		groupHolder.btn_delete.setTag(groupHolder);
+		groupHolder.btn_delete.setOnClickListener(mOnClickListener);
+//		groupHolder.btn_delete.setOnClickListener(new OnClickListener() {
+//			@Override
+//			public void onClick(View arg0) {
+//				showDialog(mContext.getString(R.string.delete_tips), groupHolder.billObject.getBillNumber());
+//			}
+//		});
 		
-		if (mDataType == DATA_TYPE_ALL) {
+		if (mDataType == BillObject.STATE_ALL) {
 			groupHolder.btn_confirm_pay.setVisibility(View.GONE);
 			groupHolder.order_status_layout.setVisibility(View.VISIBLE);
 			groupHolder.btn_tuiding.setVisibility(View.VISIBLE);
@@ -197,7 +153,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 				//暂不支持过期退款
 				groupHolder.btn_tuiding.setEnabled(createTime - currentTime > 12 * OVER_TIME);
 			}
-		} else if (mDataType == DATA_TYPE_UNPAY) {
+		} else if (mDataType == BillObject.STATE_UNPAY) {
 			groupHolder.btn_survey.setImageDrawable(mVisitedTypeDrawable);
 			groupHolder.btn_survey.setEnabled(false);
 			groupHolder.btn_confirm_pay.setVisibility(View.VISIBLE);
@@ -213,7 +169,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 		
 	}
 	private static final long OVER_TIME = 1000*60*10;//10分钟
-	static class ViewHolder{
+	public static class ViewHolder{
 		TextView textView_billnumber;
 		TextView textView_shopName;
 		TextView textView_time;
@@ -225,7 +181,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 		Button btn_tuiding;
 		Button btn_confirm_pay;
 		private View order_status_layout;
-		private BillObject billObject;
+		public BillObject billObject;
 	}
 
 }
