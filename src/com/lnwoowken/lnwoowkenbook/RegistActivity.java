@@ -312,7 +312,7 @@ public class RegistActivity extends BaseActionbarActivity implements TimeService
 		} else {
 			btn_getSMS.setText(mContext.getResources().getString(R.string.get_yanzheng_code));
 			btn_getSMS.setEnabled(true);
-			btn_getSMS.setTextColor(mContext.getResources().getColor(R.color.text_selector));
+			btn_getSMS.setTextColor(mContext.getResources().getColor(R.color.text_btn_commit_selector));
 			
 			mYanZhengCodeFromServer = "";
 		}

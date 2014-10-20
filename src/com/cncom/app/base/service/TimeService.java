@@ -1,7 +1,7 @@
 package com.cncom.app.base.service;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -126,6 +126,10 @@ public class TimeService extends Service{
 			_countdownCallback = callback;
 		}
 		
+		protected boolean hasFinish() {
+			return _countdown <= 1;
+		}
+		
 		public void setCountdownCallback(CountdownCallback callback) {
 			_countdownCallback = callback;
 		}
@@ -143,13 +147,13 @@ public class TimeService extends Service{
 			notifyCallback();
 		}
 		public synchronized void decrease() {
-			if (_countdown == 1) {
-				synchronized(mCountdownMaps) {
-					mCountdownMaps.remove(_key);
-					DebugUtils.logD(TAG, "CountdownObject key=" + _key + " has finished and removed.");
-				}
-				return;
-			}
+//			if (_countdown == 1) {
+//				synchronized(mCountdownMaps) {
+//					mCountdownMaps.remove(_key);
+//					DebugUtils.logD(TAG, "CountdownObject key=" + _key + " has finished and removed.");
+//				}
+//				return;
+//			}
 			_countdown-=1;
 			notifyCallback();
 		}
@@ -173,18 +177,19 @@ public class TimeService extends Service{
 					}
 					
 					Thread.sleep(1000);
-					final Collection<CountdownObject> list = mCountdownMaps.values();
 					mHandler.post(new Runnable() {
 						@Override
 						public void run() {
-							for(CountdownObject object : list) {
+							Iterator<CountdownObject> iterator = mCountdownMaps.values().iterator();
+							while(iterator.hasNext()) {
+								CountdownObject object = iterator.next();
 								object.decrease();
+								if (object.hasFinish()) {
+									iterator.remove();
+								}
 							}
 						}
-						
 					});
-					
-					
 				}
 				
 			} catch (InterruptedException e) {
