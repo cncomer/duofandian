@@ -41,6 +41,8 @@ public class BillObject implements InfoInterface{
 	
 	private int mVisited = 0;  //满意度调查是否已经评价过了
 	
+	public long mModifiedTime = 0;
+	
 	/**未支付 0*/
 	public static final int STATE_UNPAY = 0;
 	/**支付成功 1*/
@@ -73,6 +75,8 @@ public class BillObject implements InfoInterface{
 	public static final String BILL_DINGJIN_PRICE = "zifu_price";
 	
 	public static final String BILL_VISITED = "visited";
+	
+	public static final String BILL_MODIFIED_TIME = "modified_time";
 
 	public static final String[] BILL_PROJECTION = new String[] {
 		DBHelper.BILL_ID,
@@ -97,6 +101,7 @@ public class BillObject implements InfoInterface{
 		DBHelper.BILL_SERVICE_PRICE,
 		DBHelper.BILL_DINGJIN_PRICE,
 		DBHelper.BILL_VISITED,
+		DBHelper.MODIFIED_TIME,
 	};
 
 	public static final String BILL_SELECTION = DBHelper.BILL_NUMBER + "=?";
@@ -328,7 +333,7 @@ public class BillObject implements InfoInterface{
 		
 		values.put(DBHelper.BILL_VISITED, mVisited);
 		
-		
+		values.put(DBHelper.MODIFIED_TIME, new Date().getTime());
 		
 		Uri uri = cr.insert(BjnoteContent.Bills.CONTENT_URI, values);
 		if (uri != null) {
@@ -363,7 +368,11 @@ public class BillObject implements InfoInterface{
 		values.put(DBHelper.BILL_SERVICE_PRICE, servicePrice);
 		values.put(DBHelper.BILL_DINGJIN_PRICE, dingjinPrice);
 		
+		values.put(DBHelper.BILL_DINGJIN_PRICE, dingjinPrice);
+		
 		values.put(DBHelper.BILL_VISITED, mVisited);
+		
+		values.put(DBHelper.MODIFIED_TIME, new Date().getTime());
 		
 		int updated = cr.update(BjnoteContent.Bills.CONTENT_URI, values, BILL_SELECTION, new String[]{billNumber});
 		if (updated != -1) {

@@ -113,7 +113,7 @@ public class BillListManager {
 		billObj.setDingJinPrice(c.getString(c.getColumnIndex(BillObject.BILL_DINGJIN_PRICE)));
 		
 		billObj.setVisited(c.getInt(c.getColumnIndex(BillObject.BILL_VISITED)));
-		
+		billObj.mModifiedTime = c.getLong(c.getColumnIndex(BillObject.BILL_MODIFIED_TIME));
 		return billObj;
 	}
 	

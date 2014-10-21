@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="122dp"
-    android:paddingLeft="50dip"
-    android:paddingRight="20dip"
+    android:layout_height="61dp"
+    android:paddingLeft="25dip"
+    android:paddingRight="10dip"
     android:background="@drawable/abs__item_background_holo_light"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
@@ -21,7 +21,7 @@
     <TextView android:id="@+id/summery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:text="@string/member_info_modify_title"
         android:textColor="@color/textColor_gray"
         android:textSize="16sp" />
@@ -29,7 +29,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:src="@drawable/gray_right_arrow" />
 
 </LinearLayout>

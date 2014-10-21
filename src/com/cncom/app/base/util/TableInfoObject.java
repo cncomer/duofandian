@@ -210,20 +210,20 @@ public class TableInfoObject implements Parcelable{
 	 * 得到定金和服务费的总和
 	 * @return
 	 */
-	public int getTotalPrice() {
-		int dingJinPrice = Integer.valueOf(getDingJinPrice()); 
-		int servicePrice = Integer.valueOf(getServicePrice()); 
-		return dingJinPrice + servicePrice;
+	public String getTotalPrice() {
+		float dingJinPrice = Float.valueOf(getDingJinPrice()); 
+		float servicePrice = Float.valueOf(getServicePrice()); 
+		return String.valueOf(dingJinPrice + servicePrice);
 	}
 	/**
 	 * 得到需要支付的金额，如%1$s元(定金%2$s元+服务费%3$s元)
 	 * @return
 	 */
 	public String getBillPay() {
-		int dingJinPrice = Integer.valueOf(getDingJinPrice()); 
-		int servicePrice = Integer.valueOf(getServicePrice()); 
+//		float dingJinPrice = Float.valueOf(getDingJinPrice()); 
+//		float servicePrice = Float.valueOf(getServicePrice()); 
 //		int totalPrice = dingJinPrice + servicePrice;
-		return MyApplication.getInstance().getString(R.string.bill_pay_format, dingJinPrice, servicePrice);
+		return MyApplication.getInstance().getString(R.string.bill_pay_format, getDingJinPrice(), getServicePrice());
 		
 	}
 

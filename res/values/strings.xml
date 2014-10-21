@@ -424,4 +424,9 @@
           <string name="content_about_me">"      上海潜存信息科技有限公司致力于打造线上“中国好餐饮”移动平台——“夺饭点”，将线上消费者与线下餐饮商家完美对接。中国餐饮文化源远流长，在餐饮历史的长河中沉淀出各大热门美食品牌，这些品牌最终受到了消费者的热烈追捧，延绵不绝的排队等候是商家最欣慰的反馈。“夺饭点”在思考如何满足消费者追求更高层次美食的同时，也考虑能否为商户做些“细水流长”的深度服务？\n\n      “夺饭点”会员体验模式开创了移动餐饮消费的新思路。公司秉承“接地气”的作风，未来将逐步为餐饮两端提供更为高端、更具人性化、更为廉价的餐饮延伸配套 IT产品。"</string>
           <string name="title_account_available_amount">"账户余额："</string>
           <string name="title_account_available_amount_unit">"夺饭点币"</string>
+          
+          <string name="title_has_xiaofei_bill">"已消费金额"</string>
+          <string name="title_has_tuiding_bill">"已退订金额"</string>
+          
+          <string name="title_money">"金额: "</string>
 </resources>

@@ -123,6 +123,8 @@ private static final String TAG = "DBHelper";
   public static final String BILL_DINGJIN_PRICE = "zifu_price";
   /**表示该订单是否已经评价过, 0为待评价，1为已评价*/
   public static final String BILL_VISITED = "visited";
+  public static final String MODIFIED_TIME = "modified_time";
+  
   //bill table end
   
   public DBHelper(Context context) {
@@ -286,6 +288,7 @@ private static final String TAG = "DBHelper";
 	            BILL_NUMBER + " TEXT, " +
 	            BILL_DABIAO_PRICE + " TEXT, " +
 	            BILL_DINGJIN_PRICE + " TEXT, " +
+	            MODIFIED_TIME + " TEXT, " +
 	            BILL_SERVICE_PRICE + " TEXT);");
   }
   

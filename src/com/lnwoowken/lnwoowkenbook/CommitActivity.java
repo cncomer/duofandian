@@ -97,7 +97,7 @@ public class CommitActivity extends BaseActionbarActivity {
 		textView_timeinfo.setText(TableInfoObject.BILL_ORDER_DATE_FORMAT.format(parcelableData.getOrderDate()));
 		textView_seat.setText(parcelableData.getDeskName());
 		//应付金额： 服务费+订金（额定消费X20%）
-		textView_money.setText(String.valueOf(parcelableData.getTotalPrice()));
+		textView_money.setText(parcelableData.getTotalPrice());
 		
 		radioButton_agree = (RadioButton) findViewById(R.id.radioButton_agree);
 		
@@ -207,8 +207,8 @@ public class CommitActivity extends BaseActionbarActivity {
 				JSONObject queryJsonObject = new JSONObject();
 				queryJsonObject.put("deskID", parcelableData.getDeskId());
 				queryJsonObject.put("note", parcelableData.getNote());
-				queryJsonObject.put("service_price", Integer.valueOf(parcelableData.getServicePrice()) * 100);
-				queryJsonObject.put("zifu_price", Integer.valueOf(parcelableData.getDingJinPrice()) * 100);
+				queryJsonObject.put("service_price", Float.valueOf(parcelableData.getServicePrice()) * 100);
+				queryJsonObject.put("zifu_price", Float.valueOf(parcelableData.getDingJinPrice()) * 100);
 				queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
 				DebugUtils.logD(TAG, "CreateBillAsyncTask doInBackground() queryJsonObject=" + queryJsonObject.toString());
 				is = NetworkUtils.openContectionLocked(ServiceObject.getLiushuiNumberUrl("para", queryJsonObject.toString()), null);

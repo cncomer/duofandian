@@ -153,6 +153,14 @@ public class BillListCursorAdapter extends CursorAdapter {
 				//暂不支持过期退款
 				groupHolder.btn_tuiding.setEnabled(createTime - currentTime > 12 * OVER_TIME);
 			}
+			
+			//如果是未支付成功或退订的订单，我们需要显示删除按钮,退订和支付成功的订单将显示在账户管理界面中
+			if (groupHolder.billObject.getState() != BillObject.STATE_TUIDING_SUCCESS || groupHolder.billObject.getState() != BillObject.STATE_SUCCESS) {
+				//已经退订成功的或则未支付的，我们不显示退订按钮
+				groupHolder.btn_delete.setVisibility(View.GONE);
+			} else {
+				groupHolder.btn_delete.setVisibility(View.VISIBLE);
+			}
 		} else if (mDataType == BillObject.STATE_UNPAY) {
 			groupHolder.btn_survey.setImageDrawable(mVisitedTypeDrawable);
 			groupHolder.btn_survey.setEnabled(false);

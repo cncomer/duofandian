@@ -177,7 +177,6 @@
                 android:id="@+id/button_tuiding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
                 android:background="@drawable/button_commit"
                 android:padding="4dip"
                 android:text="@string/bill_tuiding"
@@ -188,6 +187,7 @@
                 android:id="@+id/imageButton_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
                 android:background="@drawable/btn_delete"
                 android:padding="10dip" />
         </LinearLayout>

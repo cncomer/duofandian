@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.ContentObserver;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +19,7 @@ import com.cncom.app.base.account.AccountObject;
 import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.ui.BaseActionbarActivity;
-import com.lnwoowken.lnwoowkenbook.view.MemberInfoItemLayout;
+import com.lnwoowken.lnwoowkenbook.model.BillObject;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 
 public class AccountManagerActivity extends BaseActionbarActivity{
@@ -30,12 +31,21 @@ public class AccountManagerActivity extends BaseActionbarActivity{
 	private AccountObject mAccountObject;
 	private ContentObserver mContentObserver;
 	private ImageView mAvator;
+	
+	private TextView mPayBtn, mTuidingBtn;
+	private View mPayLayout, mTuidingLayout;
+	private Drawable mRightArrowDrawable, mDownArrowDrawable;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_account_manager);
+		if (this.isFinishing()) {
+			return;
+		}
 		mAccountObject = MyAccountManager.getInstance().getAccountObject();
+		setContentView(R.layout.activity_account_manager);
+		mRightArrowDrawable = getResources().getDrawable(R.drawable.ump_help_arrow_off);
+		mDownArrowDrawable = getResources().getDrawable(R.drawable.ump_more_arrow_down);
 		initialize();
 
 		mContentObserver = new ContentObserver(new Handler()) {
@@ -46,7 +56,29 @@ public class AccountManagerActivity extends BaseActionbarActivity{
 			}
 		};
 		getContentResolver().registerContentObserver(BjnoteContent.Accounts.CONTENT_URI, true, mContentObserver);
-		showHome(false);
+		Bundle payBundle = new Bundle();
+		payBundle.putInt("bill_status", BillObject.STATE_ALL);
+		PayPageFragment payPageFragment = new PayPageFragment();
+		payPageFragment.setArguments(payBundle);
+		
+		
+		Bundle tuidingBundle = new Bundle();
+		payBundle.putInt("bill_status", BillObject.STATE_TUIDING_SUCCESS);
+		PayPageFragment duidingPageFragment = new PayPageFragment();
+		duidingPageFragment.setArguments(tuidingBundle);
+		getSupportFragmentManager().beginTransaction().add(R.id.pay_layout, payPageFragment, "PayPageFragment.Pay")
+		.add(R.id.tuiding_layout, duidingPageFragment, "PayPageFragment.Tuiding").commit();
+		
+		mPayBtn = (TextView) findViewById(R.id.button_pay);
+		mPayBtn.setOnClickListener(this);
+		
+		mTuidingBtn = (TextView) findViewById(R.id.button_tuiding);
+		mTuidingBtn.setOnClickListener(this);
+		
+		mPayLayout = findViewById(R.id.pay_layout);
+		mTuidingLayout = findViewById(R.id.tuiding_layout);
+		
+		showBillLayout(View.GONE, View.GONE);
 	}
 	
 	@Override
@@ -109,6 +141,14 @@ public class AccountManagerActivity extends BaseActionbarActivity{
 		mMemberJifen.setText(mAccountObject.mAccountJifen);
 	}
 	
+	private void showBillLayout(int showPay, int showTuiding) {
+		mPayLayout.setVisibility(showPay);
+		mPayBtn.setCompoundDrawables(null, null, showPay == View.VISIBLE?mDownArrowDrawable:mRightArrowDrawable, null);
+		
+		mTuidingLayout.setVisibility(showTuiding);
+		mTuidingBtn.setCompoundDrawables(null, null, showPay == View.VISIBLE?mDownArrowDrawable:mRightArrowDrawable, null);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()) {
@@ -117,6 +157,12 @@ public class AccountManagerActivity extends BaseActionbarActivity{
 			if (MyAccountManager.getInstance().hasSystemAvator()) {
 				UpdateAvatorActivity.startActivity(mContext, MyAccountManager.getInstance().getSystemAvatorIndex());
 			}
+			break;
+		case R.id.button_tuiding:
+			showBillLayout(View.GONE, mTuidingLayout.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
+			break;
+		case R.id.button_pay:
+			showBillLayout(mPayLayout.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE, View.GONE);
 			break;
 			default:
 				super.onClick(v);
