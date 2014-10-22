@@ -54,14 +54,6 @@ public class BillListManager {
 		return billList;
 	}
 	
-	public static Cursor getLocalUnpayBillCursor(ContentResolver cr) {
-		return cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, BillObject.BILL_UNPAY_SELECTION, new String[] {String.valueOf(BillObject.STATE_SUCCESS)}, BillObject.BILL_SORT);
-	}
-	
-	public static Cursor getLocalAllBillCursor(ContentResolver cr) {
-		return cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, null, null, BillObject.BILL_SORT);
-	}
-	
 	public static Cursor getLocalBillsCursor(ContentResolver cr, String selection, String[] selectArgs) {
 		return cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, selection, selectArgs, BillObject.BILL_SORT);
 	}
@@ -145,7 +137,7 @@ public class BillListManager {
 		billObj.setBillNumber(obj.getString(BillObject.BILL_NUMBER));
 		//billObj.setDabiaoPrice(obj.getString(BillObject.BILL_DABIAO_PRICE));
 		billObj.setServicePrice(obj.getString(BillObject.BILL_SERVICE_PRICE));
-		billObj.setServicePrice(obj.getString(BillObject.BILL_DINGJIN_PRICE));
+		billObj.setDingJinPrice(obj.getString(BillObject.BILL_DINGJIN_PRICE));
 		
 		billObj.setVisited(Integer.valueOf(obj.optString(BillObject.BILL_VISITED, "0")));
 		

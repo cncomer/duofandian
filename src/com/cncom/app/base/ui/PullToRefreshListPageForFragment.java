@@ -92,6 +92,19 @@ public abstract class PullToRefreshListPageForFragment extends BaseFragment impl
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mGlobalContext = MyApplication.getInstance();
+		mContentResolver = mGlobalContext.getContentResolver();
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		mAdapterWrapper = getAdapterWrapper();
+		mListView.setAdapter(mAdapterWrapper.getAdapter());
+		loadLocalDataAsync();
+	}
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mQuery = getQuery();
 		if (mQuery == null) {
 			DebugUtils.logD(TAG, "getQuery() return null");
@@ -100,17 +113,6 @@ public abstract class PullToRefreshListPageForFragment extends BaseFragment impl
 		if (mPageInfo == null) {
 			mPageInfo = new PageInfo();
 		}
-		mGlobalContext = MyApplication.getInstance();
-		mContentResolver = mGlobalContext.getContentResolver();
-	}
-	
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		loadLocalDataAsync();
-	}
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(getContentLayout(), container, false);
 		mPullRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pull_refresh_list);
 		mPullRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
@@ -143,11 +145,9 @@ public abstract class PullToRefreshListPageForFragment extends BaseFragment impl
 		mPullRefreshListView.setScrollingWhileRefreshingEnabled(true);
 		
 		mListView = mPullRefreshListView.getRefreshableView();
-		mAdapterWrapper = getAdapterWrapper();
 		mListView.setOnItemClickListener(this);
 		addFooterView();
 		updateFooterView(false, null);
-		mListView.setAdapter(mAdapterWrapper.getAdapter());
 		mListView.setEmptyView(mEmptyView);
 		removeFooterView();
 		

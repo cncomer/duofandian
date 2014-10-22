@@ -2,6 +2,7 @@ package com.lnwoowken.lnwoowkenbook;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONException;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CursorAdapter;
+import android.widget.TextView;
 
 import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.database.DBHelper;
@@ -23,6 +25,8 @@ import com.cncom.app.base.ui.PullToRefreshListPageForFragment;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.model.BillObject;
 import com.shwy.bestjoy.utils.AdapterWrapper;
+import com.shwy.bestjoy.utils.DateUtils;
+import com.shwy.bestjoy.utils.DebugUtils;
 import com.shwy.bestjoy.utils.InfoInterface;
 import com.shwy.bestjoy.utils.NetworkUtils;
 import com.shwy.bestjoy.utils.PageInfo;
@@ -30,24 +34,36 @@ import com.shwy.bestjoy.utils.Query;
 
 public class PayPageFragment extends PullToRefreshListPageForFragment{
 
+	private static final String TAG = "PayPageFragment";
 	private int mBillStatus = -1;
 	private static final String BILL_STATE_SELECTION = DBHelper.BILL_STATE + "=?";
 	private BillListAdapter mBillListCursorAdapter;
+	private Query mQuery;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		mBillStatus = this.getArguments().getInt("bill_status", -1);
 		super.onCreate(savedInstanceState);
+	}
+	
+	public void setBillState(int status) {
+		mBillStatus = status;
 	}
 	
 	@Override
 	protected AdapterWrapper<? extends BaseAdapter> getAdapterWrapper() {
-		mBillListCursorAdapter = new BillListAdapter(MyApplication.getInstance(), null, false);
+		mBillListCursorAdapter = new BillListAdapter(getActivity(), null, false);
 		return new AdapterWrapper<CursorAdapter>(mBillListCursorAdapter);
 	}
 
 	@Override
 	protected Cursor loadLocal(ContentResolver contentResolver) {
-		return BillListManager.getLocalBillsCursor(contentResolver, BILL_STATE_SELECTION, new String[]{String.valueOf(mBillStatus)});
+		DebugUtils.logD(TAG, "loadLocal billStatus " + mBillStatus);
+		String select = BILL_STATE_SELECTION;
+		String[] selectArgs = new String[]{String.valueOf(mBillStatus)};
+		if (mBillStatus == BillObject.STATE_ALL) {
+			select = null;
+			selectArgs = null;
+		}
+		return BillListManager.getLocalBillsCursor(contentResolver, select, selectArgs);
 	}
 
 	@Override
@@ -94,9 +110,9 @@ public class PayPageFragment extends PullToRefreshListPageForFragment{
 	}
 	@Override
 	protected Query getQuery() {
-		Query query =  new Query();
-		query.qServiceUrl = ServiceObject.getAllBillInfoUrl("para", getFilterServiceUrl());
-		return query;
+		mQuery =  new Query();
+		mQuery.qServiceUrl = ServiceObject.getAllBillInfoUrl("para", getFilterServiceUrl());
+		return mQuery;
 	}
 
 	@Override
@@ -116,20 +132,45 @@ public class PayPageFragment extends PullToRefreshListPageForFragment{
 	
 	private class BillListAdapter extends CursorAdapter {
 
+		private String _format_tuiding_time, _format_xiaopei_time, _format_bill_number, _format_price;
 		public BillListAdapter(Context context, Cursor c, boolean autoRequery) {
 			super(context, c, autoRequery);
+			_format_tuiding_time = context.getString(R.string.format_bill_tuiding_time);
+			_format_xiaopei_time = context.getString(R.string.format_bill_xiaofei_time);
+			_format_bill_number = context.getString(R.string.format_bill_number);
+			_format_price = context.getString(R.string.format_price);
 		}
 
 		@Override
 		public View newView(Context context, Cursor cursor, ViewGroup parent) {
-			return LayoutInflater.from(context).inflate(R.layout.pay_page_fragment_list_item, parent, false);
+			ViewHolder viewHolder = new ViewHolder();
+			View view = LayoutInflater.from(context).inflate(R.layout.pay_page_fragment_list_item, parent, false);
+			viewHolder._name = (TextView) view.findViewById(R.id.name);
+			viewHolder._price = (TextView) view.findViewById(R.id.bill_price);
+			viewHolder._billnumber = (TextView) view.findViewById(R.id.bill_number);
+			viewHolder._time = (TextView) view.findViewById(R.id.bill_time);
+			view.setTag(viewHolder);
+			return view;
 		}
 
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			
+			ViewHolder viewHolder = (ViewHolder) view.getTag();
+			BillObject billObject = BillListManager.getBillObjectFromCursor(cursor);
+			viewHolder._name.setText(billObject.getShopName());
+			viewHolder._price.setText(String.format(_format_price, billObject.getTotalPrice()));
+			viewHolder._billnumber.setText(String.format(_format_bill_number, billObject.getBillNumber()));
+			if (mBillStatus == BillObject.STATE_SUCCESS || mBillStatus == BillObject.STATE_ALL) {
+				viewHolder._time.setText(String.format(_format_xiaopei_time, DateUtils.DATE_TIME_FORMAT.format(billObject.getOrderDate())));
+			} else if (mBillStatus == BillObject.STATE_TUIDING_SUCCESS) {
+				viewHolder._time.setText(String.format(_format_tuiding_time, DateUtils.DATE_TIME_FORMAT.format(new Date(billObject.mModifiedTime))));
+			}
 		}
 		
+	}
+	
+	private class ViewHolder {
+		private TextView _name, _price, _billnumber, _time;
 	}
 
 }

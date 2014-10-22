@@ -146,6 +146,7 @@
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                style="@style/right_panel_menu"
+	                android:textColor="@color/WhiteText"
 	                android:text="美食相机"/>
 	        </LinearLayout>
 	    </LinearLayout>

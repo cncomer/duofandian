@@ -281,7 +281,7 @@ private static final String TAG = "DBHelper";
 	            BILL_DATE + " TEXT, " +
 	            BILL_TIME + " TEXT, " +
 	            BILL_VISITED + " INTEGER NOT NULL DEFAULT 0, " +
-	            BILL_STATE + " INTEGER NOT NULL DEFAULT 1, " +
+	            BILL_STATE + " INTEGER NOT NULL DEFAULT 0, " +
 	            BILL_TABLENAME + " TEXT, " +
 	            BILL_TABLESTYLE + " TEXT, " +
 	            BILL_CREATETIME + " TEXT, " +

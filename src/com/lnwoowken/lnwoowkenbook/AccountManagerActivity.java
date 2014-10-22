@@ -56,16 +56,11 @@ public class AccountManagerActivity extends BaseActionbarActivity{
 			}
 		};
 		getContentResolver().registerContentObserver(BjnoteContent.Accounts.CONTENT_URI, true, mContentObserver);
-		Bundle payBundle = new Bundle();
-		payBundle.putInt("bill_status", BillObject.STATE_ALL);
 		PayPageFragment payPageFragment = new PayPageFragment();
-		payPageFragment.setArguments(payBundle);
+		payPageFragment.setBillState(BillObject.STATE_SUCCESS);
 		
-		
-		Bundle tuidingBundle = new Bundle();
-		payBundle.putInt("bill_status", BillObject.STATE_TUIDING_SUCCESS);
 		PayPageFragment duidingPageFragment = new PayPageFragment();
-		duidingPageFragment.setArguments(tuidingBundle);
+		duidingPageFragment.setBillState(BillObject.STATE_TUIDING_SUCCESS);
 		getSupportFragmentManager().beginTransaction().add(R.id.pay_layout, payPageFragment, "PayPageFragment.Pay")
 		.add(R.id.tuiding_layout, duidingPageFragment, "PayPageFragment.Tuiding").commit();
 		
@@ -143,10 +138,10 @@ public class AccountManagerActivity extends BaseActionbarActivity{
 	
 	private void showBillLayout(int showPay, int showTuiding) {
 		mPayLayout.setVisibility(showPay);
-		mPayBtn.setCompoundDrawables(null, null, showPay == View.VISIBLE?mDownArrowDrawable:mRightArrowDrawable, null);
+//		mPayBtn.setCompoundDrawables(null, null, showPay == View.VISIBLE?mDownArrowDrawable:mRightArrowDrawable, null);
 		
 		mTuidingLayout.setVisibility(showTuiding);
-		mTuidingBtn.setCompoundDrawables(null, null, showPay == View.VISIBLE?mDownArrowDrawable:mRightArrowDrawable, null);
+//		mTuidingBtn.setCompoundDrawables(null, null, showPay == View.VISIBLE?mDownArrowDrawable:mRightArrowDrawable, null);
 	}
 	
 	@Override

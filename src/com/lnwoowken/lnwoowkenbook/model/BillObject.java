@@ -276,6 +276,16 @@ public class BillObject implements InfoInterface{
 		this.dingjinPrice = dingjinPrice;
 	}
 	
+	/**
+	 * 得到定金和服务费的总和
+	 * @return
+	 */
+	public String getTotalPrice() {
+		float dingJinPrice = Float.valueOf(getDingJinPrice()); 
+		float servicePrice = Float.valueOf(getServicePrice()); 
+		return String.valueOf(dingJinPrice + servicePrice);
+	}
+	
 	public boolean hasVisited() {
 		return mVisited == 1;
 	}
