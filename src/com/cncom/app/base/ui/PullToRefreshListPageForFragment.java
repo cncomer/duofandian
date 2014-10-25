@@ -117,7 +117,7 @@ public abstract class PullToRefreshListPageForFragment extends BaseFragment impl
 		mPullRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pull_refresh_list);
 		mPullRefreshListView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
 		
-		mEmptyView = (TextView) view.findViewById(android.R.id.empty);
+//		mEmptyView = (TextView) view.findViewById(android.R.id.empty);
 		
 		
 		// Set a listener to be invoked when the list should be refreshed.
@@ -148,7 +148,9 @@ public abstract class PullToRefreshListPageForFragment extends BaseFragment impl
 		mListView.setOnItemClickListener(this);
 		addFooterView();
 		updateFooterView(false, null);
-		mListView.setEmptyView(mEmptyView);
+
+		mListView.setAdapter(mAdapterWrapper.getAdapter());
+//		mListView.setEmptyView(mEmptyView);
 		removeFooterView();
 		
 		mIsFirstRefresh = true;
