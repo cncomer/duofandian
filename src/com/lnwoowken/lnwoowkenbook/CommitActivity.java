@@ -225,8 +225,10 @@ public class CommitActivity extends BaseActionbarActivity {
 					parcelableData.setOrderNo(orderNo);
 					
 					billObj.setBillNumber(orderNo);
+					billObj.mTN = tNumber;
 					billObj.setUid(MyAccountManager.getInstance().getCurrentAccountUid());
 					billObj.setSid(mShopInfoObject.getShopID());
+					billObj.setTid(parcelableData.getDeskId());
 					billObj.setShopName(mShopInfoObject.getShopName());
 					billObj.setTableName(parcelableData.getDeskName());
 					try {

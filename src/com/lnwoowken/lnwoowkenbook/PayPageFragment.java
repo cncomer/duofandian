@@ -20,6 +20,7 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.database.DBHelper;
 import com.cncom.app.base.ui.PullToRefreshListPageForFragment;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
@@ -63,7 +64,7 @@ public class PayPageFragment extends PullToRefreshListPageForFragment{
 			select = null;
 			selectArgs = null;
 		}
-		return BillListManager.getLocalBillsCursor(contentResolver, select, selectArgs);
+		return BillListManager.getLocalAccountBillsCursor(contentResolver, select, selectArgs);
 	}
 
 	@Override
@@ -71,9 +72,14 @@ public class PayPageFragment extends PullToRefreshListPageForFragment{
 		int insertOrUpdateCount = 0;
 		if (infoObjects != null) {
 			for(InfoInterface object:infoObjects) {
+				if (object instanceof BillObject) {
+					BillObject billObject = (BillObject) object;
+					billObject.mBillTableContentUri = BjnoteContent.Bills.ACCOUNT_CONTENT_URI;
+				} 
 				if (object.saveInDatebase(contentResolver, null)) {
 					insertOrUpdateCount++;
 				}
+				
 			}
 		}
 		return insertOrUpdateCount;
@@ -132,9 +138,10 @@ public class PayPageFragment extends PullToRefreshListPageForFragment{
 	
 	private class BillListAdapter extends CursorAdapter {
 
-		private String _format_tuiding_time, _format_xiaopei_time, _format_bill_number, _format_price;
+		private String _format_pay_time, _format_tuiding_time, _format_xiaopei_time, _format_bill_number, _format_price;
 		public BillListAdapter(Context context, Cursor c, boolean autoRequery) {
 			super(context, c, autoRequery);
+			_format_pay_time = context.getString(R.string.format_bill_pay_time);
 			_format_tuiding_time = context.getString(R.string.format_bill_tuiding_time);
 			_format_xiaopei_time = context.getString(R.string.format_bill_xiaofei_time);
 			_format_bill_number = context.getString(R.string.format_bill_number);
@@ -158,12 +165,18 @@ public class PayPageFragment extends PullToRefreshListPageForFragment{
 			ViewHolder viewHolder = (ViewHolder) view.getTag();
 			BillObject billObject = BillListManager.getBillObjectFromCursor(cursor);
 			viewHolder._name.setText(billObject.getShopName());
-			viewHolder._price.setText(String.format(_format_price, billObject.getTotalPrice()));
+			
 			viewHolder._billnumber.setText(String.format(_format_bill_number, billObject.getBillNumber()));
 			if (mBillStatus == BillObject.STATE_SUCCESS || mBillStatus == BillObject.STATE_ALL) {
-				viewHolder._time.setText(String.format(_format_xiaopei_time, DateUtils.DATE_TIME_FORMAT.format(billObject.getOrderDate())));
+				viewHolder._price.setText(String.format(_format_price, billObject.getTotalPrice()));
+				viewHolder._time.setText(String.format(_format_pay_time, DateUtils.DATE_TIME_FORMAT.format(billObject.getCreateTime())));
 			} else if (mBillStatus == BillObject.STATE_TUIDING_SUCCESS) {
-				viewHolder._time.setText(String.format(_format_tuiding_time, DateUtils.DATE_TIME_FORMAT.format(new Date(billObject.mModifiedTime))));
+				viewHolder._price.setText(String.format(_format_price, billObject.getTotalPrice()));
+				viewHolder._time.setText(String.format(_format_tuiding_time, DateUtils.DATE_TIME_FORMAT.format(new Date(billObject.getCreateTime()))));
+			} else if (mBillStatus == BillObject.STATE_XIAOFEI) {
+				//实际消费
+				viewHolder._price.setText(String.format(_format_price, billObject.mRealFee));
+				viewHolder._time.setText(String.format(_format_xiaopei_time, DateUtils.DATE_TIME_FORMAT.format(new Date(billObject.getCreateTime()))));
 			}
 		}
 		

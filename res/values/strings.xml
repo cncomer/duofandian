@@ -307,6 +307,7 @@
   <string name="bill_unpay">未支付</string>
   <string name="bill_pay_sucess">支付成功</string>
   <string name="bill_tuiding_sucess">已退定成功</string>
+  <string name="bill_tuiding_dealing">退定处理中...</string>
   <string name="bill_tuiding">退定</string>
   
   <string name="title_hot_hotel_tip">热门餐厅不等位!</string>
@@ -422,11 +423,13 @@
           <string name="title_account_available_amount_unit">"夺饭点币"</string>
           
           <string name="title_has_xiaofei_bill">"已消费金额"</string>
-          <string name="title_has_tuiding_bill">"已退订金额"</string>
+          <string name="title_has_tuiding_bill">"已退定金金额"</string>
+          <string name="title_has_pay_bill">"已付定金金额"</string>
           
           <string name="title_price">"金额: "</string>
           <string name="format_price">"%s元"</string>
           <string name="format_bill_number">"订单号: %s"</string>
           <string name="format_bill_xiaofei_time">"消费时间: %s"</string>
+          <string name="format_bill_pay_time">"支付时间: %s"</string>
           <string name="format_bill_tuiding_time">"退订时间: %s"</string>
 </resources>

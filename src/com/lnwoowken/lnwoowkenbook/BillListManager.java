@@ -57,6 +57,9 @@ public class BillListManager {
 	public static Cursor getLocalBillsCursor(ContentResolver cr, String selection, String[] selectArgs) {
 		return cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, selection, selectArgs, BillObject.BILL_SORT);
 	}
+	public static Cursor getLocalAccountBillsCursor(ContentResolver cr, String selection, String[] selectArgs) {
+		return cr.query(BjnoteContent.Bills.ACCOUNT_CONTENT_URI, BillObject.BILL_PROJECTION, selection, selectArgs, BillObject.BILL_SORT);
+	}
 	
 	public static BillObject getBillObjectFromCursor(Cursor c) {
 		return getBillObject(c);
@@ -106,6 +109,8 @@ public class BillListManager {
 		
 		billObj.setVisited(c.getInt(c.getColumnIndex(BillObject.BILL_VISITED)));
 		billObj.mModifiedTime = c.getLong(c.getColumnIndex(BillObject.BILL_MODIFIED_TIME));
+		billObj.mTN = c.getString(c.getColumnIndex(BillObject.BILL_TN));
+		billObj.mRealFee = c.getString(c.getColumnIndex(BillObject.BILL_REAL_FEE));
 		return billObj;
 	}
 	
@@ -140,7 +145,9 @@ public class BillListManager {
 		billObj.setDingJinPrice(obj.getString(BillObject.BILL_DINGJIN_PRICE));
 		
 		billObj.setVisited(Integer.valueOf(obj.optString(BillObject.BILL_VISITED, "0")));
-		
+		billObj.mRealFee = obj.optString(BillObject.BILL_REAL_FEE, "0");
+		billObj.mTN = obj.optString(BillObject.BILL_TN, "");
+		billObj.setTid(obj.optString("DeskID", ""));
 		return billObj;
 	}
 	

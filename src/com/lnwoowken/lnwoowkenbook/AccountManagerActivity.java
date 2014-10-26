@@ -32,8 +32,8 @@ public class AccountManagerActivity extends BaseActionbarActivity{
 	private ContentObserver mContentObserver;
 	private ImageView mAvator;
 	
-	private TextView mPayBtn, mTuidingBtn;
-	private View mPayLayout, mTuidingLayout;
+	private TextView mPayBtn, mTuidingBtn, mRealFeeBtn;
+	private View mPayLayout, mTuidingLayout, mRealFeeLayout;
 	private Drawable mRightArrowDrawable, mDownArrowDrawable;
 
 	@Override
@@ -56,24 +56,32 @@ public class AccountManagerActivity extends BaseActionbarActivity{
 			}
 		};
 		getContentResolver().registerContentObserver(BjnoteContent.Accounts.CONTENT_URI, true, mContentObserver);
-		PayPageFragment payPageFragment = new PayPageFragment();
-		payPageFragment.setBillState(BillObject.STATE_SUCCESS);
+		PayPageFragment payDinjinPageFragment = new PayPageFragment();
+		payDinjinPageFragment.setBillState(BillObject.STATE_SUCCESS);
 		
 		PayPageFragment duidingPageFragment = new PayPageFragment();
 		duidingPageFragment.setBillState(BillObject.STATE_TUIDING_SUCCESS);
-		getSupportFragmentManager().beginTransaction().add(R.id.pay_layout, payPageFragment, "PayPageFragment.Pay")
-		.add(R.id.tuiding_layout, duidingPageFragment, "PayPageFragment.Tuiding").commit();
 		
-		mPayBtn = (TextView) findViewById(R.id.button_pay);
+		PayPageFragment realFeePageFragment = new PayPageFragment();
+		realFeePageFragment.setBillState(BillObject.STATE_XIAOFEI);
+		
+		getSupportFragmentManager().beginTransaction().add(R.id.dinjin_layout, payDinjinPageFragment, "PayPageFragment.Dinjin")
+		.add(R.id.tuiding_layout, duidingPageFragment, "PayPageFragment.Tuiding")
+		.add(R.id.real_fee_layout, realFeePageFragment, "PayPageFragment.RealFee").commit();
+		
+		mPayBtn = (TextView) findViewById(R.id.button_dinjin);
 		mPayBtn.setOnClickListener(this);
 		
 		mTuidingBtn = (TextView) findViewById(R.id.button_tuiding);
 		mTuidingBtn.setOnClickListener(this);
 		
-		mPayLayout = findViewById(R.id.pay_layout);
-		mTuidingLayout = findViewById(R.id.tuiding_layout);
+		mRealFeeBtn = (TextView) findViewById(R.id.button_real_fee);
+		mRealFeeBtn.setOnClickListener(this);
 		
-		showBillLayout(View.GONE, View.GONE);
+		mPayLayout = findViewById(R.id.dinjin_layout);
+		mTuidingLayout = findViewById(R.id.tuiding_layout);
+		mRealFeeLayout = findViewById(R.id.real_fee_layout);
+		showBillLayout(View.GONE, View.GONE, View.GONE);
 	}
 	
 	@Override
@@ -136,12 +144,14 @@ public class AccountManagerActivity extends BaseActionbarActivity{
 		mMemberJifen.setText(mAccountObject.mAccountJifen);
 	}
 	
-	private void showBillLayout(int showPay, int showTuiding) {
+	private void showBillLayout(int showPay, int showTuiding, int showRealFee) {
 		mPayLayout.setVisibility(showPay);
 //		mPayBtn.setCompoundDrawables(null, null, showPay == View.VISIBLE?mDownArrowDrawable:mRightArrowDrawable, null);
 		
 		mTuidingLayout.setVisibility(showTuiding);
 //		mTuidingBtn.setCompoundDrawables(null, null, showPay == View.VISIBLE?mDownArrowDrawable:mRightArrowDrawable, null);
+		
+		mRealFeeLayout.setVisibility(showRealFee);
 	}
 	
 	@Override
@@ -154,11 +164,14 @@ public class AccountManagerActivity extends BaseActionbarActivity{
 			}
 			break;
 		case R.id.button_tuiding:
-			showBillLayout(View.GONE, mTuidingLayout.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
+			showBillLayout(View.GONE, mTuidingLayout.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE, View.GONE);
 			break;
-		case R.id.button_pay:
-			showBillLayout(mPayLayout.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE, View.GONE);
+		case R.id.button_dinjin:
+			showBillLayout(mPayLayout.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE, View.GONE, View.GONE);
 			break;
+		case R.id.button_real_fee:
+			showBillLayout(View.GONE, View.GONE, mRealFeeLayout.getVisibility()==View.VISIBLE?View.GONE:View.VISIBLE);
+		    break;
 			default:
 				super.onClick(v);
 		}

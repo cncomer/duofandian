@@ -30,6 +30,7 @@ import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.database.DBHelper;
 import com.cncom.app.base.ui.PullToRefreshListPageActivity;
 import com.cncom.app.base.util.DebugUtils;
+import com.cncom.app.base.util.TableInfoObject;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.lnwoowken.lnwoowkenbook.adapter.BillListCursorAdapter;
 import com.lnwoowken.lnwoowkenbook.adapter.BillListCursorAdapter.ViewHolder;
@@ -59,6 +60,10 @@ public class BillListActivity extends PullToRefreshListPageActivity {
     private static final int WHAT_UPDATE_TIME = 10;
     private static final int UPDATE_TIME_DELAY = 60 * 1000;
     
+    /**刷新服务器数据*/
+    private static final int WHAT_REFRESH = 11;
+    /**10分钟刷新一次*/
+    private static final int WHAT_REFRESH_TIME_DELAY = 10 * 60 * 1000;
     private Query mQuery;
 
 	@Override
@@ -89,25 +94,27 @@ public class BillListActivity extends PullToRefreshListPageActivity {
 					}
 					mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_TIME, UPDATE_TIME_DELAY);	
 					break;
+				case WHAT_REFRESH:
+					forceRefresh();
+					mHandler.sendEmptyMessageDelayed(WHAT_REFRESH, WHAT_REFRESH_TIME_DELAY);
+					break;
 				}
 			}
 			
 		};
 		mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_TIME, UPDATE_TIME_DELAY);		
+		mHandler.sendEmptyMessageDelayed(WHAT_REFRESH, WHAT_REFRESH_TIME_DELAY);
 		
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
-		mHandler.removeMessages(WHAT_UPDATE_TIME);
-		mHandler.sendEmptyMessageDelayed(WHAT_UPDATE_TIME, UPDATE_TIME_DELAY);	
 	}
 	
 	@Override
 	public void onStop() {
 		super.onStop();
-		mHandler.removeMessages(WHAT_UPDATE_TIME);	
 	}
 	
 	@Override
@@ -121,6 +128,14 @@ public class BillListActivity extends PullToRefreshListPageActivity {
 		if (BillListManager.isShowNew()) {
 			return true;
 		}
+		//上次刷新后，如果超过了10分钟，我们需要重新获取服务器数据一次以便同步状态
+		long nowTime = new Date().getTime();
+		long lastRefreshTime = ComPreferencesManager.getInstance().mPreferManager.getLong(TAG+".refreshTime", nowTime);
+		if (Math.abs(nowTime - lastRefreshTime) >= WHAT_REFRESH_TIME_DELAY) {
+			DebugUtils.logD(TAG, "isNeedForceRefreshOnResume() > WHAT_REFRESH_TIME_DELAY");
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -153,6 +168,8 @@ public class BillListActivity extends PullToRefreshListPageActivity {
 			mBillListCursorAdapter.changeCursor(null);
 			mBillListCursorAdapter = null;
 		}
+		mHandler.removeMessages(WHAT_REFRESH);
+		mHandler.removeMessages(WHAT_UPDATE_TIME);	
 	}
 	
 	
@@ -207,6 +224,21 @@ public class BillListActivity extends PullToRefreshListPageActivity {
 		case R.id.imageButton_delete://删除订单
 			ViewHolder groupHolder = (ViewHolder) v.getTag();
 			showDialog(mContext.getString(R.string.delete_tips), groupHolder.billObject);
+			break;
+		case R.id.button_confirm_pay:
+			//确认支付
+			ViewHolder viewHolder = (ViewHolder) v.getTag();
+			TableInfoObject tableInfoObject = new TableInfoObject();
+			//设置ShopID
+			tableInfoObject.setShopId(viewHolder.billObject.getSid());
+			//设置DeskID
+			tableInfoObject.setDeskId(viewHolder.billObject.getTid());
+			//设置交易流水号和订单号
+			tableInfoObject.setTn(viewHolder.billObject.mTN);
+			tableInfoObject.setOrderNo(viewHolder.billObject.getBillNumber());
+			Bundle bundle = new Bundle();  
+			bundle.putParcelable("shopobject", tableInfoObject);
+			PayInfoActivity.startActivity(mContext, bundle);
 			break;
 		}
 	}
@@ -279,10 +311,15 @@ public class BillListActivity extends PullToRefreshListPageActivity {
 		}
 		return null;
 	}
-
+	
+	@Override
+	protected void onRefreshLoadEnd() {
+		BillListManager.deleteCachedData(getContentResolver());
+	}
+	
 	@Override
 	protected void onRefreshStart() {
-		
+		ComPreferencesManager.getInstance().mPreferManager.edit().putLong(TAG+".refreshTime", new Date().getTime()).commit();
 	}
 
 	@Override

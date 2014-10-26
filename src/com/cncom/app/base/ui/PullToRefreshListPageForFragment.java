@@ -148,7 +148,7 @@ public abstract class PullToRefreshListPageForFragment extends BaseFragment impl
 		mListView.setOnItemClickListener(this);
 		addFooterView();
 		updateFooterView(false, null);
-
+		mAdapterWrapper = getAdapterWrapper();
 		mListView.setAdapter(mAdapterWrapper.getAdapter());
 //		mListView.setEmptyView(mEmptyView);
 		removeFooterView();

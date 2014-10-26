@@ -12,7 +12,7 @@ import com.shwy.bestjoy.utils.DebugUtils;
  */
 public final class DBHelper extends SQLiteOpenHelper {
 private static final String TAG = "DBHelper";
-  private static final int DB_VERSION = 6;
+  private static final int DB_VERSION = 7;
   private static final String DB_NAME = "cncom.db";
   public static final String ID = "_id";
   /**0为可见，1为删除，通常用来标记一条数据应该被删除，是不可见的，包含该字段的表查询需要增加deleted=0的条件*/
@@ -100,6 +100,8 @@ private static final String TAG = "DBHelper";
   
   //bill table begin
   public static final String TABLE_NAME_BILL = "bills";
+  /**账户管理界面订单记录*/
+  public static final String TABLE_NAME_BILL_ACCOUNT = "bills_account";
   public static final String BILL_ID = "_id";
   public static final String BILL_UID = "uid";
   public static final String BILL_SID = "sid";
@@ -124,6 +126,11 @@ private static final String TAG = "DBHelper";
   /**表示该订单是否已经评价过, 0为待评价，1为已评价*/
   public static final String BILL_VISITED = "visited";
   public static final String MODIFIED_TIME = "modified_time";
+  /**实际消费的总金额*/
+  public static final String BILL_REAL_FEE = "real_fee";
+  /**流水号*/
+  public static final String BILL_TN = "tn";
+  
   
   //bill table end
   
@@ -286,10 +293,42 @@ private static final String TAG = "DBHelper";
 	            BILL_TABLESTYLE + " TEXT, " +
 	            BILL_CREATETIME + " TEXT, " +
 	            BILL_NUMBER + " TEXT, " +
+	            BILL_TN + " TEXT, " +
 	            BILL_DABIAO_PRICE + " TEXT, " +
 	            BILL_DINGJIN_PRICE + " TEXT, " +
+	            BILL_REAL_FEE + " TEXT, " +
 	            MODIFIED_TIME + " TEXT, " +
 	            BILL_SERVICE_PRICE + " TEXT);");
+	  
+	  
+	  sqLiteDatabase.execSQL(
+	            "CREATE TABLE " + TABLE_NAME_BILL_ACCOUNT + " (" +
+	            BILL_ID + " INTEGER PRIMARY KEY, " +
+	            BILL_UID + " TEXT, " +
+	            BILL_SID + " TEXT, " +
+	            BILL_TID + " TEXT, " +
+	            BILL_PEOPLENUM + " TEXT, " +
+	            BILL_RCODE + " TEXT, " +
+	            BILL_MAC + " TEXT, " +
+	            BILL_IP + " TEXT, " +
+	            BILL_PHONE + " TEXT, " +
+	            BILL_VERSION + " TEXT, " +
+	            BILL_SHOPNAME + " TEXT, " +
+	            BILL_DATE + " TEXT, " +
+	            BILL_TIME + " TEXT, " +
+	            BILL_VISITED + " INTEGER NOT NULL DEFAULT 0, " +
+	            BILL_STATE + " INTEGER NOT NULL DEFAULT 0, " +
+	            BILL_TABLENAME + " TEXT, " +
+	            BILL_TABLESTYLE + " TEXT, " +
+	            BILL_CREATETIME + " TEXT, " +
+	            BILL_NUMBER + " TEXT, " +
+	            BILL_TN + " TEXT, " +
+	            BILL_DABIAO_PRICE + " TEXT, " +
+	            BILL_DINGJIN_PRICE + " TEXT, " +
+	            BILL_REAL_FEE + " TEXT, " +
+	            MODIFIED_TIME + " TEXT, " +
+	            BILL_SERVICE_PRICE + " TEXT);");
+	  
   }
   
   private void createScanHistory(SQLiteDatabase sqLiteDatabase) {
@@ -326,7 +365,7 @@ private static final String TAG = "DBHelper";
   @Override
   public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
 	  DebugUtils.logD(TAG, "onUpgrade oldVersion " + oldVersion + " newVersion " + newVersion);
-	  if (oldVersion < 6) {
+	  if (oldVersion < 7) {
 		  sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_ACCOUNTS);
 		    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_SHOPS);
 		    sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_BILL);

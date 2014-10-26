@@ -60,6 +60,9 @@ public class BillListCursorAdapter extends CursorAdapter {
 		case BillObject.STATE_TUIDING_SUCCESS:
 			res = R.string.bill_tuiding_sucess;
 			break;
+		case BillObject.STATE_TUIDING_DEALING:
+			res = R.string.bill_tuiding_dealing;
+			break;
 		}
 		return mContext.getString(res);
 	}
@@ -125,7 +128,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 //				showDialog(mContext.getString(R.string.delete_tips), groupHolder.billObject.getBillNumber());
 //			}
 //		});
-		
+		int billState = groupHolder.billObject.getState();
 		if (mDataType == BillObject.STATE_ALL) {
 			groupHolder.btn_confirm_pay.setVisibility(View.GONE);
 			groupHolder.order_status_layout.setVisibility(View.VISIBLE);
@@ -143,8 +146,10 @@ public class BillListCursorAdapter extends CursorAdapter {
 			}
 			
 			
-			if (groupHolder.billObject.getState() == BillObject.STATE_TUIDING_SUCCESS || groupHolder.billObject.getState() == BillObject.STATE_UNPAY) {
-				//已经退订成功的或则未支付的，我们不显示退订按钮
+			if (billState == BillObject.STATE_TUIDING_SUCCESS 
+					|| billState == BillObject.STATE_UNPAY
+					|| billState == BillObject.STATE_TUIDING_DEALING) {
+				//已经退订成功的或则未支付的或则在退订中的，我们不显示退订按钮
 				groupHolder.btn_tuiding.setVisibility(View.INVISIBLE);
 			} else {
 				//已支付订单，用餐前两小时退订按钮将灰化
@@ -172,6 +177,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 			long createTime = groupHolder.billObject.getCreateTime();
 			long currentTime = new Date().getTime();
 			groupHolder.btn_confirm_pay.setEnabled(Math.abs(currentTime - createTime) < OVER_TIME);
+			groupHolder.btn_confirm_pay.setOnClickListener(mOnClickListener);
 			
 		}
 		

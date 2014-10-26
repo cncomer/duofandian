@@ -52,6 +52,9 @@ public class BjnoteContent {
     }
     public static class Bills extends BjnoteContent{
     	public static final Uri CONTENT_URI = Uri.withAppendedPath(BjnoteContent.CONTENT_URI, "bills");
+    	/**账户管理里的订单查询*/
+    	public static final Uri ACCOUNT_CONTENT_URI = Uri.withAppendedPath(BjnoteContent.CONTENT_URI, "account_bills");
+    	
     }
     public static class ScanHistory extends BjnoteContent{
     	public static final Uri CONTENT_URI = Uri.withAppendedPath(BjnoteContent.CONTENT_URI, "scan_history");

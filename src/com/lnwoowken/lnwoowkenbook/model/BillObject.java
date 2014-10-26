@@ -16,11 +16,11 @@ import com.shwy.bestjoy.utils.InfoInterface;
 
 public class BillObject implements InfoInterface{
 	private static final String TAG = "BillObject";
-	
+	public Uri mBillTableContentUri = BjnoteContent.Bills.CONTENT_URI;
 	private String id;
 	private String uid;   //账户id
 	private String sid;  //ShopId
-	private String tid;
+	private String tid;  //DeskId
 	private String peopleNum;
 	private String rcode;
 	private String mac;
@@ -42,6 +42,10 @@ public class BillObject implements InfoInterface{
 	private int mVisited = 0;  //满意度调查是否已经评价过了
 	
 	public long mModifiedTime = 0;
+	/**实际消费金额，对应real_fee*/
+	public String mRealFee = "0";
+	/**流水号*/
+	public String mTN = "";
 	
 	/**未支付 0*/
 	public static final int STATE_UNPAY = 0;
@@ -51,6 +55,10 @@ public class BillObject implements InfoInterface{
 	public static final int STATE_TUIDING_SUCCESS = STATE_UNPAY + 2;
 	/**全部 3*/
 	public static final int STATE_ALL = STATE_UNPAY+3;
+	/**退定中8*/
+	public static final int STATE_TUIDING_DEALING = STATE_UNPAY + 8;
+	/**已消费5*/
+	public static final int STATE_XIAOFEI = STATE_UNPAY+5;
 
 	public static final String BILL_ID = "_id";
 	public static final String BILL_UID = "uid";
@@ -77,6 +85,8 @@ public class BillObject implements InfoInterface{
 	public static final String BILL_VISITED = "visited";
 	
 	public static final String BILL_MODIFIED_TIME = "modified_time";
+	public static final String BILL_REAL_FEE = "real_fee";
+	public static final String BILL_TN = "tn";
 
 	public static final String[] BILL_PROJECTION = new String[] {
 		DBHelper.BILL_ID,
@@ -102,6 +112,8 @@ public class BillObject implements InfoInterface{
 		DBHelper.BILL_DINGJIN_PRICE,
 		DBHelper.BILL_VISITED,
 		DBHelper.MODIFIED_TIME,
+		DBHelper.BILL_TN,
+		DBHelper.BILL_REAL_FEE, 
 	};
 
 	public static final String BILL_SELECTION = DBHelper.BILL_NUMBER + "=?";
@@ -345,7 +357,10 @@ public class BillObject implements InfoInterface{
 		
 		values.put(DBHelper.MODIFIED_TIME, new Date().getTime());
 		
-		Uri uri = cr.insert(BjnoteContent.Bills.CONTENT_URI, values);
+		values.put(DBHelper.BILL_REAL_FEE, mRealFee);
+		values.put(DBHelper.BILL_TN, mTN);
+		
+		Uri uri = cr.insert(mBillTableContentUri, values);
 		if (uri != null) {
 			DebugUtils.logD(TAG, "saveInDatebase insert billnumber " + billNumber);
 			return true;
@@ -384,7 +399,9 @@ public class BillObject implements InfoInterface{
 		
 		values.put(DBHelper.MODIFIED_TIME, new Date().getTime());
 		
-		int updated = cr.update(BjnoteContent.Bills.CONTENT_URI, values, BILL_SELECTION, new String[]{billNumber});
+		values.put(DBHelper.BILL_REAL_FEE, mRealFee);
+		values.put(DBHelper.BILL_TN, mTN);
+		int updated = cr.update(mBillTableContentUri, values, BILL_SELECTION, new String[]{billNumber});
 		if (updated != -1) {
 			DebugUtils.logD(TAG, "saveInDatebase update billNumber " + billNumber + ", #updated "+ updated);
 			return true;
@@ -403,9 +420,9 @@ public class BillObject implements InfoInterface{
 		}
 	}
 	
-	public static long isExsited(ContentResolver cr, String billNumber) {
+	public long isExsited(ContentResolver cr, String billNumber) {
 		long id = -1;
-		Cursor c = cr.query(BjnoteContent.Bills.CONTENT_URI, BillObject.BILL_PROJECTION, BillObject.BILL_SELECTION, new String[] {billNumber}, null);
+		Cursor c = cr.query(mBillTableContentUri, BillObject.BILL_PROJECTION, BillObject.BILL_SELECTION, new String[] {billNumber}, null);
 		if (c != null) {
 			if (c.moveToNext()) {
 				id = c.getLong(0);

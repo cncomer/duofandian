@@ -6,28 +6,28 @@
     android:orientation="vertical" >
 
     <include layout="@layout/activity_account_manager_top" />
-
-    <TextView android:id="@+id/button_pay"
+    <TextView android:id="@+id/button_dinjin"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:layout_marginLeft="20dip"
         android:layout_marginTop="10dip"
         android:gravity="center_vertical"
-        android:text="@string/title_has_xiaofei_bill"
+        android:text="@string/title_has_pay_bill"
         android:textColor="@color/blk"
         android:drawableRight="@drawable/gray_right_arrow"
         android:paddingRight="20dip"
         android:clickable="true"
         android:textSize="20sp" />
 
-    <FrameLayout android:id="@+id/pay_layout"
+    <FrameLayout android:id="@+id/dinjin_layout"
          android:layout_width="fill_parent"
     	android:layout_height="0dip"
     	android:layout_weight="1.0"/>
+    
     <View android:layout_height="4dip"
  		android:layout_width="fill_parent"
  		android:background="#ffeeeeee"/>
-    <TextView android:id="@+id/button_tuiding"
+ 	<TextView android:id="@+id/button_tuiding"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
         android:layout_marginLeft="20dip"
@@ -43,4 +43,26 @@
          android:layout_width="fill_parent"
     	android:layout_height="0dip"
     	android:layout_weight="1.0"/>
+	<View android:layout_height="4dip"
+ 		android:layout_width="fill_parent"
+ 		android:background="#ffeeeeee"/>
+	
+    <TextView android:id="@+id/button_real_fee"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:layout_marginLeft="20dip"
+        android:layout_marginTop="10dip"
+        android:gravity="center_vertical"
+        android:text="@string/title_has_xiaofei_bill"
+        android:textColor="@color/blk"
+        android:drawableRight="@drawable/gray_right_arrow"
+        android:paddingRight="20dip"
+        android:clickable="true"
+        android:textSize="20sp" />
+
+    <FrameLayout android:id="@+id/real_fee_layout"
+         android:layout_width="fill_parent"
+    	android:layout_height="0dip"
+    	android:layout_weight="1.0"/>
+   
 </LinearLayout>
