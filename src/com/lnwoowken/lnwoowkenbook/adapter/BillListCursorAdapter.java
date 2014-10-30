@@ -178,6 +178,7 @@ public class BillListCursorAdapter extends CursorAdapter {
 			long currentTime = new Date().getTime();
 			groupHolder.btn_confirm_pay.setEnabled(Math.abs(currentTime - createTime) < OVER_TIME);
 			groupHolder.btn_confirm_pay.setOnClickListener(mOnClickListener);
+			groupHolder.btn_confirm_pay.setTag(groupHolder);
 			
 		}
 		
