@@ -306,6 +306,7 @@
   
   <string name="bill_unpay">未支付</string>
   <string name="bill_pay_sucess">支付成功</string>
+  <string name="bill_xiaofei">已消费</string>
   <string name="bill_tuiding_sucess">已退定成功</string>
   <string name="bill_tuiding_dealing">退定处理中...</string>
   <string name="bill_tuiding">退定</string>

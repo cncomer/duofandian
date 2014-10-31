@@ -29,19 +29,6 @@ public class BillListManager {
 		return billList;
 	}
 	
-	public static List<BillObject> getBillList(ContentResolver cr, JSONArray mJsonArrayData) throws JSONException{
-		List<BillObject> result = new ArrayList<BillObject>();
-		if(mJsonArrayData == null) return result;
-		deleteCachedData(cr);
-		for(int i = 0; i < mJsonArrayData.length(); i++) {
-			BillObject billObject = getBillFromJsonObject(mJsonArrayData.getJSONObject(i));
-			result.add(billObject);
-			
-			saveBill(billObject, cr);
-		}
-		return result;
-	}
-	
 	public static List<BillObject> getUnpayBillListLocal(ContentResolver cr) {
 		List<BillObject> billList = new ArrayList<BillObject>();
 

@@ -63,6 +63,9 @@ public class BillListCursorAdapter extends CursorAdapter {
 		case BillObject.STATE_TUIDING_DEALING:
 			res = R.string.bill_tuiding_dealing;
 			break;
+		case BillObject.STATE_XIAOFEI:
+			res = R.string.bill_xiaofei;
+			break;
 		}
 		return mContext.getString(res);
 	}

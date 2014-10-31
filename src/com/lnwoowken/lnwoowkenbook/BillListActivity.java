@@ -277,17 +277,25 @@ public class BillListActivity extends PullToRefreshListPageActivity {
 
 	@Override
 	protected List<? extends InfoInterface> getServiceInfoList(InputStream is, PageInfo pageInfo) {
-		ServiceResultObject serviceResultObject = ServiceResultObject.parseJsonArray(NetworkUtils.getContentFromInput(is));
+		ServiceResultObject serviceResultObject = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
 		List<BillObject> list = new ArrayList<BillObject>();
 		if (serviceResultObject.isOpSuccessfully()) {
-			for(int i = 0; i < serviceResultObject.mJsonArrayData.length(); i++) {
-				try {
-					BillObject billObject = BillListManager.getBillFromJsonObject(serviceResultObject.mJsonArrayData.getJSONObject(i));
-					list.add(billObject);
-				} catch (JSONException e) {
-					e.printStackTrace();
+			try {
+				serviceResultObject.mJsonArrayData = serviceResultObject.mJsonData.getJSONArray("rows");
+				int len = serviceResultObject.mJsonArrayData.length();
+				pageInfo.mTotalCount = serviceResultObject.mJsonData.optInt("total", 0);
+				for(int i = 0; i < len; i++) {
+					try {
+						BillObject billObject = BillListManager.getBillFromJsonObject(serviceResultObject.mJsonArrayData.getJSONObject(i));
+						list.add(billObject);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					
 				}
-				
+			} catch (JSONException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		}
 		return list;
@@ -296,6 +304,7 @@ public class BillListActivity extends PullToRefreshListPageActivity {
 	@Override
 	protected Query getQuery() {
 		mQuery =  new Query();
+		mQuery.mPageInfo = new PageInfo();
 		mQuery.qServiceUrl = ServiceObject.getAllBillInfoUrl("para", getFilterServiceUrl());
 		return mQuery;
 	}
@@ -305,6 +314,8 @@ public class BillListActivity extends PullToRefreshListPageActivity {
 			JSONObject queryJsonObject = new JSONObject();
 			queryJsonObject.put("uid", MyAccountManager.getInstance().getCurrentAccountUid());
 			queryJsonObject.put("filter", mOrderType);
+			queryJsonObject.put("pageindex", mQuery.mPageInfo.mPageIndex);
+			queryJsonObject.put("pagesize", mQuery.mPageInfo.mPageSize);
 			return queryJsonObject.toString();
 		} catch (JSONException e) {
 			e.printStackTrace();
