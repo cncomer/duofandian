@@ -26,6 +26,7 @@ import android.util.Log;
 
 import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.ui.PreferencesActivity;
+import com.cncom.app.base.util.YouMengMessageHelper;
 import com.lnwoowken.lnwoowkenbook.MyApplication;
 import com.shwy.bestjoy.utils.ComConnectivityManager;
 import com.shwy.bestjoy.utils.DateUtils;
@@ -132,6 +133,14 @@ public class UpdateService extends Service implements ComConnectivityManager.Con
 					break;
 				case MSG_DOWNLOAD_START:
 					downloadLocked(mServiceAppInfo.buildExternalDownloadAppFile());
+					break;
+				case MSG_CHECK_DEVICE_TOKEN:
+					if (!YouMengMessageHelper.getInstance().getDeviceTotkeStatus()) {
+						YouMengMessageHelper.getInstance().postDeviceTokenToServiceLocked();
+						DebugUtils.logD(TAG, "sendEmptyMessageDelayed(MSG_CHECK_DEVICE_TOKEN, 30000");
+						mWorkServiceHandler.sendEmptyMessageDelayed(MSG_CHECK_DEVICE_TOKEN, 30000);
+						
+					}
 					break;
 				}
 				super.handleMessage(msg);

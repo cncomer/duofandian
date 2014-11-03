@@ -403,4 +403,16 @@ public class ServiceObject {
 			return mStatusCode == 1;
 		}
 	}
+	
+	 /**
+	   * "http://manage.lnwoowken.com/Mobile/common/RegisterDevice.ashx?UID=1&pushtoken=test&devicetype=android
+	   */
+	  public static String getUpdateDeviceTokenUrl(String uid, String deviceToken, String deviceType) {
+		  UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(SERVICE_URL);
+		  sb.append("Mobile/common/addUsertoken.ashx?uid=").appendUrlEncodedString(uid)
+		  .append("&token=").appendUrlEncodedString(deviceToken)
+		  .append("&devicetype=").appendUrlEncodedString(deviceType);
+		  return sb.toString();
+		  
+	  }
 }

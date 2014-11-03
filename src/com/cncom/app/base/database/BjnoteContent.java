@@ -69,6 +69,34 @@ public class BjnoteContent {
     	}
     }
     
+    public static class YMESSAGE extends BjnoteContent{
+    	public static final Uri CONTENT_URI = Uri.withAppendedPath(BjnoteContent.CONTENT_URI, "ymessage");
+    	
+    	public static String[] PROJECTION = new String[]{
+    		DBHelper.ID,
+    		DBHelper.YOUMENG_MESSAGE_ID,
+    		DBHelper.YOUMENG_TITLE,
+    		DBHelper.YOUMENG_TEXT,
+    		DBHelper.YOUMENG_MESSAGE_ACTIVITY,
+    		DBHelper.YOUMENG_MESSAGE_URL,
+    		DBHelper.YOUMENG_MESSAGE_CUSTOM,
+    		DBHelper.YOUMENG_MESSAGE_RAW, 
+    		DBHelper.DATE,
+    	};
+    	
+    	public static final int INDEX_ID = 0;
+    	public static final int INDEX_MESSAGE_ID = 1;
+    	public static final int INDEX_TITLE = 2;
+    	public static final int INDEX_TEXT = 3;
+    	public static final int INDEX_MESSAGE_ACTIVITY = 4;
+    	public static final int INDEX_MESSAGE_URL = 5;
+    	public static final int INDEX_MESSAGE_CUSTOM = 6;
+    	public static final int INDEX_MESSAGE_RAW = 7;
+    	public static final int INDEX_DATE = 8;
+    	
+    	public static final String WHERE_YMESSAGE_ID = DBHelper.YOUMENG_MESSAGE_ID + "=?";
+    }
+    
     public static long existed(ContentResolver cr, Uri uri, String where, String[] selectionArgs) {
     	long id = -1;
 		Cursor c = cr.query(uri, ID_PROJECTION, where, selectionArgs, null);

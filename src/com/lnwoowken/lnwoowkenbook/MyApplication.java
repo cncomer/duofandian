@@ -24,13 +24,13 @@ import com.cncom.app.base.module.ModuleSettings;
 import com.cncom.app.base.service.PhotoManagerUtilsV2;
 import com.cncom.app.base.util.BeepAndVibrate;
 import com.cncom.app.base.util.BitmapUtils;
+import com.cncom.app.base.util.YouMengMessageHelper;
 import com.shwy.bestjoy.utils.ComConnectivityManager;
 import com.shwy.bestjoy.utils.ComPreferencesManager;
 import com.shwy.bestjoy.utils.DateUtils;
 import com.shwy.bestjoy.utils.DebugUtils;
 import com.shwy.bestjoy.utils.DeviceStorageUtils;
 import com.shwy.bestjoy.utils.DevicesUtils;
-import com.shwy.bestjoy.utils.NotifyRegistrant;
 import com.shwy.bestjoy.utils.SecurityUtils.SecurityKeyValuesObject;
 import com.umeng.analytics.MobclickAgent;
 
@@ -76,6 +76,8 @@ public class MyApplication extends Application{
 		DisplayMetrics display = this.getResources().getDisplayMetrics();
 		Log.d(TAG, display.toString());
 		Log.d(TAG, getDeviceInfo(this));
+		
+		YouMengMessageHelper.getInstance().setContext(this);
 		
 	}
 	

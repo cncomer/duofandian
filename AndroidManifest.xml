@@ -418,12 +418,12 @@
             <!-- wangkun "53d3c49a56240bb02a022bd7" -->
 		<meta-data
             android:name="UMENG_APPKEY"
-            android:value="53fc8b7afd98c5d0d801193d" >
+            android:value="54577cfcfd98c513e2004831" >
         </meta-data>
             <!-- wangkun "8a984caad589c9e707a2790b4cb3221f" -->
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="2c2295816661a7da248598e69e6e360c" >
+            android:value="599a0869db43fce4f3edad15e0097888" >
         </meta-data>
 		<!-- 消息推送代码结束 -->
 		<meta-data android:value="DuoFanDian" android:name="UMENG_CHANNEL"/>

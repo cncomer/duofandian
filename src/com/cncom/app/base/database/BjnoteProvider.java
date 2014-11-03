@@ -30,6 +30,7 @@ public class BjnoteProvider extends ContentProvider{
 			DBHelper.TABLE_NAME_BILL,
 			DBHelper.TABLE_NAME_BILL_ACCOUNT,
 //			ContactsDBHelper.TABLE_NAME_MYLIFE_CONSUME,
+			DBHelper.TABLE_YOUMENG_PUSHMESSAGE_HISTORY,
 	};
 	private static final int BASE = 8;
 	
@@ -50,6 +51,9 @@ public class BjnoteProvider extends ContentProvider{
 	
 	private static final int ACCOUNT_BILL = 0x0500;
 	private static final int ACCOUNT_BILL_ID = 0x0501;
+	
+	private static final int YMESSAGE = 0x0600;
+	private static final int YMESSAGE_ID = 0x0601;
 	
 	
 	
@@ -75,6 +79,9 @@ public class BjnoteProvider extends ContentProvider{
 	        
 	        matcher.addURI(BjnoteContent.AUTHORITY, "account_bills", ACCOUNT_BILL);
 	        matcher.addURI(BjnoteContent.AUTHORITY, "account_bills/#", ACCOUNT_BILL_ID);
+	        
+	        matcher.addURI(BjnoteContent.AUTHORITY, "ymessage", YMESSAGE);
+	        matcher.addURI(BjnoteContent.AUTHORITY, "ymessage/#", YMESSAGE_ID);
 	        
 	        //TODO 增加
 	 }
@@ -138,6 +145,10 @@ public class BjnoteProvider extends ContentProvider{
 		case ACCOUNT_BILL:
 		case ACCOUNT_BILL_ID:
 			notify = BjnoteContent.Bills.ACCOUNT_CONTENT_URI;
+			break;
+		case YMESSAGE:
+		case YMESSAGE_ID:
+			notify = BjnoteContent.YMESSAGE.CONTENT_URI;
 			break;
     	}
     	ContentResolver resolver = context.getContentResolver();
@@ -317,6 +328,7 @@ public class BjnoteProvider extends ContentProvider{
 	    	case SHANGQUAN_ID:
 	    	case BILL_ID:
 			case ACCOUNT_BILL_ID:
+			case YMESSAGE_ID:
 			try {
 				id = ContentUris.parseId(uri);
 			} catch(java.lang.NumberFormatException e) {

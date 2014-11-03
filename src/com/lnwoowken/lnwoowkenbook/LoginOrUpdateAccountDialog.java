@@ -17,7 +17,9 @@ import android.widget.TextView;
 import com.cncom.app.base.account.AccountObject;
 import com.cncom.app.base.account.AccountParser;
 import com.cncom.app.base.account.MyAccountManager;
+import com.cncom.app.base.update.UpdateService;
 import com.cncom.app.base.util.DebugUtils;
+import com.cncom.app.base.util.YouMengMessageHelper;
 import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 import com.shwy.bestjoy.utils.Intents;
@@ -124,6 +126,10 @@ public class LoginOrUpdateAccountDialog extends Activity{
 			if (result.isOpSuccessfully()) {
 				//如果登陆成功
 				setResult(Activity.RESULT_OK);
+				//每次登陆，我们都需要注册设备Token
+				YouMengMessageHelper.getInstance().saveDeviceTokenStatus(false);
+				//登录成功，我们需要检查是否能够上传设备Token到服务器绑定uid和token
+				UpdateService.startCheckDeviceTokenToService(LoginOrUpdateAccountDialog.this);
 			} else {
 				setResult(Activity.RESULT_CANCELED);
 			}

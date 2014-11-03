@@ -12,7 +12,7 @@ import com.shwy.bestjoy.utils.DebugUtils;
  */
 public final class DBHelper extends SQLiteOpenHelper {
 private static final String TAG = "DBHelper";
-  private static final int DB_VERSION = 8;
+  private static final int DB_VERSION = 9;
   private static final String DB_NAME = "cncom.db";
   public static final String ID = "_id";
   /**0为可见，1为删除，通常用来标记一条数据应该被删除，是不可见的，包含该字段的表查询需要增加deleted=0的条件*/
@@ -132,7 +132,18 @@ private static final String TAG = "DBHelper";
   public static final String BILL_TN = "tn";
   
   
+  
   //bill table end
+  
+//友盟的推送消息历史
+  public static final String TABLE_YOUMENG_PUSHMESSAGE_HISTORY = "youmeng_push_message_history";
+  public static final String YOUMENG_TEXT = "text";
+  public static final String YOUMENG_TITLE = "title";
+  public static final String YOUMENG_MESSAGE_ID = "msg_id";
+  public static final String YOUMENG_MESSAGE_ACTIVITY = "activity";
+  public static final String YOUMENG_MESSAGE_URL = "url";
+  public static final String YOUMENG_MESSAGE_CUSTOM = "custom";
+  public static final String YOUMENG_MESSAGE_RAW = "raw_json";
   
   public DBHelper(Context context) {
     super(context, DB_NAME, null, DB_VERSION);
@@ -195,6 +206,8 @@ private static final String TAG = "DBHelper";
   	   
   	   // Create scan history
  		//createScanHistory(sqLiteDatabase);
+  	   
+  	 createYoumengMessageTable(sqLiteDatabase);
   		
   }
   
@@ -342,6 +355,24 @@ private static final String TAG = "DBHelper";
 	            DETAILS_COL + " TEXT);");
   }
   
+  /**
+   * {"msg_id":"us65502140752348982811","body":{"play_vibrate":"true","text":"111112222","title":"1111","ticker":"1111","play_lights":"true","play_sound":"true","after_open":"go_app","activity":"","url":"","custom":""},"random_min":0,"alias":"","display_type":"notification"}
+   * @param sqLiteDatabase
+   */
+  private void createYoumengMessageTable(SQLiteDatabase sqLiteDatabase) {
+	  sqLiteDatabase.execSQL(
+	            "CREATE TABLE " + TABLE_YOUMENG_PUSHMESSAGE_HISTORY + " (" +
+	            ID + " INTEGER PRIMARY KEY, " +
+	            YOUMENG_MESSAGE_ID + " TEXT, " +
+	            YOUMENG_TITLE + " TEXT, " +
+	            YOUMENG_TEXT + " TEXT, " +
+	            YOUMENG_MESSAGE_ACTIVITY + " TEXT, " +
+	            YOUMENG_MESSAGE_URL + " TEXT, " +
+	            YOUMENG_MESSAGE_CUSTOM + " TEXT, " +
+	            YOUMENG_MESSAGE_RAW + " TEXT, " +
+	            DATE + " TEXT);");
+  }
+  
   private void createTriggerForAccountTable(SQLiteDatabase sqLiteDatabase) {
 	  String sql = "CREATE TRIGGER insert_account" + " BEFORE INSERT " + " ON " + TABLE_NAME_ACCOUNTS + 
 			  " BEGIN UPDATE " + TABLE_NAME_ACCOUNTS + " SET isDefault = 0 WHERE uid != new.uid and isDefault = 1; END;";
@@ -373,6 +404,10 @@ private static final String TAG = "DBHelper";
 		    sqLiteDatabase.execSQL("DROP TRIGGER IF EXISTS " + "update_default_account");
 		    onCreate(sqLiteDatabase);
 		    return;
+	  }
+	  if (oldVersion == 8) {
+		  createYoumengMessageTable(sqLiteDatabase);
+		  oldVersion = 9;
 	  }
 	 //XXX maybe do something.
   }

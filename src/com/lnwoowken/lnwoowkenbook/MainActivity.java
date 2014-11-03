@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import com.actionbarsherlock.view.MenuItem;
 import com.cncom.app.base.service.TimeService;
 import com.cncom.app.base.ui.BaseSlidingFragmentActivity;
+import com.cncom.app.base.util.YouMengMessageHelper;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.shwy.bestjoy.utils.DebugUtils;
 import com.umeng.message.PushAgent;
@@ -104,8 +105,7 @@ public class MainActivity extends BaseSlidingFragmentActivity implements
 		getSupportActionBar().setDisplayUseLogoEnabled(true);
 		
 		//启动推送功能
-		PushAgent mPushAgent = PushAgent.getInstance(mContext);
-		mPushAgent.enable();
+		YouMengMessageHelper.getInstance().startPushAgent();
 		
 		TimeService.startService(this);
 		
