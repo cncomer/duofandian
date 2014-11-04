@@ -15,6 +15,7 @@ import com.cncom.app.base.update.ServiceAppInfo;
 import com.cncom.app.base.update.UpdateActivity;
 import com.cncom.app.base.update.UpdateService;
 import com.shwy.bestjoy.utils.DebugUtils;
+import com.shwy.bestjoy.utils.FilesUtils;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener{
 	private static final String TAG = "SettingsActivity";
@@ -64,6 +65,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 	public void onClick(View v) {
 		switch(v.getId()) {
 		case R.id.button_clear_cache:
+			FilesUtils.deleteFile(TAG, MyApplication.getInstance().getCacheDir());
 			break;
 		case R.id.button_about_me:
 			AboutActivity.startActivity(mContext);
