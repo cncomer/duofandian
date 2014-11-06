@@ -17,10 +17,6 @@ public class AboutActivity extends BaseActivity{
 	    mHomeBtn.setVisibility(View.INVISIBLE);
 	    
 	}
-	@Override
-	public void onClick(View v) {
-		
-	}
 
 	@Override
 	protected boolean checkIntent(Intent intent) {

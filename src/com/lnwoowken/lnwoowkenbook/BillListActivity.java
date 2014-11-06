@@ -43,7 +43,7 @@ import com.shwy.bestjoy.utils.NetworkUtils;
 import com.shwy.bestjoy.utils.PageInfo;
 import com.shwy.bestjoy.utils.Query;
 
-public class BillListActivity extends PullToRefreshListPageActivity {
+public class BillListActivity extends PullToRefreshListPageActivity implements View.OnClickListener{
 	private static final String TAG = "BillListActivity";
 	
 	private Button btn_all;

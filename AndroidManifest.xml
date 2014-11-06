@@ -62,6 +62,8 @@
     <!-- 保存联系人相关 begin-->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>  
+    
     <supports-screens android:anyDensity="true"/>
     <uses-sdk
         android:minSdkVersion="8"
@@ -343,6 +345,15 @@
             android:screenOrientation="portrait"
             android:label="@string/account_mngmt"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        
+        <activity
+            android:name="com.lnwoowken.lnwoowkenbook.BillNumberConfirmDialogActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="@string/account_mngmt"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        
         
         <service android:name="com.cncom.app.base.update.UpdateService" />
         <activity

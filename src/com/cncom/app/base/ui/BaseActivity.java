@@ -27,7 +27,7 @@ import com.shwy.bestjoy.utils.ImageHelper;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
-public abstract class BaseActivity extends Activity implements View.OnClickListener{
+public abstract class BaseActivity extends Activity{
 	private static final String TAG = "BaseActivity";
 
 	private static final int CurrentPictureGalleryRequest = 11000;

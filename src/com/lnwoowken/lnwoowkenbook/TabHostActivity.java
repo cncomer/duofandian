@@ -52,7 +52,7 @@ import com.shwy.bestjoy.utils.NetworkUtils;
 
 @SuppressLint("HandlerLeak")
 @SuppressWarnings("unused")
-public class TabHostActivity extends BaseActivity implements OnItemClickListener {
+public class TabHostActivity extends BaseActivity implements OnItemClickListener, View.OnClickListener {
 	private static final String TAG = "TabHostActivity";
 	//private RequestShopListThread myThread;
 	private TabAdapter mTabAdapter = null;

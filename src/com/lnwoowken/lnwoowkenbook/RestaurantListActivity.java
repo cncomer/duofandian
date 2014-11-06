@@ -50,7 +50,7 @@ import com.shwy.bestjoy.utils.Query;
  * @author chs
  * 
  */
-public class RestaurantListActivity extends PullToRefreshListPageActivity {
+public class RestaurantListActivity extends PullToRefreshListPageActivity implements View.OnClickListener {
 	private static final String TAG = "RestaurantListActivity";
 	private AnimationDrawable draw;
     private	LinearLayout progress;

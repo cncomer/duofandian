@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="10dip"
+        android:background="@color/White"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+            android:layout_marginTop="10dip"
+            android:background="@drawable/boder_bottom_maincolor"
+            android:gravity="center"
+            android:text="Title"
+            android:textColor="@color/textColor"
+            android:textSize="20sp" />
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="30dip"
+            android:paddingRight="30dip" >
+            <include layout="@layout/bill_number_confirm_dialog_type1"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="50dip"
+            android:background="@color/top_bottom"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dip"
+            android:paddingLeft="30dip"
+            android:paddingRight="30dip" >
+
+            <Button
+                android:id="@+id/button_accept"
+                android:layout_width="100dip"
+                android:layout_height="30dip"
+                android:background="@drawable/buttons"
+                android:text="@string/button_accept"
+                android:textColor="@color/text_selector"
+                android:textSize="15sp" />
+
+            <View
+                android:layout_width="0dip"
+                android:layout_height="1dip"
+                android:layout_weight="1.0" />
+
+            <Button
+                android:id="@+id/button_naccept"
+                android:layout_width="100dip"
+                android:layout_height="30dip"
+                android:background="@drawable/buttons"
+                android:text="@string/button_naccept"
+                android:textColor="@color/text_selector"
+                android:textSize="15sp" />
+        </LinearLayout>
+    </LinearLayout>
+    
+    <include layout="@layout/progress_layout_vertical"
+        android:visibility="gone"/>
+
+</FrameLayout>

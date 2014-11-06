@@ -20,7 +20,7 @@ import com.shwy.bestjoy.utils.FeedbackHelper;
 import com.shwy.bestjoy.utils.Intents;
 import com.shwy.bestjoy.utils.NetworkUtils;
 import com.shwy.bestjoy.utils.ServiceResultObject;
-public class FeedbackActivity extends BaseActivity{
+public class FeedbackActivity extends BaseActivity implements View.OnClickListener{
 
 	private static final String TAG = "LoginOrUpdateAccountDialog";
 	private AccountObject mAccountObject;

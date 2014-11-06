@@ -137,22 +137,21 @@ public class BillListCursorAdapter extends CursorAdapter {
 			groupHolder.order_status_layout.setVisibility(View.VISIBLE);
 			groupHolder.btn_tuiding.setVisibility(View.VISIBLE);
 			
-			//已经做过点评，或则未支付的，我们灰化点评按钮
-			//未到用餐时间也不能进行点评
-			if (groupHolder.billObject.hasVisited() || groupHolder.billObject.getState() == BillObject.STATE_UNPAY || groupHolder.billObject.getOrderDate().getTime() > new Date().getTime()) {
-				
-				groupHolder.btn_survey.setImageDrawable(mVisitedTypeDrawable);
-				groupHolder.btn_survey.setEnabled(false);
-			} else {
+			//没有进行过点评且在结算中状态时，开启点评功能
+			if (!groupHolder.billObject.hasVisited() && billState == BillObject.STATE_XIAOFEI) {
 				groupHolder.btn_survey.setImageDrawable(mUnvisitedTypeDrawable);
 				groupHolder.btn_survey.setEnabled(true);
+			} else {
+				groupHolder.btn_survey.setImageDrawable(mVisitedTypeDrawable);
+				groupHolder.btn_survey.setEnabled(false);
 			}
 			
 			
 			if (billState == BillObject.STATE_TUIDING_SUCCESS 
 					|| billState == BillObject.STATE_UNPAY
+					|| billState == BillObject.STATE_XIAOFEI
 					|| billState == BillObject.STATE_TUIDING_DEALING) {
-				//已经退订成功的或则未支付的或则在退订中的，我们不显示退订按钮
+				//已经退订成功的、未支付的、在退订中的、已消费的，我们不显示退订按钮
 				groupHolder.btn_tuiding.setVisibility(View.INVISIBLE);
 			} else {
 				//已支付订单，用餐前两小时退订按钮将灰化
@@ -162,8 +161,10 @@ public class BillListCursorAdapter extends CursorAdapter {
 				groupHolder.btn_tuiding.setEnabled(createTime - currentTime > 12 * OVER_TIME);
 			}
 			
-			//如果是未支付成功或退订的订单，我们需要显示删除按钮,退订和支付成功的订单将显示在账户管理界面中
-			if (groupHolder.billObject.getState() != BillObject.STATE_TUIDING_SUCCESS || groupHolder.billObject.getState() != BillObject.STATE_SUCCESS) {
+			//如果是未支付成功或退订的订单，我们需要显示删除按钮,退订、消费和支付成功的订单不显示
+			if (billState != BillObject.STATE_TUIDING_SUCCESS 
+					|| billState != BillObject.STATE_SUCCESS
+					|| billState != BillObject.STATE_XIAOFEI) {
 				groupHolder.btn_delete.setVisibility(View.VISIBLE);
 			} else {
 				//已经退订成功的或则未支付的，我们不显示退订按钮

@@ -15,17 +15,20 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.cncom.app.base.account.MyAccountManager;
 import com.cncom.app.base.database.BjnoteContent;
 import com.cncom.app.base.database.DBHelper;
+import com.lnwoowken.lnwoowkenbook.BillNumberConfirmDialogActivity;
 import com.lnwoowken.lnwoowkenbook.MyApplication;
+import com.lnwoowken.lnwoowkenbook.R;
 import com.lnwoowken.lnwoowkenbook.ServiceObject;
-import com.shwy.bestjoy.utils.AsyncTaskUtils;
-import com.shwy.bestjoy.utils.ComConnectivityManager;
 import com.shwy.bestjoy.utils.DebugUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
 import com.shwy.bestjoy.utils.ServiceResultObject;
@@ -33,7 +36,6 @@ import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.IUmengUnregisterCallback;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UmengMessageHandler;
-import com.umeng.message.UmengRegistrar;
 import com.umeng.message.entity.UMessage;
 
 public class YouMengMessageHelper {
@@ -97,13 +99,30 @@ public class YouMengMessageHelper {
 		@Override
 		public void dealWithCustomMessage(Context arg0, UMessage mesasge) {
 			super.dealWithCustomMessage(arg0, mesasge);
-			saveYmengMessageAsync(mesasge);
+//			saveYmengMessageAsync(mesasge);
 		}
 
 		@Override
 		public void dealWithNotificationMessage(Context arg0, UMessage mesasge) {
 			super.dealWithNotificationMessage(arg0, mesasge);
-			saveYmengMessageAsync(mesasge);
+			UMessage umessage = mesasge;
+			String msgType = umessage.extra.get("msg_type");
+			if (!TextUtils.isEmpty(msgType)) {
+				int type = Integer.valueOf(msgType);
+				DebugUtils.logD(TAG, "SaveYmengMessageAsyncTask find MsgType = " + type);
+				switch(type) {
+				case 1:
+					//订单金额确认
+					String billNumber = umessage.extra.get("orderno");
+					if (TextUtils.isEmpty(billNumber)) {
+						DebugUtils.logD(TAG, "SaveYmengMessageAsyncTask no find orderno, just ignore the message.");
+					}
+					BillNumberConfirmDialogActivity.startActivity(mContext, umessage);
+					break;
+				}
+				return;
+			}
+//			saveYmengMessageAsync(mesasge);
 		}
 		
 	}
@@ -116,6 +135,27 @@ public class YouMengMessageHelper {
 		@Override
 		protected Void doInBackground(UMessage... params) {
 			DebugUtils.logD(TAG, "SaveYmengMessageAsyncTask save UMessage = " + params[0]);
+			
+			if (true) {
+				UMessage umessage = params[0];
+				String msgType = umessage.extra.get("msg_type");
+				if (!TextUtils.isEmpty(msgType)) {
+					int type = Integer.valueOf(msgType);
+					DebugUtils.logD(TAG, "SaveYmengMessageAsyncTask find MsgType = " + type);
+					switch(type) {
+					case 1:
+						//订单金额确认
+						String billNumber = umessage.extra.get("orderno");
+						if (TextUtils.isEmpty(billNumber)) {
+							DebugUtils.logD(TAG, "SaveYmengMessageAsyncTask no find orderno, just ignore the message.");
+							return null;
+						}
+						BillNumberConfirmDialogActivity.startActivity(mContext, umessage);
+						break;
+					}
+				}
+				return null;
+			}
 			ContentResolver cr = mContext.getContentResolver();
 			Cursor c = cr.query(BjnoteContent.YMESSAGE.CONTENT_URI, BjnoteContent.YMESSAGE.PROJECTION, BjnoteContent.YMESSAGE.WHERE_YMESSAGE_ID, new String[]{params[0].msg_id}, null);
 			boolean msgExsited = false;

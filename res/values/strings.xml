@@ -433,4 +433,11 @@
           <string name="format_bill_xiaofei_time">"消费时间: %s"</string>
           <string name="format_bill_pay_time">"支付时间: %s"</string>
           <string name="format_bill_tuiding_time">"退订时间: %s"</string>
+          <string name="title_real_fee">"实际消费:"</string>
+          <string name="format_title_real_fee">"￥ %s"</string>
+          <string name="title_back_dingjin">"退返金额:"</string>
+          <string name="format_title_back_dingjin">"￥ %s"</string>
+          <string name="progress_status_bill_number_confirm">"处理中,请稍等..."</string>
+          <string name="button_accept">同意</string>
+          <string name="button_naccept">不同意</string>
 </resources>

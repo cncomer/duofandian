@@ -25,7 +25,7 @@ import com.lnwoowken.lnwoowkenbook.ServiceObject.ServiceResultObject;
 import com.shwy.bestjoy.utils.AsyncTaskUtils;
 import com.shwy.bestjoy.utils.NetworkUtils;
 
-public class UpdatePasswordActivity extends BaseActivity{
+public class UpdatePasswordActivity extends BaseActivity implements View.OnClickListener{
 
 	private static final String TAG = "UpdatePasswordActivity";
 	private EditText mOldPwdInput, mNewPwdInput, mNewPwdReInput;

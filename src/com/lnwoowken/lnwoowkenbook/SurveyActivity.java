@@ -42,7 +42,7 @@ import com.shwy.bestjoy.utils.NetworkUtils;
  * @author chenkai
  *
  */
-public class SurveyActivity extends BaseActivity {
+public class SurveyActivity extends BaseActivity  implements View.OnClickListener{
 
 	private static final String TAG = "TAG";
 	private ListView mListView;

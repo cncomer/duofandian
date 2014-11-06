@@ -16,7 +16,7 @@ import com.cncom.app.base.update.UpdateActivity;
 import com.cncom.app.base.update.UpdateService;
 import com.shwy.bestjoy.utils.DebugUtils;
 
-public class SettingsActivity extends BaseActivity{
+public class SettingsActivity extends BaseActivity implements View.OnClickListener{
 	private static final String TAG = "SettingsActivity";
 	private ServiceAppInfo mServiceAppInfo;
 	private TextView mVersionName, mUpdateStatus;

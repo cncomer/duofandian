@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dip"
+    android:orientation="vertical" >
+    <TextView android:id="@+id/bill_number_textview"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/blk"
+        android:textStyle="bold"
+        android:text="@string/bill_number"/>
+
+    <TextView android:id="@+id/bill_number_input"
+        android:layout_toRightOf="@+id/bill_number_textview"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="4dip"
+        android:textColor="@color/blk"
+        android:textStyle="bold"
+        android:text="XXXXXXXXXXXXXXXXXXXXXXXXX"/>
+    
+    
+    <TextView android:id="@+id/bill_fee_textview"
+        android:layout_below="@+id/bill_number_input"
+        android:layout_marginTop="8dip"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/blk"
+        android:textStyle="bold"
+        android:text="@string/title_real_fee"/>
+
+    <TextView android:id="@+id/bill_fee_input"
+        android:layout_below="@+id/bill_number_input"
+        android:layout_marginTop="8dip"
+        android:layout_toRightOf="@+id/bill_fee_textview"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="4dip"
+        android:textColor="#ffff0000"
+        android:textStyle="bold"
+        android:text="@string/format_title_real_fee"/>
+    
+    <TextView android:id="@+id/bill_back_textview"
+        android:layout_below="@+id/bill_fee_textview"
+        android:layout_marginTop="8dip"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:textColor="@color/blk"
+        android:textStyle="bold"
+        android:text="@string/title_back_dingjin"/>
+
+    <TextView android:id="@+id/bill_back_input"
+        android:layout_below="@+id/bill_fee_textview"
+        android:layout_marginTop="8dip"
+        android:layout_toRightOf="@+id/bill_back_textview"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginLeft="4dip"
+        android:textColor="#ffff0000"
+        android:textStyle="bold"
+        android:text="@string/format_title_real_fee"/>
+</RelativeLayout>
