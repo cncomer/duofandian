@@ -163,7 +163,7 @@ public class BookTableActivity extends BaseActionbarActivity implements OnClickL
 	            	boolean status = bundle.getBoolean(PhotoManagerUtilsV2.EXTRA_DOWNLOAD_STATUS);
 	            	String photoid = bundle.getString(Intents.EXTRA_PHOTOID);
 					
-					if (photoid.equals(mShopInfoObject.getShopPhotoId("02"))) {
+					if (photoid.equals(mShopInfoObject.getShopPhotoId("02")) && status) {
 						tableImage.setOnTouchListener(BookTableActivity.this);// 设置触屏监听
 						mShopImageBitmap = ((BitmapDrawable) tableImage.getDrawable()).getBitmap();
 						center();
