@@ -213,7 +213,7 @@ public class BillNumberConfirmDialogActivity extends Activity implements View.On
 				queryJsonObject.put("msg_type", mBillNumberConfirmType);
 				queryJsonObject.put("usr_op", mConfirmOp);
 				DebugUtils.logD(TAG, "UpdateBillConfirmTask doInBackground() queryJsonObject=" + queryJsonObject.toString());
-				is = NetworkUtils.openContectionLocked(ServiceObject.getUpdateUserLoginPasswordUrl("para", queryJsonObject.toString()), MyApplication.getInstance().getSecurityKeyValuesObject());
+				is = NetworkUtils.openContectionLocked(ServiceObject.getBillNumberConfirmOpUrl("para", queryJsonObject.toString()), MyApplication.getInstance().getSecurityKeyValuesObject());
 				
 				serviceObject = ServiceResultObject.parse(NetworkUtils.getContentFromInput(is));
 				if (serviceObject.isOpSuccessfully()) {
@@ -229,10 +229,13 @@ public class BillNumberConfirmDialogActivity extends Activity implements View.On
 				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
+				serviceObject.mStatusMessage = e.getMessage();
 			} catch (IOException e) {
 				e.printStackTrace();
+				serviceObject.mStatusMessage = e.getMessage();
 			} catch (JSONException e) {
 				e.printStackTrace();
+				serviceObject.mStatusMessage = e.getMessage();
 			} finally {
 				NetworkUtils.closeInputStream(is);
 			}
@@ -243,9 +246,8 @@ public class BillNumberConfirmDialogActivity extends Activity implements View.On
 		protected void onPostExecute(ServiceResultObject result) {
 			super.onPostExecute(result);
 			mProgressLayout.setVisibility(View.GONE);
-			if (!result.isOpSuccessfully()) {
-				MyApplication.getInstance().showMessage(result.mStatusMessage);
-			} else {
+			MyApplication.getInstance().showMessage(result.mStatusMessage);
+			if (result.isOpSuccessfully()) {
 				finish();
 			}
 		}

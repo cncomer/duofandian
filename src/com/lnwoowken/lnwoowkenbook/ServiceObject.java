@@ -415,4 +415,14 @@ public class ServiceObject {
 		  return sb.toString();
 		  
 	  }
+	  
+	  /**
+	   * http://manage.lnwoowken.com/updateOrderStatus.ashx?
+	   */
+	  public static String getBillNumberConfirmOpUrl(String para, String jsonString) {
+		  UrlEncodeStringBuilder sb = new UrlEncodeStringBuilder(SERVICE_URL);
+		  sb.append("Mobile/common/updateOrderStatus.ashx?").append(para).append("=").appendUrlEncodedString(jsonString);
+		  return sb.toString();
+		  
+	  }
 }
