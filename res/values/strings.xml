@@ -440,4 +440,6 @@
           <string name="progress_status_bill_number_confirm">"处理中,请稍等..."</string>
           <string name="button_accept">同意</string>
           <string name="button_naccept">不同意</string>
+          <string name="no_update_apk_url">服务器端未提供下载路径，您可以将问题反馈给我们，非常感谢</string>
+          
 </resources>

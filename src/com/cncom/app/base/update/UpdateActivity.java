@@ -18,6 +18,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -89,6 +90,10 @@ public class UpdateActivity extends BaseActionbarActivity{
 			checkCurrentType();
 		}
 		
+	}
+	
+	protected boolean showActinBar() {
+		return false;
 	}
 	
 	@Override
@@ -168,6 +173,8 @@ public class UpdateActivity extends BaseActionbarActivity{
 			//check network to download
 			if (!ComConnectivityManager.getInstance().isConnected()) {
 				showDialog(DIALOG_DATA_NOT_CONNECTED);
+			} else if (TextUtils.isEmpty(mServiceAppInfo.mApkUrl)) {
+				MyApplication.getInstance().showMessage(R.string.no_update_apk_url);
 			} else {
 				mCurrentType = TYPE.DOWNLOADING;
 				checkCurrentType();
