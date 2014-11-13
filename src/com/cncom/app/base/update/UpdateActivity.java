@@ -93,7 +93,7 @@ public class UpdateActivity extends BaseActionbarActivity{
 	}
 	
 	protected boolean showActinBar() {
-		return false;
+		return true;
 	}
 	
 	@Override

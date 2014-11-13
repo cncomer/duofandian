@@ -359,6 +359,7 @@
         <service android:name="com.cncom.app.base.update.UpdateService" />
         <activity
             android:name="com.cncom.app.base.update.UpdateActivity"
+            android:theme="@style/AppActionBarTheme.MainActivityActionBar.BlueTitle.Up"
             android:configChanges="orientation|keyboard|keyboardHidden"
             android:label="@string/settings"
             android:excludeFromRecents="true"

@@ -158,7 +158,7 @@ public class BillListActivity extends PullToRefreshListPageActivity implements V
 		if (mBillListCursorAdapter != null) {
 			mBillListCursorAdapter.setOrderType(mOrderType);
 		}
-		mQuery.qServiceUrl = ServiceObject.getAllBillInfoUrl("para", getFilterServiceUrl());
+		getQuery();
 	}
 	
 	@Override
@@ -303,8 +303,10 @@ public class BillListActivity extends PullToRefreshListPageActivity implements V
 
 	@Override
 	protected Query getQuery() {
-		mQuery =  new Query();
-		mQuery.mPageInfo = new PageInfo();
+		if (mQuery == null) {
+			mQuery =  new Query();
+			mQuery.mPageInfo = new PageInfo();
+		}
 		mQuery.qServiceUrl = ServiceObject.getAllBillInfoUrl("para", getFilterServiceUrl());
 		return mQuery;
 	}
@@ -324,7 +326,7 @@ public class BillListActivity extends PullToRefreshListPageActivity implements V
 	}
 	
 	@Override
-	protected void onRefreshLoadEnd() {
+	protected void onRefreshEnd() {
 		BillListManager.deleteCachedData(getContentResolver());
 	}
 	
@@ -334,7 +336,7 @@ public class BillListActivity extends PullToRefreshListPageActivity implements V
 	}
 
 	@Override
-	protected void onRefreshEnd() {
+	protected void onRefreshPostEnd() {
 		BillListManager.setShowNew(false);
 	}
 
